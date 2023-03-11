@@ -1,15 +1,4 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import Document, { DocumentContext, DocumentInitialProps, Head, Html, Main, NextScript } from 'next/document'
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      retry: 0
-    }
-  }
-})
 
 export default class CustomDocument extends Document {
   static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
@@ -34,10 +23,7 @@ export default class CustomDocument extends Document {
             />
           )} */}
         <body>
-          <QueryClientProvider client={queryClient}>
-            <Main />
-            <ReactQueryDevtools initialIsOpen={false} />
-          </QueryClientProvider>
+          <Main />
           <NextScript />
         </body>
       </Html>
