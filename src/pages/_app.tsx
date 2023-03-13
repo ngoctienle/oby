@@ -9,6 +9,7 @@ import { Toaster } from 'react-hot-toast'
 
 import twclsx from '@/libs/twclsx'
 
+import { ToTopButton } from '@/components/Button'
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
 
@@ -31,6 +32,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </main>
         <Footer />
+        <ToTopButton />
         <Toaster
           position='top-center'
           reverseOrder={true}

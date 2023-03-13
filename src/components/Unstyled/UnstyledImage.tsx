@@ -4,7 +4,7 @@ import { OBYImage } from 'oby'
 
 type UnstyledImage = OBYImage & ImageProps
 
-export const CustomImage: React.FunctionComponent<UnstyledImage> = ({
+export const UnstyledImage: React.FunctionComponent<UnstyledImage> = ({
   src,
   alt,
   width = 144,

@@ -12,7 +12,7 @@ declare module 'oby' {
   }
 
   export type OBYImage = {
-    display: 'responsive' | 'intrinsic'
+    display?: 'responsive' | 'intrinsic'
     alt: string
   }
 }
