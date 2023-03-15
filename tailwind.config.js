@@ -10,7 +10,9 @@ module.exports = {
         'oby-222324': '#222324',
         'oby-676869': '#676869',
         'oby-DFDFDF': '#DFDFDF',
-        'oby-primary': '#4AA02C'
+        'oby-F6F7F8': '#F6F7F8',
+        'oby-primary': '#4AA02C',
+        'oby-E4FBDB': '#E4FBDB'
       }
     }
   },
@@ -18,14 +20,17 @@ module.exports = {
     plugin(function ({ addComponents }) {
       addComponents({
         '.container': {
-          maxWidth: '1390px',
+          maxWidth: '1392px',
           marginLeft: 'auto',
           marginRight: 'auto',
-          paddingLeft: '15px',
-          paddingRight: '15px'
+          paddingLeft: '16px',
+          paddingRight: '16px'
         },
         '.fs-16': {
           fontSize: '16px'
+        },
+        '.fs-28': {
+          fontSize: '28px'
         }
       })
     })

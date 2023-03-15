@@ -27,11 +27,11 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <Fragment>
       <QueryClientProvider client={queryClient}>
-        <Header />
+        <Header font={inter} />
         <main className={inter.className}>
           <Component {...pageProps} />
         </main>
-        <Footer />
+        <Footer font={inter} />
         <ToTopButton />
         <Toaster
           position='top-center'

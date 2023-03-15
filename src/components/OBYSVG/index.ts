@@ -1,1 +1,1 @@
-export * from './OBYSVG'
+export * from './OBYSvg'

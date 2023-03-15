@@ -1,14 +1,19 @@
-import { OBYCategoryIcon } from '../OBYSVG'
+import { OBYCategoryIcon } from '../OBYSvg'
 import { MagnifyingGlassIcon, ShoppingBagIcon, UserCircleIcon } from '@heroicons/react/24/outline'
+import { NextFont } from 'next/dist/compiled/@next/font'
 
 import { HeaderAds } from '@/components/OBYAds'
 import { UnstyledImage, UnstyledLink } from '@/components/Unstyled'
 
-export default function Header() {
+interface HeaderProps {
+  font: NextFont
+}
+
+export default function Header({ font }: HeaderProps) {
   return (
     <>
       <HeaderAds />
-      <header>
+      <header className={font.className}>
         <div className='bg-[#F6F7F8] py-1.5'>
           <div className='container'>
             <div className='flex items-center'>
@@ -18,11 +23,19 @@ export default function Header() {
               </div>
               <div className='flex items-center gap-1 ml-[60px]'>
                 <p>Mua hàng và CSKH</p>
-                <p className='text-oby-primary font-bold'>078 927 9669</p>
+                <UnstyledLink href='tel:078 927 9669' title='Mua hàng và CSKH' className='text-oby-primary font-bold'>
+                  078 927 9669
+                </UnstyledLink>
               </div>
               <div className='flex items-center gap-1 ml-[60px]'>
                 <p>Email</p>
-                <p className='text-oby-primary font-bold'>ongbayeu.corp@gmail.com</p>
+                <UnstyledLink
+                  href='mailto:ongbayeu.corp@gmail.com'
+                  title='Email'
+                  className='text-oby-primary font-bold'
+                >
+                  ongbayeu.corp@gmail.com
+                </UnstyledLink>
               </div>
             </div>
           </div>

@@ -17,8 +17,8 @@ declare module 'oby' {
   }
 
   export type OBYSvg = {
-    width: string
-    height: string
+    width?: string
+    height?: string
     className: string
   }
 }
