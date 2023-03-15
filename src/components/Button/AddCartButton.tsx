@@ -1,8 +1,8 @@
-import { OBYAddCarIcon } from '../OBYSvg'
 import { OBYDefaultButton } from 'oby'
 
 import twclsx from '@/libs/twclsx'
 
+import { OBYAddCarIcon } from '@/components/OBYSvg'
 import { UnstyledButton } from '@/components/Unstyled'
 
 export const AddCartButton: React.FunctionComponent<OBYDefaultButton> = (props) => {

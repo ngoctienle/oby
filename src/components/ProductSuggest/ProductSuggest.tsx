@@ -1,9 +1,10 @@
-import Product from '../Product/Product'
 import { Autoplay, EffectFade, Lazy, Pagination } from 'swiper'
 import 'swiper/css/effect-fade'
 import 'swiper/css/pagination'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/swiper.min.css'
+
+import Product from '@/components/Product'
 
 export default function ProductSuggest() {
   return (
