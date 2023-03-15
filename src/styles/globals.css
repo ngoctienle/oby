@@ -16,3 +16,10 @@ swiper {
   display: block;
   width: 100%;
 }
+
+@layer {
+  body,
+  html {
+    @apply fs-16 leading-[140%] text-oby-222324;
+  }
+}

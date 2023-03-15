@@ -15,4 +15,10 @@ declare module 'oby' {
     display?: 'responsive' | 'intrinsic'
     alt: string
   }
+
+  export type OBYSvg = {
+    width: string
+    height: string
+    className: string
+  }
 }

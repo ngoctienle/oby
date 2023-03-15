@@ -20,13 +20,13 @@ export default function Banner() {
           dynamicBullets: true
         }}
         modules={[EffectFade, Navigation, Pagination, Lazy]}
-        className='mySwiper'
+        className='obySwiper'
       >
         {Array(5)
           .fill(0)
           .map((_, index) => (
             <SwiperSlide key={index}>
-              <UnstyledImage alt='img' src={`https://swiperjs.com/demos/images/nature-${index + 1}.jpg`} />
+              <UnstyledImage alt='img' src='/images/oby-banner.png' height={600} width={1920} />
             </SwiperSlide>
           ))}
       </Swiper>
