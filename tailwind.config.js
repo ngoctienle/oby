@@ -12,6 +12,8 @@ module.exports = {
         'oby-DFDFDF': '#DFDFDF',
         'oby-F6F7F8': '#F6F7F8',
         'oby-primary': '#4AA02C',
+        'oby-green': '#2E6A20',
+        'oby-orange': '#F28825',
         'oby-E4FBDB': '#E4FBDB'
       }
     }
@@ -25,6 +27,12 @@ module.exports = {
           marginRight: 'auto',
           paddingLeft: '16px',
           paddingRight: '16px'
+        },
+        '.fs-11': {
+          fontSize: '11px'
+        },
+        '.fs-14': {
+          fontSize: '14px'
         },
         '.fs-16': {
           fontSize: '16px'

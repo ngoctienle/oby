@@ -32,7 +32,9 @@ export default function App({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </main>
         <Footer font={inter} />
-        <ToTopButton />
+        <div className='sticky bottom-[90px] ml-auto mr-8 max-w-max'>
+          <ToTopButton />
+        </div>
         <Toaster
           position='top-center'
           reverseOrder={true}

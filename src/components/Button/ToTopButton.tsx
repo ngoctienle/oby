@@ -1,25 +1,28 @@
-import { UnstyledButton } from '../Unstyled'
+import { useWindowScrollY } from '@/hooks'
+import { ChevronUpIcon } from '@heroicons/react/24/outline'
 import { OBYDefaultButton } from 'oby'
 import { useCallback } from 'react'
 
 import twclsx from '@/libs/twclsx'
 
+import { UnstyledButton } from '@/components/Unstyled'
+
 export const ToTopButton: React.FunctionComponent<OBYDefaultButton> = (props) => {
   const toTop = useCallback(() => window.scrollTo({ top: 0, behavior: 'smooth' }), [])
+  const y = useWindowScrollY()
 
   return (
     <UnstyledButton
       {...props}
       onClick={toTop}
       className={twclsx(
-        'justify-start text-sm md:text-base',
-        'space-x-1.5 py-1 max-w-max',
-        'border-b-2 border-dashed',
-        'border-theme-500',
+        'text-oby-primary border border-oby-primary rounded-full w-[48px] h-[48px] opacity-0 pointer-events-none transition-opacity',
+        y > 800 && 'opacity-1 pointer-events-auto',
         props.className
       )}
     >
-      <span>Back to top</span>
+      <ChevronUpIcon className='w-6 h-6 text-oby-primary' />
+      <span className='sr-only'>Back to top</span>
     </UnstyledButton>
   )
 }

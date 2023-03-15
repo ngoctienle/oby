@@ -7,6 +7,7 @@ import {
   OBYOatIcon,
   OBYPharmacyIcon
 } from '@/components/OBYSvg'
+import { UnstyledImage } from '@/components/Unstyled'
 
 interface HomeLayoutProps {
   children?: React.ReactNode
@@ -23,9 +24,9 @@ const LeftBarContent = [
 
 export const HomeLayout: React.FunctionComponent<HomeLayoutProps> = ({ children }) => {
   return (
-    <div className='pt-[50px] pl-[130px] pr-[80px] flex gap-10'>
-      <div className='w-[110px] flex flex-col gap-4'>
-        <div className='bg-oby-E4FBDB py-[10px] px-3 rounded-2xl flex flex-col items-center justify-center'>
+    <div className='px-[80px] pt-[50px] flex gap-10'>
+      <div className='flex flex-col gap-4'>
+        <div className='bg-oby-E4FBDB py-[10px] px-3 rounded-2xl flex flex-col items-center justify-center w-[140px]'>
           <OBYCategoryIcon width='40' height='40' className='text-oby-primary' />
           <p className='text-oby-primary font-semibold text-center'>Tất cả danh mục</p>
         </div>
@@ -38,8 +39,16 @@ export const HomeLayout: React.FunctionComponent<HomeLayoutProps> = ({ children 
           ))}
         </div>
       </div>
-      <div className='flex flex-col flex-grow'>{children}</div>
-      <div className='rounded-2xl bg-oby-primary w-[160px] h-[80px]'>Ads</div>
+      <div className='flex-grow overflow-x-hidden'>{children}</div>
+      <div className='rounded-2xl h-[316px]'>
+        <UnstyledImage
+          src='/images/oby-side-ads.png'
+          width={140}
+          height={316}
+          style={{ maxWidth: 'unset' }}
+          alt='alt'
+        />
+      </div>
     </div>
   )
 }

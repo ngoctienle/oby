@@ -13,9 +13,37 @@ export const OBYCategoryIcon: React.FunctionComponent<OBYSvg> = ({ width, height
       <path
         d='M3.75 6C3.75 5.40326 3.98705 4.83097 4.40901 4.40901C4.83097 3.98705 5.40326 3.75 6 3.75H8.25C8.84674 3.75 9.41903 3.98705 9.84099 4.40901C10.2629 4.83097 10.5 5.40326 10.5 6V8.25C10.5 8.84674 10.2629 9.41903 9.84099 9.84099C9.41903 10.2629 8.84674 10.5 8.25 10.5H6C5.40326 10.5 4.83097 10.2629 4.40901 9.84099C3.98705 9.41903 3.75 8.84674 3.75 8.25V6ZM3.75 15.75C3.75 15.1533 3.98705 14.581 4.40901 14.159C4.83097 13.7371 5.40326 13.5 6 13.5H8.25C8.84674 13.5 9.41903 13.7371 9.84099 14.159C10.2629 14.581 10.5 15.1533 10.5 15.75V18C10.5 18.5967 10.2629 19.169 9.84099 19.591C9.41903 20.0129 8.84674 20.25 8.25 20.25H6C5.40326 20.25 4.83097 20.0129 4.40901 19.591C3.98705 19.169 3.75 18.5967 3.75 18V15.75ZM13.5 6C13.5 5.40326 13.7371 4.83097 14.159 4.40901C14.581 3.98705 15.1533 3.75 15.75 3.75H18C18.5967 3.75 19.169 3.98705 19.591 4.40901C20.0129 4.83097 20.25 5.40326 20.25 6V8.25C20.25 8.84674 20.0129 9.41903 19.591 9.84099C19.169 10.2629 18.5967 10.5 18 10.5H15.75C15.1533 10.5 14.581 10.2629 14.159 9.84099C13.7371 9.41903 13.5 8.84674 13.5 8.25V6ZM13.5 15.75C13.5 15.1533 13.7371 14.581 14.159 14.159C14.581 13.7371 15.1533 13.5 15.75 13.5H18C18.5967 13.5 19.169 13.7371 19.591 14.159C20.0129 14.581 20.25 15.1533 20.25 15.75V18C20.25 18.5967 20.0129 19.169 19.591 19.591C19.169 20.0129 18.5967 20.25 18 20.25H15.75C15.1533 20.25 14.581 20.0129 14.159 19.591C13.7371 19.169 13.5 18.5967 13.5 18V15.75Z'
         stroke='currentColor'
-        stroke-width='1.5'
-        stroke-linecap='round'
-        stroke-linejoin='round'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+    </svg>
+  )
+}
+
+export const OBYAddCarIcon: React.FunctionComponent<OBYSvg> = ({ width, height, className }) => {
+  return (
+    <svg
+      width={width}
+      height={height}
+      className={className}
+      viewBox='0 0 25 24'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
+      <path
+        d='M16.25 10.5V6C16.25 5.00544 15.8549 4.05161 15.1516 3.34835C14.4484 2.64509 13.4945 2.25 12.5 2.25C11.5054 2.25 10.5516 2.64509 9.84833 3.34835C9.14507 4.05161 8.74998 5.00544 8.74998 6V10.5M20.106 8.507L21.369 20.507C21.439 21.172 20.919 21.75 20.25 21.75H4.74998C4.59219 21.7502 4.43613 21.7171 4.29193 21.6531C4.14774 21.589 4.01863 21.4953 3.91301 21.3781C3.80738 21.2608 3.7276 21.1227 3.67884 20.9726C3.63008 20.8226 3.61343 20.6639 3.62999 20.507L4.89399 8.507C4.92314 8.23056 5.05361 7.9747 5.26024 7.78876C5.46686 7.60281 5.73501 7.49995 6.01298 7.5H18.987C19.563 7.5 20.046 7.935 20.106 8.507ZM9.12498 10.5C9.12498 10.5995 9.08548 10.6948 9.01515 10.7652C8.94482 10.8355 8.84944 10.875 8.74998 10.875C8.65053 10.875 8.55515 10.8355 8.48482 10.7652C8.41449 10.6948 8.37498 10.5995 8.37498 10.5C8.37498 10.4005 8.41449 10.3052 8.48482 10.2348C8.55515 10.1645 8.65053 10.125 8.74998 10.125C8.84944 10.125 8.94482 10.1645 9.01515 10.2348C9.08548 10.3052 9.12498 10.4005 9.12498 10.5ZM16.625 10.5C16.625 10.5995 16.5855 10.6948 16.5152 10.7652C16.4448 10.8355 16.3494 10.875 16.25 10.875C16.1505 10.875 16.0551 10.8355 15.9848 10.7652C15.9145 10.6948 15.875 10.5995 15.875 10.5C15.875 10.4005 15.9145 10.3052 15.9848 10.2348C16.0551 10.1645 16.1505 10.125 16.25 10.125C16.3494 10.125 16.4448 10.1645 16.5152 10.2348C16.5855 10.3052 16.625 10.4005 16.625 10.5Z'
+        stroke='currentColor'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M12.5 12V18M15.5 15H9.5'
+        stroke='currentColor'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
       />
     </svg>
   )
@@ -55,35 +83,35 @@ export const OBYChairIcon: React.FunctionComponent<OBYSvg> = ({ width, height, c
         <linearGradient
           id='paint0_linear_1064_1079'
           x1='22.5063'
-          y1='20'
+          y1={20}
           x2='22.5063'
           y2='3.12501'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#10BDA5' />
-          <stop offset='1' stop-color='#8BD870' />
+          <stop stopColor='#10BDA5' />
+          <stop offset={1} stopColor='#8BD870' />
         </linearGradient>
         <linearGradient
           id='paint1_linear_1064_1079'
           x1='22.5'
           y1='24.375'
           x2='22.5'
-          y2='20'
+          y2={20}
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#10BDA5' />
-          <stop offset='1' stop-color='#8BD870' />
+          <stop stopColor='#10BDA5' />
+          <stop offset={1} stopColor='#8BD870' />
         </linearGradient>
         <linearGradient
           id='paint2_linear_1064_1079'
-          x1='5'
+          x1={5}
           y1='13.125'
           x2='26.25'
           y2='13.125'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#FFA87C' />
-          <stop offset='1' stop-color='#FFB369' />
+          <stop stopColor='#FFA87C' />
+          <stop offset={1} stopColor='#FFB369' />
         </linearGradient>
       </defs>
     </svg>
@@ -100,7 +128,7 @@ export const OBYClothesIcon: React.FunctionComponent<OBYSvg> = ({ width, height,
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
     >
-      <g clip-path='url(#clip0_1064_1075)'>
+      <g clipPath='url(#clip0_1064_1075)'>
         <path
           d='M28.6045 15.0603L18.771 16.1781C17.5637 23.1706 17.0991 30.386 17.23 34.9046C17.2626 36.0327 18.1841 36.9311 19.3127 36.9311H22.5869C23.8751 36.9311 25.0159 36.1036 25.4201 34.8805C26.1335 32.7211 27.0094 29.6502 27.8981 26.3707C28.0932 25.6505 29.1155 25.6505 29.3107 26.3707C30.1992 29.6503 31.0751 32.7212 31.7885 34.8805C32.1927 36.1037 33.3335 36.9312 34.6218 36.9312H37.8959C39.0245 36.9312 39.946 36.0328 39.9786 34.9047C40.1095 30.3861 39.645 23.1707 38.4377 16.1782L28.6041 15.0604H28.6045V15.0603Z'
           fill='url(#paint0_linear_1064_1075)'
@@ -144,8 +172,8 @@ export const OBYClothesIcon: React.FunctionComponent<OBYSvg> = ({ width, height,
           y2='39.3341'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#5C8DF1' />
-          <stop offset='1' stop-color='#55ACF8' />
+          <stop stopColor='#5C8DF1' />
+          <stop offset={1} stopColor='#55ACF8' />
         </linearGradient>
         <linearGradient
           id='paint1_linear_1064_1075'
@@ -155,8 +183,8 @@ export const OBYClothesIcon: React.FunctionComponent<OBYSvg> = ({ width, height,
           y2='15.0204'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#EC6F80' />
-          <stop offset='1' stop-color='#ECA0AA' />
+          <stop stopColor='#EC6F80' />
+          <stop offset={1} stopColor='#ECA0AA' />
         </linearGradient>
         <linearGradient
           id='paint2_linear_1064_1075'
@@ -166,8 +194,8 @@ export const OBYClothesIcon: React.FunctionComponent<OBYSvg> = ({ width, height,
           y2='14.327'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#4E5660' />
-          <stop offset='1' stop-color='#64768D' />
+          <stop stopColor='#4E5660' />
+          <stop offset={1} stopColor='#64768D' />
         </linearGradient>
         <linearGradient
           id='paint3_linear_1064_1075'
@@ -177,8 +205,8 @@ export const OBYClothesIcon: React.FunctionComponent<OBYSvg> = ({ width, height,
           y2='-0.279237'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#EC6F80' />
-          <stop offset='1' stop-color='#ECA0AA' />
+          <stop stopColor='#EC6F80' />
+          <stop offset={1} stopColor='#ECA0AA' />
         </linearGradient>
         <linearGradient
           id='paint4_linear_1064_1075'
@@ -188,11 +216,11 @@ export const OBYClothesIcon: React.FunctionComponent<OBYSvg> = ({ width, height,
           y2='2.38709'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#DD5C6E' />
-          <stop offset='1' stop-color='#EC8290' />
+          <stop stopColor='#DD5C6E' />
+          <stop offset={1} stopColor='#EC8290' />
         </linearGradient>
         <clipPath id='clip0_1064_1075'>
-          <rect width='40' height='40' fill='white' />
+          <rect width={40} height={40} fill='white' />
         </clipPath>
       </defs>
     </svg>
@@ -209,7 +237,7 @@ export const OBYDressIcon: React.FunctionComponent<OBYSvg> = ({ width, height, c
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
     >
-      <g clip-path='url(#clip0_1064_1071)'>
+      <g clipPath='url(#clip0_1064_1071)'>
         <path
           d='M28.9686 10.9696V1.46936H26.7509C26.7435 2.84546 23.8051 4.24243 20 4.24243C16.1949 4.24243 13.2565 2.84538 13.2491 1.46936H11.0314V10.9696H28.9686Z'
           fill='url(#paint0_linear_1064_1071)'
@@ -238,25 +266,25 @@ export const OBYDressIcon: React.FunctionComponent<OBYSvg> = ({ width, height, c
       <defs>
         <linearGradient
           id='paint0_linear_1064_1071'
-          x1='20'
+          x1={20}
           y1='10.1499'
-          x2='20'
+          x2={20}
           y2='0.27685'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#FB7383' />
-          <stop offset='1' stop-color='#ED8492' />
+          <stop stopColor='#FB7383' />
+          <stop offset={1} stopColor='#ED8492' />
         </linearGradient>
         <linearGradient
           id='paint1_linear_1064_1071'
-          x1='20'
+          x1={20}
           y1='36.9761'
-          x2='20'
+          x2={20}
           y2='-4.6243'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#ED7988' />
-          <stop offset='1' stop-color='#FF9FAA' />
+          <stop stopColor='#ED7988' />
+          <stop offset={1} stopColor='#FF9FAA' />
         </linearGradient>
         <linearGradient
           id='paint2_linear_1064_1071'
@@ -266,11 +294,11 @@ export const OBYDressIcon: React.FunctionComponent<OBYSvg> = ({ width, height, c
           y2='20.9836'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#FCD843' />
-          <stop offset='1' stop-color='#FCECAB' />
+          <stop stopColor='#FCD843' />
+          <stop offset={1} stopColor='#FCECAB' />
         </linearGradient>
         <clipPath id='clip0_1064_1071'>
-          <rect width='40' height='40' fill='white' />
+          <rect width={40} height={40} fill='white' />
         </clipPath>
       </defs>
     </svg>
@@ -324,8 +352,8 @@ export const OBYMilkIcon: React.FunctionComponent<OBYSvg> = ({ width, height, cl
           y2='20.1084'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#6FC6FC' />
-          <stop offset='1' stop-color='#50A7F6' />
+          <stop stopColor='#6FC6FC' />
+          <stop offset={1} stopColor='#50A7F6' />
         </linearGradient>
         <linearGradient
           id='paint1_linear_1064_1058'
@@ -335,8 +363,8 @@ export const OBYMilkIcon: React.FunctionComponent<OBYSvg> = ({ width, height, cl
           y2='22.5001'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='white' />
-          <stop offset='1' stop-color='#EDF1F2' />
+          <stop stopColor='white' />
+          <stop offset={1} stopColor='#EDF1F2' />
         </linearGradient>
         <linearGradient
           id='paint2_linear_1064_1058'
@@ -346,8 +374,8 @@ export const OBYMilkIcon: React.FunctionComponent<OBYSvg> = ({ width, height, cl
           y2='21.7683'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#4793EB' />
-          <stop offset='1' stop-color='#2367EC' />
+          <stop stopColor='#4793EB' />
+          <stop offset={1} stopColor='#2367EC' />
         </linearGradient>
         <linearGradient
           id='paint3_linear_1064_1058'
@@ -357,8 +385,8 @@ export const OBYMilkIcon: React.FunctionComponent<OBYSvg> = ({ width, height, cl
           y2='8.84661'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#E3F0FF' />
-          <stop offset='1' stop-color='#90D5FE' />
+          <stop stopColor='#E3F0FF' />
+          <stop offset={1} stopColor='#90D5FE' />
         </linearGradient>
         <linearGradient
           id='paint4_linear_1064_1058'
@@ -368,8 +396,8 @@ export const OBYMilkIcon: React.FunctionComponent<OBYSvg> = ({ width, height, cl
           y2='8.84661'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#6FC6FC' />
-          <stop offset='1' stop-color='#50A7F6' />
+          <stop stopColor='#6FC6FC' />
+          <stop offset={1} stopColor='#50A7F6' />
         </linearGradient>
         <linearGradient
           id='paint5_linear_1064_1058'
@@ -379,8 +407,8 @@ export const OBYMilkIcon: React.FunctionComponent<OBYSvg> = ({ width, height, cl
           y2='27.9166'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#E3F0FF' />
-          <stop offset='1' stop-color='#90D5FE' />
+          <stop stopColor='#E3F0FF' />
+          <stop offset={1} stopColor='#90D5FE' />
         </linearGradient>
         <linearGradient
           id='paint6_linear_1064_1058'
@@ -390,8 +418,8 @@ export const OBYMilkIcon: React.FunctionComponent<OBYSvg> = ({ width, height, cl
           y2='29.8041'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='white' />
-          <stop offset='1' stop-color='#EDF1F2' />
+          <stop stopColor='white' />
+          <stop offset={1} stopColor='#EDF1F2' />
         </linearGradient>
       </defs>
     </svg>
@@ -461,12 +489,12 @@ export const OBYOatIcon: React.FunctionComponent<OBYSvg> = ({ width, height, cla
           y2='14.5625'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#E0E0E0' />
-          <stop offset='0.16' stop-color='#DBDADB' />
-          <stop offset='0.37' stop-color='#CCC9CC' />
-          <stop offset='0.61' stop-color='#B5ADB5' />
-          <stop offset='0.87' stop-color='#948694' />
-          <stop offset='1' stop-color='#806F80' />
+          <stop stopColor='#E0E0E0' />
+          <stop offset='0.16' stopColor='#DBDADB' />
+          <stop offset='0.37' stopColor='#CCC9CC' />
+          <stop offset='0.61' stopColor='#B5ADB5' />
+          <stop offset='0.87' stopColor='#948694' />
+          <stop offset={1} stopColor='#806F80' />
         </linearGradient>
         <linearGradient
           id='paint1_linear_1064_1062'
@@ -476,11 +504,11 @@ export const OBYOatIcon: React.FunctionComponent<OBYSvg> = ({ width, height, cla
           y2='15.7339'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#F2E6D6' />
-          <stop offset='0.25' stop-color='#F2E3D0' />
-          <stop offset='0.58' stop-color='#F2DCBF' />
-          <stop offset='0.96' stop-color='#F2D0A3' />
-          <stop offset='1' stop-color='#F2CFA0' />
+          <stop stopColor='#F2E6D6' />
+          <stop offset='0.25' stopColor='#F2E3D0' />
+          <stop offset='0.58' stopColor='#F2DCBF' />
+          <stop offset='0.96' stopColor='#F2D0A3' />
+          <stop offset={1} stopColor='#F2CFA0' />
         </linearGradient>
         <linearGradient
           id='paint2_linear_1064_1062'
@@ -490,11 +518,11 @@ export const OBYOatIcon: React.FunctionComponent<OBYSvg> = ({ width, height, cla
           y2='24.2823'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#FFEAD0' />
-          <stop offset='0.22' stop-color='#FEE7CA' />
-          <stop offset='0.5' stop-color='#FBDEB9' />
-          <stop offset='0.83' stop-color='#F5D09D' />
-          <stop offset='1' stop-color='#F2C78C' />
+          <stop stopColor='#FFEAD0' />
+          <stop offset='0.22' stopColor='#FEE7CA' />
+          <stop offset='0.5' stopColor='#FBDEB9' />
+          <stop offset='0.83' stopColor='#F5D09D' />
+          <stop offset={1} stopColor='#F2C78C' />
         </linearGradient>
         <linearGradient
           id='paint3_linear_1064_1062'
@@ -504,11 +532,11 @@ export const OBYOatIcon: React.FunctionComponent<OBYSvg> = ({ width, height, cla
           y2='7.32745'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#F2E6D6' />
-          <stop offset='0.25' stop-color='#F2E3D0' />
-          <stop offset='0.58' stop-color='#F2DCBF' />
-          <stop offset='0.96' stop-color='#F2D0A3' />
-          <stop offset='1' stop-color='#F2CFA0' />
+          <stop stopColor='#F2E6D6' />
+          <stop offset='0.25' stopColor='#F2E3D0' />
+          <stop offset='0.58' stopColor='#F2DCBF' />
+          <stop offset='0.96' stopColor='#F2D0A3' />
+          <stop offset={1} stopColor='#F2CFA0' />
         </linearGradient>
         <linearGradient
           id='paint4_linear_1064_1062'
@@ -518,11 +546,11 @@ export const OBYOatIcon: React.FunctionComponent<OBYSvg> = ({ width, height, cla
           y2='25.5504'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#F2E6D6' />
-          <stop offset='0.25' stop-color='#F2E3D0' />
-          <stop offset='0.58' stop-color='#F2DCBF' />
-          <stop offset='0.96' stop-color='#F2D0A3' />
-          <stop offset='1' stop-color='#F2CFA0' />
+          <stop stopColor='#F2E6D6' />
+          <stop offset='0.25' stopColor='#F2E3D0' />
+          <stop offset='0.58' stopColor='#F2DCBF' />
+          <stop offset='0.96' stopColor='#F2D0A3' />
+          <stop offset={1} stopColor='#F2CFA0' />
         </linearGradient>
         <linearGradient
           id='paint5_linear_1064_1062'
@@ -532,26 +560,26 @@ export const OBYOatIcon: React.FunctionComponent<OBYSvg> = ({ width, height, cla
           y2='20.009'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#F2E6D6' />
-          <stop offset='0.25' stop-color='#F2E3D0' />
-          <stop offset='0.58' stop-color='#F2DCBF' />
-          <stop offset='0.96' stop-color='#F2D0A3' />
-          <stop offset='1' stop-color='#F2CFA0' />
+          <stop stopColor='#F2E6D6' />
+          <stop offset='0.25' stopColor='#F2E3D0' />
+          <stop offset='0.58' stopColor='#F2DCBF' />
+          <stop offset='0.96' stopColor='#F2D0A3' />
+          <stop offset={1} stopColor='#F2CFA0' />
         </linearGradient>
         <linearGradient
           id='paint6_linear_1064_1062'
-          x1='20'
+          x1={20}
           y1='23.75'
-          x2='20'
+          x2={20}
           y2='37.5'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#59B0F8' />
-          <stop offset='0.03' stop-color='#AADEF9' />
-          <stop offset='0.09' stop-color='#97D0F2' />
-          <stop offset='0.16' stop-color='#89C7F1' />
-          <stop offset='0.22' stop-color='#77BDEE' />
-          <stop offset='1' stop-color='#337BEC' />
+          <stop stopColor='#59B0F8' />
+          <stop offset='0.03' stopColor='#AADEF9' />
+          <stop offset='0.09' stopColor='#97D0F2' />
+          <stop offset='0.16' stopColor='#89C7F1' />
+          <stop offset='0.22' stopColor='#77BDEE' />
+          <stop offset={1} stopColor='#337BEC' />
         </linearGradient>
       </defs>
     </svg>
@@ -569,14 +597,14 @@ export const OBYPharmacyIcon: React.FunctionComponent<OBYSvg> = ({ width, height
       xmlns='http://www.w3.org/2000/svg'
     >
       <path
-        fill-rule='evenodd'
-        clip-rule='evenodd'
+        fillRule='evenodd'
+        clipRule='evenodd'
         d='M29.0396 34.0864C29.547 33.3459 29.8438 32.4498 29.8438 31.4844C29.8438 28.9387 27.7801 26.875 25.2344 26.875C24.2454 26.875 23.3292 27.1864 22.5785 27.7166L29.0396 34.0864ZM27.9374 35.2184C27.178 35.7691 26.2441 36.0938 25.2344 36.0938C22.6887 36.0938 20.625 34.0301 20.625 31.4844C20.625 30.4982 20.9347 29.5844 21.4622 28.8348L27.9374 35.2184Z'
         fill='url(#paint0_linear_1064_1067)'
       />
       <path
-        fill-rule='evenodd'
-        clip-rule='evenodd'
+        fillRule='evenodd'
+        clipRule='evenodd'
         d='M30.636 31.7659C30.044 32.4717 29.6875 33.3817 29.6875 34.375C29.6875 36.6187 31.5063 38.4375 33.75 38.4375C34.5637 38.4375 35.3214 38.1983 35.9569 37.7864L30.636 31.7659ZM37.0922 36.6851C37.5464 36.0292 37.8125 35.2332 37.8125 34.375C37.8125 32.1313 35.9937 30.3125 33.75 30.3125C33.0708 30.3125 32.4305 30.4792 31.8679 30.7739L37.0922 36.6851Z'
         fill='url(#paint1_linear_1064_1067)'
       />
@@ -593,8 +621,8 @@ export const OBYPharmacyIcon: React.FunctionComponent<OBYSvg> = ({ width, height
           y2='36.0938'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#F3D6B1' />
-          <stop offset='1' stop-color='#F3D9B6' />
+          <stop stopColor='#F3D6B1' />
+          <stop offset={1} stopColor='#F3D9B6' />
         </linearGradient>
         <linearGradient
           id='paint1_linear_1064_1067'
@@ -604,8 +632,8 @@ export const OBYPharmacyIcon: React.FunctionComponent<OBYSvg> = ({ width, height
           y2='38.4375'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#F3D6B1' />
-          <stop offset='1' stop-color='#F3D9B6' />
+          <stop stopColor='#F3D6B1' />
+          <stop offset={1} stopColor='#F3D9B6' />
         </linearGradient>
         <linearGradient
           id='paint2_linear_1064_1067'
@@ -615,8 +643,8 @@ export const OBYPharmacyIcon: React.FunctionComponent<OBYSvg> = ({ width, height
           y2='20.2694'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#6AC0FC' />
-          <stop offset='1' stop-color='#367EEC' />
+          <stop stopColor='#6AC0FC' />
+          <stop offset={1} stopColor='#367EEC' />
         </linearGradient>
       </defs>
     </svg>

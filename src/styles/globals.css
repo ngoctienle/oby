@@ -6,6 +6,31 @@ swiper {
   width: 100%;
   height: 100%;
 }
+.swiper.suggestProduct {
+  overflow: unset;
+}
+.swiper.suggestProduct .swiper-slide {
+  font-size: unset;
+  text-align: unset;
+}
+.swiper.suggestProduct .swiper-pagination-bullet {
+  width: 16px;
+  height: 6px;
+  border-radius: 8px;
+  background-color: #dfdfdf;
+  opacity: unset;
+  transition: all 0.4s ease;
+}
+.swiper.suggestProduct .swiper-pagination-bullet.swiper-pagination-bullet-active {
+  width: 32px;
+  background-color: #4aa02c;
+}
+.swiper.suggestProduct .swiper-horizontal > .swiper-pagination-bullets,
+.swiper.suggestProduct .swiper-pagination-bullets.swiper-pagination-horizontal,
+.swiper.suggestProduct .swiper-pagination-custom,
+.swiper.suggestProduct .swiper-pagination-fraction {
+  bottom: -40px;
+}
 
 .swiper-slide {
   text-align: center;
@@ -17,14 +42,6 @@ swiper {
   justify-content: center;
   align-items: center;
 }
-
-.swiper-slide img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 @layer {
   body,
   html {
