@@ -2,7 +2,7 @@ import { MagnifyingGlassIcon, ShoppingBagIcon, UserCircleIcon } from '@heroicons
 import { NextFont } from 'next/dist/compiled/@next/font'
 
 import { HeaderAds } from '@/components/OBYAds'
-import { OBYCategoryIcon } from '@/components/OBYSvg'
+import { OBYCategoryIcon } from '@/components/OBYIcons'
 import { UnstyledImage, UnstyledLink } from '@/components/Unstyled'
 
 interface HeaderProps {

@@ -21,7 +21,7 @@ export const OBYCategoryIcon: React.FunctionComponent<OBYSvg> = ({ width, height
   )
 }
 
-export const OBYAddCarIcon: React.FunctionComponent<OBYSvg> = ({ width, height, className }) => {
+export const OBYAddCartIcon: React.FunctionComponent<OBYSvg> = ({ width, height, className }) => {
   return (
     <svg
       width={width}

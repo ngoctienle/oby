@@ -6,7 +6,7 @@ import {
   OBYMilkIcon,
   OBYOatIcon,
   OBYPharmacyIcon
-} from '@/components/OBYSvg'
+} from '@/components/OBYIcons'
 import { UnstyledImage } from '@/components/Unstyled'
 
 interface HomeLayoutProps {
