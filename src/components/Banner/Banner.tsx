@@ -16,17 +16,16 @@ export default function Banner() {
         navigation={true}
         lazy={true}
         pagination={{
-          clickable: true,
-          dynamicBullets: true
+          clickable: true
         }}
         modules={[EffectFade, Navigation, Pagination, Lazy]}
-        className='obySwiper'
+        className='obyBanner'
       >
         {Array(5)
           .fill(0)
           .map((_, index) => (
             <SwiperSlide key={index}>
-              <UnstyledImage alt='img' src='/images/oby-banner.png' height={600} width={1920} />
+              <UnstyledImage alt='img' src='/images/oby-banner.png' height={600} width={1920} className='select-none' />
             </SwiperSlide>
           ))}
       </Swiper>

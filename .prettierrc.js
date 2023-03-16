@@ -7,7 +7,7 @@ const config = {
   trailingComma: 'none',
   arrowParens: 'always',
   endOfLine: 'auto',
-  importOrder: ['@/hooks/(.*)$', '@/libs/(.*)$', '@/components/(.*)$'],
+  importOrder: ['@/hooks/(.*)$', '@/constants/*(.*)$', '@/libs/(.*)$', '@/components/(.*)$'],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true
 }

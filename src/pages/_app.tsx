@@ -39,7 +39,7 @@ export default function App({ Component, pageProps }: AppProps) {
           position='top-center'
           reverseOrder={true}
           toastOptions={{
-            className: twclsx('rounded-md'),
+            className: twclsx('rounded-1.5'),
             duration: 2500
           }}
         />

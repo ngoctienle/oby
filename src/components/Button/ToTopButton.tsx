@@ -16,7 +16,7 @@ export const ToTopButton: React.FunctionComponent<OBYDefaultButton> = (props) =>
       {...props}
       onClick={toTop}
       className={twclsx(
-        'text-oby-primary border border-oby-primary rounded-full w-[48px] h-[48px] opacity-0 pointer-events-none transition-opacity',
+        'text-oby-primary border border-oby-primary rounded-full w-12 h-12 opacity-0 pointer-events-none transition-opacity',
         y > 800 && 'opacity-1 pointer-events-auto',
         props.className
       )}

@@ -13,6 +13,7 @@ swiper {
   font-size: unset;
   text-align: unset;
 }
+.swiper.obyBanner .swiper-pagination-bullet,
 .swiper.suggestProduct .swiper-pagination-bullet {
   width: 16px;
   height: 6px;
@@ -21,15 +22,48 @@ swiper {
   opacity: unset;
   transition: all 0.4s ease;
 }
+.swiper.obyBanner .swiper-pagination-bullet.swiper-pagination-bullet-active,
 .swiper.suggestProduct .swiper-pagination-bullet.swiper-pagination-bullet-active {
   width: 32px;
   background-color: #4aa02c;
 }
+
+/* Custom banner Prev/Next */
+.swiper.obyBanner .swiper-button-next,
+.swiper.obyBanner .swiper-button-prev {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  transition: all 0.4s ease;
+}
+.swiper.obyBanner .swiper-button-next {
+  right: 100px;
+}
+.swiper.obyBanner .swiper-button-prev {
+  left: 100px;
+}
+.swiper.obyBanner .swiper-button-next.swiper-button-disabled,
+.swiper.obyBanner .swiper-button-prev.swiper-button-disabled {
+  opacity: 0;
+}
+
+.swiper.obyBanner .swiper-button-next:after,
+.swiper.obyBanner .swiper-button-prev:after {
+  font-size: 15px;
+  color: #ffffff;
+}
+
 .swiper.suggestProduct .swiper-horizontal > .swiper-pagination-bullets,
 .swiper.suggestProduct .swiper-pagination-bullets.swiper-pagination-horizontal,
 .swiper.suggestProduct .swiper-pagination-custom,
 .swiper.suggestProduct .swiper-pagination-fraction {
   bottom: -40px;
+}
+
+.swiper-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet,
+.swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet {
+  margin: 0 2px !important;
 }
 
 .swiper-slide {
