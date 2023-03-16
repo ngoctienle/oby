@@ -9,7 +9,7 @@ import Product from '@/components/Product'
 export default function ProductSuggest() {
   return (
     <>
-      <h2 className='fs-28 text-oby-green font-bold mb-7.5'>Gợi ý hôm nay</h2>
+      <h2 className='fs-26 text-oby-green font-bold mb-7.5'>Gợi ý hôm nay</h2>
       <Swiper
         slidesPerView={4}
         lazy={true}

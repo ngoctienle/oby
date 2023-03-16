@@ -51,6 +51,13 @@ module.exports = {
           paddingLeft: '16px',
           paddingRight: '16px'
         },
+        '.container-layout': {
+          maxWidth: '1752px',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          paddingLeft: '16px',
+          paddingRight: '16px'
+        },
         '.fs-11': {
           fontSize: '11px'
         },
@@ -59,6 +66,9 @@ module.exports = {
         },
         '.fs-16': {
           fontSize: '16px'
+        },
+        '.fs-26': {
+          fontSize: '26px'
         },
         '.fs-28': {
           fontSize: '28px'
