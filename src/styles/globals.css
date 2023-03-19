@@ -76,9 +76,18 @@ swiper {
   justify-content: center;
   align-items: center;
 }
+
+footer {
+  background: url('/images/bg-footer.png') center center no-repeat;
+}
+
 @layer {
   body,
   html {
     @apply fs-16 leading-[140%] text-oby-222324;
+  }
+
+  body {
+    background: url('/images/overlay.png') center center no-repeat;
   }
 }

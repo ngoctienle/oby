@@ -1,6 +1,7 @@
 import { HomeLayout } from '@/layouts'
 
 import Banner from '@/components/Banner'
+import BlogList from '@/components/BlogList'
 import {
   OBYChairIcon,
   OBYClothesIcon,
@@ -13,6 +14,7 @@ import {
   OBYOatIcon,
   OBYPharmacyIcon
 } from '@/components/OBYIcons'
+import ProductList from '@/components/ProductList'
 import ProductSuggest from '@/components/ProductSuggest'
 
 const CategoryContent = [
@@ -39,7 +41,7 @@ export default function Home() {
           <h2 className='fs-26 text-oby-green font-bold mb-7.5'>Mua sắm theo danh mục</h2>
           <div className='grid grid-cols-5 gap-x-7.5 gap-y-6'>
             {CategoryContent.map((item) => (
-              <div className='col-span-1 py-3.5 px-4 border border-oby-DFDFDF rounded-4' key={item.title}>
+              <div className='col-span-1 py-3.5 px-4 bg-white border border-oby-DFDFDF rounded-4' key={item.title}>
                 <div className='flex items-center gap-4'>
                   {item.icon}
                   <p>{item.title}</p>
@@ -48,6 +50,11 @@ export default function Home() {
             ))}
           </div>
         </div>
+
+        <ProductList title='Dinh dưỡng' />
+        <ProductList title='Thời trang' />
+        <ProductList title='Dụng cụ hỗ trợ' />
+        <BlogList />
       </HomeLayout>
     </>
   )

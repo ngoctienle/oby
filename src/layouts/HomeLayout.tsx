@@ -50,9 +50,7 @@ export const HomeLayout: React.FunctionComponent<HomeLayoutProps> = ({ children 
           </div>
         </div>
       </div>
-      <div className=''>
-        <div className='container overflow-hidden'>{children}</div>
-      </div>
+      <div className='container overflow-hidden'>{children}</div>
     </div>
   )
 }

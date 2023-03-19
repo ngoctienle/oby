@@ -15,6 +15,7 @@ module.exports = {
         'oby-primary': '#4AA02C',
         'oby-green': '#2E6A20',
         'oby-orange': '#F28825',
+        'oby-blue': '#4FC2F8',
         'oby-E4FBDB': '#E4FBDB'
       },
       spacing: {
@@ -23,8 +24,8 @@ module.exports = {
         2.75: '11px',
         3.25: '13px',
         3.5: '14px',
-        16: '16px',
         4.5: '18px',
+        6.5: '26px',
         7.5: '30px',
         9.5: '38px',
         12: '48px',
@@ -53,6 +54,9 @@ module.exports = {
         },
         '.fs-11': {
           fontSize: '11px'
+        },
+        '.fs-12': {
+          fontSize: '12px'
         },
         '.fs-14': {
           fontSize: '14px'
