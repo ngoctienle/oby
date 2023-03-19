@@ -45,14 +45,7 @@ module.exports = {
     plugin(function ({ addComponents }) {
       addComponents({
         '.container': {
-          maxWidth: '1392px',
-          marginLeft: 'auto',
-          marginRight: 'auto',
-          paddingLeft: '16px',
-          paddingRight: '16px'
-        },
-        '.container-layout': {
-          maxWidth: '1752px',
+          maxWidth: '1232px',
           marginLeft: 'auto',
           marginRight: 'auto',
           paddingLeft: '16px',
@@ -74,6 +67,7 @@ module.exports = {
           fontSize: '28px'
         }
       })
-    })
+    }),
+    require('@tailwindcss/line-clamp')
   ]
 }

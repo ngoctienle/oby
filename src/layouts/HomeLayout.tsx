@@ -24,30 +24,34 @@ const LeftBarContent = [
 
 export const HomeLayout: React.FunctionComponent<HomeLayoutProps> = ({ children }) => {
   return (
-    <div className='container-layout pt-12.5 flex gap-10'>
-      <div className='flex flex-col gap-4'>
-        <div className='bg-oby-F6F7F8 py-2.5 px-3 rounded-4 flex flex-col items-center justify-center w-[140px]'>
-          <OBYCategoryIcon className='text-oby-primary w-8 h-8' />
-          <p className='text-oby-676869 fs-14 text-center'>Tất cả danh mục</p>
-        </div>
-        <div className='bg-oby-F6F7F8 rounded-4 px-3 py-4'>
-          {LeftBarContent.map((item) => (
-            <div className='flex flex-col gap-0.5 items-center first:mt-0 mt-3' key={item.title}>
-              {item.icon}
-              <p className='text-oby-676869 fs-14 text-center'>{item.title}</p>
+    <div id='home-content' className='pt-15'>
+      <div className='sticky w-full top-[130px] z-[2]'>
+        <div className='container' style={{ position: 'relative', zIndex: '-1' }}>
+          <div className='flex'>
+            <div className='w-[140px] absolute right-[calc(100%+32px)]'>
+              <div className='bg-oby-F6F7F8 py-2.5 px-3 rounded-4 flex flex-col mb-3 items-center justify-center'>
+                <OBYCategoryIcon className='text-oby-primary w-8 h-8' />
+                <p className='text-oby-676869 fs-14 text-center'>Tất cả danh mục</p>
+              </div>
+              <div className='bg-oby-F6F7F8 rounded-4 px-3 py-4'>
+                {LeftBarContent.map((item) => (
+                  <div className='flex flex-col gap-0.5 items-center first:mt-0 mt-3' key={item.title}>
+                    {item.icon}
+                    <p className='text-oby-676869 fs-14 text-center'>{item.title}</p>
+                  </div>
+                ))}
+              </div>
             </div>
-          ))}
+            <div className='absolute left-[calc(100%+32px)]'>
+              <div className='rounded-4 relative w-[140px] h-[316px]'>
+                <UnstyledImage src='/images/oby-side-ads.png' display='responsive' alt='alt' />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div className='flex-grow overflow-x-hidden'>{children}</div>
-      <div className='rounded-4 h-[316px]'>
-        <UnstyledImage
-          src='/images/oby-side-ads.png'
-          width={140}
-          height={316}
-          style={{ maxWidth: 'unset' }}
-          alt='alt'
-        />
+      <div className=''>
+        <div className='container overflow-hidden'>{children}</div>
       </div>
     </div>
   )

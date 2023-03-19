@@ -7,8 +7,8 @@ type UnstyledImage = OBYImage & ImageProps
 export const UnstyledImage: React.FunctionComponent<UnstyledImage> = ({
   src,
   alt,
-  width = 144,
-  height = 144,
+  width,
+  height,
   display = 'intrinsic',
   ...props
 }) => {
@@ -26,9 +26,9 @@ export const UnstyledImage: React.FunctionComponent<UnstyledImage> = ({
       />
     )
   }
-  if (Number(width) < 40 && Number(height) < 40) {
+  /*   if (Number(width) < 40 && Number(height) < 40) {
     return <Image src={src} alt={alt} width={width} height={height} {...props} />
-  }
+  } */
   return (
     <Image
       src={src}

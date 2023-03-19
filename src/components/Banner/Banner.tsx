@@ -14,7 +14,9 @@ export default function Banner() {
         spaceBetween={30}
         effect={'fade'}
         navigation={true}
-        lazy={true}
+        lazy={{
+          loadPrevNext: true
+        }}
         pagination={{
           clickable: true
         }}
@@ -25,7 +27,14 @@ export default function Banner() {
           .fill(0)
           .map((_, index) => (
             <SwiperSlide key={index}>
-              <UnstyledImage alt='img' src='/images/oby-banner.png' height={600} width={1920} className='select-none' />
+              <div className='relative w-full h-[600px]'>
+                <UnstyledImage
+                  alt='img'
+                  src='/images/oby-banner.png'
+                  display='responsive'
+                  className='select-none object-cover'
+                />
+              </div>
             </SwiperSlide>
           ))}
       </Swiper>

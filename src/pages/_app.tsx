@@ -12,6 +12,7 @@ import twclsx from '@/libs/twclsx'
 import { ToTopButton } from '@/components/Button'
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
+import { HeaderAds } from '@/components/OBYAds'
 
 const inter = Inter({ subsets: ['latin'] })
 const queryClient = new QueryClient({
@@ -27,6 +28,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <Fragment>
       <QueryClientProvider client={queryClient}>
+        <HeaderAds />
         <Header font={inter} />
         <main className={inter.className}>
           <Component {...pageProps} />

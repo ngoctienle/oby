@@ -4,10 +4,10 @@ import { UnstyledImage } from '@/components/Unstyled'
 export default function Product() {
   return (
     <div className='flex flex-col'>
-      <div className='overflow-hidden rounded-tl-16 rounded-br-16'>
-        <UnstyledImage src='/images/pd-img.png' alt='alt' width={310} height={180} className='w-[310px] h-[180px]' />
+      <div className='overflow-hidden relative w-[270px] h-[180px] rounded-tl-4 rounded-br-4'>
+        <UnstyledImage src='/images/pd-img.png' alt='alt' display='responsive' className='object-cover' />
       </div>
-      <p className='h-11 mt-3.5'>Combo quà tặng Tết 2023 [GIA ĐƯỜNG AN THỊNH]</p>
+      <p className='h-11 mt-3.5 line-clamp-2'>Combo quà tặng Tết 2023 [GIA ĐƯỜNG AN THỊNH]</p>
       <div className='flex items-center mt-2'>
         <p className='font-bold'>1.699.000₫</p>
         <p className='line-through mx-3 text-oby-676869'>1.999.000₫</p>

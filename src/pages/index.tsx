@@ -16,16 +16,16 @@ import {
 import ProductSuggest from '@/components/ProductSuggest'
 
 const CategoryContent = [
-  { icon: <OBYMilkIcon className='w-10 h-10' />, title: 'Sữa dinh dưỡng' },
-  { icon: <OBYDiaperIcon className='w-10 h-10' />, title: 'Tả người lớn' },
-  { icon: <OBYClothesIcon className='w-10 h-10' />, title: 'Quần áo cho ông' },
-  { icon: <OBYCowboyHatIcon className='w-10 h-10' />, title: 'Phụ kiện cho ông' },
-  { icon: <OBYMedicalKitIcon className='w-10 h-10' />, title: 'Dụng cụ y tế' },
-  { icon: <OBYPharmacyIcon className='w-10 h-10' />, title: 'Vitamin & Thực phẩm chức năng' },
-  { icon: <OBYOatIcon className='w-10 h-10' />, title: 'Ngũ cốc & hạt' },
-  { icon: <OBYDressIcon className='w-10 h-10' />, title: 'Quần áo cho bà' },
-  { icon: <OBYHandBagIcon className='w-10 h-10' />, title: 'Phụ kiện cho bà' },
-  { icon: <OBYChairIcon className='w-10 h-10' />, title: 'Dụng cụ hỗ trợ' }
+  { icon: <OBYMilkIcon className='w-10 h-10 flex-shrink-0' />, title: 'Sữa dinh dưỡng' },
+  { icon: <OBYDiaperIcon className='w-10 h-10 flex-shrink-0' />, title: 'Tả người lớn' },
+  { icon: <OBYClothesIcon className='w-10 h-10 flex-shrink-0' />, title: 'Quần áo cho ông' },
+  { icon: <OBYCowboyHatIcon className='w-10 h-10 flex-shrink-0' />, title: 'Phụ kiện cho ông' },
+  { icon: <OBYMedicalKitIcon className='w-10 h-10 flex-shrink-0' />, title: 'Dụng cụ y tế' },
+  { icon: <OBYPharmacyIcon className='w-10 h-10 flex-shrink-0' />, title: 'Vitamin & Thực phẩm chức năng' },
+  { icon: <OBYOatIcon className='w-10 h-10 flex-shrink-0' />, title: 'Ngũ cốc & hạt' },
+  { icon: <OBYDressIcon className='w-10 h-10 flex-shrink-0' />, title: 'Quần áo cho bà' },
+  { icon: <OBYHandBagIcon className='w-10 h-10 flex-shrink-0' />, title: 'Phụ kiện cho bà' },
+  { icon: <OBYChairIcon className='w-10 h-10 flex-shrink-0' />, title: 'Dụng cụ hỗ trợ' }
 ]
 
 export default function Home() {
@@ -35,11 +35,11 @@ export default function Home() {
 
       <HomeLayout>
         <ProductSuggest />
-        <div className='pt-15'>
+        <div className='pt-[90px]'>
           <h2 className='fs-26 text-oby-green font-bold mb-7.5'>Mua sắm theo danh mục</h2>
-          <div className='grid grid-cols-5 mt-7.5 gap-7.5'>
+          <div className='grid grid-cols-5 gap-x-7.5 gap-y-6'>
             {CategoryContent.map((item) => (
-              <div className='col-span-1 py-3.5 px-5 border border-oby-DFDFDF rounded-4' key={item.title}>
+              <div className='col-span-1 py-3.5 px-4 border border-oby-DFDFDF rounded-4' key={item.title}>
                 <div className='flex items-center gap-4'>
                   {item.icon}
                   <p>{item.title}</p>

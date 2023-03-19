@@ -37,14 +37,17 @@
     "swiper": "8.4.7"
   },
   "devDependencies": {
+    "@tailwindcss/line-clamp": "^0.4.2",
     "@tanstack/react-query-devtools": "^4.24.10",
     "@trivago/prettier-plugin-sort-imports": "^4.1.0",
     "@types/node": "^18.14.1",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.53.0",
+    "@typescript-eslint/parser": "5.0.0",
     "autoprefixer": "^10.4.13",
     "commitizen": "^4.3.0",
+    "csstype": "3.0.10",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.34.0",
     "eslint-config-next": "^13.2.0",
