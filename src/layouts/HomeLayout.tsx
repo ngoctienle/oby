@@ -1,3 +1,4 @@
+import { OBYImage } from '@/components/UI/Element'
 import {
   OBYCategoryIcon,
   OBYChairIcon,
@@ -6,8 +7,7 @@ import {
   OBYMilkIcon,
   OBYOatIcon,
   OBYPharmacyIcon
-} from '@/components/OBYIcons'
-import { UnstyledImage } from '@/components/Unstyled'
+} from '@/components/UI/OBYIcons'
 
 interface HomeLayoutProps {
   children?: React.ReactNode
@@ -28,10 +28,10 @@ export const HomeLayout: React.FunctionComponent<HomeLayoutProps> = ({ children 
       <div className='sticky w-full top-[130px] z-[2]'>
         <div className='container' style={{ position: 'relative', zIndex: '-1' }}>
           <div className='flex'>
-            <div className='w-[140px] absolute right-[calc(100%+32px)]'>
+            <div className='absolute @1600:right-[calc(100%+32px)] right-[calc(100%+4px)]'>
               <div className='bg-oby-F6F7F8 py-2.5 px-3 rounded-4 flex flex-col mb-3 items-center justify-center'>
                 <OBYCategoryIcon className='text-oby-primary w-8 h-8' />
-                <p className='text-oby-676869 fs-14 text-center'>Tất cả danh mục</p>
+                <p className='text-oby-676869 fs-14 text-center whitespace-nowrap'>Tất cả danh mục</p>
               </div>
               <div className='bg-oby-F6F7F8 rounded-4 px-3 py-4'>
                 {LeftBarContent.map((item) => (
@@ -42,9 +42,9 @@ export const HomeLayout: React.FunctionComponent<HomeLayoutProps> = ({ children 
                 ))}
               </div>
             </div>
-            <div className='absolute left-[calc(100%+32px)]'>
+            <div className='absolute @1600:left-[calc(100%+32px)] left-[calc(100%+4px)]'>
               <div className='rounded-4 relative w-[140px] h-[316px]'>
-                <UnstyledImage src='/images/oby-side-ads.png' display='responsive' alt='alt' />
+                <OBYImage src='/images/oby-side-ads.png' display='responsive' alt='alt' className='object-cover' />
               </div>
             </div>
           </div>

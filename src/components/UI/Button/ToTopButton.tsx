@@ -5,14 +5,14 @@ import { useCallback } from 'react'
 
 import twclsx from '@/libs/twclsx'
 
-import { UnstyledButton } from '@/components/Unstyled'
+import { OBYButton } from '@/components/UI/Element'
 
 export const ToTopButton: React.FunctionComponent<OBYDefaultButton> = (props) => {
   const toTop = useCallback(() => window.scrollTo({ top: 0, behavior: 'smooth' }), [])
   const y = useWindowScrollY()
 
   return (
-    <UnstyledButton
+    <OBYButton
       {...props}
       onClick={toTop}
       className={twclsx(
@@ -23,6 +23,6 @@ export const ToTopButton: React.FunctionComponent<OBYDefaultButton> = (props) =>
     >
       <ChevronUpIcon className='w-6 h-6 text-oby-primary' />
       <span className='sr-only'>Back to top</span>
-    </UnstyledButton>
+    </OBYButton>
   )
 }

@@ -9,10 +9,10 @@ import { Toaster } from 'react-hot-toast'
 
 import twclsx from '@/libs/twclsx'
 
-import { ToTopButton } from '@/components/Button'
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
-import { HeaderAds } from '@/components/OBYAds'
+import { ToTopButton } from '@/components/UI/Button'
+import { HeaderAds } from '@/components/UI/OBYAds'
 
 const inter = Inter({ subsets: ['latin'] })
 const queryClient = new QueryClient({

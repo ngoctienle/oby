@@ -18,6 +18,9 @@ module.exports = {
         'oby-blue': '#4FC2F8',
         'oby-E4FBDB': '#E4FBDB'
       },
+      screens: {
+        '@1600': '1600px'
+      },
       spacing: {
         0.75: '3px',
         2.5: '10px',

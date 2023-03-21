@@ -11,7 +11,6 @@ export default function ProductSuggest() {
     <>
       <h2 className='fs-26 text-oby-green font-bold mb-7.5'>Gợi ý hôm nay</h2>
       <Swiper
-        slidesPerView={4}
         lazy={true}
         pagination={{
           clickable: true
@@ -20,6 +19,7 @@ export default function ProductSuggest() {
           delay: 3500,
           disableOnInteraction: false
         }}
+        slidesPerView={4}
         spaceBetween={40}
         modules={[Pagination, Lazy, EffectFade, Autoplay]}
         className='suggestProduct'

@@ -6,8 +6,8 @@ import { hrefPath } from '@/constants/href.constant'
 
 import twclsx from '@/libs/twclsx'
 
-import { OBYCategoryIcon } from '@/components/OBYIcons'
-import { UnstyledImage, UnstyledLink } from '@/components/Unstyled'
+import { OBYImage, OBYLink } from '@/components/UI/Element'
+import { OBYCategoryIcon } from '@/components/UI/OBYIcons'
 
 interface HeaderProps {
   font: NextFont
@@ -27,38 +27,40 @@ export default function Header({ font }: HeaderProps) {
               </div>
               <div className='flex items-center gap-1 ml-15'>
                 <p className='fs-14'>Mua hàng và CSKH</p>
-                <UnstyledLink
-                  href='tel:078 927 9669'
-                  title='Mua hàng và CSKH'
-                  className='text-oby-primary font-bold fs-14'
-                >
+                <OBYLink href='tel:078 927 9669' title='Mua hàng và CSKH' className='text-oby-primary font-bold fs-14'>
                   078 927 9669
-                </UnstyledLink>
+                </OBYLink>
               </div>
               <div className='flex items-center gap-1 ml-15'>
                 <p className='fs-14'>Email</p>
-                <UnstyledLink
+                <OBYLink
                   href='mailto:ongbayeu.corp@gmail.com'
                   title='Email'
                   className='text-oby-primary font-bold fs-14'
                 >
                   ongbayeu.corp@gmail.com
-                </UnstyledLink>
+                </OBYLink>
               </div>
             </div>
           </div>
         </div>
         <div className='bg-white'>
           <div className='container'>
-            <div className='flex gap-12.5 items-center py-1'>
-              <UnstyledLink
+            <div className='flex gap-12.5 items-center py-1.5'>
+              <OBYLink
                 href={hrefPath.home}
                 title='OBY Trang chủ'
-                className='flex items-center justify-center w-[68px] h-[68px] relative'
+                className='flex items-center justify-center w-[56px] h-[56px] relative'
               >
-                <UnstyledImage display='responsive' src='/images/oby-logo.png' alt='OBY' title='OBY' className='' />
-              </UnstyledLink>
-              <form className='flex items-center flex-grow border border-oby-DFDFDF rounded-tl-5 rounded-br-5 py-3.25 px-6'>
+                <OBYImage
+                  display='responsive'
+                  src='/images/oby-logo.png'
+                  alt='OBY'
+                  title='OBY'
+                  className='object-cover'
+                />
+              </OBYLink>
+              <form className='flex items-center flex-grow border border-oby-DFDFDF rounded-tl-5 rounded-br-5 py-2.75 px-6'>
                 <input
                   type='text'
                   placeholder='Cô chú cần tìm món hàng gì'
@@ -68,17 +70,17 @@ export default function Header({ font }: HeaderProps) {
               </form>
               <div className='flex flex-col items-center'>
                 <div className='relative'>
-                  <ShoppingBagIcon className='w-9.5 h-9.5 text-oby-676869' strokeWidth={1} />
+                  <ShoppingBagIcon className='w-8 h-8 text-oby-676869' strokeWidth={1} />
                   <p className='absolute flex items-center justify-center top-2 -right-1 w-5 h-5 fs-11 bg-oby-primary text-white rounded-full'>
                     2
                   </p>
                 </div>
-                <p className='fs-14'>Giỏ hàng</p>
+                <p className='fs-12'>Giỏ hàng</p>
               </div>
-              <UnstyledLink href={hrefPath.login} className='flex flex-col items-center'>
-                <UserCircleIcon className='w-9.5 h-9.5 text-oby-676869' strokeWidth={1} />
-                <p className='fs-14'>Đăng nhập</p>
-              </UnstyledLink>
+              <OBYLink href={hrefPath.login} className='flex flex-col items-center'>
+                <UserCircleIcon className='w-8 h-8 text-oby-676869' strokeWidth={1} />
+                <p className='fs-12'>Đăng nhập</p>
+              </OBYLink>
             </div>
           </div>
         </div>

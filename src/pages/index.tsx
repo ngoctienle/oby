@@ -1,7 +1,11 @@
+import categoryApi from '@/apis/category.api'
 import { HomeLayout } from '@/layouts'
+import { useQuery } from '@tanstack/react-query'
 
 import Banner from '@/components/Banner'
 import BlogList from '@/components/BlogList'
+import ProductList from '@/components/ProductList'
+import ProductSuggest from '@/components/ProductSuggest'
 import {
   OBYChairIcon,
   OBYClothesIcon,
@@ -13,9 +17,7 @@ import {
   OBYMilkIcon,
   OBYOatIcon,
   OBYPharmacyIcon
-} from '@/components/OBYIcons'
-import ProductList from '@/components/ProductList'
-import ProductSuggest from '@/components/ProductSuggest'
+} from '@/components/UI/OBYIcons'
 
 const CategoryContent = [
   { icon: <OBYMilkIcon className='w-10 h-10 flex-shrink-0' />, title: 'Sữa dinh dưỡng' },
@@ -31,6 +33,14 @@ const CategoryContent = [
 ]
 
 export default function Home() {
+  const { data } = useQuery({
+    queryKey: ['categories'],
+    queryFn: () => {
+      return categoryApi.GetCategoryList()
+    }
+  })
+  console.log(data)
+
   return (
     <>
       <Banner />

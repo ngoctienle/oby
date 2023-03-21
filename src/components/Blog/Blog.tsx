@@ -1,10 +1,10 @@
-import { UnstyledImage } from '../Unstyled'
+import { OBYImage } from '../UI/Element'
 
 export default function Blog() {
   return (
     <div className='flex gap-4'>
       <div className='relative w-[205px] h-[140px] flex-shrink-0'>
-        <UnstyledImage display='responsive' src='/images/blog-example.png' alt='alt' className='object-cover' />
+        <OBYImage display='responsive' src='/images/blog-example.png' alt='alt' className='object-cover' />
       </div>
       <div className=''>
         <div className='px-1.5 py-0.75 fs-14 border border-oby-blue leading-[130%] rounded-2 text-oby-blue max-w-max'>

@@ -1,7 +1,7 @@
 import { ArrowLongRightIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 
 import Product from '@/components/Product'
-import { UnstyledLink } from '@/components/Unstyled'
+import { OBYLink } from '@/components/UI/Element'
 
 interface ProductListProps {
   title: string
@@ -31,9 +31,9 @@ export default function ProductList({ title }: ProductListProps) {
           ))}
       </div>
       <div className='flex items-center justify-center mt-10 gap-1.5'>
-        <UnstyledLink href='/' className='text-oby-primary fs-18'>
+        <OBYLink href='/' className='text-oby-primary fs-18'>
           Xem tất cả
-        </UnstyledLink>
+        </OBYLink>
         <ChevronRightIcon className='w-6 h-6 text-oby-primary' />
       </div>
     </div>

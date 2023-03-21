@@ -1,10 +1,10 @@
 import Image from 'next/image'
 import type { ImageProps } from 'next/image'
-import { OBYImage } from 'oby'
+import { OBYImage as OBYImageType } from 'oby'
 
-type UnstyledImage = OBYImage & ImageProps
+type OBYImage = OBYImageType & ImageProps
 
-export const UnstyledImage: React.FunctionComponent<UnstyledImage> = ({
+export const OBYImage: React.FunctionComponent<OBYImage> = ({
   src,
   alt,
   width,

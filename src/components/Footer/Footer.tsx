@@ -4,8 +4,8 @@ import { hrefPath } from '@/constants/href.constant'
 
 import twclsx from '@/libs/twclsx'
 
-import { OBYEmailIcon, OBYLocationIcon, OBYPhoneIcon } from '@/components/OBYIcons'
-import { UnstyledImage, UnstyledLink } from '@/components/Unstyled'
+import { OBYImage, OBYLink } from '@/components/UI/Element'
+import { OBYEmailIcon, OBYLocationIcon, OBYPhoneIcon } from '@/components/UI/OBYIcons'
 
 interface FooterProps {
   font: NextFont
@@ -18,30 +18,30 @@ export default function Footer({ font }: FooterProps) {
         <div className='container'>
           <div className='flex gap-15'>
             <div className='flex flex-col'>
-              <UnstyledLink
+              <OBYLink
                 href={hrefPath.home}
                 title='OBY Trang chủ'
                 className='flex items-center justify-center w-[68px] h-[68px] relative mb-6'
               >
-                <UnstyledImage display='responsive' src='/images/oby-logo.png' alt='OBY' title='OBY' className='' />
-              </UnstyledLink>
+                <OBYImage display='responsive' src='/images/oby-logo.png' alt='OBY' title='OBY' className='' />
+              </OBYLink>
               <div className='flex items-center gap-3'>
                 <OBYEmailIcon className='w-6 h-6 text-oby-676869' />
-                <UnstyledLink href='mailto:ongbayeu.corp@gmail.com' className='fs-14'>
+                <OBYLink href='mailto:ongbayeu.corp@gmail.com' className='fs-14'>
                   ongbayeu.corp@gmail.com
-                </UnstyledLink>
+                </OBYLink>
               </div>
               <div className='flex items-center gap-3 mt-4'>
                 <OBYPhoneIcon className='w-6 h-6 text-oby-676869' />
-                <UnstyledLink href='tel:078 927 9669' className='fs-14'>
+                <OBYLink href='tel:078 927 9669' className='fs-14'>
                   078 927 9669
-                </UnstyledLink>
+                </OBYLink>
               </div>
               <div className='flex items-center gap-3 mt-4'>
                 <OBYLocationIcon className='w-6 h-6 text-oby-676869' />
-                <UnstyledLink href='' className='fs-14'>
+                <OBYLink href='' className='fs-14'>
                   68/7B Trần Quang Khải, Quận 1, TP Hồ Chí Minh, Việt Nam
-                </UnstyledLink>
+                </OBYLink>
               </div>
             </div>
             <div className='flex flex-col'>
@@ -68,21 +68,9 @@ export default function Footer({ font }: FooterProps) {
             <div className='flex flex-col gap-4'>
               <h3 className='uppercase fs-18 font-semibold'>Kết nối</h3>
               <div className='flex items-center gap-6.5'>
-                <UnstyledImage
-                  src='/images/oby-fb.png'
-                  alt='OBY Facebook'
-                  title='OBY Facebook'
-                  width={40}
-                  height={40}
-                />
-                <UnstyledImage
-                  src='/images/oby-youtube.png'
-                  alt='OBY Youtube'
-                  title='OBY Youtube'
-                  width={40}
-                  height={40}
-                />
-                <UnstyledImage
+                <OBYImage src='/images/oby-fb.png' alt='OBY Facebook' title='OBY Facebook' width={40} height={40} />
+                <OBYImage src='/images/oby-youtube.png' alt='OBY Youtube' title='OBY Youtube' width={40} height={40} />
+                <OBYImage
                   src='/images/oby-insta.png'
                   alt='OBY Instagram'
                   title='OBY Instagram'
@@ -91,7 +79,7 @@ export default function Footer({ font }: FooterProps) {
                 />
               </div>
               <div className=''>
-                <UnstyledImage
+                <OBYImage
                   src='/images/oby-verify.png'
                   title='OBY Bộ Công Thương'
                   alt='OBY Bộ Công Thương'

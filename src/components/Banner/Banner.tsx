@@ -5,7 +5,7 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
-import { UnstyledImage } from '@/components/Unstyled'
+import { OBYImage } from '@/components/UI/Element'
 
 export default function Banner() {
   return (
@@ -28,7 +28,7 @@ export default function Banner() {
           .map((_, index) => (
             <SwiperSlide key={index}>
               <div className='relative w-full h-[600px]'>
-                <UnstyledImage
+                <OBYImage
                   alt='img'
                   src='/images/oby-banner.png'
                   display='responsive'

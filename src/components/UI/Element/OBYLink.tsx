@@ -3,9 +3,9 @@ import type { LinkProps } from 'next/link'
 import { OBYDefaultLink } from 'oby'
 import { createElement, forwardRef } from 'react'
 
-type UnstyledLinkProps = OBYDefaultLink & LinkProps
+type OBYLinkProps = OBYDefaultLink & LinkProps
 
-export const UnstyledLink = forwardRef<HTMLAnchorElement, UnstyledLinkProps>(({ href, ...props }, ref) => {
+export const OBYLink = forwardRef<HTMLAnchorElement, OBYLinkProps>(({ href, ...props }, ref) => {
   if (href.startsWith('http')) {
     return createElement('a', { href, rel: 'noopener noreferrer', target: '_blank', ...props, ref }, props.children)
   }
@@ -17,4 +17,4 @@ export const UnstyledLink = forwardRef<HTMLAnchorElement, UnstyledLinkProps>(({ 
   )
 })
 
-UnstyledLink.displayName = 'UnstyledLink'
+OBYLink.displayName = 'OBYLink'
