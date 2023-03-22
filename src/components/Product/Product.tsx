@@ -1,12 +1,12 @@
 import { AddCartButton } from '@/components/UI/Button'
-import { OBYImage } from '@/components/UI/Element'
+import { OBYImage, OBYLink } from '@/components/UI/Element'
 
 export default function Product() {
   return (
     <div className='flex flex-col'>
-      <div className='overflow-hidden relative w-[270px] pt-[56%] rounded-tl-4 rounded-br-4'>
+      <OBYLink href='/san-pham' className='overflow-hidden relative w-[270px] pt-[56%] rounded-tl-4 rounded-br-4'>
         <OBYImage src='/images/pd-img.png' alt='alt' display='responsive' className='object-cover' />
-      </div>
+      </OBYLink>
       <p className='h-11 mt-3.5 line-clamp-2'>Combo quà tặng Tết 2023 [GIA ĐƯỜNG AN THỊNH]</p>
       <div className='flex items-center mt-2'>
         <p className='font-bold'>1.699.000₫</p>
