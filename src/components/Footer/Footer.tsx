@@ -1,8 +1,8 @@
 import { NextFont } from 'next/dist/compiled/@next/font'
 
-import { hrefPath } from '@/constants/href.constant'
-
 import twclsx from '@/libs/twclsx'
+
+import { hrefPath } from '@/constants/href.constant'
 
 import { OBYImage, OBYLink } from '@/components/UI/Element'
 import { OBYEmailIcon, OBYLocationIcon, OBYPhoneIcon } from '@/components/UI/OBYIcons'
