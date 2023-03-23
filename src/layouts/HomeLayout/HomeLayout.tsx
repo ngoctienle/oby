@@ -1,28 +1,37 @@
+import { useQuery } from '@tanstack/react-query'
+
+import { Category } from '@/@types/category.type'
+
+import { generateImageFromMagento, getIDListCategory } from '@/helpers/category'
+
+import categoryApi from '@/apis/category.api'
+
 import { OBYImage } from '@/components/UI/Element'
-import {
-  OBYCategoryIcon,
-  OBYChairIcon,
-  OBYClothesIcon,
-  OBYDressIcon,
-  OBYMilkIcon,
-  OBYOatIcon,
-  OBYPharmacyIcon
-} from '@/components/UI/OBYIcons'
+import { OBYCategoryIcon } from '@/components/UI/OBYIcons'
 
 interface HomeLayoutProps {
   children?: React.ReactNode
+  parentCategory: Category[]
 }
 
-const LeftBarContent = [
+/* const LeftBarContent = [
   { icon: <OBYMilkIcon className='w-10 h-10' />, title: 'Sữa dinh dưỡng' },
   { icon: <OBYOatIcon className='w-10 h-10' />, title: 'Ngũ cốc & hạt' },
   { icon: <OBYPharmacyIcon className='w-10 h-10' />, title: 'Thực phẩm chức năng' },
   { icon: <OBYDressIcon className='w-10 h-10' />, title: 'Quần áo cho bà' },
   { icon: <OBYClothesIcon className='w-10 h-10' />, title: 'Quần áo cho ông' },
   { icon: <OBYChairIcon className='w-10 h-10' />, title: 'Dụng cụ hỗ trợ' }
-]
+] */
 
-export const HomeLayout: React.FunctionComponent<HomeLayoutProps> = ({ children }) => {
+export default function HomeLayout({ children, parentCategory }: HomeLayoutProps) {
+  const { data } = useQuery({
+    queryKey: ['categoryAttr'],
+    queryFn: () => categoryApi.GetAttrCategoryById(getIDListCategory(parentCategory)),
+    enabled: parentCategory.length > 0
+  })
+
+  const itemParent = data?.data.items
+
   return (
     <div id='home-content' className='pt-15'>
       <div className='sticky w-full top-[130px] z-[2]'>
@@ -34,12 +43,21 @@ export const HomeLayout: React.FunctionComponent<HomeLayoutProps> = ({ children 
                 <p className='text-oby-676869 fs-14 text-center whitespace-nowrap'>Tất cả danh mục</p>
               </div>
               <div className='bg-oby-F6F7F8 rounded-4 px-3 py-4'>
-                {LeftBarContent.map((item) => (
-                  <div className='flex flex-col gap-0.5 items-center first:mt-0 mt-3' key={item.title}>
-                    {item.icon}
-                    <p className='text-oby-676869 fs-14 text-center'>{item.title}</p>
-                  </div>
-                ))}
+                {itemParent &&
+                  itemParent.map((item) => (
+                    <div className='flex flex-col gap-0.5 items-center first:mt-0 mt-3' key={item.id}>
+                      <div className='w-10 h-10 relative'>
+                        <OBYImage
+                          src={generateImageFromMagento(item.custom_attributes)}
+                          display='responsive'
+                          alt={item.name}
+                          title={item.name}
+                          className='object-cover'
+                        />
+                      </div>
+                      <p className='text-oby-676869 fs-14 text-center'>{item.name}</p>
+                    </div>
+                  ))}
               </div>
             </div>
             <div className='absolute @1600:left-[calc(100%+32px)] left-[calc(100%+4px)]'>

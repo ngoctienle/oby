@@ -1,6 +1,9 @@
-import categoryApi from '@/apis/category.api'
-import { HomeLayout } from '@/layouts'
+import HomeLayout from '@/layouts/HomeLayout'
 import { useQuery } from '@tanstack/react-query'
+
+import { getParentCategory } from '@/helpers/category'
+
+import categoryApi from '@/apis/category.api'
 
 import Banner from '@/components/Banner'
 import BlogList from '@/components/BlogList'
@@ -33,19 +36,20 @@ const CategoryContent = [
 ]
 
 export default function Home() {
-  const { data } = useQuery({
+  const { data: parentCategoryRes } = useQuery({
     queryKey: ['categories'],
     queryFn: () => {
       return categoryApi.GetCategoryList()
     }
   })
-  console.log(data)
+
+  const parentCategory = (parentCategoryRes && getParentCategory(parentCategoryRes.data)) || []
 
   return (
     <>
       <Banner />
 
-      <HomeLayout>
+      <HomeLayout parentCategory={parentCategory}>
         <ProductSuggest />
         <div className='pt-[90px]'>
           <h2 className='fs-26 text-oby-green font-bold mb-7.5'>Mua sắm theo danh mục</h2>
