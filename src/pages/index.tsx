@@ -44,6 +44,7 @@ export default function Home() {
   })
 
   const parentCategory = (parentCategoryRes && getParentCategory(parentCategoryRes.data)) || []
+  console.log(parentCategory)
 
   return (
     <>

@@ -14,15 +14,6 @@ interface HomeLayoutProps {
   parentCategory: Category[]
 }
 
-/* const LeftBarContent = [
-  { icon: <OBYMilkIcon className='w-10 h-10' />, title: 'Sữa dinh dưỡng' },
-  { icon: <OBYOatIcon className='w-10 h-10' />, title: 'Ngũ cốc & hạt' },
-  { icon: <OBYPharmacyIcon className='w-10 h-10' />, title: 'Thực phẩm chức năng' },
-  { icon: <OBYDressIcon className='w-10 h-10' />, title: 'Quần áo cho bà' },
-  { icon: <OBYClothesIcon className='w-10 h-10' />, title: 'Quần áo cho ông' },
-  { icon: <OBYChairIcon className='w-10 h-10' />, title: 'Dụng cụ hỗ trợ' }
-] */
-
 export default function HomeLayout({ children, parentCategory }: HomeLayoutProps) {
   const { data } = useQuery({
     queryKey: ['categoryAttr'],
@@ -43,21 +34,20 @@ export default function HomeLayout({ children, parentCategory }: HomeLayoutProps
                 <p className='text-oby-676869 fs-14 text-center whitespace-nowrap'>Tất cả danh mục</p>
               </div>
               <div className='bg-oby-F6F7F8 rounded-4 px-3 py-4'>
-                {itemParent &&
-                  itemParent.map((item) => (
-                    <div className='flex flex-col gap-0.5 items-center first:mt-0 mt-3' key={item.id}>
-                      <div className='w-10 h-10 relative'>
-                        <OBYImage
-                          src={generateImageFromMagento(item.custom_attributes)}
-                          display='responsive'
-                          alt={item.name}
-                          title={item.name}
-                          className='object-cover'
-                        />
-                      </div>
-                      <p className='text-oby-676869 fs-14 text-center'>{item.name}</p>
+                {itemParent?.map((item) => (
+                  <div className='flex flex-col gap-0.5 items-center first:mt-0 mt-3' key={item.id}>
+                    <div className='w-10 h-10 relative'>
+                      <OBYImage
+                        src={generateImageFromMagento(item.custom_attributes)}
+                        display='responsive'
+                        alt={item.name}
+                        title={item.name}
+                        className='object-cover'
+                      />
                     </div>
-                  ))}
+                    <p className='text-oby-676869 fs-14 text-center'>{item.name}</p>
+                  </div>
+                ))}
               </div>
             </div>
             <div className='absolute @1600:left-[calc(100%+32px)] left-[calc(100%+4px)]'>

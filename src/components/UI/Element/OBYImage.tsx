@@ -21,6 +21,9 @@ export const OBYImage: React.FunctionComponent<OBYImage> = ({
         title={alt}
         loading='lazy'
         placeholder='blur'
+        sizes='(max-width: 768px) 100vw,
+        (max-width: 1200px) 50vw,
+        33vw'
         blurDataURL={props.blurDataURL ?? '/blur.svg'}
         {...props}
       />
