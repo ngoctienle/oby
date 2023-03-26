@@ -13,6 +13,7 @@ declare module 'oby' {
 
   export type OBYImage = {
     display?: 'responsive' | 'intrinsic'
+    ref?: React.RefObject<HTMLImageElement>
     alt: string
   }
 

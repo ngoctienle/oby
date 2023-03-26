@@ -1,7 +1,10 @@
 import HomeLayout from '@/layouts/HomeLayout'
 import { useQuery } from '@tanstack/react-query'
+import { Element as TriggerScroll } from 'react-scroll'
 
-import { getParentCategory } from '@/helpers/category'
+import { ItemWithAttribute } from '@/@types/category.type'
+
+import { getIDListCategoryAsString, getParentCategory } from '@/helpers/category'
 
 import categoryApi from '@/apis/category.api'
 
@@ -42,15 +45,21 @@ export default function Home() {
       return categoryApi.GetCategoryList()
     }
   })
-
   const parentCategory = (parentCategoryRes && getParentCategory(parentCategoryRes.data)) || []
-  console.log(parentCategory)
+
+  const { data: parentCategoryAttrRes } = useQuery({
+    queryKey: ['categoryAttr'],
+    queryFn: () => categoryApi.GetAttrCategoryById(getIDListCategoryAsString(parentCategory)),
+    enabled: parentCategory.length > 0
+  })
+
+  const parentCategoryItem = parentCategoryAttrRes?.data.items as ItemWithAttribute[]
 
   return (
     <>
       <Banner />
 
-      <HomeLayout parentCategory={parentCategory}>
+      <HomeLayout dataCategory={parentCategoryItem}>
         <ProductSuggest />
         <div className='pt-[90px]'>
           <h2 className='fs-26 text-oby-green font-bold mb-7.5'>Mua sắm theo danh mục</h2>
@@ -65,10 +74,15 @@ export default function Home() {
             ))}
           </div>
         </div>
-
-        <ProductList title='Dinh dưỡng' />
-        <ProductList title='Thời trang' />
-        <ProductList title='Dụng cụ hỗ trợ' />
+        {parentCategory.length > 0 &&
+          parentCategory.map((item) => {
+            console.log(item.children_data)
+            return (
+              <TriggerScroll name={item.name} key={item.id}>
+                <ProductList category={item.name} subcategory={item.children_data} />
+              </TriggerScroll>
+            )
+          })}
         <BlogList />
       </HomeLayout>
     </>

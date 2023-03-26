@@ -1,4 +1,3 @@
-import { useWindowScrollY } from '@/hooks'
 import { MagnifyingGlassIcon, ShoppingBagIcon, UserCircleIcon } from '@heroicons/react/24/outline'
 import { NextFont } from 'next/dist/compiled/@next/font'
 
@@ -14,10 +13,9 @@ interface HeaderProps {
 }
 
 export default function Header({ font }: HeaderProps) {
-  const y = useWindowScrollY()
   return (
     <>
-      <header className={twclsx(font.className, 'sticky top-0 inset-x-0 z-10', y > 0 && 'border border-oby-DFDFDF')}>
+      <header className={twclsx(font.className, 'sticky top-0 inset-x-0 z-10')}>
         <div className='bg-[#F6F7F8] py-1.5'>
           <div className='container'>
             <div className='flex items-center'>

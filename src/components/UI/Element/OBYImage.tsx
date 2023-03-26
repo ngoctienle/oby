@@ -15,17 +15,14 @@ export const OBYImage: React.FunctionComponent<OBYImage> = ({
   if (display === 'responsive') {
     return (
       <Image
+        {...props}
         fill
         src={src}
         alt={alt}
         title={alt}
         loading='lazy'
         placeholder='blur'
-        sizes='(max-width: 768px) 100vw,
-        (max-width: 1200px) 50vw,
-        33vw'
         blurDataURL={props.blurDataURL ?? '/blur.svg'}
-        {...props}
       />
     )
   }

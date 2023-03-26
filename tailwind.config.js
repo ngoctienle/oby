@@ -19,6 +19,7 @@ module.exports = {
         'oby-E4FBDB': '#E4FBDB'
       },
       screens: {
+        '@1544': '1544px',
         '@1600': '1600px'
       },
       spacing: {
@@ -28,6 +29,7 @@ module.exports = {
         3.25: '13px',
         3.5: '14px',
         4.5: '18px',
+        6.25: '25px',
         6.5: '26px',
         7.5: '30px',
         9.5: '38px',
@@ -66,6 +68,12 @@ module.exports = {
         },
         '.fs-16': {
           fontSize: '16px'
+        },
+        '.fs-18': {
+          fontSize: '18px'
+        },
+        '.fs-24': {
+          fontSize: '24px'
         },
         '.fs-26': {
           fontSize: '26px'

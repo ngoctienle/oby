@@ -8,7 +8,7 @@ export const getParentCategory = (data: Category) => {
   }
 }
 
-export const getIDListCategory = (data: Category[]) => {
+export const getIDListCategoryAsString = (data: Category[]) => {
   return data.map((item) => item.id).join(',')
 }
 
