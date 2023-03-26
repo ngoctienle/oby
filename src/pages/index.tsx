@@ -63,7 +63,7 @@ export default function Home() {
       <Banner />
 
       <HomeLayout dataCategory={parentCategoryItem}>
-        <ProductSuggest />
+        {/* <ProductSuggest /> */}
         <div className='pt-[90px]'>
           <h2 className='fs-26 text-oby-green font-bold mb-7.5'>Mua sắm theo danh mục</h2>
           <div className='grid grid-cols-5 gap-x-7.5 gap-y-6'>
