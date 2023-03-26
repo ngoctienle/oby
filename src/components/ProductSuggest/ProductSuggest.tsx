@@ -27,9 +27,7 @@ export default function ProductSuggest() {
         {Array(8)
           .fill(0)
           .map((_, index) => (
-            <SwiperSlide key={index}>
-              <Product />
-            </SwiperSlide>
+            <SwiperSlide key={index}>{/* <Product /> */}</SwiperSlide>
           ))}
       </Swiper>
     </>

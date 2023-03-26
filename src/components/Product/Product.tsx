@@ -1,7 +1,21 @@
+import { formatCurrency, getDiscountPercent } from '@/helpers'
+
+import { Product as ProductType } from '@/@types/product.type'
+
+import { getDiscount, isHaveDiscount } from '@/helpers/product'
+
 import { AddCartButton } from '@/components/UI/Button'
 import { OBYImage, OBYLink } from '@/components/UI/Element'
 
-export default function Product() {
+interface ProductProps {
+  data: ProductType
+}
+
+export default function Product({ data }: ProductProps) {
+  if (!data) {
+    return null
+  }
+
   return (
     <div className='flex flex-col'>
       <OBYLink
@@ -10,11 +24,19 @@ export default function Product() {
       >
         <OBYImage src='/images/pd-img.png' alt='alt' display='responsive' className='object-cover' />
       </OBYLink>
-      <p className='h-11 mt-3.5 line-clamp-2'>Combo quà tặng Tết 2023 [GIA ĐƯỜNG AN THỊNH]</p>
+      <p className='h-11 mt-3.5 line-clamp-2'>{data.name}</p>
       <div className='flex items-center mt-2'>
-        <p className='font-bold'>1.699.000₫</p>
-        <p className='line-through mx-3 text-oby-676869'>1.999.000₫</p>
-        <p className='fs-14 text-oby-orange px-1.5 py-0.75 rounded-lg border border-oby-orange'>-15%</p>
+        {isHaveDiscount(data.custom_attributes) ? (
+          <>
+            <p className='font-bold'>{getDiscount(data.custom_attributes)}</p>
+            <p className='line-through mx-3 text-oby-676869'>{formatCurrency(data.price)}</p>
+            <p className='fs-14 text-oby-orange px-1.5 py-0.75 rounded-lg border border-oby-orange'>
+              {getDiscountPercent(data.custom_attributes)}
+            </p>
+          </>
+        ) : (
+          <p className='font-bold'>{formatCurrency(data.price)}</p>
+        )}
       </div>
       <AddCartButton className='mt-3.5' />
     </div>

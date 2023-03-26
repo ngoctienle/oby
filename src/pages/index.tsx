@@ -1,5 +1,6 @@
 import HomeLayout from '@/layouts/HomeLayout'
 import { useQuery } from '@tanstack/react-query'
+import { useMemo } from 'react'
 import { Element as TriggerScroll } from 'react-scroll'
 
 import { ItemWithAttribute } from '@/@types/category.type'
@@ -53,7 +54,9 @@ export default function Home() {
     enabled: parentCategory.length > 0
   })
 
-  const parentCategoryItem = parentCategoryAttrRes?.data.items as ItemWithAttribute[]
+  const parentCategoryItem = useMemo(() => {
+    return parentCategoryAttrRes?.data.items as ItemWithAttribute[]
+  }, [parentCategoryAttrRes])
 
   return (
     <>
@@ -76,12 +79,13 @@ export default function Home() {
         </div>
         {parentCategory.length > 0 &&
           parentCategory.map((item) => {
-            console.log(item.children_data)
-            return (
-              <TriggerScroll name={item.name} key={item.id}>
-                <ProductList category={item.name} subcategory={item.children_data} />
-              </TriggerScroll>
-            )
+            if (item.is_active) {
+              return (
+                <TriggerScroll name={item.name} key={item.id}>
+                  <ProductList categoryID={item.id} category={item.name} subcategory={item.children_data} />
+                </TriggerScroll>
+              )
+            }
           })}
         <BlogList />
       </HomeLayout>

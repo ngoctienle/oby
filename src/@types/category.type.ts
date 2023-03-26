@@ -1,3 +1,5 @@
+import { CustomAttribute, SearchCriteria } from './magento.type'
+
 export interface Category {
   id: number
   parent_id: number
@@ -9,7 +11,7 @@ export interface Category {
   children_data: Category[]
 }
 
-export interface AttributeSearch {
+export interface CategoryResponse {
   items: ItemWithAttribute[]
   search_criteria: SearchCriteria
   total_count: number
@@ -29,23 +31,4 @@ export interface ItemWithAttribute {
   available_sort_by: unknown[]
   include_in_menu: boolean
   custom_attributes: CustomAttribute[]
-}
-
-export interface CustomAttribute {
-  attribute_code: string
-  value: string
-}
-
-export interface SearchCriteria {
-  filter_groups: FilterGroup[]
-}
-
-export interface FilterGroup {
-  filters: Filter[]
-}
-
-export interface Filter {
-  field: string
-  value: string
-  condition_type: string
 }
