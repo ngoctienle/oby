@@ -4,7 +4,7 @@ import 'swiper/css/pagination'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/swiper.min.css'
 
-import Product from '@/components/Product'
+/* import Product from '@/components/Product' */
 
 export default function ProductSuggest() {
   return (

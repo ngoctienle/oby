@@ -12,7 +12,8 @@ import categoryApi from '@/apis/category.api'
 import Banner from '@/components/Banner'
 import BlogList from '@/components/BlogList'
 import ProductList from '@/components/ProductList'
-import ProductSuggest from '@/components/ProductSuggest'
+
+/* import ProductSuggest from '@/components/ProductSuggest' */
 import {
   OBYChairIcon,
   OBYClothesIcon,
