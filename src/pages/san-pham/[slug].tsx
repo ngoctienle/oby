@@ -1,7 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
+import { formatCurrency, getDiscountPercent, getIdFromNameId, getSKUFromNameId } from '@/helpers'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
+import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import React, { useRef } from 'react'
+
+import { getDiscount, isHaveDiscount } from '@/helpers/product'
+
+import categoryApi from '@/apis/category.api'
+import productApi from '@/apis/product.api'
 
 import Breadcrumb from '@/components/Breadcrumb'
 import ProductRating from '@/components/ProductRating'
@@ -9,6 +17,42 @@ import { OBYCommentIcon } from '@/components/UI/OBYIcons'
 
 export default function ProductDetail() {
   const imgRef = useRef<HTMLImageElement>(null)
+
+  const router = useRouter()
+  const { slug } = router.query
+
+  const subId = (slug && getIdFromNameId(slug as string)) || ''
+  const sku = (slug && getSKUFromNameId(slug as string)) || ''
+
+  const { data: subCategoryRes } = useQuery({
+    queryKey: ['subcategory', subId],
+    queryFn: () => categoryApi.GetCategoryNameById(subId),
+    enabled: !!subId
+  })
+
+  const parentCategoryID = (subCategoryRes && subCategoryRes.data.parent_id.toString()) || ''
+
+  const { data: parentCategoryRes } = useQuery({
+    queryKey: ['parentcategory', parentCategoryID],
+    queryFn: () => categoryApi.GetCategoryNameById(parentCategoryID),
+    enabled: !!parentCategoryID
+  })
+
+  const { data: productRes } = useQuery({
+    queryKey: ['productdetail', sku],
+    queryFn: () => productApi.GetProductDetailBySKU(sku),
+    enabled: !!sku
+  })
+
+  const productData = productRes && productRes.data
+
+  const subName = subCategoryRes && subCategoryRes.data.name
+  const parentName = parentCategoryRes && parentCategoryRes.data.name
+  const productName = productData && productData.name
+
+  if (!subName || !parentName || !productName) {
+    return null
+  }
 
   const handleZoom = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const rect = e.currentTarget.getBoundingClientRect()
@@ -47,7 +91,7 @@ export default function ProductDetail() {
 
   return (
     <section className='pt-4'>
-      <Breadcrumb />
+      <Breadcrumb cateName={parentName as string} subCateName={subName as string} productName={productName as string} />
       <div className='container'>
         <div className='grid grid-cols-12 gap-10'>
           <div className='col-span-5'>
@@ -95,7 +139,7 @@ export default function ProductDetail() {
             </div>
           </div>
           <div className='col-span-7'>
-            <h1 className='font-semibold fs-24'>Nước Hồng Sâm Đông Trùng Hạ Thảo Daesan Hàn Quốc 70ml x 20 gói</h1>
+            <h1 className='font-semibold fs-24'>{productName}</h1>
             <div className='flex items-center mt-5'>
               <div className='flex items-center gap-2'>
                 <ProductRating rating={4.34} />
@@ -107,9 +151,17 @@ export default function ProductDetail() {
               </div>
             </div>
             <div className='bg-oby-F6F7F8 px-5 py-4 rounded-4 max-w-max flex items-center gap-4 mt-6.25'>
-              <p className='fs-26 font-semibold'>1.699.000₫</p>
-              <p className='fs-18 line-through text-oby-676869'>1.999.000₫</p>
-              <p className='fs-14 text-oby-orange px-1.5 py-0.75 rounded-lg border border-oby-orange'>-15%</p>
+              {isHaveDiscount(productData.custom_attributes) ? (
+                <>
+                  <p className='fs-26 font-semibold text-oby-orange'>{getDiscount(productData.custom_attributes)}</p>
+                  <p className='fs-18 line-through text-oby-676869'>{formatCurrency(productData.price)}</p>
+                  <p className='fs-14 text-oby-orange px-1.5 py-0.75 rounded-lg border border-oby-orange'>
+                    {getDiscountPercent(productData.custom_attributes)}
+                  </p>
+                </>
+              ) : (
+                <p className='fs-26 font-semibold text-oby-orange'>{formatCurrency(productData.price)}</p>
+              )}
             </div>
           </div>
         </div>

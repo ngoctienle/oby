@@ -80,7 +80,7 @@ export default function Home() {
         </div>
         {parentCategory.length > 0 &&
           parentCategory.map((item) => {
-            if (item.is_active) {
+            if (item.is_active && item.product_count !== 0) {
               return (
                 <TriggerScroll name={item.name} key={item.id}>
                   <ProductList categoryID={item.id} category={item.name} subcategory={item.children_data} />

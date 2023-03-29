@@ -12,3 +12,30 @@ export function getDiscountPercent(data: CustomAttribute[]) {
 
   return '-' + discountPercent + '%'
 }
+
+function removeAccents(str: string) {
+  return str
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/đ/g, 'd')
+    .replace(/Đ/g, 'D')
+}
+function removeSpecialCharacter(str: string) {
+  return str.replace(/[^a-zA-Z0-9 ]/g, '').toLocaleLowerCase()
+}
+
+export function createSlug(str: string) {
+  return removeSpecialCharacter(removeAccents(str)).replace(/\s+/g, '-')
+}
+
+export function getIdFromNameId(nameId: string) {
+  const arr = nameId.split('-id-')
+
+  return arr[arr.length - 1]
+}
+
+export function getSKUFromNameId(nameId: string) {
+  const arr = nameId.split('-id-')
+
+  return arr[0]
+}

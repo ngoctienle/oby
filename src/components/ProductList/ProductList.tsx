@@ -24,7 +24,7 @@ export default function ProductList({ category, subcategory, categoryID }: Produ
 
   const productData = data?.data
 
-  if (productData && productData.total_count === 0) {
+  if (!productData || (productData && productData.total_count === 0)) {
     return null
   }
 
@@ -47,7 +47,7 @@ export default function ProductList({ category, subcategory, categoryID }: Produ
           ))}
       </div>
       <div className='mt-6 pt-6 border-t border-t-oby-DFDFDF grid grid-cols-4 gap-10'>
-        {productData?.items.map((item) => (
+        {productData.items.map((item) => (
           <div className='col-span-1' key={item.id}>
             <Product data={item} />
           </div>

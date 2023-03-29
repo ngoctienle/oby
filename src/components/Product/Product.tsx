@@ -2,7 +2,9 @@ import { formatCurrency, getDiscountPercent } from '@/helpers'
 
 import { Product as ProductType } from '@/@types/product.type'
 
-import { getDiscount, isHaveDiscount } from '@/helpers/product'
+import { generateProductLink, getDiscount, isHaveDiscount } from '@/helpers/product'
+
+import { hrefPath } from '@/constants/href.constant'
 
 import { AddCartButton } from '@/components/UI/Button'
 import { OBYImage, OBYLink } from '@/components/UI/Element'
@@ -19,8 +21,8 @@ export default function Product({ data }: ProductProps) {
   return (
     <div className='flex flex-col'>
       <OBYLink
-        href='/sua-dinh-duong/san-pham-sua-example-2023'
-        className='overflow-hidden relative w-[270px] pt-[56%] rounded-tl-4 rounded-br-4'
+        href={`${hrefPath.productDetail}/${generateProductLink(data)}`}
+        className='overflow-hidden relative w-[270px] border bg-white border-oby-DFDFDF pt-[56%] rounded-tl-4 rounded-br-4'
       >
         <OBYImage src='/images/pd-img.png' alt='alt' display='responsive' className='object-cover' />
       </OBYLink>
