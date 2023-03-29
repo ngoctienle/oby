@@ -4,6 +4,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import type { AppProps } from 'next/app'
 import { Inter } from 'next/font/google'
 import Script from 'next/script'
+import NextNProgress from 'nextjs-progressbar'
 import { Fragment } from 'react'
 import { Toaster } from 'react-hot-toast'
 
@@ -28,6 +29,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <Fragment>
       <QueryClientProvider client={queryClient}>
+        <NextNProgress height={2} startPosition={0.3} stopDelayMs={200} showOnShallow={true} color='#4AA02C' />
         <HeaderAds />
         <Header font={inter} />
         <main className={inter.className}>
