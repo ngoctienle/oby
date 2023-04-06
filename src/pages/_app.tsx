@@ -1,5 +1,5 @@
 import '@/styles/globals.css'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import type { AppProps } from 'next/app'
 import { Inter } from 'next/font/google'
@@ -29,24 +29,25 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <Fragment>
       <QueryClientProvider client={queryClient}>
-        <NextNProgress height={2} startPosition={0.3} stopDelayMs={200} showOnShallow={true} color='#4AA02C' />
-        <HeaderAds />
-        <Header font={inter} />
-        <main className={inter.className}>
-          <Component {...pageProps} />
-        </main>
-        <ToTopButton />
-        <Footer font={inter} />
-        <Toaster
-          position='top-center'
-          reverseOrder={true}
-          toastOptions={{
-            className: twclsx('rounded-1.5'),
-            duration: 2500
-          }}
-        />
-        <Script id='tawk' strategy='lazyOnload'>
-          {`
+        <Hydrate state={pageProps.dehydratedState}>
+          <NextNProgress height={2} startPosition={0.3} stopDelayMs={200} showOnShallow={true} color='#4AA02C' />
+          <HeaderAds />
+          <Header font={inter} />
+          <main className={inter.className}>
+            <Component {...pageProps} />
+          </main>
+          <ToTopButton />
+          <Footer font={inter} />
+          <Toaster
+            position='top-center'
+            reverseOrder={true}
+            toastOptions={{
+              className: twclsx('rounded-1.5'),
+              duration: 2500
+            }}
+          />
+          <Script id='tawk' strategy='lazyOnload'>
+            {`
             var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
             (function(){
             var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
@@ -57,8 +58,9 @@ export default function App({ Component, pageProps }: AppProps) {
             s0.parentNode.insertBefore(s1,s0);
             })();  
         `}
-        </Script>
-        <ReactQueryDevtools initialIsOpen={false} />
+          </Script>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </Hydrate>
       </QueryClientProvider>
     </Fragment>
   )

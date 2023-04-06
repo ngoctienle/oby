@@ -1,7 +1,14 @@
 import { MagnifyingGlassIcon, ShoppingBagIcon, UserCircleIcon } from '@heroicons/react/24/outline'
+import { useQuery } from '@tanstack/react-query'
+import Cookies from 'js-cookie'
 import { NextFont } from 'next/dist/compiled/@next/font'
+import { useEffect } from 'react'
+import { toast } from 'react-hot-toast'
 
+import { useGlobalState } from '@/libs/state'
 import twclsx from '@/libs/twclsx'
+
+import cartApi from '@/apis/cart.api'
 
 import { hrefPath } from '@/constants/href.constant'
 
@@ -13,6 +20,33 @@ interface HeaderProps {
 }
 
 export default function Header({ font }: HeaderProps) {
+  const [guestCartId, setGuestCartId] = useGlobalState('guestCartId')
+  const [user] = useGlobalState('user')
+
+  useEffect(() => {
+    if (!guestCartId && !user) {
+      cartApi
+        .GenerateGuestCart()
+        .then((response) => {
+          const data = response.data
+          setGuestCartId(data)
+          Cookies.set('guestCartId', data)
+        })
+        .catch((error) => {
+          toast.error(error.message)
+        })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const { data: guestData } = useQuery({
+    queryKey: ['guestCart', guestCartId],
+    queryFn: () => cartApi.GetGuestCart(guestCartId || ''),
+    enabled: !!guestCartId
+  })
+
+  const cartData = guestData?.data
+
   return (
     <>
       <header className={twclsx(font.className, 'sticky top-0 inset-x-0 z-10')}>
@@ -69,8 +103,8 @@ export default function Header({ font }: HeaderProps) {
               <div className='flex flex-col items-center'>
                 <div className='relative'>
                   <ShoppingBagIcon className='w-8 h-8 text-oby-676869' strokeWidth={1} />
-                  <p className='absolute flex items-center justify-center top-2 -right-1 w-5 h-5 fs-11 bg-oby-primary text-white rounded-full'>
-                    2
+                  <p className='absolute flex items-center justify-center top-1 -right-1 w-4.5 h-5.5 fs-11 bg-oby-primary text-white rounded-full'>
+                    {cartData?.items.length}
                   </p>
                 </div>
                 <p className='fs-12'>Giỏ hàng</p>

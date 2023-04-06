@@ -1,7 +1,7 @@
-import { createSlug } from '@/helpers'
-
 import { Category } from '@/@types/category.type'
 import { CustomAttribute } from '@/@types/magento.type'
+
+import { createSlug } from '@/helpers'
 
 import { SITE_URL } from '@/constants/domain.constant'
 
@@ -15,7 +15,7 @@ export const getIDListCategoryAsString = (data: Category[]) => {
   return data.map((item) => item.id).join(',')
 }
 
-export const generateImageFromMagento = (data: CustomAttribute[]) => {
+export const generateCategoryImageFromMagento = (data: CustomAttribute[]) => {
   const item = data.find((item) => item.attribute_code === 'image')
   return `${SITE_URL}${item?.value}`
 }

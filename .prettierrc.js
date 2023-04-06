@@ -9,8 +9,10 @@ const config = {
   endOfLine: 'auto',
   importOrder: [
     '@/@types/(.*)$',
+    '@/contexts/(.*)$',
     '@/hooks/(.*)$',
     '@/libs/(.*)$',
+    '@/helpers',
     '@/helpers/(.*)$',
     '@/apis/(.*)$',
     '@/constants/*(.*)$',

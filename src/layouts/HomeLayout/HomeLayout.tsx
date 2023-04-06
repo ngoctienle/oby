@@ -2,7 +2,7 @@ import { Link as ScrollHandler } from 'react-scroll'
 
 import { ItemWithAttribute } from '@/@types/category.type'
 
-import { generateImageFromMagento } from '@/helpers/category'
+import { generateCategoryImageFromMagento } from '@/helpers/category'
 
 import { OBYImage } from '@/components/UI/Element'
 import { OBYCategoryIcon } from '@/components/UI/OBYIcons'
@@ -37,7 +37,7 @@ export default function HomeLayout({ children, dataCategory }: HomeLayoutProps) 
                   >
                     <div className='w-10 h-10 relative'>
                       <OBYImage
-                        src={generateImageFromMagento(item.custom_attributes)}
+                        src={generateCategoryImageFromMagento(item.custom_attributes)}
                         display='responsive'
                         alt={item.name}
                         title={item.name}

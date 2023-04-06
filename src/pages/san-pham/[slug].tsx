@@ -1,22 +1,26 @@
 /* eslint-disable @next/next/no-img-element */
-import { formatCurrency, getDiscountPercent, getIdFromNameId, getSKUFromNameId } from '@/helpers'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 import { useQuery } from '@tanstack/react-query'
+import DOMPurify from 'dompurify'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 
-import { getDiscount, isHaveDiscount } from '@/helpers/product'
+import { formatCurrency, getDiscountPercent, getIdFromNameId, getSKUFromNameId } from '@/helpers'
+import { generateProductImageFromMagento, getDescription, getDiscount, isHaveDiscount } from '@/helpers/product'
 
 import categoryApi from '@/apis/category.api'
 import productApi from '@/apis/product.api'
 
 import Breadcrumb from '@/components/Breadcrumb'
 import ProductRating from '@/components/ProductRating'
+import QuantityController from '@/components/QuantityController'
+import { AddCartButton, BuyNowButton } from '@/components/UI/Button'
 import { OBYCommentIcon } from '@/components/UI/OBYIcons'
 
 export default function ProductDetail() {
   const imgRef = useRef<HTMLImageElement>(null)
+  const [buyCount, setBuyCount] = useState(1)
 
   const router = useRouter()
   const { slug } = router.query
@@ -89,11 +93,15 @@ export default function ProductDetail() {
     }
   } */
 
+  const handleBuyCount = (value: number) => {
+    setBuyCount(value)
+  }
+
   return (
     <section className='pt-4'>
       <Breadcrumb cateName={parentName as string} subCateName={subName as string} productName={productName as string} />
       <div className='container'>
-        <div className='grid grid-cols-12 gap-10'>
+        <div className='grid grid-cols-12 gap-10 mb-10'>
           <div className='col-span-5'>
             <div
               className='relative w-full pt-[56%] cursor-zoom-in overflow-hidden rounded-tl-4 rounded-br-4'
@@ -101,20 +109,20 @@ export default function ProductDetail() {
               onMouseLeave={handleRemoveZoom}
             >
               <img
-                src='/images/pd-img.png'
+                src={generateProductImageFromMagento(productData.custom_attributes)}
                 alt='alt'
                 className='pointer-events-none absolute w-full h-full top-0 inset-0 object-cover bg-white'
                 ref={imgRef}
               />
             </div>
-            <div className='relative mt-4 grid grid-cols-4 gap-2 md:gap-3 lg:mt-6 '>
+            <div className='relative mt-4 grid grid-cols-5 gap-1 md:gap-2 lg:mt-6 '>
               <button
-                className='absolute -left-4 top-1/2 h-4 w-4 -translate-y-1/2 bg-transparent md:-left-5'
+                className='absolute -left-1 top-1/2 h-4 w-4 -translate-y-1/2 bg-transparent md:-left-3'
                 /* onClick={prevSlide} */
               >
                 <ChevronLeftIcon className='h-4 w-4' />
               </button>
-              {Array(4)
+              {Array(5)
                 .fill(0)
                 .map((_, index) => {
                   /* const isActive = img === activeImage */
@@ -131,7 +139,7 @@ export default function ProductDetail() {
                   )
                 })}
               <button
-                className='absolute -right-4 top-1/2 h-4 w-4 -translate-y-1/2 bg-transparent md:-right-5'
+                className='absolute -right-1 top-1/2 h-4 w-4 -translate-y-1/2 bg-transparent md:-right-3'
                 /* onClick={nextSlide} */
               >
                 <ChevronRightIcon className='h-4 w-4' />
@@ -153,7 +161,7 @@ export default function ProductDetail() {
             <div className='bg-oby-F6F7F8 px-5 py-4 rounded-4 max-w-max flex items-center gap-4 mt-6.25'>
               {isHaveDiscount(productData.custom_attributes) ? (
                 <>
-                  <p className='fs-26 font-semibold text-oby-orange'>{getDiscount(productData.custom_attributes)}</p>
+                  <p className='fs-26 font-semibold'>{getDiscount(productData.custom_attributes)}</p>
                   <p className='fs-18 line-through text-oby-676869'>{formatCurrency(productData.price)}</p>
                   <p className='fs-14 text-oby-orange px-1.5 py-0.75 rounded-lg border border-oby-orange'>
                     {getDiscountPercent(productData.custom_attributes)}
@@ -163,7 +171,28 @@ export default function ProductDetail() {
                 <p className='fs-26 font-semibold text-oby-orange'>{formatCurrency(productData.price)}</p>
               )}
             </div>
+            <QuantityController
+              classNameWrapper='max-w-max mt-6'
+              onDecrease={handleBuyCount}
+              onIncrease={handleBuyCount}
+              onTyping={handleBuyCount}
+              value={buyCount}
+              max={productData.extension_attributes.stock_item.qty}
+            />
+            <div className='mt-6 flex items-center gap-5'>
+              <AddCartButton className='min-w-[270px]' />
+              <BuyNowButton className='min-w-[270px]' />
+            </div>
           </div>
+        </div>
+        <div className='pt-15 border-t border-t-oby-primary'>
+          <h2 className='fs-26 font-bold text-oby-green'>Chi tiết sản phẩm</h2>
+          <div
+            className='fs-18 mt-7.5'
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(getDescription(productData.custom_attributes) as string)
+            }}
+          ></div>
         </div>
       </div>
     </section>

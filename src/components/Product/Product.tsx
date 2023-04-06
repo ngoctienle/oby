@@ -1,8 +1,7 @@
-import { formatCurrency, getDiscountPercent } from '@/helpers'
-
 import { Product as ProductType } from '@/@types/product.type'
 
-import { generateProductLink, getDiscount, isHaveDiscount } from '@/helpers/product'
+import { formatCurrency, getDiscountPercent } from '@/helpers'
+import { generateProductImageFromMagento, generateProductLink, getDiscount, isHaveDiscount } from '@/helpers/product'
 
 import { hrefPath } from '@/constants/href.constant'
 
@@ -24,7 +23,12 @@ export default function Product({ data }: ProductProps) {
         href={`${hrefPath.productDetail}/${generateProductLink(data)}`}
         className='overflow-hidden relative w-[270px] border bg-white border-oby-DFDFDF pt-[56%] rounded-tl-4 rounded-br-4'
       >
-        <OBYImage src='/images/pd-img.png' alt='alt' display='responsive' className='object-cover' />
+        <OBYImage
+          src={generateProductImageFromMagento(data.custom_attributes)}
+          alt='alt'
+          display='responsive'
+          className='object-cover'
+        />
       </OBYLink>
       <p className='h-11 mt-3.5 line-clamp-2'>{data.name}</p>
       <div className='flex items-center mt-2'>
