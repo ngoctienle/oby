@@ -11,8 +11,8 @@ const nextConfig = {
   },
   swcMinify: true,
   compress: true,
-  cssLoaderOptions: {
-    modules: false
+  css: {
+    module: false
   }
 }
 

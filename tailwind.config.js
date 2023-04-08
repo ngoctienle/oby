@@ -20,10 +20,14 @@ module.exports = {
       },
       screens: {
         '@1544': '1544px',
-        '@1600': '1600px'
+        '@1600': '1600px',
+        '@992': '992px',
+        '@768': '768px'
       },
       spacing: {
         0.75: '3px',
+        1.25: '5px',
+        2.25: '9px',
         2.5: '10px',
         2.75: '11px',
         3.25: '13px',
@@ -57,6 +61,9 @@ module.exports = {
           paddingLeft: '16px',
           paddingRight: '16px'
         },
+        '.fs-10': {
+          fontSize: '10px'
+        },
         '.fs-11': {
           fontSize: '11px'
         },
@@ -72,6 +79,9 @@ module.exports = {
         '.fs-18': {
           fontSize: '18px'
         },
+        '.fs-20': {
+          fontSize: '20px'
+        },
         '.fs-24': {
           fontSize: '24px'
         },
@@ -83,6 +93,7 @@ module.exports = {
         }
       })
     }),
-    require('@tailwindcss/line-clamp')
+    require('@tailwindcss/line-clamp'),
+    require('tailwind-scrollbar')({ nocompatible: true })
   ]
 }

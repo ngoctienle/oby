@@ -14,7 +14,7 @@ interface HomeLayoutProps {
 
 export default function HomeLayout({ children, dataCategory }: HomeLayoutProps) {
   return (
-    <div id='home-content' className='pt-15'>
+    <div id='home-content' className='@992:pt-15 pt-7'>
       <div className='hidden @1544:block @1544:sticky @1544:w-full @1544:top-[130px] @1544:z-[2]'>
         <div className='container' style={{ position: 'relative', zIndex: '-1' }}>
           <div className='flex'>

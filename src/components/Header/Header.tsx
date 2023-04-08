@@ -1,4 +1,5 @@
-import { MagnifyingGlassIcon, ShoppingBagIcon, UserCircleIcon } from '@heroicons/react/24/outline'
+import { useWindowScrollY } from '@/hooks'
+import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, UserCircleIcon } from '@heroicons/react/24/outline'
 import { useQuery } from '@tanstack/react-query'
 import Cookies from 'js-cookie'
 import { NextFont } from 'next/dist/compiled/@next/font'
@@ -20,6 +21,7 @@ interface HeaderProps {
 }
 
 export default function Header({ font }: HeaderProps) {
+  const y = useWindowScrollY()
   const [guestCartId, setGuestCartId] = useGlobalState('guestCartId')
   const [user] = useGlobalState('user')
 
@@ -50,7 +52,8 @@ export default function Header({ font }: HeaderProps) {
   return (
     <>
       <header className={twclsx(font.className, 'sticky top-0 inset-x-0 z-10')}>
-        <div className='bg-[#F6F7F8] py-1.5'>
+        {/* Top Header */}
+        <div className='bg-[#F6F7F8] py-1.5 @992:block hidden'>
           <div className='container'>
             <div className='flex items-center'>
               <div className='flex items-center gap-1'>
@@ -76,13 +79,14 @@ export default function Header({ font }: HeaderProps) {
             </div>
           </div>
         </div>
-        <div className='bg-white'>
+        {/*  Main Header */}
+        <div className={`@992:bg-white bg-transparent ${y > 0 && 'bg-white'}`}>
           <div className='container'>
-            <div className='flex gap-12.5 items-center py-1.5'>
+            <div className='flex gap-12.5 items-center @992:py-1.5 py-3'>
               <OBYLink
                 href={hrefPath.home}
                 title='OBY Trang chủ'
-                className='flex items-center justify-center w-[56px] h-[56px] relative'
+                className='@992:flex hidden items-center justify-center w-[56px] h-[56px] relative'
               >
                 <OBYImage
                   display='responsive'
@@ -92,24 +96,26 @@ export default function Header({ font }: HeaderProps) {
                   className='object-cover'
                 />
               </OBYLink>
-              <form className='flex items-center flex-grow border border-oby-DFDFDF rounded-tl-5 rounded-br-5 py-2.75 px-6'>
+              <Bars3Icon className='@992:hidden inline-block w-7 h-7' />
+              {/* Search Form */}
+              <form className='flex items-center flex-grow border bg-white border-oby-DFDFDF rounded-tl-5 rounded-br-5 @992:py-2.75 @992:px-6 px-3 py-3.25'>
                 <input
                   type='text'
                   placeholder='Cô chú cần tìm món hàng gì'
-                  className='outline-none w-full placeholder:text-oby-9A9898'
+                  className='outline-none w-full placeholder:text-oby-9A9898 placeholder:fs-14 @992:placeholder:fs-16'
                 />
                 <MagnifyingGlassIcon className='w-4.5 h-4.5' />
               </form>
               <div className='flex flex-col items-center'>
                 <div className='relative'>
                   <ShoppingBagIcon className='w-8 h-8 text-oby-676869' strokeWidth={1} />
-                  <p className='absolute flex items-center justify-center top-1 -right-1 w-4.5 h-5.5 fs-11 bg-oby-primary text-white rounded-full'>
+                  <p className='absolute flex items-center justify-center top-1 -right-1 w-4.5 h-4.5 @992:fs-11 fs-10 bg-oby-primary text-white rounded-full'>
                     {cartData?.items.length}
                   </p>
                 </div>
-                <p className='fs-12'>Giỏ hàng</p>
+                <p className='@992:fs-12 hidden'>Giỏ hàng</p>
               </div>
-              <OBYLink href={hrefPath.login} className='flex flex-col items-center'>
+              <OBYLink href={hrefPath.login} className='@992:flex hidden flex-col items-center'>
                 <UserCircleIcon className='w-8 h-8 text-oby-676869' strokeWidth={1} />
                 <p className='fs-12'>Đăng nhập</p>
               </OBYLink>

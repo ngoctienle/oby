@@ -29,24 +29,31 @@ export default function ProductList({ category, subcategory, categoryID }: Produ
   }
 
   return (
-    <div className='pt-15'>
-      <div className='flex items-center mb-7.5 gap-2'>
-        <h2 className='fs-26 text-oby-green font-bold'>{category}</h2>
-        <ArrowLongRightIcon className='w-7 h-7 text-oby-green' />
+    <div className=''>
+      {/* Category Name */}
+      <div className='flex items-center @992:mb-7.5 mb-4 gap-2'>
+        <h2 className='@992:fs-26 fs-20 text-oby-green font-bold'>{category}</h2>
+        <ArrowLongRightIcon className='@992:w-7 @992:h-7 h-6 w-6 text-oby-green' />
       </div>
-      <div className='flex items-center gap-3'>
-        {subcategory &&
-          subcategory.map((item) => (
-            <OBYLink
-              href={generateURLWithCategory(category, item.name)}
-              key={item.id}
-              className='rounded-4 border border-oby-DFDFDF px-3 py-2.75'
-            >
-              {item.name}
-            </OBYLink>
-          ))}
+      {/* List Sub-Categories */}
+      <div className='overflow-x-auto scrollbar-none'>
+        <div className='min-w-fit'>
+          <div className='flex items-center gap-3'>
+            {subcategory &&
+              subcategory.map((item) => (
+                <OBYLink
+                  href={generateURLWithCategory(category, item.name)}
+                  key={item.id}
+                  className='@992:rounded-4 rounded-2.5 border border-oby-DFDFDF px-3 py-2.75 @992:fs-14 fs-12 whitespace-nowrap'
+                >
+                  {item.name}
+                </OBYLink>
+              ))}
+          </div>
+        </div>
       </div>
-      <div className='mt-6 pt-6 border-t border-t-oby-DFDFDF grid grid-cols-4 gap-10'>
+      {/* Product List Related with Category */}
+      <div className='@992:mt-6 mt-4 @992:pt-6 @992:border-t @992:border-t-oby-DFDFDF grid @992:grid-cols-4 @768:grid-cols-3 grid-cols-2 @992:gap-10 gap-5'>
         {productData.items.map((item) => (
           <div className='col-span-1' key={item.id}>
             <Product data={item} />
@@ -54,10 +61,10 @@ export default function ProductList({ category, subcategory, categoryID }: Produ
         ))}
       </div>
       <div className='flex items-center justify-center mt-10 gap-1.5'>
-        <OBYLink href='/' className='text-oby-primary fs-18'>
+        <OBYLink href='/' className='text-oby-primary @992:fs-18 fs-16'>
           Xem tất cả
         </OBYLink>
-        <ChevronRightIcon className='w-6 h-6 text-oby-primary' />
+        <ChevronRightIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary' />
       </div>
     </div>
   )

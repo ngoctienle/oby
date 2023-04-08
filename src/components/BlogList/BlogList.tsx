@@ -5,12 +5,12 @@ import { OBYLink } from '@/components/UI/Element'
 
 export default function BlogList() {
   return (
-    <div className='pt-15'>
-      <div className='flex items-center mb-7.5 gap-2'>
-        <h2 className='fs-26 text-oby-green font-bold'>Blogs</h2>
-        <ArrowLongRightIcon className='w-7 h-7 text-oby-green' />
+    <div className='@992:pt-15 pt-10'>
+      <div className='flex items-center @992:mb-7.5 mb-4 gap-2'>
+        <h2 className='@992:fs-26 fs-20 text-oby-green font-bold'>Blogs</h2>
+        <ArrowLongRightIcon className='@992:w-7 @992:h-7 w-6 h-6 text-oby-green' />
       </div>
-      <div className='grid grid-cols-2 gap-x-15 gap-y-7.5'>
+      <div className='grid @992:grid-cols-2 grid-cols-1 @992:gap-x-15 @992:gap-y-7.5 gap-4'>
         {Array(4)
           .fill(0)
           .map((_, index) => (

@@ -13,7 +13,8 @@ import twclsx from '@/libs/twclsx'
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
 import { ToTopButton } from '@/components/UI/Button'
-import { HeaderAds } from '@/components/UI/OBYAds'
+
+/* import { HeaderAds } from '@/components/UI/OBYAds' */
 
 const inter = Inter({ subsets: ['latin'] })
 const queryClient = new QueryClient({
@@ -31,7 +32,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <NextNProgress height={2} startPosition={0.3} stopDelayMs={200} showOnShallow={true} color='#4AA02C' />
-          <HeaderAds />
+          {/* <HeaderAds /> */}
           <Header font={inter} />
           <main className={inter.className}>
             <Component {...pageProps} />

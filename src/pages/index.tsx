@@ -1,4 +1,5 @@
 import HomeLayout from '@/layouts/HomeLayout'
+import { ChevronRightIcon } from '@heroicons/react/24/outline'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { Element as TriggerScroll } from 'react-scroll'
@@ -12,6 +13,7 @@ import categoryApi from '@/apis/category.api'
 import Banner from '@/components/Banner'
 import BlogList from '@/components/BlogList'
 import ProductList from '@/components/ProductList'
+import { OBYLink } from '@/components/UI/Element'
 
 /* import ProductSuggest from '@/components/ProductSuggest' */
 import {
@@ -62,32 +64,51 @@ export default function Home() {
   return (
     <>
       <Banner />
-
       <HomeLayout dataCategory={parentCategoryItem}>
         {/* <ProductSuggest /> */}
-        <div className=''>
-          <h2 className='fs-26 text-oby-green font-bold mb-7.5'>Mua sắm theo danh mục</h2>
-          <div className='grid grid-cols-5 gap-x-7.5 gap-y-6'>
-            {CategoryContent.map((item) => (
-              <div className='col-span-1 py-3.5 px-4 bg-white border border-oby-DFDFDF rounded-4' key={item.title}>
-                <div className='flex items-center gap-4'>
-                  {item.icon}
-                  <p>{item.title}</p>
-                </div>
-              </div>
-            ))}
+
+        {/* Suggest Category */}
+        <h2 className='@992:fs-26 hidden fs-20 text-oby-green font-bold mb-7.5'>Mua sắm theo danh mục</h2>
+        <div className='@992:hidden flex justify-between items-center @992:mb-7.5 mb-5'>
+          <h2 className='fs-20 text-oby-green font-bold'>Danh mục</h2>
+          <div className='flex items-center justify-center gap-1.5'>
+            <OBYLink href='/' className='text-oby-primary @992:fs-18 fs-14'>
+              Xem tất cả
+            </OBYLink>
+            <ChevronRightIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary' />
           </div>
         </div>
-        {parentCategory.length > 0 &&
-          parentCategory.map((item) => {
-            if (item.is_active && item.product_count !== 0) {
-              return (
-                <TriggerScroll name={item.name} key={item.id}>
-                  <ProductList categoryID={item.id} category={item.name} subcategory={item.children_data} />
-                </TriggerScroll>
-              )
-            }
-          })}
+        <div className='overflow-x-auto scrollbar-none'>
+          <div className='min-w-[576px]'>
+            <div className='grid grid-cols-5 @992:gap-x-7.5 gap-x-3.25 @992:gap-y-6 gap-y-4'>
+              {CategoryContent.map((item) => (
+                <div
+                  className='col-span-1 py-3.5 px-4 bg-white border border-oby-DFDFDF rounded-4 flex @992:flex-row flex-col items-center @992:gap-4 gap-3'
+                  key={item.title}
+                >
+                  {item.icon}
+                  <p className='text-oby-676869 @992:fs-16 fs-12 @992:text-start text-center line-clamp-2'>
+                    {item.title}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        {/* Product List */}
+        <div id='product-list-wrap'>
+          {parentCategory.length > 0 &&
+            parentCategory.map((item) => {
+              if (item.is_active && item.product_count !== 0) {
+                return (
+                  <TriggerScroll name={item.name} key={item.id} className='@992:pt-15 first:pt-7.5 pt-10'>
+                    <ProductList categoryID={item.id} category={item.name} subcategory={item.children_data} />
+                  </TriggerScroll>
+                )
+              }
+            })}
+        </div>
+        {/* Blog List */}
         <BlogList />
       </HomeLayout>
     </>
