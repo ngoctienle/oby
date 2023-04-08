@@ -68,7 +68,7 @@ export default function Home() {
         {/* <ProductSuggest /> */}
 
         {/* Suggest Category */}
-        <h2 className='@992:fs-26 hidden fs-20 text-oby-green font-bold mb-7.5'>Mua sắm theo danh mục</h2>
+        <h2 className='@992:fs-26 hidden @992:block fs-20 text-oby-green font-bold mb-7.5'>Mua sắm theo danh mục</h2>
         <div className='@992:hidden flex justify-between items-center @992:mb-7.5 mb-5'>
           <h2 className='fs-20 text-oby-green font-bold'>Danh mục</h2>
           <div className='flex items-center justify-center gap-1.5'>
