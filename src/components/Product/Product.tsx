@@ -1,7 +1,15 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'react-hot-toast'
+
+import { CartRequest } from '@/@types/cart.type'
 import { Product as ProductType } from '@/@types/product.type'
+
+import { useGlobalState } from '@/libs/state'
 
 import { formatCurrency, getDiscountPercent } from '@/helpers'
 import { generateProductImageFromMagento, generateProductLink, getDiscount, isHaveDiscount } from '@/helpers/product'
+
+import cartApi from '@/apis/cart.api'
 
 import { hrefPath } from '@/constants/href.constant'
 
@@ -13,6 +21,26 @@ interface ProductProps {
 }
 
 export default function Product({ data }: ProductProps) {
+  const [guestCartId] = useGlobalState('guestCartId')
+  const queryClient = useQueryClient()
+
+  const addToCartMutation = useMutation((body: CartRequest) => cartApi.AddToCart(guestCartId as string, body))
+
+  const handleAddToCart = () => {
+    addToCartMutation.mutate(
+      { cartItem: { sku: data.sku, qty: 1 } },
+      {
+        onSuccess: (data) => {
+          console.log(data)
+          toast.success('Thêm vào giỏ hàng thành công!')
+          queryClient.invalidateQueries({
+            queryKey: ['guestCart', guestCartId]
+          })
+        }
+      }
+    )
+  }
+
   if (!data) {
     return null
   }
@@ -47,12 +75,12 @@ export default function Product({ data }: ProductProps) {
                 {getDiscountPercent(data.custom_attributes)}
               </p>
             </div>
-            <AddCartButton className='@992:mt-3.5 mt-0 @992:max-w-full max-w-max' />
+            <AddCartButton className='@992:mt-3.5 mt-0 @992:max-w-full max-w-max' onClick={handleAddToCart} />
           </>
         ) : (
           <>
             <p className='font-bold'>{formatCurrency(data.price)}</p>
-            <AddCartButton className='@992:mt-3.5 mt-0 @992:max-w-full max-w-max' />
+            <AddCartButton className='@992:mt-3.5 mt-0 @992:max-w-full max-w-max' onClick={handleAddToCart} />
           </>
         )}
       </div>

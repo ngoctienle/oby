@@ -31,3 +31,12 @@ export interface ItemInCart {
   product_type: string
   quote_id: string
 }
+
+export interface CartRequest {
+  cartItem: CartItemRequest
+}
+
+interface CartItemRequest {
+  sku: string
+  qty: number
+}

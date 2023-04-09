@@ -44,7 +44,8 @@ export default function Header({ font }: HeaderProps) {
   const { data: guestData } = useQuery({
     queryKey: ['guestCart', guestCartId],
     queryFn: () => cartApi.GetGuestCart(guestCartId || ''),
-    enabled: !!guestCartId
+    enabled: !!guestCartId,
+    refetchOnWindowFocus: true
   })
 
   const cartData = guestData?.data
