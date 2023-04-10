@@ -25,7 +25,6 @@ export default function Product({ data }: ProductProps) {
   const queryClient = useQueryClient()
 
   const addToCartMutation = useMutation((body: CartRequest) => cartApi.AddToCart(guestCartId as string, body))
-
   const handleAddToCart = () => {
     addToCartMutation.mutate(
       { cartItem: { sku: data.sku, qty: 1 } },
@@ -80,7 +79,7 @@ export default function Product({ data }: ProductProps) {
             <AddCartButton
               className='@992:mt-3.5 mt-0 @992:max-w-full max-w-max'
               onClick={handleAddToCart}
-              isLoading={addToCartMutation.isLoading}
+              isloading={addToCartMutation.isLoading}
             />
           </>
         ) : (
@@ -89,7 +88,7 @@ export default function Product({ data }: ProductProps) {
             <AddCartButton
               className='@992:mt-3.5 mt-0 @992:max-w-full max-w-max'
               onClick={handleAddToCart}
-              isLoading={addToCartMutation.isLoading}
+              isloading={addToCartMutation.isLoading}
             />
           </>
         )}

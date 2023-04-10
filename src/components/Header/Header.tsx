@@ -111,7 +111,7 @@ export default function Header({ font }: HeaderProps) {
                 <div className='relative'>
                   <ShoppingBagIcon className='w-8 h-8 text-oby-676869' strokeWidth={1} />
                   <p className='absolute flex items-center justify-center top-1 -right-1 w-4.5 h-4.5 @992:fs-11 fs-10 bg-oby-primary text-white rounded-full'>
-                    {cartData?.items.length}
+                    {cartData?.items_qty}
                   </p>
                 </div>
                 <p className='@992:fs-12 @992:block hidden'>Giỏ hàng</p>

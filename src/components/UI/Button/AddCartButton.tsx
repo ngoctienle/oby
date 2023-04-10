@@ -7,7 +7,7 @@ import { OBYButton } from '@/components/UI/Element'
 import { OBYAddCartIcon } from '@/components/UI/OBYIcons'
 
 interface IAddCartButton extends OBYDefaultButton {
-  isLoading?: boolean
+  isloading?: boolean
 }
 
 export const AddCartButton: React.FunctionComponent<IAddCartButton> = (props) => {
@@ -18,11 +18,11 @@ export const AddCartButton: React.FunctionComponent<IAddCartButton> = (props) =>
         props.className,
         '@992:py-2.5 p-2.25 @992:rounded-4 rounded-2.5 justify-center border border-oby-primary bg-white disabled:cursor-not-allowed'
       )}
-      disabled={props.isLoading}
+      disabled={props.isloading}
     >
       <OBYAddCartIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary @992:mr-1.5 mr-0' />
       <p className='text-oby-primary fs-16 @992:block hidden'>Thêm vào giỏ</p>
-      {props.isLoading ? (
+      {props.isloading ? (
         <ArrowPathIcon className='ml-1.5 @992:h-6 @992:w-6 h-5 w-5 animate-spin text-oby-primary' />
       ) : null}
     </OBYButton>
