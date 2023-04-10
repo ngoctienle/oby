@@ -30,12 +30,14 @@ export default function Product({ data }: ProductProps) {
     addToCartMutation.mutate(
       { cartItem: { sku: data.sku, qty: 1 } },
       {
-        onSuccess: (data) => {
-          console.log(data)
+        onSuccess: () => {
           toast.success('Thêm vào giỏ hàng thành công!')
           queryClient.invalidateQueries({
             queryKey: ['guestCart', guestCartId]
           })
+        },
+        onError: () => {
+          toast.error('Vui lòng thử lại!')
         }
       }
     )
@@ -75,12 +77,20 @@ export default function Product({ data }: ProductProps) {
                 {getDiscountPercent(data.custom_attributes)}
               </p>
             </div>
-            <AddCartButton className='@992:mt-3.5 mt-0 @992:max-w-full max-w-max' onClick={handleAddToCart} />
+            <AddCartButton
+              className='@992:mt-3.5 mt-0 @992:max-w-full max-w-max'
+              onClick={handleAddToCart}
+              isLoading={addToCartMutation.isLoading}
+            />
           </>
         ) : (
           <>
             <p className='font-bold'>{formatCurrency(data.price)}</p>
-            <AddCartButton className='@992:mt-3.5 mt-0 @992:max-w-full max-w-max' onClick={handleAddToCart} />
+            <AddCartButton
+              className='@992:mt-3.5 mt-0 @992:max-w-full max-w-max'
+              onClick={handleAddToCart}
+              isLoading={addToCartMutation.isLoading}
+            />
           </>
         )}
       </div>
