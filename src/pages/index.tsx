@@ -10,6 +10,8 @@ import { getIDListCategoryAsString, getParentCategory } from '@/helpers/category
 
 import categoryApi from '@/apis/category.api'
 
+import { cacheTime } from '@/constants/config.constant'
+
 import Banner from '@/components/Banner'
 import BlogList from '@/components/BlogList'
 import ProductList from '@/components/ProductList'
@@ -47,14 +49,16 @@ export default function Home() {
     queryKey: ['categories'],
     queryFn: () => {
       return categoryApi.GetCategoryList()
-    }
+    },
+    staleTime: cacheTime.halfHours
   })
   const parentCategory = (parentCategoryRes && getParentCategory(parentCategoryRes.data)) || []
 
   const { data: parentCategoryAttrRes } = useQuery({
     queryKey: ['categoryAttr'],
     queryFn: () => categoryApi.GetAttrCategoryById(getIDListCategoryAsString(parentCategory)),
-    enabled: parentCategory.length > 0
+    enabled: parentCategory.length > 0,
+    staleTime: cacheTime.halfHours
   })
 
   const parentCategoryItem = useMemo(() => {

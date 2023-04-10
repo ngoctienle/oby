@@ -11,6 +11,7 @@ import twclsx from '@/libs/twclsx'
 
 import cartApi from '@/apis/cart.api'
 
+import { cacheTime } from '@/constants/config.constant'
 import { hrefPath } from '@/constants/href.constant'
 
 import { OBYImage, OBYLink } from '@/components/UI/Element'
@@ -45,7 +46,8 @@ export default function Header({ font }: HeaderProps) {
     queryKey: ['guestCart', guestCartId],
     queryFn: () => cartApi.GetGuestCart(guestCartId || ''),
     enabled: !!guestCartId,
-    refetchOnWindowFocus: true
+    refetchOnWindowFocus: true,
+    staleTime: cacheTime.fiveMinutes
   })
 
   const cartData = guestData?.data

@@ -7,6 +7,8 @@ import { generateURLWithCategory } from '@/helpers/category'
 
 import productApi from '@/apis/product.api'
 
+import { cacheTime } from '@/constants/config.constant'
+
 import Product from '@/components/Product'
 import { OBYLink } from '@/components/UI/Element'
 
@@ -19,7 +21,8 @@ interface ProductListProps {
 export default function ProductList({ category, subcategory, categoryID }: ProductListProps) {
   const { data } = useQuery({
     queryKey: ['product', categoryID],
-    queryFn: () => productApi.GetProductByCategoryID(categoryID)
+    queryFn: () => productApi.GetProductByCategoryID(categoryID),
+    staleTime: cacheTime.halfHours
   })
 
   const productData = data?.data

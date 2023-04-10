@@ -4,4 +4,4 @@ export const hrefPath = {
   cartPage: '/gio-hang',
   login: '/dang-nhap',
   signup: '/dang-ky'
-}
+} as const

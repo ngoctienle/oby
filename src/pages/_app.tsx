@@ -3,9 +3,10 @@ import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import type { AppProps } from 'next/app'
 import { Inter } from 'next/font/google'
+import { useRouter } from 'next/router'
 import Script from 'next/script'
 import NextNProgress from 'nextjs-progressbar'
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import { Toaster } from 'react-hot-toast'
 
 import twclsx from '@/libs/twclsx'
@@ -27,6 +28,20 @@ const queryClient = new QueryClient({
 })
 
 export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter()
+
+  useEffect(() => {
+    const handleRouteChange = () => {
+      window.scrollTo(0, 0)
+    }
+
+    router.events.on('routeChangeComplete', handleRouteChange)
+
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange)
+    }
+  }, [router.events])
+
   return (
     <Fragment>
       <QueryClientProvider client={queryClient}>

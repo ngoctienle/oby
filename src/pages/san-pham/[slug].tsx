@@ -1,16 +1,24 @@
 /* eslint-disable @next/next/no-img-element */
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import DOMPurify from 'dompurify'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { useRef, useState } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
+import { toast } from 'react-hot-toast'
+
+import { CartRequest } from '@/@types/cart.type'
+
+import { useGlobalState } from '@/libs/state'
 
 import { formatCurrency, getDiscountPercent, getIdFromNameId, getSKUFromNameId } from '@/helpers'
 import { generateProductImageFromMagento, getDescription, getDiscount, isHaveDiscount } from '@/helpers/product'
 
+import cartApi from '@/apis/cart.api'
 import categoryApi from '@/apis/category.api'
 import productApi from '@/apis/product.api'
+
+import { cacheTime } from '@/constants/config.constant'
 
 import Breadcrumb from '@/components/Breadcrumb'
 import ProductRating from '@/components/ProductRating'
@@ -19,9 +27,11 @@ import { AddCartButton, BuyNowButton } from '@/components/UI/Button'
 import { OBYCommentIcon } from '@/components/UI/OBYIcons'
 
 export default function ProductDetail() {
+  const [guestCartId] = useGlobalState('guestCartId')
   const imgRef = useRef<HTMLImageElement>(null)
   const [buyCount, setBuyCount] = useState(1)
 
+  const queryClient = useQueryClient()
   const router = useRouter()
   const { slug } = router.query
 
@@ -31,7 +41,8 @@ export default function ProductDetail() {
   const { data: subCategoryRes } = useQuery({
     queryKey: ['subcategory', subId],
     queryFn: () => categoryApi.GetCategoryNameById(subId),
-    enabled: !!subId
+    enabled: !!subId,
+    staleTime: cacheTime.halfHours
   })
 
   const parentCategoryID = (subCategoryRes && subCategoryRes.data.parent_id.toString()) || ''
@@ -39,25 +50,51 @@ export default function ProductDetail() {
   const { data: parentCategoryRes } = useQuery({
     queryKey: ['parentcategory', parentCategoryID],
     queryFn: () => categoryApi.GetCategoryNameById(parentCategoryID),
-    enabled: !!parentCategoryID
+    enabled: !!parentCategoryID,
+    staleTime: cacheTime.halfHours
   })
 
   const { data: productRes } = useQuery({
     queryKey: ['productdetail', sku],
     queryFn: () => productApi.GetProductDetailBySKU(sku),
-    enabled: !!sku
+    enabled: !!sku,
+    staleTime: cacheTime.fiveMinutes
   })
 
   const productData = productRes && productRes.data
 
-  const subName = subCategoryRes && subCategoryRes.data.name
-  const parentName = parentCategoryRes && parentCategoryRes.data.name
-  const productName = productData && productData.name
+  const subName = useMemo(() => subCategoryRes?.data?.name, [subCategoryRes])
+  const parentName = useMemo(() => parentCategoryRes?.data?.name, [parentCategoryRes])
+  const productName = useMemo(() => productData?.name, [productData])
 
-  if (!subName || !parentName || !productName) {
+  const addToCartMutation = useMutation((body: CartRequest) => cartApi.AddToCart(guestCartId as string, body))
+
+  const handleBuyCount = (value: number) => {
+    setBuyCount(value)
+  }
+
+  const handleAddToCart = () => {
+    addToCartMutation.mutate(
+      { cartItem: { sku: sku, qty: buyCount } },
+      {
+        onSuccess: () => {
+          toast.success('Thêm vào giỏ hàng thành công!')
+          queryClient.invalidateQueries({
+            queryKey: ['guestCart', guestCartId]
+          })
+        },
+        onError: () => {
+          toast.error('Vui lòng thử lại!')
+        }
+      }
+    )
+  }
+
+  if (!subName || !parentName || !productData) {
     return null
   }
 
+  /* Animation on Image */
   const handleZoom = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const rect = e.currentTarget.getBoundingClientRect()
     const img = imgRef.current as HTMLImageElement
@@ -92,10 +129,6 @@ export default function ProductDetail() {
       setCurIndexImage((prev) => [prev[0] - 1, prev[1] - 1])
     }
   } */
-
-  const handleBuyCount = (value: number) => {
-    setBuyCount(value)
-  }
 
   return (
     <section className='pt-4'>
@@ -171,16 +204,23 @@ export default function ProductDetail() {
                 <p className='fs-26 font-semibold text-oby-orange'>{formatCurrency(productData.price)}</p>
               )}
             </div>
-            <QuantityController
-              classNameWrapper='max-w-max mt-6'
-              onDecrease={handleBuyCount}
-              onIncrease={handleBuyCount}
-              onTyping={handleBuyCount}
-              value={buyCount}
-              max={productData.extension_attributes.stock_item.qty}
-            />
+            <div className='flex max-w-max items-center gap-4 mt-6'>
+              <p className='uppercase font-semibold fs-14'>mua</p>
+              <QuantityController
+                classNameWrapper='max-w-max'
+                onDecrease={handleBuyCount}
+                onIncrease={handleBuyCount}
+                onTyping={handleBuyCount}
+                value={buyCount}
+                max={productData.extension_attributes.stock_item.qty}
+              />
+            </div>
             <div className='mt-6 flex items-center gap-5'>
-              <AddCartButton className='min-w-[270px]' />
+              <AddCartButton
+                className='min-w-[270px]'
+                onClick={handleAddToCart}
+                isloading={addToCartMutation.isLoading}
+              />
               <BuyNowButton className='min-w-[270px]' />
             </div>
           </div>
