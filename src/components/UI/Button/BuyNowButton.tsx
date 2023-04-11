@@ -8,7 +8,10 @@ export const BuyNowButton: React.FunctionComponent<OBYDefaultButton> = (props) =
   return (
     <OBYButton
       {...props}
-      className={twclsx(props.className, 'py-2.5 rounded-4 justify-center border border-transparent bg-oby-primary')}
+      className={twclsx(
+        props.className,
+        '@768:py-2.5 py-3 rounded-4 justify-center border border-transparent bg-oby-primary'
+      )}
     >
       <p className='text-white'>Mua Ngay</p>
     </OBYButton>
