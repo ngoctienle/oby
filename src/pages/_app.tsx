@@ -1,15 +1,19 @@
 import '@/styles/globals.css'
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import Cookies from 'js-cookie'
 import type { AppProps } from 'next/app'
 import { Inter } from 'next/font/google'
 import { useRouter } from 'next/router'
 import Script from 'next/script'
 import NextNProgress from 'nextjs-progressbar'
 import { Fragment, useEffect } from 'react'
-import { Toaster } from 'react-hot-toast'
+import { Toaster, toast } from 'react-hot-toast'
 
+import { useGlobalState } from '@/libs/state'
 import twclsx from '@/libs/twclsx'
+
+import cartApi from '@/apis/cart.api'
 
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
@@ -29,10 +33,26 @@ const queryClient = new QueryClient({
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
+  const [guestCartId, setGuestCartId] = useGlobalState('guestCartId')
+  const [user] = useGlobalState('user')
 
   useEffect(() => {
     const handleRouteChange = () => {
       window.scrollTo(0, 0)
+    }
+
+    if (!guestCartId && !user) {
+      cartApi
+        .GenerateGuestCart()
+        .then((response) => {
+          const data = response.data
+          const expireTime = new Date(Date.now() + 24 * 60 * 60 * 1000) /* 1 Days from Created */
+          setGuestCartId(data)
+          Cookies.set('guestCartId', data, { expires: expireTime })
+        })
+        .catch((error) => {
+          toast.error(error.message)
+        })
     }
 
     router.events.on('routeChangeComplete', handleRouteChange)
@@ -40,6 +60,7 @@ export default function App({ Component, pageProps }: AppProps) {
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.events])
 
   return (

@@ -1,10 +1,7 @@
 import { useWindowScrollY } from '@/hooks'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, UserCircleIcon } from '@heroicons/react/24/outline'
 import { useQuery } from '@tanstack/react-query'
-import Cookies from 'js-cookie'
 import { NextFont } from 'next/dist/compiled/@next/font'
-import { useEffect } from 'react'
-import { toast } from 'react-hot-toast'
 
 import { useGlobalState } from '@/libs/state'
 import twclsx from '@/libs/twclsx'
@@ -23,24 +20,7 @@ interface HeaderProps {
 
 export default function Header({ font }: HeaderProps) {
   const y = useWindowScrollY()
-  const [guestCartId, setGuestCartId] = useGlobalState('guestCartId')
-  const [user] = useGlobalState('user')
-
-  useEffect(() => {
-    if (!guestCartId && !user) {
-      cartApi
-        .GenerateGuestCart()
-        .then((response) => {
-          const data = response.data
-          setGuestCartId(data)
-          Cookies.set('guestCartId', data)
-        })
-        .catch((error) => {
-          toast.error(error.message)
-        })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const [guestCartId] = useGlobalState('guestCartId')
 
   const { data: guestData } = useQuery({
     queryKey: ['guestCart', guestCartId],
