@@ -1,1 +1,1 @@
-export const SITE_URL = 'https://13.212.189.157'
+export const SITE_URL = 'http://13.229.90.199/'
