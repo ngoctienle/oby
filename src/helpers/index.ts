@@ -1,4 +1,6 @@
+import { ItemInCart } from '@/@types/cart.type'
 import { CustomAttribute } from '@/@types/magento.type'
+import { ProductResponse } from '@/@types/product.type'
 
 export function formatCurrency(currency: number) {
   return new Intl.NumberFormat('de-DE').format(currency) + '₫'
@@ -38,4 +40,11 @@ export function getSKUFromNameId(nameId: string) {
   const arr = nameId.split('-id-')
 
   return arr[0]
+}
+
+export function mergeArrayItems(arr1: ItemInCart[], arr2: ProductResponse) {
+  return arr1.map((item) => ({
+    ...item,
+    custom_attributes: arr2.items.find((product) => product.sku === item.sku)?.custom_attributes ?? []
+  }))
 }

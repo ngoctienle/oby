@@ -224,7 +224,7 @@ export default function ProductDetail() {
             <div className='flex max-w-max items-center gap-4 @768:mt-6 mt-5'>
               <p className='uppercase font-semibold fs-14'>mua</p>
               <QuantityController
-                classNameWrapper='max-w-max'
+                classNameWrapper='max-w-max px-4 py-2.75'
                 onDecrease={handleBuyCount}
                 onIncrease={handleBuyCount}
                 onTyping={handleBuyCount}

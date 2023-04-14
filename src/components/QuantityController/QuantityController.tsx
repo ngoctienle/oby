@@ -58,7 +58,7 @@ export default function QuantityController({
   }
 
   return (
-    <div className={'flex items-center px-4 py-2.75 rounded-4 border border-oby-DFDFDF ' + classNameWrapper}>
+    <div className={'flex items-center rounded-4 border border-oby-DFDFDF ' + classNameWrapper}>
       <button
         className={`flex items-center justify-center h-6 w-6 disabled:cursor-not-allowed`}
         onClick={decrease}

@@ -5,7 +5,7 @@ class HTTP {
 
   constructor() {
     this.instance = axios.create({
-      baseURL: 'http://13.229.90.199/rest/all/',
+      baseURL: 'https://13.229.90.199/rest/all/',
       timeout: 10000,
       headers: {
         'Content-Type': 'application/json',

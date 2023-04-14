@@ -1,3 +1,4 @@
+import { ItemInCart } from '@/@types/cart.type'
 import { CustomAttribute } from '@/@types/magento.type'
 import { Product } from '@/@types/product.type'
 
@@ -7,6 +8,10 @@ import { SITE_URL } from '@/constants/domain.constant'
 
 export const isHaveDiscount = (data: CustomAttribute[]) => {
   return data.some((obj: CustomAttribute) => obj.attribute_code === 'special_price')
+}
+
+export const getSKUListProductAsString = (data: ItemInCart[]) => {
+  return data.map((item) => item.sku).join(',')
 }
 
 export const getDiscount = (data: CustomAttribute[]) => {

@@ -1,3 +1,217 @@
+import { Dialog, Transition } from '@headlessui/react'
+import { BanknotesIcon, CheckIcon, ShoppingBagIcon, TrashIcon } from '@heroicons/react/24/outline'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { Fragment, useState } from 'react'
+
+import { CartUpdateRequest } from '@/@types/cart.type'
+
+import { useGlobalState } from '@/libs/state'
+
+import { formatCurrency, mergeArrayItems } from '@/helpers'
+import {
+  generateProductImageFromMagento,
+  getDiscount,
+  getSKUListProductAsString,
+  isHaveDiscount
+} from '@/helpers/product'
+
+import cartApi from '@/apis/cart.api'
+import productApi from '@/apis/product.api'
+
+import { cacheTime } from '@/constants/config.constant'
+
+import NoProduct from '@/components/NoProduct'
+import QuantityController from '@/components/QuantityController'
+import { OBYButton, OBYImage } from '@/components/UI/Element'
+
 export default function CartPage() {
-  return <div>Giỏ hàng page</div>
+  const [guestCartId] = useGlobalState('guestCartId')
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+
+  const { data: guestData, refetch } = useQuery({
+    queryKey: ['guestCart', guestCartId],
+    queryFn: () => cartApi.GetGuestCart(guestCartId || ''),
+    enabled: !!guestCartId,
+    staleTime: cacheTime.fiveMinutes
+  })
+
+  const cartData = guestData && guestData?.data
+  const listSKU = cartData && getSKUListProductAsString(cartData.items)
+
+  const { data: productData } = useQuery({
+    queryKey: ['productInCart'],
+    queryFn: () => productApi.GetListProductByListSKU(listSKU as string),
+    enabled: !!listSKU,
+    staleTime: cacheTime.fiveMinutes
+  })
+
+  const updateCartMutation = useMutation({
+    mutationFn: ({ itemId, body }: { itemId: string; body: CartUpdateRequest }) =>
+      cartApi.UpdateGuestCart(guestCartId as string, itemId, body),
+    onSuccess: () => {
+      refetch()
+    }
+  })
+
+  const productInCart = productData && productData?.data
+
+  const initializeData = cartData && productInCart && mergeArrayItems(cartData.items, productInCart)
+
+  const handleQuantity = (itemId: string, value: number, isValid: boolean) => {
+    if (isValid) {
+      const cartRequest: CartUpdateRequest = {
+        cartItem: {
+          qty: value
+        }
+      }
+      updateCartMutation.mutate({ itemId: itemId, body: cartRequest })
+    }
+  }
+  const handleTypeQuantity = (itemId: string) => (value: number) => {
+    const cartRequest: CartUpdateRequest = {
+      cartItem: {
+        qty: value
+      }
+    }
+    updateCartMutation.mutate({ itemId: itemId, body: cartRequest })
+  }
+  return (
+    <div className='pt-7.5 min-h-[50%]'>
+      <div className='container'>
+        {!initializeData ? (
+          <NoProduct />
+        ) : (
+          <>
+            <div className='flex items-center max-w-[426px] justify-between mx-auto relative'>
+              <div className='absolute w-[80%] h-[1px] top-[35%] left-1/2 -translate-x-1/2 -z-10 bg-oby-DFDFDF' />
+              <div className='flex flex-col items-center gap-1.5'>
+                <div className='w-[56px] flex items-center justify-center h-[56px] rounded-full bg-oby-E4FBDB'>
+                  <ShoppingBagIcon className='w-8 h-8 text-oby-green' />
+                </div>
+                <p className='fs-14 text-oby-green font-semibold'>Giỏ hàng</p>
+              </div>
+              <div className='flex flex-col items-center gap-1.5'>
+                <div className='w-[56px] flex items-center justify-center h-[56px] rounded-full bg-oby-F6F7F8'>
+                  <BanknotesIcon className='w-8 h-8 text-oby-9A9898' />
+                </div>
+                <p className='fs-14 text-oby-9A9898'>Tiến hành đặt hàng</p>
+              </div>
+              <div className='flex flex-col items-center gap-1.5'>
+                <div className='w-[56px] flex items-center justify-center h-[56px] rounded-full bg-oby-F6F7F8'>
+                  <CheckIcon className='w-8 h-8 text-oby-9A9898' />
+                </div>
+                <p className='fs-14 text-oby-9A9898'>Hoàn thành</p>
+              </div>
+            </div>
+            <div className='mt-7.5 grid grid-cols-12 gap-10'>
+              <div className='col-span-8'>
+                {initializeData.map((item) => (
+                  <div
+                    className='p-5 border border-oby-DFDFDF rounded-tl-4 rounded-br-4 first:mt-0 mt-5 flex gap-5'
+                    key={item.item_id}
+                  >
+                    <div className='flex-shrink relative w-[150px] h-[100px] bg-white rounded-tl-4 rounded-br-4 overflow-hidden'>
+                      <OBYImage
+                        src={generateProductImageFromMagento(item.custom_attributes)}
+                        alt={item.name}
+                        title={item.name}
+                        display='responsive'
+                        className='object-cover'
+                      />
+                    </div>
+                    <div className='flex-grow'>
+                      <h2 className='fs-16 line-clamp-1'>{item.name}</h2>
+                      <div className='flex items-center gap-2.5 my-2'>
+                        {isHaveDiscount(item.custom_attributes) ? (
+                          <>
+                            <p className='fs-16 font-semibold'>{getDiscount(item.custom_attributes)}</p>
+                            <p className='fs-14 line-through text-oby-676869'>{formatCurrency(item.price)}</p>
+                          </>
+                        ) : (
+                          <p className='fs-16 font-semibold'>{formatCurrency(item.price)}</p>
+                        )}
+                      </div>
+                      <div className='flex items-center justify-between'>
+                        <QuantityController
+                          classNameWrapper='max-w-max px-1.5 py-1.75'
+                          onIncrease={(value) => handleQuantity(item.item_id.toString(), value, value <= 10000)}
+                          onDecrease={(value) => handleQuantity(item.item_id.toString(), value, value >= 1)}
+                          onTyping={handleTypeQuantity(item.item_id.toString())}
+                          value={item.qty}
+                          max={10000}
+                        />
+                        <TrashIcon
+                          className='text-oby-9A9898 w-6 h-6 cursor-pointer'
+                          onClick={() => setIsOpen(true)}
+                          type='button'
+                        />
+                      </div>
+                    </div>
+                    <Transition appear show={isOpen} as={Fragment}>
+                      <Dialog as='div' className='relative z-10' onClose={() => setIsOpen(false)}>
+                        <Transition.Child
+                          as={Fragment}
+                          enter='ease-out duration-300'
+                          enterFrom='opacity-0'
+                          enterTo='opacity-100'
+                          leave='ease-in duration-200'
+                          leaveFrom='opacity-100'
+                          leaveTo='opacity-0'
+                        >
+                          <div className='fixed inset-0 bg-black/30' />
+                        </Transition.Child>
+
+                        <div className='fixed inset-0 overflow-y-auto'>
+                          <div className='flex min-h-full items-center justify-center p-4 text-center'>
+                            <Transition.Child
+                              as={Fragment}
+                              enter='ease-out duration-300'
+                              enterFrom='opacity-0 scale-95'
+                              enterTo='opacity-100 scale-100'
+                              leave='ease-in duration-200'
+                              leaveFrom='opacity-100 scale-100'
+                              leaveTo='opacity-0 scale-95'
+                            >
+                              <Dialog.Panel className='w-full max-w-md transform overflow-hidden rounded-2.5 bg-white px-6 py-7.5 text-left align-middle shadow-xl transition-all'>
+                                <Dialog.Title as='h3' className='fs-18 font-semibold text-center'>
+                                  Xác nhận xóa sản phẩm
+                                </Dialog.Title>
+                                <div className='my-6'>
+                                  <p className='fs-16 text-center text-oby-676869'>
+                                    Bạn có chắc chắn muốn xóa sản phẩm?
+                                  </p>
+                                </div>
+
+                                <div className='flex items-center gap-3'>
+                                  <OBYButton
+                                    type='button'
+                                    className='rounded-4 border border-oby-DFDFDF py-2.5 fs-16 text-oby-676869 w-full'
+                                    onClick={() => setIsOpen(false)}
+                                  >
+                                    Hủy bỏ
+                                  </OBYButton>
+                                  <OBYButton
+                                    type='button'
+                                    className='rounded-4 border border-transparent py-2.5 fs-16 text-white w-full bg-oby-primary'
+                                    onClick={() => setIsOpen(false)}
+                                  >
+                                    Đồng ý
+                                  </OBYButton>
+                                </div>
+                              </Dialog.Panel>
+                            </Transition.Child>
+                          </div>
+                        </div>
+                      </Dialog>
+                    </Transition>
+                  </div>
+                ))}
+              </div>
+              <div className='col-span-4'></div>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  )
 }

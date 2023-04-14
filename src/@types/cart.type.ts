@@ -35,6 +35,9 @@ export interface ItemInCart {
 export interface CartRequest {
   cartItem: CartItemRequest
 }
+export interface CartUpdateRequest {
+  cartItem: Omit<CartItemRequest, 'sku'>
+}
 
 interface CartItemRequest {
   sku: string
