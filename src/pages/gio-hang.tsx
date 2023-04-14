@@ -1,15 +1,25 @@
 import { Dialog, Transition } from '@headlessui/react'
-import { BanknotesIcon, CheckIcon, ShoppingBagIcon, TrashIcon } from '@heroicons/react/24/outline'
+import {
+  ArrowPathIcon,
+  BanknotesIcon,
+  CheckIcon,
+  ChevronRightIcon,
+  ShoppingBagIcon,
+  TrashIcon
+} from '@heroicons/react/24/outline'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { Fragment, useState } from 'react'
+import { Fragment, useMemo, useState } from 'react'
+import { toast } from 'react-hot-toast'
 
 import { CartUpdateRequest } from '@/@types/cart.type'
 
 import { useGlobalState } from '@/libs/state'
 
 import { formatCurrency, mergeArrayItems } from '@/helpers'
+import { calculateTotalDiscountPrice, calculateTotalOriginPrice, calculateTotalPrice } from '@/helpers/cart'
 import {
   generateProductImageFromMagento,
+  getCost,
   getDiscount,
   getSKUListProductAsString,
   isHaveDiscount
@@ -32,17 +42,21 @@ export default function CartPage() {
     queryKey: ['guestCart', guestCartId],
     queryFn: () => cartApi.GetGuestCart(guestCartId || ''),
     enabled: !!guestCartId,
-    staleTime: cacheTime.fiveMinutes
+    staleTime: cacheTime.halfHours
   })
 
   const cartData = guestData && guestData?.data
-  const listSKU = cartData && getSKUListProductAsString(cartData.items)
+  const listSKU = useMemo(() => {
+    if (cartData) {
+      return getSKUListProductAsString(cartData.items)
+    }
+  }, [cartData])
 
   const { data: productData } = useQuery({
     queryKey: ['productInCart'],
     queryFn: () => productApi.GetListProductByListSKU(listSKU as string),
     enabled: !!listSKU,
-    staleTime: cacheTime.fiveMinutes
+    staleTime: cacheTime.halfHours
   })
 
   const updateCartMutation = useMutation({
@@ -53,9 +67,23 @@ export default function CartPage() {
     }
   })
 
+  const deleteProductMutation = useMutation({
+    mutationFn: (itemId: string) => cartApi.DeleteProductInCart(guestCartId as string, itemId),
+    onSuccess: () => {
+      refetch()
+      setIsOpen(false)
+      toast.success('Xóa sản phẩm thành công!')
+    }
+  })
+
   const productInCart = productData && productData?.data
 
-  const initializeData = cartData && productInCart && mergeArrayItems(cartData.items, productInCart)
+  const initializeData = useMemo(() => {
+    if (cartData && productInCart) {
+      return mergeArrayItems(cartData.items, productInCart)
+    }
+    return null
+  }, [cartData, productInCart])
 
   const handleQuantity = (itemId: string, value: number, isValid: boolean) => {
     if (isValid) {
@@ -75,6 +103,12 @@ export default function CartPage() {
     }
     updateCartMutation.mutate({ itemId: itemId, body: cartRequest })
   }
+  const handleRemove = (itemId: string) => {
+    deleteProductMutation.mutate(itemId)
+  }
+
+  console.log(initializeData)
+
   return (
     <div className='pt-7.5 min-h-[50%]'>
       <div className='container'>
@@ -107,7 +141,7 @@ export default function CartPage() {
               <div className='col-span-8'>
                 {initializeData.map((item) => (
                   <div
-                    className='p-5 border border-oby-DFDFDF rounded-tl-4 rounded-br-4 first:mt-0 mt-5 flex gap-5'
+                    className='p-5 border border-oby-DFDFDF bg-white rounded-tl-4 rounded-br-4 first:mt-0 mt-5 flex gap-5'
                     key={item.item_id}
                   >
                     <div className='flex-shrink relative w-[150px] h-[100px] bg-white rounded-tl-4 rounded-br-4 overflow-hidden'>
@@ -125,7 +159,7 @@ export default function CartPage() {
                         {isHaveDiscount(item.custom_attributes) ? (
                           <>
                             <p className='fs-16 font-semibold'>{getDiscount(item.custom_attributes)}</p>
-                            <p className='fs-14 line-through text-oby-676869'>{formatCurrency(item.price)}</p>
+                            <p className='fs-14 line-through text-oby-676869'>{getCost(item.custom_attributes)}</p>
                           </>
                         ) : (
                           <p className='fs-16 font-semibold'>{formatCurrency(item.price)}</p>
@@ -147,7 +181,7 @@ export default function CartPage() {
                         />
                       </div>
                     </div>
-                    <Transition appear show={isOpen} as={Fragment}>
+                    <Transition show={isOpen} as={Fragment}>
                       <Dialog as='div' className='relative z-10' onClose={() => setIsOpen(false)}>
                         <Transition.Child
                           as={Fragment}
@@ -193,9 +227,13 @@ export default function CartPage() {
                                   <OBYButton
                                     type='button'
                                     className='rounded-4 border border-transparent py-2.5 fs-16 text-white w-full bg-oby-primary'
-                                    onClick={() => setIsOpen(false)}
+                                    onClick={() => handleRemove(item.item_id.toString())}
+                                    disabled={deleteProductMutation.isLoading}
                                   >
                                     Đồng ý
+                                    {deleteProductMutation.isLoading && (
+                                      <ArrowPathIcon className='text-white ml-1.5 @992:h-6 @992:w-6 h-5 w-5 animate-spin' />
+                                    )}
                                   </OBYButton>
                                 </div>
                               </Dialog.Panel>
@@ -207,7 +245,42 @@ export default function CartPage() {
                   </div>
                 ))}
               </div>
-              <div className='col-span-4'></div>
+              <div className='col-span-4 bg-transparent'>
+                <div className=' bg-white rounded-tl-4 rounded-br-4 bsd'>
+                  <div className='pt-5 pb-4 border-b border-b-oby-DFDFDF'>
+                    <div className='flex items-center gap-7.5 px-6'>
+                      <p className='fs-16 font-semibold'>Mã giảm giá</p>
+                      <div className='rounded-4 border border-oby-DFDFDF flex items-center py-2 px-3 flex-grow'>
+                        <div className='flex-grow'>
+                          <p className='fs-14 text-oby-9A9898'>Chọn hoặc nhập mã</p>
+                        </div>
+                        <ChevronRightIcon className='w-6 h-6 text-oby-676869 justify-end' />
+                      </div>
+                    </div>
+                  </div>
+                  <div className='mt-4 px-6 pb-5'>
+                    <p className='fs-18 mb-4 font-bold text-oby-primary'>Tổng giỏ hàng</p>
+                    <div className='flex items-center justify-between'>
+                      <p className='fs-16'>Tạm tính ({initializeData.length})</p>
+                      <p className='fs-16 text-end'>{calculateTotalOriginPrice(initializeData)}</p>
+                    </div>
+                    <div className='flex items-center justify-between mt-3'>
+                      <p className='fs-16'>Giảm giá sản phẩm</p>
+                      <p className='fs-16 text-end text-oby-orange'>{calculateTotalDiscountPrice(initializeData)}</p>
+                    </div>
+                    <div className='mt-3 pt-3 border-t border-t-oby-DFDFDF'>
+                      <div className='flex justify-between'>
+                        <div className='flex flex-col'>
+                          <p className='fs-16 font-semibold'>Thành tiền</p>
+                          <p className='fs-14 text-oby-9A9898'>(Đã bao gồm VAT)</p>
+                        </div>
+                        <p className='fs-18 font-semibold'>{calculateTotalPrice(initializeData)}</p>
+                      </div>
+                    </div>
+                    <OBYButton className='mt-5 bg-oby-primary text-white w-full py-2.5 rounded-4'>Tiếp tục</OBYButton>
+                  </div>
+                </div>
+              </div>
             </div>
           </>
         )}

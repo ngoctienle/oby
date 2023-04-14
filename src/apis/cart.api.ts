@@ -14,6 +14,9 @@ const cartApi = {
   },
   UpdateGuestCart(id: string, itemId: string, body: { cartItem: { qty: number } }) {
     return http.put(`V1/guest-carts/${id}/items/${itemId}`, body)
+  },
+  DeleteProductInCart(id: string, itemId: string) {
+    return http.delete(`V1/guest-carts/${id}/items/${itemId}`)
   }
 }
 

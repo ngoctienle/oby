@@ -1,4 +1,4 @@
-import { BillingAddress, Currency, Customer, ExtensionAttributes } from './magento.type'
+import { BillingAddress, Currency, CustomAttribute, Customer, ExtensionAttributes } from './magento.type'
 
 export interface Cart {
   id: string
@@ -30,6 +30,16 @@ export interface ItemInCart {
   price: number
   product_type: string
   quote_id: string
+}
+
+export interface InitializeCartItem {
+  custom_attributes: CustomAttribute[]
+  item_id: number
+  sku: string
+  qty: number
+  name: string
+  price: number
+  product_type: string
 }
 
 export interface CartRequest {

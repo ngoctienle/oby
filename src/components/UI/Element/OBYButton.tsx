@@ -6,7 +6,10 @@ import twclsx from '@/libs/twclsx'
 export const OBYButton: React.FunctionComponent<OBYDefaultButton> = ({ children, className, ...props }) => {
   return createElement(
     'button',
-    { ...props, className: twclsx('inline-flex items-center justify-center', className) },
+    {
+      ...props,
+      className: twclsx('inline-flex items-center justify-center', className)
+    },
     children
   )
 }

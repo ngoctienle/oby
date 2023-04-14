@@ -21,6 +21,13 @@ export const getDiscount = (data: CustomAttribute[]) => {
   }
 }
 
+export const getCost = (data: CustomAttribute[]) => {
+  const item = data.find((obj: CustomAttribute) => obj.attribute_code === 'cost')
+  if (item) {
+    return formatCurrency(Number(item.value))
+  }
+}
+
 export const getDescription = (data: CustomAttribute[]) => {
   const item = data.find((item) => item.attribute_code === 'description')
 
