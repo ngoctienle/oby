@@ -5,7 +5,8 @@ import {
   CheckIcon,
   ChevronRightIcon,
   ShoppingBagIcon,
-  TrashIcon
+  TrashIcon,
+  XMarkIcon
 } from '@heroicons/react/24/outline'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
@@ -39,6 +40,7 @@ export default function CartPage() {
   const [guestCartId] = useGlobalState('guestCartId')
   const [user] = useGlobalState('user')
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [isPromoOpen, setIsPromoOpen] = useState<boolean>(false)
 
   const router = useRouter()
 
@@ -68,6 +70,9 @@ export default function CartPage() {
       cartApi.UpdateGuestCart(guestCartId as string, itemId, body),
     onSuccess: () => {
       refetch()
+    },
+    onError: () => {
+      toast.error('Vui lòng thử lại!')
     }
   })
 
@@ -96,7 +101,7 @@ export default function CartPage() {
           qty: value
         }
       }
-      updateCartMutation.mutate({ itemId: itemId, body: cartRequest })
+      updateCartMutation.mutateAsync({ itemId: itemId, body: cartRequest })
     }
   }
   const handleTypeQuantity = (itemId: string) => (value: number) => {
@@ -258,12 +263,67 @@ export default function CartPage() {
                   <div className='pt-5 pb-4 border-b border-b-oby-DFDFDF'>
                     <div className='flex items-center gap-7.5 px-6'>
                       <p className='fs-16 font-semibold'>Mã giảm giá</p>
-                      <div className='rounded-4 border border-oby-DFDFDF flex items-center py-2 px-3 flex-grow'>
+                      <OBYButton
+                        onClick={() => setIsPromoOpen(true)}
+                        className='rounded-4 border border-oby-DFDFDF flex items-center py-2 px-3 flex-grow'
+                      >
                         <div className='flex-grow'>
                           <p className='fs-14 text-oby-9A9898'>Chọn hoặc nhập mã</p>
                         </div>
                         <ChevronRightIcon className='w-6 h-6 text-oby-676869 justify-end' />
-                      </div>
+                      </OBYButton>
+                      <Transition show={isPromoOpen} as={Fragment}>
+                        <Dialog as='div' className='relative z-10' onClose={() => setIsPromoOpen(false)}>
+                          <Transition.Child
+                            as={Fragment}
+                            enter='ease-out duration-300'
+                            enterFrom='opacity-0'
+                            enterTo='opacity-100'
+                            leave='ease-in duration-200'
+                            leaveFrom='opacity-100'
+                            leaveTo='opacity-0'
+                          >
+                            <div className='fixed inset-0 bg-black/30' />
+                          </Transition.Child>
+
+                          <div className='fixed inset-0 overflow-y-auto'>
+                            <div className='flex min-h-full items-center justify-center p-4 text-center'>
+                              <Transition.Child
+                                as={Fragment}
+                                enter='ease-out duration-300'
+                                enterFrom='opacity-0 scale-95'
+                                enterTo='opacity-100 scale-100'
+                                leave='ease-in duration-200'
+                                leaveFrom='opacity-100 scale-100'
+                                leaveTo='opacity-0 scale-95'
+                              >
+                                <Dialog.Panel className='w-full relative max-w-md transform overflow-hidden rounded-2.5 bg-white px-6 py-7.5 text-left align-middle shadow-xl transition-all'>
+                                  <Dialog.Title as='h3' className='fs-18 font-semibold text-center'>
+                                    Chọn mã giảm giá
+                                  </Dialog.Title>
+                                  <XMarkIcon
+                                    className='w-6 h-6 text-oby-676869 absolute top-7.5 right-6 cursor-pointer'
+                                    type='button'
+                                    onClick={() => setIsPromoOpen(false)}
+                                  />
+                                  <div className='mt-6 flex flex-col items-center'>
+                                    <div className='relative w-[80px] h-[80px] mb-5'>
+                                      <OBYImage
+                                        src='/images/no-product-incart.png'
+                                        display='responsive'
+                                        alt='Hiện tại bạn chưa có mã giảm giá'
+                                        title='Hiện tại bạn chưa có mã giảm giá'
+                                        className='object-cover'
+                                      />
+                                    </div>
+                                    <p className='fs-16 text-oby-676869'>Hiện tại bạn chưa có mã giảm giá</p>
+                                  </div>
+                                </Dialog.Panel>
+                              </Transition.Child>
+                            </div>
+                          </div>
+                        </Dialog>
+                      </Transition>
                     </div>
                   </div>
                   <div className='mt-4 px-6 pb-5'>
