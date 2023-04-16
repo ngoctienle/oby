@@ -8,6 +8,7 @@ import {
   TrashIcon
 } from '@heroicons/react/24/outline'
 import { useMutation, useQuery } from '@tanstack/react-query'
+import { useRouter } from 'next/router'
 import { Fragment, useMemo, useState } from 'react'
 import { toast } from 'react-hot-toast'
 
@@ -36,7 +37,10 @@ import { OBYButton, OBYImage } from '@/components/UI/Element'
 
 export default function CartPage() {
   const [guestCartId] = useGlobalState('guestCartId')
+  const [user] = useGlobalState('user')
   const [isOpen, setIsOpen] = useState<boolean>(false)
+
+  const router = useRouter()
 
   const { data: guestData, refetch } = useQuery({
     queryKey: ['guestCart', guestCartId],
@@ -107,12 +111,16 @@ export default function CartPage() {
     deleteProductMutation.mutate(itemId)
   }
 
-  console.log(initializeData)
+  const handleContinue = () => {
+    if (!user) {
+      router.push('dang-nhap')
+    }
+  }
 
   return (
     <div className='pt-7.5 min-h-[50%]'>
       <div className='container'>
-        {!initializeData ? (
+        {!initializeData || initializeData.length === 0 ? (
           <NoProduct />
         ) : (
           <>
@@ -277,7 +285,12 @@ export default function CartPage() {
                         <p className='fs-18 font-semibold'>{calculateTotalPrice(initializeData)}</p>
                       </div>
                     </div>
-                    <OBYButton className='mt-5 bg-oby-primary text-white w-full py-2.5 rounded-4'>Tiếp tục</OBYButton>
+                    <OBYButton
+                      className='mt-5 bg-oby-primary text-white w-full py-2.5 rounded-4'
+                      onClick={handleContinue}
+                    >
+                      Tiếp tục
+                    </OBYButton>
                   </div>
                 </div>
               </div>

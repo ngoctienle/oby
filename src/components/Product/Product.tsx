@@ -30,7 +30,7 @@ export default function Product({ data }: ProductProps) {
       { cartItem: { sku: data.sku, qty: 1 } },
       {
         onSuccess: () => {
-          toast.success('Thêm vào giỏ hàng thành công!')
+          toast.success('Đã thêm sản phẩm vào Giỏ hàng!')
           queryClient.invalidateQueries({
             queryKey: ['guestCart', guestCartId]
           })
