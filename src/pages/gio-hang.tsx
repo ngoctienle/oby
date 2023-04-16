@@ -41,6 +41,7 @@ export default function CartPage() {
   const [user] = useGlobalState('user')
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [isPromoOpen, setIsPromoOpen] = useState<boolean>(false)
+  const [itemId, setItemId] = useState<string>('')
 
   const router = useRouter()
 
@@ -122,6 +123,15 @@ export default function CartPage() {
     }
   }
 
+  const handleShowModal = (itemId: string) => {
+    setIsOpen(true)
+    setItemId(itemId)
+  }
+  const handleCloseModal = () => {
+    setIsOpen(false)
+    setItemId('')
+  }
+
   return (
     <div className='pt-7.5 min-h-[50%]'>
       <div className='container'>
@@ -189,74 +199,74 @@ export default function CartPage() {
                         />
                         <TrashIcon
                           className='text-oby-9A9898 w-6 h-6 cursor-pointer'
-                          onClick={() => setIsOpen(true)}
+                          onClick={() => handleShowModal(item.item_id.toString())}
                           type='button'
                         />
                       </div>
                     </div>
-                    <Transition show={isOpen} as={Fragment}>
-                      <Dialog as='div' className='relative z-10' onClose={() => setIsOpen(false)}>
+                  </div>
+                ))}
+                {/* Delete Modal */}
+                <Transition show={isOpen} as={Fragment}>
+                  <Dialog as='div' className='relative z-10' onClose={() => handleCloseModal()}>
+                    <Transition.Child
+                      as={Fragment}
+                      enter='ease-out duration-300'
+                      enterFrom='opacity-0'
+                      enterTo='opacity-100'
+                      leave='ease-in duration-200'
+                      leaveFrom='opacity-100'
+                      leaveTo='opacity-0'
+                    >
+                      <div className='fixed inset-0 bg-black/30' />
+                    </Transition.Child>
+
+                    <div className='fixed inset-0 overflow-y-auto'>
+                      <div className='flex min-h-full items-center justify-center p-4 text-center'>
                         <Transition.Child
                           as={Fragment}
                           enter='ease-out duration-300'
-                          enterFrom='opacity-0'
-                          enterTo='opacity-100'
+                          enterFrom='opacity-0 scale-95'
+                          enterTo='opacity-100 scale-100'
                           leave='ease-in duration-200'
-                          leaveFrom='opacity-100'
-                          leaveTo='opacity-0'
+                          leaveFrom='opacity-100 scale-100'
+                          leaveTo='opacity-0 scale-95'
                         >
-                          <div className='fixed inset-0 bg-black/30' />
+                          <Dialog.Panel className='w-full max-w-md transform overflow-hidden rounded-2.5 bg-white px-6 py-7.5 text-left align-middle shadow-xl transition-all'>
+                            <Dialog.Title as='h3' className='fs-18 font-semibold text-center'>
+                              Xác nhận xóa sản phẩm
+                            </Dialog.Title>
+                            <div className='my-6'>
+                              <p className='fs-16 text-center text-oby-676869'>Bạn có chắc chắn muốn xóa sản phẩm?</p>
+                            </div>
+
+                            <div className='flex items-center gap-3'>
+                              <OBYButton
+                                type='button'
+                                className='rounded-4 border border-oby-DFDFDF py-2.5 fs-16 text-oby-676869 w-full'
+                                onClick={() => handleCloseModal()}
+                              >
+                                Hủy bỏ
+                              </OBYButton>
+                              <OBYButton
+                                type='button'
+                                className='rounded-4 border border-transparent py-2.5 fs-16 text-white w-full bg-oby-primary'
+                                onClick={() => handleRemove(itemId)}
+                                disabled={deleteProductMutation.isLoading}
+                              >
+                                Đồng ý
+                                {deleteProductMutation.isLoading && (
+                                  <ArrowPathIcon className='text-white ml-1.5 @992:h-6 @992:w-6 h-5 w-5 animate-spin' />
+                                )}
+                              </OBYButton>
+                            </div>
+                          </Dialog.Panel>
                         </Transition.Child>
-
-                        <div className='fixed inset-0 overflow-y-auto'>
-                          <div className='flex min-h-full items-center justify-center p-4 text-center'>
-                            <Transition.Child
-                              as={Fragment}
-                              enter='ease-out duration-300'
-                              enterFrom='opacity-0 scale-95'
-                              enterTo='opacity-100 scale-100'
-                              leave='ease-in duration-200'
-                              leaveFrom='opacity-100 scale-100'
-                              leaveTo='opacity-0 scale-95'
-                            >
-                              <Dialog.Panel className='w-full max-w-md transform overflow-hidden rounded-2.5 bg-white px-6 py-7.5 text-left align-middle shadow-xl transition-all'>
-                                <Dialog.Title as='h3' className='fs-18 font-semibold text-center'>
-                                  Xác nhận xóa sản phẩm
-                                </Dialog.Title>
-                                <div className='my-6'>
-                                  <p className='fs-16 text-center text-oby-676869'>
-                                    Bạn có chắc chắn muốn xóa sản phẩm?
-                                  </p>
-                                </div>
-
-                                <div className='flex items-center gap-3'>
-                                  <OBYButton
-                                    type='button'
-                                    className='rounded-4 border border-oby-DFDFDF py-2.5 fs-16 text-oby-676869 w-full'
-                                    onClick={() => setIsOpen(false)}
-                                  >
-                                    Hủy bỏ
-                                  </OBYButton>
-                                  <OBYButton
-                                    type='button'
-                                    className='rounded-4 border border-transparent py-2.5 fs-16 text-white w-full bg-oby-primary'
-                                    onClick={() => handleRemove(item.item_id.toString())}
-                                    disabled={deleteProductMutation.isLoading}
-                                  >
-                                    Đồng ý
-                                    {deleteProductMutation.isLoading && (
-                                      <ArrowPathIcon className='text-white ml-1.5 @992:h-6 @992:w-6 h-5 w-5 animate-spin' />
-                                    )}
-                                  </OBYButton>
-                                </div>
-                              </Dialog.Panel>
-                            </Transition.Child>
-                          </div>
-                        </div>
-                      </Dialog>
-                    </Transition>
-                  </div>
-                ))}
+                      </div>
+                    </div>
+                  </Dialog>
+                </Transition>
+                {/* End Delete Modal */}
               </div>
               <div className='col-span-4 bg-transparent'>
                 <div className=' bg-white rounded-tl-4 rounded-br-4 bsd'>
@@ -272,6 +282,7 @@ export default function CartPage() {
                         </div>
                         <ChevronRightIcon className='w-6 h-6 text-oby-676869 justify-end' />
                       </OBYButton>
+                      {/* Promo Modal */}
                       <Transition show={isPromoOpen} as={Fragment}>
                         <Dialog as='div' className='relative z-10' onClose={() => setIsPromoOpen(false)}>
                           <Transition.Child
@@ -324,6 +335,7 @@ export default function CartPage() {
                           </div>
                         </Dialog>
                       </Transition>
+                      {/* End Promo Modal */}
                     </div>
                   </div>
                   <div className='mt-4 px-6 pb-5'>

@@ -10,10 +10,7 @@ const nextConfig = {
     removeConsole: !isDev
   },
   swcMinify: true,
-  compress: true,
-  css: {
-    module: false
-  }
+  compress: true
 }
 
 module.exports = nextConfig
