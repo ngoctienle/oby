@@ -66,6 +66,15 @@ export default function CartPage() {
     staleTime: cacheTime.halfHours
   })
 
+  const productInCart = productData && productData?.data
+
+  const initializeData = useMemo(() => {
+    if (cartData && productInCart) {
+      return mergeArrayItems(cartData.items, productInCart)
+    }
+    return null
+  }, [cartData, productInCart])
+
   const updateCartMutation = useMutation({
     mutationFn: ({ itemId, body }: { itemId: string; body: CartUpdateRequest }) =>
       cartApi.UpdateGuestCart(guestCartId as string, itemId, body),
@@ -85,15 +94,6 @@ export default function CartPage() {
       toast.success('Xóa sản phẩm thành công!')
     }
   })
-
-  const productInCart = productData && productData?.data
-
-  const initializeData = useMemo(() => {
-    if (cartData && productInCart) {
-      return mergeArrayItems(cartData.items, productInCart)
-    }
-    return null
-  }, [cartData, productInCart])
 
   const handleQuantity = (itemId: string, value: number, isValid: boolean) => {
     if (isValid) {
@@ -120,6 +120,8 @@ export default function CartPage() {
   const handleContinue = () => {
     if (!user) {
       router.push('dang-nhap')
+    } else {
+      router.push('dat-hang')
     }
   }
 

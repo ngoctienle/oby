@@ -6,6 +6,8 @@ import { Element as TriggerScroll } from 'react-scroll'
 
 import { ItemWithAttribute } from '@/@types/category.type'
 
+import { generateMetaSEO } from '@/libs/seo'
+
 import { getIDListCategoryAsString, getParentCategory } from '@/helpers/category'
 
 import categoryApi from '@/apis/category.api'
@@ -30,6 +32,7 @@ import {
   OBYOatIcon,
   OBYPharmacyIcon
 } from '@/components/UI/OBYIcons'
+import { OBYSeo } from '@/components/UI/OBYSeo'
 
 const CategoryContent = [
   { icon: <OBYMilkIcon className='w-10 h-10 flex-shrink-0' />, title: 'Sữa dinh dưỡng' },
@@ -65,8 +68,19 @@ export default function Home() {
     return parentCategoryAttrRes?.data.items as ItemWithAttribute[]
   }, [parentCategoryAttrRes])
 
+  const meta = generateMetaSEO({
+    title: 'Ông Bà Yêu',
+    template: 'Trang Chủ',
+    description: 'Đây là description',
+    keywords: [`OBY, Ông Bà Yêu, ongbayeu.vn`],
+    og_image: '123123',
+    og_image_alt: 'Ông Bà Yêu',
+    slug: '/'
+  })
+
   return (
     <>
+      <OBYSeo {...meta} />
       <Banner />
       <HomeLayout dataCategory={parentCategoryItem}>
         {/* <ProductSuggest /> */}
