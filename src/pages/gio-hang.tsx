@@ -133,7 +133,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className='pt-7.5 min-h-[50%]'>
+    <div className='@992:pt-7.5 pt-2 min-h-[50%]'>
       <div className='container'>
         {!initializeData || initializeData.length === 0 ? (
           <NoProduct />
@@ -141,33 +141,33 @@ export default function CartPage() {
           <>
             <div className='flex items-center max-w-[426px] justify-between mx-auto relative'>
               <div className='absolute w-[80%] h-[1px] top-[35%] left-1/2 -translate-x-1/2 -z-10 bg-oby-DFDFDF' />
-              <div className='flex flex-col items-center gap-1.5'>
-                <div className='w-[56px] flex items-center justify-center h-[56px] rounded-full bg-oby-E4FBDB'>
-                  <ShoppingBagIcon className='w-8 h-8 text-oby-green' />
+              <div className='flex flex-col items-center @768:gap-1.5 gap-1'>
+                <div className='@768:w-[56px] w-10 flex items-center justify-center @768:h-[56px] h-10 rounded-full bg-oby-E4FBDB'>
+                  <ShoppingBagIcon className='@768:w-8 @768:h-8 w-6 h-6 text-oby-green' />
                 </div>
-                <p className='fs-14 text-oby-green font-semibold'>Giỏ hàng</p>
+                <p className='@768:fs-14 fs-12 text-oby-green font-semibold'>Giỏ hàng</p>
               </div>
               <div className='flex flex-col items-center gap-1.5'>
-                <div className='w-[56px] flex items-center justify-center h-[56px] rounded-full bg-oby-F6F7F8'>
-                  <BanknotesIcon className='w-8 h-8 text-oby-9A9898' />
+                <div className='@768:w-[56px] w-10 flex items-center justify-center @768:h-[56px] h-10 rounded-full bg-oby-F6F7F8'>
+                  <BanknotesIcon className='@768:w-8 @768:h-8 w-6 h-6 text-oby-9A9898' />
                 </div>
-                <p className='fs-14 text-oby-9A9898'>Tiến hành đặt hàng</p>
+                <p className='@768:fs-14 fs-12 text-oby-9A9898'>Tiến hành đặt hàng</p>
               </div>
               <div className='flex flex-col items-center gap-1.5'>
-                <div className='w-[56px] flex items-center justify-center h-[56px] rounded-full bg-oby-F6F7F8'>
-                  <CheckIcon className='w-8 h-8 text-oby-9A9898' />
+                <div className='@768:w-[56px] w-10 flex items-center justify-center @768:h-[56px] h-10 rounded-full bg-oby-F6F7F8'>
+                  <CheckIcon className='@768:w-8 @768:h-8 w-6 h-6 text-oby-9A9898' />
                 </div>
-                <p className='fs-14 text-oby-9A9898'>Hoàn thành</p>
+                <p className='@768:fs-14 fs-12 text-oby-9A9898'>Hoàn thành</p>
               </div>
             </div>
-            <div className='mt-7.5 grid grid-cols-12 gap-10'>
-              <div className='col-span-8'>
+            <div className='@992:mt-7.5 mt-4 grid grid-cols-12 @992:gap-10 gap-5'>
+              <div className='@992:col-span-8 col-span-12'>
                 {initializeData.map((item) => (
                   <div
-                    className='p-5 border border-oby-DFDFDF bg-white rounded-tl-4 rounded-br-4 first:mt-0 mt-5 flex gap-5'
+                    className='@992:p-5 py-3.5 px-4 border border-oby-DFDFDF bg-white rounded-tl-4 rounded-br-4 first:mt-0 @992:mt-5 mt-3 flex @992:gap-5 gap-3.5'
                     key={item.item_id}
                   >
-                    <div className='flex-shrink relative w-[150px] h-[100px] bg-white rounded-tl-4 rounded-br-4 overflow-hidden'>
+                    <div className='flex-shrink-0 relative w-[150px] h-[100px] bg-white rounded-tl-4 rounded-br-4 overflow-hidden'>
                       <OBYImage
                         src={generateProductImageFromMagento(item.custom_attributes)}
                         alt={item.name}
@@ -176,16 +176,18 @@ export default function CartPage() {
                         className='object-cover'
                       />
                     </div>
-                    <div className='flex-grow'>
-                      <h2 className='fs-16 line-clamp-1'>{item.name}</h2>
+                    <div className='w-full'>
+                      <h2 className='@992:fs-16 fs-14 @992:line-clamp-1 line-clamp-2'>{item.name}</h2>
                       <div className='flex items-center gap-2.5 my-2'>
                         {isHaveDiscount(item.custom_attributes) ? (
                           <>
-                            <p className='fs-16 font-semibold'>{getDiscount(item.custom_attributes)}</p>
-                            <p className='fs-14 line-through text-oby-676869'>{getCost(item.custom_attributes)}</p>
+                            <p className='@992:fs-16 fs-14 font-semibold'>{getDiscount(item.custom_attributes)}</p>
+                            <p className='@992:fs-14 fs-12 line-through text-oby-676869'>
+                              {getCost(item.custom_attributes)}
+                            </p>
                           </>
                         ) : (
-                          <p className='fs-16 font-semibold'>{formatCurrency(item.price)}</p>
+                          <p className='@992:fs-16 fs-14 font-semibold'>{formatCurrency(item.price)}</p>
                         )}
                       </div>
                       <div className='flex items-center justify-between'>
@@ -268,17 +270,17 @@ export default function CartPage() {
                 </Transition>
                 {/* End Delete Modal */}
               </div>
-              <div className='col-span-4 bg-transparent'>
+              <div className='@992:col-span-4 col-span-12 bg-transparent'>
                 <div className=' bg-white rounded-tl-4 rounded-br-4 bsd'>
-                  <div className='pt-5 pb-4 border-b border-b-oby-DFDFDF'>
-                    <div className='flex items-center gap-7.5 px-6'>
-                      <p className='fs-16 font-semibold'>Mã giảm giá</p>
+                  <div className='@992:pt-5 pt-4 @992:pb-4 pb-3 border-b border-b-oby-DFDFDF'>
+                    <div className='flex items-center gap-7.5 @992:px-6 px-4'>
+                      <p className='@992:fs-16 fs-14 font-semibold'>Mã giảm giá</p>
                       <OBYButton
                         onClick={() => setIsPromoOpen(true)}
                         className='rounded-4 border border-oby-DFDFDF flex items-center py-2 px-3 flex-grow'
                       >
                         <div className='flex-grow'>
-                          <p className='fs-14 text-oby-9A9898'>Chọn hoặc nhập mã</p>
+                          <p className='fs-14 text-oby-9A9898 text-left'>Chọn hoặc nhập mã</p>
                         </div>
                         <ChevronRightIcon className='w-6 h-6 text-oby-676869 justify-end' />
                       </OBYButton>
@@ -338,27 +340,31 @@ export default function CartPage() {
                       {/* End Promo Modal */}
                     </div>
                   </div>
-                  <div className='mt-4 px-6 pb-5'>
-                    <p className='fs-18 mb-4 font-bold text-oby-primary'>Tổng giỏ hàng</p>
+                  <div className='@992:mt-4 mt-3 @992:px-6 px-4 @992:pb-5 pb-4'>
+                    <p className='@992:fs-18 fs-16 mb-4 font-bold text-oby-primary'>Tổng giỏ hàng</p>
                     <div className='flex items-center justify-between'>
-                      <p className='fs-16'>Tạm tính ({initializeData.length})</p>
-                      <p className='fs-16 text-end'>{calculateTotalOriginPrice(initializeData)}</p>
+                      <p className='@992:fs-16 fs-14'>Tạm tính ({initializeData.length})</p>
+                      <p className='@992:fs-16 fs-14 text-end'>{calculateTotalOriginPrice(initializeData)}</p>
                     </div>
-                    <div className='flex items-center justify-between mt-3'>
-                      <p className='fs-16'>Giảm giá sản phẩm</p>
-                      <p className='fs-16 text-end text-oby-orange'>{calculateTotalDiscountPrice(initializeData)}</p>
-                    </div>
+                    {calculateTotalDiscountPrice(initializeData) && (
+                      <div className='flex items-center justify-between mt-3'>
+                        <p className='@992:fs-16 fs-14'>Giảm giá sản phẩm</p>
+                        <p className='@992:fs-16 fs-14 text-end text-oby-orange'>
+                          {calculateTotalDiscountPrice(initializeData)}
+                        </p>
+                      </div>
+                    )}
                     <div className='mt-3 pt-3 border-t border-t-oby-DFDFDF'>
                       <div className='flex justify-between'>
                         <div className='flex flex-col'>
-                          <p className='fs-16 font-semibold'>Thành tiền</p>
-                          <p className='fs-14 text-oby-9A9898'>(Đã bao gồm VAT)</p>
+                          <p className='@992:fs-16 fs-14 font-semibold'>Thành tiền</p>
+                          <p className='@992:fs-14 fs-12 text-oby-9A9898'>(Đã bao gồm VAT)</p>
                         </div>
-                        <p className='fs-18 font-semibold'>{calculateTotalPrice(initializeData)}</p>
+                        <p className='@992:fs-18 fs-16 font-semibold'>{calculateTotalPrice(initializeData)}</p>
                       </div>
                     </div>
                     <OBYButton
-                      className='mt-5 bg-oby-primary text-white w-full py-2.5 rounded-4'
+                      className='@992:mt-5 mt-3 bg-oby-primary text-white w-full py-2.5 rounded-4'
                       onClick={handleContinue}
                     >
                       Tiếp tục

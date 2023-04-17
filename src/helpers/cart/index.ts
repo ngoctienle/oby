@@ -34,7 +34,11 @@ export const calculateTotalDiscountPrice = (items: InitializeCartItem[]) => {
     return accumulator
   }, 0)
 
-  return '-' + formatCurrency(totalDiscountPrice)
+  if (totalDiscountPrice > 0) {
+    return '-' + formatCurrency(totalDiscountPrice)
+  } else {
+    return false
+  }
 }
 
 export const calculateTotalPrice = (items: InitializeCartItem[]) => {
