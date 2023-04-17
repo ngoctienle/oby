@@ -1,8 +1,7 @@
 import { ItemInCart } from '@/@types/cart.type'
 import { CustomAttribute } from '@/@types/magento.type'
-import { Product } from '@/@types/product.type'
 
-import { createSlug, formatCurrency } from '@/helpers'
+import { formatCurrency } from '@/helpers'
 
 import { SITE_URL } from '@/constants/domain.constant'
 
@@ -34,13 +33,8 @@ export const getDescription = (data: CustomAttribute[]) => {
   return item?.value
 }
 
-export const generateProductLink = (data: Product) => {
-  const productName = data.name.trim()
-  const arrData = data.custom_attributes.find((obj: CustomAttribute) => obj.attribute_code === 'category_ids')
-  const arrCategoryValue = (arrData as CustomAttribute).value
-
-  return `${createSlug(productName)}-id-${arrCategoryValue[1]}`
-}
+export const findIDsFromProduct = (data: CustomAttribute[]) =>
+  data.find((obj: CustomAttribute) => obj.attribute_code === 'category_ids')?.value
 
 export const generateProductImageFromMagento = (data: CustomAttribute[]) => {
   const item = data.find((item) => item.attribute_code === 'image')

@@ -7,7 +7,7 @@ import { Product as ProductType } from '@/@types/product.type'
 import { useGlobalState } from '@/libs/state'
 
 import { formatCurrency, getDiscountPercent } from '@/helpers'
-import { generateProductImageFromMagento, generateProductLink, getDiscount, isHaveDiscount } from '@/helpers/product'
+import { generateProductImageFromMagento, getDiscount, isHaveDiscount } from '@/helpers/product'
 
 import cartApi from '@/apis/cart.api'
 
@@ -49,7 +49,7 @@ export default function Product({ data }: ProductProps) {
   return (
     <div className='flex flex-col'>
       <OBYLink
-        href={`${hrefPath.productDetail}/${generateProductLink(data)}`}
+        href={`${hrefPath.productDetail}/${data.sku}`}
         className='overflow-hidden relative w-full border bg-white border-oby-DFDFDF @768:pt-[56%] pt-[70%] @992:rounded-tl-4 @992:rounded-br-4 rounded-tl-2.5 rounded-br-2.5'
       >
         <OBYImage
@@ -60,7 +60,7 @@ export default function Product({ data }: ProductProps) {
         />
       </OBYLink>
       <OBYLink
-        href={`${hrefPath.productDetail}/${generateProductLink(data)}`}
+        href={`${hrefPath.productDetail}/${data.sku}`}
         className='@992:h-11 h-9 fs-14 @992:fs-16 @992:leading-[140%] leading-[18.4px] @992:mt-3.5 mt-2 line-clamp-2'
       >
         {data.name}

@@ -30,18 +30,6 @@ export function createSlug(str: string) {
   return removeSpecialCharacter(removeAccents(str)).replace(/\s+/g, '-')
 }
 
-export function getIdFromNameId(nameId: string) {
-  const arr = nameId.split('-id-')
-
-  return arr[arr.length - 1]
-}
-
-export function getSKUFromNameId(nameId: string) {
-  const arr = nameId.split('-id-')
-
-  return arr[0]
-}
-
 export function mergeArrayItems(arr1: ItemInCart[], arr2: ProductResponse) {
   return arr1.map((item) => ({
     ...item,

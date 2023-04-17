@@ -8,8 +8,9 @@ import {
 } from '@heroicons/react/24/outline'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import DOMPurify from 'isomorphic-dompurify'
-import { GetServerSideProps } from 'next'
+import { GetStaticPaths, GetStaticProps } from 'next'
 import Image from 'next/image'
+import { ParsedUrlQuery } from 'querystring'
 import React, { useRef, useState } from 'react'
 import { toast } from 'react-hot-toast'
 
@@ -20,13 +21,20 @@ import { generateMetaSEO } from '@/libs/seo'
 import { useGlobalState } from '@/libs/state'
 import twclsx from '@/libs/twclsx'
 
-import { formatCurrency, getDiscountPercent, getIdFromNameId, getSKUFromNameId } from '@/helpers'
-import { generateProductImageFromMagento, getDescription, getDiscount, isHaveDiscount } from '@/helpers/product'
+import { formatCurrency, getDiscountPercent } from '@/helpers'
+import {
+  findIDsFromProduct,
+  generateProductImageFromMagento,
+  getDescription,
+  getDiscount,
+  isHaveDiscount
+} from '@/helpers/product'
 
 import cartApi from '@/apis/cart.api'
 import categoryApi from '@/apis/category.api'
 import productApi from '@/apis/product.api'
 
+import { cacheTime } from '@/constants/config.constant'
 import { hrefPath } from '@/constants/href.constant'
 
 import Breadcrumb from '@/components/Breadcrumb'
@@ -42,18 +50,14 @@ interface IProductDetailProps {
   subName: string
   parentName: string
   productName: string
-  skuProduct: string
   productData: Product
 }
 
-export default function ProductDetail({
-  subName,
-  productData,
-  parentName,
-  productName,
-  skuProduct,
-  slug
-}: IProductDetailProps) {
+interface IParams extends ParsedUrlQuery {
+  slug: string
+}
+
+export default function ProductDetail({ subName, productData, parentName, productName, slug }: IProductDetailProps) {
   const queryClient = useQueryClient()
   const [guestCartId] = useGlobalState('guestCartId')
 
@@ -77,7 +81,7 @@ export default function ProductDetail({
    */
   const handleAddToCart = () => {
     addToCartMutation.mutate(
-      { cartItem: { sku: skuProduct, qty: buyCount } },
+      { cartItem: { sku: slug, qty: buyCount } },
       {
         onSuccess: () => {
           toast.success('Đã thêm sản phẩm vào Giỏ hàng!')
@@ -286,37 +290,38 @@ export default function ProductDetail({
 }
 
 /* Generate Data as Server Side */
-export const getServerSideProps: GetServerSideProps<IProductDetailProps> = async (context) => {
-  const { query } = context
-  const slug = query.slug as string
+export const getStaticPaths: GetStaticPaths = async () => {
+  const { data } = await productApi.GetAllProducts()
 
-  const subId = getIdFromNameId(slug as string)
-  const skuProduct = getSKUFromNameId(slug as string)
+  const paths = data.items.map((product) => {
+    const slug = product.sku
+    return { params: { slug } }
+  })
+
+  return { paths, fallback: true }
+}
+
+export const getStaticProps: GetStaticProps<IProductDetailProps> = async (context) => {
+  const { slug } = context.params as IParams
 
   try {
-    const [subCategoryRes, productRes] = await Promise.all([
-      categoryApi.GetCategoryNameById(subId),
-      productApi.GetProductDetailBySKU(skuProduct)
+    const { data: productData } = await productApi.GetProductDetailBySKU(slug)
+    const categoryIDs = findIDsFromProduct(productData.custom_attributes) ?? []
+
+    const [subCategoryRes, parentCategoryRes] = await Promise.all([
+      categoryApi.GetCategoryNameById(categoryIDs[1]),
+      categoryApi.GetCategoryNameById(categoryIDs[0])
     ])
-
-    const parentCategoryID = subCategoryRes.data.parent_id.toString()
-    const parentCategoryRes = await categoryApi.GetCategoryNameById(parentCategoryID)
-
-    /* Data For Return Props */
-    const subName = subCategoryRes.data.name
-    const parentName = parentCategoryRes.data.name
-    const productData = productRes.data
-    const productName = productData.name
 
     return {
       props: {
-        subName,
-        parentName,
-        productName,
+        subName: subCategoryRes.data.name,
+        parentName: parentCategoryRes.data.name,
+        productName: productData.name,
         productData,
-        skuProduct,
         slug
-      }
+      },
+      revalidate: cacheTime.halfHours
     }
   } catch (error) {
     console.log(error)
