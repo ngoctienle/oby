@@ -46,6 +46,7 @@ export default function ProductList({ category, subcategory, categoryID }: Produ
               subcategory.map((item) => (
                 <OBYLink
                   href={generateURLWithCategory(category, item.name)}
+                  title={item.name}
                   key={item.id}
                   className='@992:rounded-4 rounded-2.5 border border-oby-DFDFDF px-3 py-2.75 @992:fs-14 fs-12 whitespace-nowrap'
                 >
@@ -64,7 +65,7 @@ export default function ProductList({ category, subcategory, categoryID }: Produ
         ))}
       </div>
       <div className='flex items-center justify-center mt-10 gap-1.5'>
-        <OBYLink href='/' className='text-oby-primary @992:fs-18 fs-16'>
+        <OBYLink href='/' title='Xem tất cả sản phẩm' className='text-oby-primary @992:fs-18 fs-16'>
           Xem tất cả
         </OBYLink>
         <ChevronRightIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary' />

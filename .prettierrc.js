@@ -10,7 +10,7 @@ const config = {
   importOrder: [
     '@/@types/(.*)$',
     '@/contexts/(.*)$',
-    '@/hooks/(.*)$',
+    '@/hooks',
     '@/libs/(.*)$',
     '@/helpers',
     '@/helpers/(.*)$',

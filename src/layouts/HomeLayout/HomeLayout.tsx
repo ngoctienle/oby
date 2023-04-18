@@ -32,6 +32,8 @@ export default function HomeLayout({ children, dataCategory }: HomeLayoutProps) 
                     duration={1000}
                     delay={150}
                     offset={-100}
+                    href='#'
+                    title={item.name}
                     className='flex cursor-pointer flex-col gap-0.5 items-center first:mt-0 mt-3'
                     key={item.id}
                   >

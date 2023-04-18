@@ -1,14 +1,15 @@
-import { useWindowScrollY } from '@/hooks'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, UserCircleIcon } from '@heroicons/react/24/outline'
 import { useQuery } from '@tanstack/react-query'
 import { NextFont } from 'next/dist/compiled/@next/font'
+
+import { useWindowScrollY } from '@/hooks'
 
 import { useGlobalState } from '@/libs/state'
 import twclsx from '@/libs/twclsx'
 
 import cartApi from '@/apis/cart.api'
 
-import { cacheTime } from '@/constants/config.constant'
+import { appInformationConfig, cacheTime } from '@/constants/config.constant'
 import { hrefPath } from '@/constants/href.constant'
 
 import { OBYImage, OBYLink } from '@/components/UI/Element'
@@ -45,18 +46,22 @@ export default function Header({ font }: HeaderProps) {
               </div>
               <div className='flex items-center gap-1 ml-15'>
                 <p className='fs-14'>Mua hàng và CSKH</p>
-                <OBYLink href='tel:078 927 9669' title='Mua hàng và CSKH' className='text-oby-primary font-bold fs-14'>
-                  078 927 9669
+                <OBYLink
+                  href={`tel:${appInformationConfig.APP_PHONE}`}
+                  title='Mua hàng và CSKH'
+                  className='text-oby-primary font-bold fs-14'
+                >
+                  {appInformationConfig.APP_PHONE}
                 </OBYLink>
               </div>
               <div className='flex items-center gap-1 ml-15'>
                 <p className='fs-14'>Email</p>
                 <OBYLink
-                  href='mailto:ongbayeu.corp@gmail.com'
+                  href={`mailto:${appInformationConfig.APP_EMAIL}`}
                   title='Email'
                   className='text-oby-primary font-bold fs-14'
                 >
-                  ongbayeu.corp@gmail.com
+                  {appInformationConfig.APP_EMAIL}
                 </OBYLink>
               </div>
             </div>
@@ -74,10 +79,11 @@ export default function Header({ font }: HeaderProps) {
                 <OBYImage
                   display='responsive'
                   src='/images/oby-logo.png'
-                  alt='OBY'
-                  title='OBY'
+                  alt='Ông Bà Yêu Logo Brand'
+                  title='Ông Bà Yêu Logo Brand'
                   className='object-cover'
                 />
+                <h1 className='sr-only'>Ông Bà Yêu</h1>
               </OBYLink>
               <Bars3Icon className='@992:hidden inline-block w-7 h-7' />
               {/* Search Form */}
@@ -92,9 +98,11 @@ export default function Header({ font }: HeaderProps) {
               <OBYLink href={hrefPath.cartPage} className='flex flex-col items-center'>
                 <div className='relative'>
                   <ShoppingBagIcon className='w-8 h-8 text-oby-676869' strokeWidth={1} />
-                  <p className='absolute flex items-center justify-center top-1 -right-1 w-4.5 h-4.5 @992:fs-11 fs-10 bg-oby-primary text-white rounded-full'>
-                    {cartData?.items_qty}
-                  </p>
+                  {cartData && (
+                    <p className='absolute flex items-center justify-center top-1 -right-1 w-4.5 h-4.5 @992:fs-11 fs-10 bg-oby-primary text-white rounded-full'>
+                      {cartData.items_qty}
+                    </p>
+                  )}
                 </div>
                 <p className='@992:fs-12 @992:block hidden'>Giỏ hàng</p>
               </OBYLink>
