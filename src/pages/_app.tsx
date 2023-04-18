@@ -1,17 +1,19 @@
 import '@/styles/globals.css'
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import Cookies from 'js-cookie'
-import type { AppProps } from 'next/app'
+import cookie from 'cookie'
+import type { AppContext, AppProps } from 'next/app'
+import App from 'next/app'
 import { Inter } from 'next/font/google'
-import { useRouter } from 'next/router'
 import Script from 'next/script'
 import NextNProgress from 'nextjs-progressbar'
-import { Fragment, useEffect } from 'react'
-import { Toaster, toast } from 'react-hot-toast'
+import { Fragment, useEffect, useMemo } from 'react'
+import { Toaster } from 'react-hot-toast'
 
 import { useGlobalState } from '@/libs/state'
 import twclsx from '@/libs/twclsx'
+
+import { getGuestCartIdSSRAndCSR } from '@/helpers/cookie'
 
 import cartApi from '@/apis/cart.api'
 
@@ -31,28 +33,19 @@ const queryClient = new QueryClient({
   }
 })
 
-export default function App({ Component, pageProps }: AppProps) {
-  const router = useRouter()
-  const [guestCartId, setGuestCartId] = useGlobalState('guestCartId')
-  const [user] = useGlobalState('user')
+function OBYApp({ Component, pageProps, router }: AppProps) {
+  const [, setGuestCartId] = useGlobalState('guestCartId')
+  /*   const [user] = useGlobalState('user') */
+
+  useMemo(() => {
+    setGuestCartId(pageProps.guestCartId)
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     const handleRouteChange = () => {
       window.scrollTo(0, 0)
-    }
-
-    if (!guestCartId && !user) {
-      cartApi
-        .GenerateGuestCart()
-        .then((response) => {
-          const data = response.data
-          const expireTime = new Date(Date.now() + 24 * 60 * 60 * 1000) /* 1 Days from Created */
-          setGuestCartId(data)
-          Cookies.set('guestCartId', data, { expires: expireTime })
-        })
-        .catch((error) => {
-          toast.error(error.message)
-        })
     }
 
     router.events.on('routeChangeComplete', handleRouteChange)
@@ -83,6 +76,8 @@ export default function App({ Component, pageProps }: AppProps) {
               duration: 2500
             }}
           />
+
+          {/* TawkTo Extension */}
           <Script id='tawk' strategy='lazyOnload'>
             {`
             var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
@@ -102,3 +97,28 @@ export default function App({ Component, pageProps }: AppProps) {
     </Fragment>
   )
 }
+
+OBYApp.getInitialProps = async (appContext: AppContext) => {
+  const appProps = await App.getInitialProps(appContext)
+
+  let guestCartId = getGuestCartIdSSRAndCSR(appContext.ctx)
+
+  if (!guestCartId) {
+    guestCartId = (await cartApi.GenerateGuestCart()).data
+
+    /* Serialize GuestCartId To Cookie */
+    const cookieStr = cookie.serialize('guestCartId', guestCartId, {
+      expires: new Date(Date.now() + 24 * 60 * 60 * 1000)
+    })
+    appContext.ctx.res?.setHeader('Set-Cookie', cookieStr)
+  }
+
+  return {
+    pageProps: {
+      ...appProps.pageProps,
+      guestCartId
+    }
+  }
+}
+
+export default OBYApp
