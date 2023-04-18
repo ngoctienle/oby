@@ -30,7 +30,7 @@ import {
 import cartApi from '@/apis/cart.api'
 import productApi from '@/apis/product.api'
 
-import { cacheTime } from '@/constants/config.constant'
+import { MAX_PRODUCT, cacheTime } from '@/constants/config.constant'
 
 import NoProduct from '@/components/NoProduct'
 import QuantityController from '@/components/QuantityController'
@@ -42,6 +42,7 @@ export default function CartPage() {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [isPromoOpen, setIsPromoOpen] = useState<boolean>(false)
   const [itemId, setItemId] = useState<string>('')
+  const [itemName, setItemName] = useState<string>('')
 
   const router = useRouter()
 
@@ -125,13 +126,15 @@ export default function CartPage() {
     }
   }
 
-  const handleShowModal = (itemId: string) => {
+  const handleShowModal = (itemId: string, itemName: string) => {
     setIsOpen(true)
     setItemId(itemId)
+    setItemName(itemName)
   }
   const handleCloseModal = () => {
-    setIsOpen(false)
     setItemId('')
+    setItemName('')
+    setIsOpen(false)
   }
 
   return (
@@ -195,15 +198,15 @@ export default function CartPage() {
                       <div className='flex items-center justify-between'>
                         <QuantityController
                           classNameWrapper='max-w-max px-1.5 py-1.75'
-                          onIncrease={(value) => handleQuantity(item.item_id.toString(), value, value <= 10000)}
+                          onIncrease={(value) => handleQuantity(item.item_id.toString(), value, value <= MAX_PRODUCT)}
                           onDecrease={(value) => handleQuantity(item.item_id.toString(), value, value >= 1)}
                           onTyping={handleTypeQuantity(item.item_id.toString())}
                           value={item.qty}
-                          max={10000}
+                          max={MAX_PRODUCT}
                         />
                         <TrashIcon
                           className='text-oby-9A9898 w-6 h-6 cursor-pointer'
-                          onClick={() => handleShowModal(item.item_id.toString())}
+                          onClick={() => handleShowModal(item.item_id.toString(), item.name)}
                           type='button'
                         />
                       </div>
@@ -241,26 +244,28 @@ export default function CartPage() {
                               Xác nhận xóa sản phẩm
                             </Dialog.Title>
                             <div className='my-6'>
-                              <p className='fs-16 text-center text-oby-676869'>Bạn có chắc chắn muốn xóa sản phẩm?</p>
+                              <p className='fs-16 text-center text-oby-676869'>
+                                Bạn có chắc chắn muốn xóa sản phẩm {itemName}?
+                              </p>
                             </div>
 
                             <div className='flex items-center gap-3'>
                               <OBYButton
                                 type='button'
-                                className='rounded-4 border border-oby-DFDFDF py-2.5 fs-16 text-oby-676869 w-full'
+                                className='rounded-4 border border-transparent bg-oby-primary py-2.5 fs-16 text-white w-full'
                                 onClick={() => handleCloseModal()}
                               >
                                 Hủy bỏ
                               </OBYButton>
                               <OBYButton
                                 type='button'
-                                className='rounded-4 border border-transparent py-2.5 fs-16 text-white w-full bg-oby-primary'
+                                className='rounded-4 border border-oby-DFDFDF py-2.5 fs-16 text-oby-676869 w-full'
                                 onClick={() => handleRemove(itemId)}
                                 disabled={deleteProductMutation.isLoading}
                               >
                                 Đồng ý
                                 {deleteProductMutation.isLoading && (
-                                  <ArrowPathIcon className='text-white ml-1.5 @992:h-6 @992:w-6 h-5 w-5 animate-spin' />
+                                  <ArrowPathIcon className='text-oby-676869 ml-1.5 @992:h-6 @992:w-6 h-5 w-5 animate-spin' />
                                 )}
                               </OBYButton>
                             </div>

@@ -8,7 +8,12 @@ const categoryApi = {
   },
   GetAttrCategoryById(id: string) {
     return http.get<CategoryResponse>(
-      `V1/categories/list?searchCriteria[filterGroups][0][filters][0][field]=entity_id&searchCriteria[filterGroups][0][filters][0][value]=${id}&searchCriteria[filterGroups][0][filters][0][conditionType]=in`
+      `V1/categories/list?searchCriteria[filterGroups][0][filters][0][field]=entity_id&searchCriteria[filterGroups][0][filters][0][value]=${id}&searchCriteria[filterGroups][0][filters][0][conditionType]=in`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRECT_TOKEN}`
+        }
+      }
     )
   },
   GetCategoryNameById(id: string) {

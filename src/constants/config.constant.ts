@@ -3,7 +3,9 @@ export const cacheTime = {
   halfHours: 30 * 60 * 100
 } as const
 
+export const MAX_PRODUCT = 10000
+
 export const seoConfig = {
   SEO_NAME: process.env.NEXT_PUBLIC_SEO_NAME,
   SEO_URL: process.env.NEXT_PUBLIC_SEO_URL
-}
+} as const

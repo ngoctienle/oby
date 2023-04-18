@@ -34,7 +34,7 @@ import cartApi from '@/apis/cart.api'
 import categoryApi from '@/apis/category.api'
 import productApi from '@/apis/product.api'
 
-import { cacheTime } from '@/constants/config.constant'
+import { MAX_PRODUCT, cacheTime } from '@/constants/config.constant'
 import { hrefPath } from '@/constants/href.constant'
 
 import Breadcrumb from '@/components/Breadcrumb'
@@ -239,7 +239,7 @@ export default function ProductDetail({ subName, productData, parentName, produc
                   onIncrease={handleBuyCount}
                   onTyping={handleBuyCount}
                   value={buyCount}
-                  max={productData.extension_attributes.stock_item.qty}
+                  max={MAX_PRODUCT}
                 />
               </div>
               <div className='mt-6 flex items-center gap-5'>

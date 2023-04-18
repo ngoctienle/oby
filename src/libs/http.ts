@@ -5,11 +5,10 @@ class HTTP {
 
   constructor() {
     this.instance = axios.create({
-      baseURL: 'https://13.229.90.199/rest/all/',
+      baseURL: `${process.env.NEXT_PUBLIC_API_URL}/rest/all/`,
       timeout: 10000,
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer iik22r1zsip6cr77v7nukhoxntv9yc4g`
+        'Content-Type': 'application/json'
       }
     })
 
