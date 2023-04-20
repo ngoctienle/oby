@@ -10,7 +10,7 @@ export default class CustomDocument extends Document {
       <Html lang='en-US'>
         <Head>
           <meta name='theme-color' content='#18181b' />
-          <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+          <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
           <link rel='icon' href='/images/favicon.png' sizes='192x192' />
           <link rel='shortcut icon' href='/images/shortcut.png' type='image/png' />
           <link rel='apple-touch-icon' href='/images/appleicon.png' type='image/png' />

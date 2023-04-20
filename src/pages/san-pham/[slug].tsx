@@ -30,9 +30,9 @@ import {
   isHaveDiscount
 } from '@/helpers/product'
 
-import cartApi from '@/apis/cart.api'
-import categoryApi from '@/apis/category.api'
-import productApi from '@/apis/product.api'
+import cartApi from '@/apis/magento/cart.api'
+import categoryApi from '@/apis/magento/category.api'
+import productApi from '@/apis/magento/product.api'
 
 import { MAX_PRODUCT, cacheTime } from '@/constants/config.constant'
 import { hrefPath } from '@/constants/href.constant'
@@ -60,12 +60,15 @@ interface IParams extends ParsedUrlQuery {
 export default function ProductDetail({ subName, productData, parentName, productName, slug }: IProductDetailProps) {
   const queryClient = useQueryClient()
   const [guestCartId] = useGlobalState('guestCartId')
+  const [token] = useGlobalState('token')
+  const [cartId] = useGlobalState('cartId')
 
   const imgRef = useRef<HTMLImageElement>(null)
   const [buyCount, setBuyCount] = useState<number>(1)
   const [showFullDescription, setShowFullDescription] = useState<boolean>(false)
 
   const addToCartMutation = useMutation((body: CartRequest) => cartApi.AddToCart(guestCartId as string, body))
+  const addToCartMineMutation = useMutation((body: CartRequest) => cartApi.AddToCartMine(token as string, body))
 
   /**
    * Function `handleBuyCount` được sử dụng để quản lý số lượng product được thêm vào giỏ hàng.
@@ -80,20 +83,37 @@ export default function ProductDetail({ subName, productData, parentName, produc
    * Sử dụng mutate từ Tanstack Query để thực hiện action
    */
   const handleAddToCart = () => {
-    addToCartMutation.mutate(
-      { cartItem: { sku: slug, qty: buyCount } },
-      {
-        onSuccess: () => {
-          toast.success('Đã thêm sản phẩm vào Giỏ hàng!')
-          queryClient.invalidateQueries({
-            queryKey: ['guestCart', guestCartId]
-          })
-        },
-        onError: () => {
-          toast.error('Vui lòng thử lại!')
+    if (!token) {
+      addToCartMutation.mutate(
+        { cartItem: { sku: slug, qty: buyCount } },
+        {
+          onSuccess: () => {
+            toast.success('Đã thêm sản phẩm vào Giỏ hàng!')
+            queryClient.invalidateQueries({
+              queryKey: ['guestCart', guestCartId]
+            })
+          },
+          onError: () => {
+            toast.error('Vui lòng thử lại!')
+          }
         }
-      }
-    )
+      )
+    } else {
+      addToCartMineMutation.mutate(
+        { cartItem: { sku: slug, qty: buyCount } },
+        {
+          onSuccess: () => {
+            toast.success('Đã thêm sản phẩm vào Giỏ hàng!')
+            queryClient.invalidateQueries({
+              queryKey: ['cartId', cartId]
+            })
+          },
+          onError: () => {
+            toast.error('Vui lòng thử lại!')
+          }
+        }
+      )
+    }
   }
 
   /* Handle Description Show More/Less*/
@@ -324,7 +344,7 @@ export const getStaticProps: GetStaticProps<IProductDetailProps> = async (contex
       revalidate: cacheTime.halfHours
     }
   } catch (error) {
-    console.log(error)
+    console.log('hello')
     return {
       notFound: true
     }

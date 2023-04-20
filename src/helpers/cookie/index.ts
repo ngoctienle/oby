@@ -2,26 +2,23 @@ import cookie from 'cookie'
 import Cookies from 'js-cookie'
 import { NextPageContext } from 'next'
 
-import { parseJwt } from '@/helpers/auth'
+import { TypeUser } from '@/libs/state'
 
-type UserToken = {
-  id: string
-  email: string
-}
-export const getTokenSSRAndCSR = (ctx?: NextPageContext): [string, UserToken | null] => {
-  let token = ''
-  let userToken = null
+export const getTokenSSRAndCSR = (ctx?: NextPageContext): [string, TypeUser | null] => {
+  let userToken = ''
+  let userProfile = null
 
   if (typeof window === 'undefined') {
-    const cookieStr = ctx?.req?.headers.cookie || ''
+    const cookieHeader = ctx?.req?.headers.cookie || ''
 
-    token = cookie.parse(cookieStr).token
-    userToken = parseJwt(token)
+    userToken = cookie.parse(cookieHeader).token
+    userProfile = cookie.parse(cookieHeader).user
   } else {
-    token = Cookies.get('jwt') || ''
+    userToken = Cookies.get('token') || ''
+    userProfile = Cookies.get('user') ? JSON.parse(Cookies.get('user') as string) : null
   }
 
-  return [token, userToken]
+  return [userToken, userProfile]
 }
 
 export const getGuestCartIdSSRAndCSR = (ctx?: NextPageContext): string | null => {

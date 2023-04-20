@@ -104,3 +104,9 @@ export interface Currency {
 export interface ExtensionAttributes {
   shipping_assignments: any[]
 }
+
+export interface ResponseError {
+  message: string
+  parameters?: string[]
+  trace: string
+}

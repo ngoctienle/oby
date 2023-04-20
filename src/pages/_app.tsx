@@ -13,9 +13,9 @@ import { Toaster } from 'react-hot-toast'
 import { useGlobalState } from '@/libs/state'
 import twclsx from '@/libs/twclsx'
 
-import { getGuestCartIdSSRAndCSR } from '@/helpers/cookie'
+import { getGuestCartIdSSRAndCSR, getTokenSSRAndCSR } from '@/helpers/cookie'
 
-import cartApi from '@/apis/cart.api'
+import cartApi from '@/apis/magento/cart.api'
 
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
@@ -35,11 +35,13 @@ const queryClient = new QueryClient({
 
 function OBYApp({ Component, pageProps, router }: AppProps) {
   const [, setGuestCartId] = useGlobalState('guestCartId')
-  /*   const [user] = useGlobalState('user') */
+  const [, setUser] = useGlobalState('user')
+  const [, setToken] = useGlobalState('token')
 
   useMemo(() => {
     setGuestCartId(pageProps.guestCartId)
-
+    setToken(pageProps.userToken)
+    setUser(pageProps.userProfile)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -102,8 +104,9 @@ OBYApp.getInitialProps = async (appContext: AppContext) => {
   const appProps = await App.getInitialProps(appContext)
 
   let guestCartId = getGuestCartIdSSRAndCSR(appContext.ctx)
+  const [userToken, userProfile] = getTokenSSRAndCSR(appContext.ctx)
 
-  if (!guestCartId) {
+  if (!guestCartId && !userToken) {
     guestCartId = (await cartApi.GenerateGuestCart()).data
 
     /* Serialize GuestCartId To Cookie */
@@ -116,7 +119,9 @@ OBYApp.getInitialProps = async (appContext: AppContext) => {
   return {
     pageProps: {
       ...appProps.pageProps,
-      guestCartId
+      guestCartId,
+      userToken,
+      userProfile
     }
   }
 }

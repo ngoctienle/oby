@@ -1,13 +1,14 @@
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, UserCircleIcon } from '@heroicons/react/24/outline'
 import { useQuery } from '@tanstack/react-query'
 import { NextFont } from 'next/dist/compiled/@next/font'
+import { useMemo } from 'react'
 
 import { useWindowScrollY } from '@/hooks'
 
 import { useGlobalState } from '@/libs/state'
 import twclsx from '@/libs/twclsx'
 
-import cartApi from '@/apis/cart.api'
+import cartApi from '@/apis/magento/cart.api'
 
 import { appInformationConfig, cacheTime } from '@/constants/config.constant'
 import { hrefPath } from '@/constants/href.constant'
@@ -22,16 +23,32 @@ interface HeaderProps {
 export default function Header({ font }: HeaderProps) {
   const y = useWindowScrollY()
   const [guestCartId] = useGlobalState('guestCartId')
+  const [token] = useGlobalState('token')
+  const [cartId] = useGlobalState('cartId')
+  const [user] = useGlobalState('user')
 
   const { data: guestData } = useQuery({
     queryKey: ['guestCart', guestCartId],
     queryFn: () => cartApi.GetGuestCart(guestCartId || ''),
-    enabled: !!guestCartId,
+    enabled: !token,
     refetchOnWindowFocus: true,
     staleTime: cacheTime.fiveMinutes
   })
 
-  const cartData = guestData?.data
+  const { data: mineData } = useQuery({
+    queryKey: ['cartId', cartId],
+    queryFn: () => cartApi.GetCart(token || ''),
+    enabled: !!token && !!cartId,
+    refetchOnWindowFocus: true,
+    staleTime: cacheTime.fiveMinutes
+  })
+
+  const cartData = useMemo(() => {
+    if (!token) {
+      return guestData?.data
+    }
+    return mineData?.data
+  }, [guestData?.data, mineData?.data, token])
 
   return (
     <>
@@ -106,10 +123,14 @@ export default function Header({ font }: HeaderProps) {
                 </div>
                 <p className='@992:fs-12 @992:block hidden'>Giỏ hàng</p>
               </OBYLink>
-              <OBYLink href={hrefPath.login} className='@992:flex hidden flex-col items-center'>
-                <UserCircleIcon className='w-8 h-8 text-oby-676869' strokeWidth={1} />
-                <p className='fs-12'>Đăng nhập</p>
-              </OBYLink>
+              {user ? (
+                <div>Hello</div>
+              ) : (
+                <OBYLink href={hrefPath.login} className='@992:flex hidden flex-col items-center'>
+                  <UserCircleIcon className='w-8 h-8 text-oby-676869' strokeWidth={1} />
+                  <p className='fs-12'>Đăng nhập</p>
+                </OBYLink>
+              )}
             </div>
           </div>
         </div>

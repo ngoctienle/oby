@@ -27,8 +27,8 @@ import {
   isHaveDiscount
 } from '@/helpers/product'
 
-import cartApi from '@/apis/cart.api'
-import productApi from '@/apis/product.api'
+import cartApi from '@/apis/magento/cart.api'
+import productApi from '@/apis/magento/product.api'
 
 import { MAX_PRODUCT, cacheTime } from '@/constants/config.constant'
 
@@ -38,7 +38,8 @@ import { OBYButton, OBYImage } from '@/components/UI/Element'
 
 export default function CartPage() {
   const [guestCartId] = useGlobalState('guestCartId')
-  const [user] = useGlobalState('user')
+  const [token] = useGlobalState('token')
+  const [cartId] = useGlobalState('cartId')
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [isPromoOpen, setIsPromoOpen] = useState<boolean>(false)
   const [itemId, setItemId] = useState<string>('')
@@ -46,14 +47,26 @@ export default function CartPage() {
 
   const router = useRouter()
 
-  const { data: guestData, refetch } = useQuery({
+  const { data: guestData, refetch: guestRefetch } = useQuery({
     queryKey: ['guestCart', guestCartId],
     queryFn: () => cartApi.GetGuestCart(guestCartId || ''),
-    enabled: !!guestCartId,
-    staleTime: cacheTime.halfHours
+    enabled: !token,
+    staleTime: cacheTime.fiveMinutes
+  })
+  const { data: mineData, refetch: mineRefetch } = useQuery({
+    queryKey: ['cartId', cartId],
+    queryFn: () => cartApi.GetCart(token || ''),
+    enabled: !!token && !!cartId,
+    staleTime: cacheTime.fiveMinutes
   })
 
-  const cartData = guestData && guestData?.data
+  const cartData = useMemo(() => {
+    if (!token) {
+      return guestData?.data
+    }
+    return mineData?.data
+  }, [guestData?.data, mineData?.data, token])
+
   const listSKU = useMemo(() => {
     if (cartData) {
       return getSKUListProductAsString(cartData.items)
@@ -67,20 +80,30 @@ export default function CartPage() {
     staleTime: cacheTime.halfHours
   })
 
-  const productInCart = productData && productData?.data
-
   const initializeData = useMemo(() => {
+    const productInCart = productData && productData?.data
+
     if (cartData && productInCart) {
       return mergeArrayItems(cartData.items, productInCart)
     }
     return null
-  }, [cartData, productInCart])
+  }, [cartData, productData])
 
   const updateCartMutation = useMutation({
     mutationFn: ({ itemId, body }: { itemId: string; body: CartUpdateRequest }) =>
       cartApi.UpdateGuestCart(guestCartId as string, itemId, body),
     onSuccess: () => {
-      refetch()
+      guestRefetch()
+    },
+    onError: () => {
+      toast.error('Vui lòng thử lại!')
+    }
+  })
+  const updateMineCartMutation = useMutation({
+    mutationFn: ({ itemId, body }: { itemId: string; body: CartUpdateRequest }) =>
+      cartApi.UpdateMineCart(token as string, itemId, body),
+    onSuccess: () => {
+      mineRefetch()
     },
     onError: () => {
       toast.error('Vui lòng thử lại!')
@@ -90,7 +113,15 @@ export default function CartPage() {
   const deleteProductMutation = useMutation({
     mutationFn: (itemId: string) => cartApi.DeleteProductInCart(guestCartId as string, itemId),
     onSuccess: () => {
-      refetch()
+      guestRefetch()
+      setIsOpen(false)
+      toast.success('Xóa sản phẩm thành công!')
+    }
+  })
+  const deleteProductMineMutation = useMutation({
+    mutationFn: (itemId: string) => cartApi.DeleteProductInMineCart(token as string, itemId),
+    onSuccess: () => {
+      mineRefetch()
       setIsOpen(false)
       toast.success('Xóa sản phẩm thành công!')
     }
@@ -103,7 +134,11 @@ export default function CartPage() {
           qty: value
         }
       }
-      updateCartMutation.mutateAsync({ itemId: itemId, body: cartRequest })
+      if (!token) {
+        updateCartMutation.mutateAsync({ itemId: itemId, body: cartRequest })
+      } else {
+        updateMineCartMutation.mutateAsync({ itemId: itemId, body: cartRequest })
+      }
     }
   }
   const handleTypeQuantity = (itemId: string) => (value: number) => {
@@ -112,18 +147,23 @@ export default function CartPage() {
         qty: value
       }
     }
-    updateCartMutation.mutate({ itemId: itemId, body: cartRequest })
+    if (!token) {
+      updateCartMutation.mutate({ itemId: itemId, body: cartRequest })
+    } else {
+      updateMineCartMutation.mutateAsync({ itemId: itemId, body: cartRequest })
+    }
   }
+
   const handleRemove = (itemId: string) => {
-    deleteProductMutation.mutate(itemId)
+    if (!token) {
+      deleteProductMutation.mutate(itemId)
+    } else {
+      deleteProductMineMutation.mutate(itemId)
+    }
   }
 
   const handleContinue = () => {
-    if (!user) {
-      router.push('dang-nhap')
-    } else {
-      router.push('dat-hang')
-    }
+    router.push('/dat-hang')
   }
 
   const handleShowModal = (itemId: string, itemName: string) => {

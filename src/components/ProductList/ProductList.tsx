@@ -5,7 +5,7 @@ import { Category } from '@/@types/category.type'
 
 import { generateURLWithCategory } from '@/helpers/category'
 
-import productApi from '@/apis/product.api'
+import productApi from '@/apis/magento/product.api'
 
 import { cacheTime } from '@/constants/config.constant'
 

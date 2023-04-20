@@ -10,7 +10,7 @@ import { generateMetaSEO } from '@/libs/seo'
 
 import { getIDListCategoryAsString, getParentCategory } from '@/helpers/category'
 
-import categoryApi from '@/apis/category.api'
+import categoryApi from '@/apis/magento/category.api'
 
 import { cacheTime } from '@/constants/config.constant'
 

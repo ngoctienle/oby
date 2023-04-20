@@ -1,4 +1,5 @@
 import atob from 'atob'
+import axios, { AxiosError } from 'axios'
 
 export const parseJwt = (token: string) => {
   try {
@@ -20,35 +21,7 @@ export const parseJwt = (token: string) => {
   }
 }
 
-export const validateEmail = (email: string): boolean => {
-  const regex =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-
-  return regex.test(String(email).toLocaleLowerCase())
-}
-
-export const handleError = (key: string, value: string): string => {
-  let errorMessage = ''
-  if (value.trim().length === 0) {
-    return 'Trường này là bắt buộc!'
-  }
-
-  switch (key) {
-    case 'email':
-      if (!validateEmail(value)) {
-        errorMessage = 'Email không đúng định dạng!'
-      } else {
-        errorMessage = ''
-      }
-      break
-    case 'password':
-      if (value.length <= 6) {
-        errorMessage = 'Password phải nhiều hơn 6 ký tự'
-      } else {
-        errorMessage = ''
-      }
-      break
-  }
-
-  return errorMessage
+export function isAxiosError<T>(error: unknown): error is AxiosError<T> {
+  // eslint-disable-next-line import/no-named-as-default-member
+  return axios.isAxiosError(error)
 }

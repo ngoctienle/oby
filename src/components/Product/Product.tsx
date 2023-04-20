@@ -9,7 +9,7 @@ import { useGlobalState } from '@/libs/state'
 import { formatCurrency, getDiscountPercent } from '@/helpers'
 import { generateProductImageFromMagento, getDiscount, isHaveDiscount } from '@/helpers/product'
 
-import cartApi from '@/apis/cart.api'
+import cartApi from '@/apis/magento/cart.api'
 
 import { hrefPath } from '@/constants/href.constant'
 
@@ -22,24 +22,45 @@ interface ProductProps {
 
 export default function Product({ data }: ProductProps) {
   const [guestCartId] = useGlobalState('guestCartId')
+  const [cartId] = useGlobalState('cartId')
+  const [token] = useGlobalState('token')
   const queryClient = useQueryClient()
 
   const addToCartMutation = useMutation((body: CartRequest) => cartApi.AddToCart(guestCartId as string, body))
+  const addToCartMineMutation = useMutation((body: CartRequest) => cartApi.AddToCartMine(token as string, body))
+
   const handleAddToCart = () => {
-    addToCartMutation.mutate(
-      { cartItem: { sku: data.sku, qty: 1 } },
-      {
-        onSuccess: () => {
-          toast.success('Đã thêm sản phẩm vào Giỏ hàng!')
-          queryClient.invalidateQueries({
-            queryKey: ['guestCart', guestCartId]
-          })
-        },
-        onError: () => {
-          toast.error('Vui lòng thử lại!')
+    if (!token) {
+      addToCartMutation.mutate(
+        { cartItem: { sku: data.sku, qty: 1 } },
+        {
+          onSuccess: () => {
+            toast.success('Đã thêm sản phẩm vào Giỏ hàng!')
+            queryClient.invalidateQueries({
+              queryKey: ['guestCart', guestCartId]
+            })
+          },
+          onError: () => {
+            toast.error('Vui lòng thử lại!')
+          }
         }
-      }
-    )
+      )
+    } else {
+      addToCartMineMutation.mutate(
+        { cartItem: { sku: data.sku, qty: 1 } },
+        {
+          onSuccess: () => {
+            toast.success('Đã thêm sản phẩm vào Giỏ hàng!')
+            queryClient.invalidateQueries({
+              queryKey: ['cartId', cartId]
+            })
+          },
+          onError: () => {
+            toast.error('Vui lòng thử lại!')
+          }
+        }
+      )
+    }
   }
 
   if (!data) {
@@ -82,7 +103,7 @@ export default function Product({ data }: ProductProps) {
             <AddCartButton
               className='@992:mt-3.5 mt-0 @992:max-w-full max-w-max'
               onClick={handleAddToCart}
-              isloading={addToCartMutation.isLoading}
+              isloading={!token ? addToCartMutation.isLoading : addToCartMineMutation.isLoading}
             />
           </>
         ) : (
@@ -91,7 +112,7 @@ export default function Product({ data }: ProductProps) {
             <AddCartButton
               className='@992:mt-3.5 mt-0 @992:max-w-full max-w-max'
               onClick={handleAddToCart}
-              isloading={addToCartMutation.isLoading}
+              isloading={!token ? addToCartMutation.isLoading : addToCartMineMutation.isLoading}
             />
           </>
         )}

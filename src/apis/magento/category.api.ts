@@ -1,13 +1,13 @@
-import { Category, CategoryResponse } from '@/@types/category.type'
+import magentoAPI from '@/vendors/magento.vendor'
 
-import http from '@/libs/http'
+import { Category, CategoryResponse } from '@/@types/category.type'
 
 const categoryApi = {
   GetCategoryList() {
-    return http.get<Category>('V1/categories')
+    return magentoAPI.get<Category>('all/V1/categories')
   },
   GetAttrCategoryById(id: string) {
-    return http.get<CategoryResponse>(
+    return magentoAPI.get<CategoryResponse>(
       `V1/categories/list?searchCriteria[filterGroups][0][filters][0][field]=entity_id&searchCriteria[filterGroups][0][filters][0][value]=${id}&searchCriteria[filterGroups][0][filters][0][conditionType]=in`,
       {
         headers: {
@@ -17,7 +17,7 @@ const categoryApi = {
     )
   },
   GetCategoryNameById(id: string) {
-    return http.get<Category>(`V1/categories/${id}`)
+    return magentoAPI.get<Category>(`V1/categories/${id}`)
   }
 }
 

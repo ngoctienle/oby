@@ -15,6 +15,7 @@ module.exports = {
         'oby-primary': '#4AA02C',
         'oby-green': '#2E6A20',
         'oby-orange': '#F28825',
+        'oby-red': '#E43641',
         'oby-blue': '#4FC2F8',
         'oby-E4FBDB': '#E4FBDB'
       },

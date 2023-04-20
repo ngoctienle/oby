@@ -53,3 +53,8 @@ interface CartItemRequest {
   sku: string
   qty: number
 }
+
+export interface MergeCartRequestBody {
+  customerId: number
+  storeId: 1
+}
