@@ -7,8 +7,6 @@ import { toast } from 'react-hot-toast'
 import { RegisterBodyRequest } from '@/@types/auth.type'
 import { ResponseError } from '@/@types/magento.type'
 
-import { useAuthen } from '@/hooks'
-
 import { ErrorMagento, FormSchema, formSchema } from '@/libs/rules'
 
 import { isAxiosError } from '@/helpers/auth'
@@ -21,7 +19,6 @@ import Input from '@/components/Input'
 import { OBYButton } from '@/components/UI/Element'
 
 export default function Signup() {
-  useAuthen()
   const router = useRouter()
   const {
     register,

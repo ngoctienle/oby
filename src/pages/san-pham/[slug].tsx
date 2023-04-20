@@ -344,7 +344,6 @@ export const getStaticProps: GetStaticProps<IProductDetailProps> = async (contex
       revalidate: cacheTime.halfHours
     }
   } catch (error) {
-    console.log('hello')
     return {
       notFound: true
     }
