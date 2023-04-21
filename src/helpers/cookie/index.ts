@@ -4,21 +4,23 @@ import { NextPageContext } from 'next'
 
 import { TypeUser } from '@/libs/state'
 
-export const getTokenSSRAndCSR = (ctx?: NextPageContext): [string, TypeUser | null] => {
+export const getTokenSSRAndCSR = (ctx?: NextPageContext): [string, TypeUser, string | null] => {
   let userToken = ''
   let userProfile = null
+  let cartId = ''
 
   if (typeof window === 'undefined') {
     const cookieHeader = ctx?.req?.headers.cookie || ''
-
     userToken = cookie.parse(cookieHeader).token
-    userProfile = cookie.parse(cookieHeader).user
+    userProfile = cookie.parse(cookieHeader).user ? JSON.parse(cookie.parse(cookieHeader).user) : null
+    cartId = cookie.parse(cookieHeader).cartId
   } else {
     userToken = Cookies.get('token') || ''
     userProfile = Cookies.get('user') ? JSON.parse(Cookies.get('user') as string) : null
+    cartId = Cookies.get('cartId') || ''
   }
 
-  return [userToken, userProfile]
+  return [userToken, userProfile, cartId]
 }
 
 export const getGuestCartIdSSRAndCSR = (ctx?: NextPageContext): string | null => {

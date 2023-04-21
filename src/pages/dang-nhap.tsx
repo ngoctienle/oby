@@ -1,3 +1,4 @@
+import { ArrowPathIcon } from '@heroicons/react/24/outline'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
 import Cookies from 'js-cookie'
@@ -7,8 +8,6 @@ import { toast } from 'react-hot-toast'
 
 import { LoginBodyRequest } from '@/@types/auth.type'
 import { ResponseError } from '@/@types/magento.type'
-
-import { useAuthen } from '@/hooks'
 
 import { ErrorMagento, FormSchema, formSchema } from '@/libs/rules'
 import { useGlobalState } from '@/libs/state'
@@ -27,12 +26,13 @@ type FormLoginSchema = Pick<FormSchema, 'email' | 'password'>
 const loginFormSchema = formSchema.pick(['email', 'password'])
 
 export default function Login() {
-  useAuthen()
   const [, setToken] = useGlobalState('token')
   const [guestCartId] = useGlobalState('guestCartId')
   const [, setUser] = useGlobalState('user')
   const [, setCartId] = useGlobalState('cartId')
   const router = useRouter()
+  const { query } = router
+  const queryRedirect = Object.values(query)[0] ?? hrefPath.home
 
   const {
     register,
@@ -62,16 +62,18 @@ export default function Login() {
           customerId: meData.id,
           storeId: 1
         })
-
-        Cookies.set('token', token)
-        Cookies.set('user', JSON.stringify(meData))
-        Cookies.set('cartId', guestCartId as string)
+        Cookies.set('token', token, { expires: new Date(Date.now() + 24 * 60 * 60 * 1000) })
+        Cookies.set('user', JSON.stringify(meData), { expires: new Date(Date.now() + 24 * 60 * 60 * 1000) })
+        Cookies.set('cartId', guestCartId as string, { expires: new Date(Date.now() + 24 * 60 * 60 * 1000) })
 
         setToken(data.data)
         setUser(meData)
         setCartId(guestCartId)
         toast.success('Đăng nhập thành công!')
-        router.push('/')
+
+        if (typeof queryRedirect === 'string') {
+          router.push(queryRedirect)
+        }
       },
       onError: (error) => {
         if (isAxiosError<ResponseError>(error)) {
@@ -93,13 +95,17 @@ export default function Login() {
   })
 
   return (
-    <div className='pt-6'>
+    <div className='pt-6 @992:pt-10'>
       <div className='container'>
-        <h2 className='fs-20 text-center font-bold text-oby-green'>Đăng Nhập</h2>
-        <form noValidate onSubmit={handleSubmitLogin} className='mt-10'>
+        <h2 className='fs-20 @992:fs-26 text-center font-bold text-oby-green'>Đăng nhập</h2>
+        <form
+          noValidate
+          onSubmit={handleSubmitLogin}
+          className='mt-7.5 @768:max-w-[500px] mx-auto pb-15 border-b border-b-oby-DFDFDF'
+        >
           <Input
             type='email'
-            placeholder='Email'
+            placeholder='Địa chỉ email'
             name='email'
             errorMessage={errors.email?.message}
             register={register}
@@ -108,18 +114,42 @@ export default function Login() {
             type='password'
             placeholder='Mật khẩu'
             name='password'
-            className='mt-4'
+            className='@768:mt-4.5 mt-4'
             errorMessage={errors.password?.message}
             register={register}
-          />{' '}
-          <OBYButton
-            className='border border-transparent bg-oby-primary text-white fs-16 w-full py-2.5 rounded-4 mt-7.5'
-            type='submit'
+          />
+          <OBYLink
+            className='@768:mt-4.5 mt-4 block @768:fs-16 fs-14 text-oby-primary ml-auto max-w-max text-right'
+            href={hrefPath.home}
           >
-            Đăng Nhập
+            Quên mật khẩu?
+          </OBYLink>
+          <OBYButton
+            className='border border-transparent bg-oby-primary text-white fs-16 w-full py-2.5 rounded-4 mt-6'
+            type='submit'
+            disabled={loginMutation.isLoading}
+          >
+            Đăng nhập
+            {loginMutation.isLoading && (
+              <ArrowPathIcon className='ml-1.5 @992:h-6 @992:w-6 h-5 w-5 animate-spin text-white' />
+            )}
           </OBYButton>
-          <OBYLink href={hrefPath.signup}>Đi tới đăng ký</OBYLink>
+          <p className='text-center @768:fs-14 fs-12 text-oby-9A9898 mt-4.5'>
+            Bằng việc Tiếp tục, bạn đã chấp nhận{' '}
+            <OBYLink href={hrefPath.home} className='text-oby-primary'>
+              điều khoản sử dụng
+            </OBYLink>
+          </p>
         </form>
+        <p className='mt-5 fs-14 @768:fs-16 text-center'>
+          Bạn chưa có tài khoản?{' '}
+          <OBYLink
+            href={queryRedirect !== hrefPath.home ? hrefPath.signup + `?cb=${queryRedirect}` : hrefPath.signup}
+            className='text-oby-primary'
+          >
+            Đăng ký ngay
+          </OBYLink>
+        </p>
       </div>
     </div>
   )

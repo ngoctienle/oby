@@ -16,10 +16,13 @@ import authApi from '@/apis/magento/auth.api'
 import { hrefPath } from '@/constants/href.constant'
 
 import Input from '@/components/Input'
-import { OBYButton } from '@/components/UI/Element'
+import { OBYButton, OBYLink } from '@/components/UI/Element'
 
 export default function Signup() {
   const router = useRouter()
+  const { query } = router
+  const queryRedirect = Object.values(query)[0] ?? hrefPath.login
+
   const {
     register,
     handleSubmit,
@@ -46,7 +49,9 @@ export default function Signup() {
     registerMutation.mutate(body, {
       onSuccess: () => {
         toast.success('Đăng ký tài khoản thành công!')
-        router.push(hrefPath.login)
+        if (typeof queryRedirect === 'string') {
+          router.push(queryRedirect)
+        }
       },
       onError: (error) => {
         if (isAxiosError<ResponseError>(error)) {
@@ -64,10 +69,14 @@ export default function Signup() {
   })
 
   return (
-    <div className='pt-6'>
+    <div className='pt-6 @992:pt-10'>
       <div className='container'>
-        <h2 className='fs-20 text-center font-bold text-oby-green'>Đăng Ký</h2>
-        <form noValidate onSubmit={handleSubmitRegister} className='mt-10'>
+        <h2 className='fs-20 @992:fs-26 text-center font-bold text-oby-green'>Đăng ký</h2>
+        <form
+          noValidate
+          onSubmit={handleSubmitRegister}
+          className='mt-7.5 @768:max-w-[500px] mx-auto pb-15 border-b border-b-oby-DFDFDF'
+        >
           <Input
             type='email'
             placeholder='Email'
@@ -79,7 +88,7 @@ export default function Signup() {
             type='text'
             placeholder='Tên'
             name='firstname'
-            className='mt-4'
+            className='@768:mt-4.5 mt-4'
             errorMessage={errors.firstname?.message}
             register={register}
           />
@@ -87,7 +96,7 @@ export default function Signup() {
             type='text'
             placeholder='Họ và Tên lót'
             name='lastname'
-            className='mt-4'
+            className='@768:mt-4.5 mt-4'
             errorMessage={errors.lastname?.message}
             register={register}
           />
@@ -95,7 +104,7 @@ export default function Signup() {
             type='password'
             placeholder='Mật khẩu'
             name='password'
-            className='mt-4'
+            className='@768:mt-4.5 mt-4'
             errorMessage={errors.password?.message}
             register={register}
           />
@@ -105,7 +114,22 @@ export default function Signup() {
           >
             Đăng Ký
           </OBYButton>
+          <p className='text-center @768:fs-14 fs-12 text-oby-9A9898 mt-4.5'>
+            Bằng việc Tiếp tục, bạn đã chấp nhận{' '}
+            <OBYLink href={hrefPath.home} className='text-oby-primary'>
+              điều khoản sử dụng
+            </OBYLink>
+          </p>
         </form>
+        <p className='mt-5 fs-14 @768:fs-16 text-center'>
+          Bạn đã có tài khoản?{' '}
+          <OBYLink
+            href={queryRedirect !== hrefPath.login ? hrefPath.login + `?cb=${queryRedirect}` : hrefPath.login}
+            className='text-oby-primary'
+          >
+            Đăng nhập ngay
+          </OBYLink>
+        </p>
       </div>
     </div>
   )

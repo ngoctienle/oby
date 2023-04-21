@@ -37,13 +37,22 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
   const [, setGuestCartId] = useGlobalState('guestCartId')
   const [, setUser] = useGlobalState('user')
   const [, setToken] = useGlobalState('token')
+  const [, setCartId] = useGlobalState('cartId')
 
   useMemo(() => {
     setGuestCartId(pageProps.guestCartId)
     setToken(pageProps.userToken)
     setUser(pageProps.userProfile)
+    setCartId(pageProps.cartId)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const isAuth = useMemo(() => {
+    const included = ['/dang-nhap', '/dang-ky']
+    const currentRouter = router.pathname
+
+    return included.indexOf(currentRouter) !== -1
+  }, [router.pathname])
 
   useEffect(() => {
     const handleRouteChange = () => {
@@ -64,7 +73,7 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
         <Hydrate state={pageProps.dehydratedState}>
           <NextNProgress height={2} startPosition={0.3} stopDelayMs={200} showOnShallow={true} color='#4AA02C' />
           {/* <HeaderAds /> */}
-          <Header font={inter} />
+          <Header font={inter} isFocus={isAuth} />
           <main className={inter.className}>
             <Component {...pageProps} />
           </main>
@@ -104,9 +113,9 @@ OBYApp.getInitialProps = async (appContext: AppContext) => {
   const appProps = await App.getInitialProps(appContext)
 
   let guestCartId = getGuestCartIdSSRAndCSR(appContext.ctx)
-  const [userToken, userProfile] = getTokenSSRAndCSR(appContext.ctx)
+  const [userToken, userProfile, cartId] = getTokenSSRAndCSR(appContext.ctx)
 
-  if (!guestCartId && !userToken) {
+  if (!userToken) {
     guestCartId = (await cartApi.GenerateGuestCart()).data
 
     /* Serialize GuestCartId To Cookie */
@@ -121,7 +130,8 @@ OBYApp.getInitialProps = async (appContext: AppContext) => {
       ...appProps.pageProps,
       guestCartId,
       userToken,
-      userProfile
+      userProfile,
+      cartId
     }
   }
 }

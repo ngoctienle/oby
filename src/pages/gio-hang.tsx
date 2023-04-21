@@ -31,6 +31,7 @@ import cartApi from '@/apis/magento/cart.api'
 import productApi from '@/apis/magento/product.api'
 
 import { MAX_PRODUCT, cacheTime } from '@/constants/config.constant'
+import { hrefPath } from '@/constants/href.constant'
 
 import NoProduct from '@/components/NoProduct'
 import QuantityController from '@/components/QuantityController'
@@ -163,7 +164,11 @@ export default function CartPage() {
   }
 
   const handleContinue = () => {
-    router.push('/dat-hang')
+    if (token) {
+      router.push(hrefPath.purchase)
+    } else {
+      router.push(hrefPath.login + `?cb=${router.pathname}`)
+    }
   }
 
   const handleShowModal = (itemId: string, itemName: string) => {
@@ -301,12 +306,16 @@ export default function CartPage() {
                                 type='button'
                                 className='rounded-4 border border-oby-DFDFDF py-2.5 fs-16 text-oby-676869 w-full'
                                 onClick={() => handleRemove(itemId)}
-                                disabled={deleteProductMutation.isLoading}
+                                disabled={
+                                  !token ? deleteProductMutation.isLoading : deleteProductMineMutation.isLoading
+                                }
                               >
                                 Đồng ý
-                                {deleteProductMutation.isLoading && (
-                                  <ArrowPathIcon className='text-oby-676869 ml-1.5 @992:h-6 @992:w-6 h-5 w-5 animate-spin' />
-                                )}
+                                {!token
+                                  ? deleteProductMutation.isLoading
+                                  : deleteProductMineMutation.isLoading && (
+                                      <ArrowPathIcon className='text-oby-676869 ml-1.5 @992:h-6 @992:w-6 h-5 w-5 animate-spin' />
+                                    )}
                               </OBYButton>
                             </div>
                           </Dialog.Panel>

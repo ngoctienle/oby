@@ -3,5 +3,6 @@ export const hrefPath = {
   productDetail: '/san-pham',
   cartPage: '/gio-hang',
   login: '/dang-nhap',
-  signup: '/dang-ky'
+  signup: '/dang-ky',
+  purchase: '/dat-hang'
 } as const

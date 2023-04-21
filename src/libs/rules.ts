@@ -88,13 +88,13 @@ export const formSchema = yup.object({
     .string()
     .required('Vui lòng nhập Tên của bạn!')
     .trim()
-    .min(3, 'Độ dài không hợp lệ!')
+    .min(2, 'Độ dài không hợp lệ!')
     .max(100, 'Độ dài không hợp lệ!'),
   lastname: yup
     .string()
     .required('Vui lòng nhập Họ của bạn!')
     .trim()
-    .min(3, 'Độ dài không hợp lệ!')
+    .min(2, 'Độ dài không hợp lệ!')
     .max(100, 'Độ dài không hợp lệ!')
 })
 

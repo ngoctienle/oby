@@ -43,7 +43,7 @@ export default function Input({
         <input
           className={twclsx(
             classNameInput,
-            'py-2.5 px-3 border border-oby-DFDFDF rounded-2.5 bg-white outline-none placeholder:fs-14 placeholder:text-oby-9A9898 w-full h-full focus:border-oby-primary transition-colors',
+            'py-2.5 @768:px-4 px-3 border border-oby-DFDFDF rounded-2.5 @768:rounded-4 bg-white outline-none placeholder:fs-14 @768:placeholder:fs-16 placeholder:text-oby-9A9898 w-full h-full focus:border-oby-primary transition-colors',
             (errorMessage?.length === 0 || errorMessage) && 'border-oby-red focus:border-oby-red'
           )}
           {...registerResult}
@@ -52,14 +52,14 @@ export default function Input({
         />
         {restParams.type === 'password' && visible && (
           <EyeIcon
-            className='absolute w-6 h-6 top-1/2 -translate-y-1/2 cursor-pointer right-3'
+            className='absolute w-6 h-6 top-1/2 -translate-y-1/2 cursor-pointer right-3 @768:right-4'
             type='button'
             onClick={toggleVisible}
           />
         )}
         {restParams.type === 'password' && !visible && (
           <EyeSlashIcon
-            className='absolute w-6 h-6 top-1/2 -translate-y-1/2 cursor-pointer right-3'
+            className='absolute w-6 h-6 top-1/2 -translate-y-1/2 cursor-pointer right-3 @768:right-4'
             type='button'
             onClick={toggleVisible}
           />

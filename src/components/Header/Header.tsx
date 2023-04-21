@@ -18,9 +18,10 @@ import { OBYCategoryIcon } from '@/components/UI/OBYIcons'
 
 interface HeaderProps {
   font: NextFont
+  isFocus: boolean
 }
 
-export default function Header({ font }: HeaderProps) {
+export default function Header({ font, isFocus }: HeaderProps) {
   const y = useWindowScrollY()
   const [guestCartId] = useGlobalState('guestCartId')
   const [token] = useGlobalState('token')
@@ -87,11 +88,14 @@ export default function Header({ font }: HeaderProps) {
         {/*  Main Header */}
         <div className={`@992:bg-white bg-transparent ${y > 0 && 'bg-white'}`}>
           <div className='container'>
-            <div className='flex @992:gap-12.5 gap-3.5 items-center @992:py-1.5 py-3'>
+            <div className='flex justify-between @992:gap-12.5 gap-3.5 items-center @992:py-1.5 py-3'>
               <OBYLink
                 href={hrefPath.home}
                 title='OBY Trang chủ'
-                className='@992:flex hidden items-center justify-center w-[56px] h-[56px] relative'
+                className={twclsx(
+                  '@992:flex items-center justify-center @992:w-[56px] @992:h-[56px] w-[44px] h-[44px] relative',
+                  !isFocus && 'hidden'
+                )}
               >
                 <OBYImage
                   display='responsive'
@@ -102,33 +106,46 @@ export default function Header({ font }: HeaderProps) {
                 />
                 <h1 className='sr-only'>Ông Bà Yêu</h1>
               </OBYLink>
-              <Bars3Icon className='@992:hidden inline-block w-7 h-7' />
+              {!isFocus && <Bars3Icon className='@992:hidden inline-block w-7 h-7' />}
               {/* Search Form */}
-              <form className='flex items-center flex-grow border bg-white border-oby-DFDFDF rounded-tl-5 rounded-br-5 @992:py-2.75 @992:px-6 px-3 py-3.25'>
-                <input
-                  type='text'
-                  placeholder='Cô chú cần tìm món hàng gì'
-                  className='outline-none w-full placeholder:text-oby-9A9898 placeholder:fs-14 @992:placeholder:fs-16'
-                />
-                <MagnifyingGlassIcon className='w-4.5 h-4.5' />
-              </form>
-              <OBYLink href={hrefPath.cartPage} className='flex flex-col items-center'>
-                <div className='relative'>
-                  <ShoppingBagIcon className='w-8 h-8 text-oby-676869' strokeWidth={1} />
-                  {cartData && (
-                    <p className='absolute flex items-center justify-center top-1 -right-1 w-4.5 h-4.5 @992:fs-11 fs-10 bg-oby-primary text-white rounded-full'>
-                      {cartData.items_qty}
-                    </p>
+              {!isFocus && (
+                <>
+                  <form className='flex items-center flex-grow border bg-white border-oby-DFDFDF rounded-tl-5 rounded-br-5 @992:py-2.75 @992:px-6 px-3 py-3.25'>
+                    <input
+                      type='text'
+                      placeholder='Cô chú cần tìm món hàng gì'
+                      className='outline-none w-full placeholder:text-oby-9A9898 placeholder:fs-14 @992:placeholder:fs-16'
+                    />
+                    <MagnifyingGlassIcon className='w-4.5 h-4.5' />
+                  </form>
+                  <OBYLink href={hrefPath.cartPage} className='flex flex-col items-center'>
+                    <div className='relative'>
+                      <ShoppingBagIcon className='w-8 h-8 text-oby-676869' strokeWidth={1} />
+                      {cartData && (
+                        <p className='absolute flex items-center justify-center top-1 -right-1 w-4.5 h-4.5 @992:fs-11 fs-10 bg-oby-primary text-white rounded-full'>
+                          {cartData.items_qty}
+                        </p>
+                      )}
+                    </div>
+                    <p className='@992:fs-12 @992:block hidden'>Giỏ hàng</p>
+                  </OBYLink>
+                  {user ? (
+                    <OBYLink href={hrefPath.home} className='@992:flex hidden flex-col items-center'>
+                      <UserCircleIcon className='w-8 h-8 text-oby-676869' strokeWidth={1} />
+                      <p className='fs-12'>{user.firstname}</p>
+                    </OBYLink>
+                  ) : (
+                    <OBYLink href={hrefPath.login} className='@992:flex hidden flex-col items-center'>
+                      <UserCircleIcon className='w-8 h-8 text-oby-676869' strokeWidth={1} />
+                      <p className='fs-12'>Đăng nhập</p>
+                    </OBYLink>
                   )}
-                </div>
-                <p className='@992:fs-12 @992:block hidden'>Giỏ hàng</p>
-              </OBYLink>
-              {user ? (
-                <div>Hello</div>
-              ) : (
-                <OBYLink href={hrefPath.login} className='@992:flex hidden flex-col items-center'>
-                  <UserCircleIcon className='w-8 h-8 text-oby-676869' strokeWidth={1} />
-                  <p className='fs-12'>Đăng nhập</p>
+                </>
+              )}
+
+              {isFocus && (
+                <OBYLink href={hrefPath.home} className='@992:fs-16 fs-14 text-oby-primary'>
+                  Bạn cần giúp đỡ?
                 </OBYLink>
               )}
             </div>
