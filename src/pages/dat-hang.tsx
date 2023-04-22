@@ -169,8 +169,9 @@ export default function OrderPage({ cartItem, listSKU, paymentMethod }: IOrderPa
                                 {plan.code === 'momo' && (
                                   <OBYImage
                                     src='/images/payment-momo.png'
-                                    width={38}
-                                    height={38}
+                                    width={36}
+                                    height={36}
+                                    quality={100}
                                     alt={plan.title}
                                     title={plan.title}
                                   />
