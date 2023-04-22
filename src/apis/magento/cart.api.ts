@@ -52,13 +52,6 @@ const cartApi = {
         Authorization: `Bearer ${token}`
       }
     })
-  },
-  GetPaymentMethod(token: string) {
-    return magentoAPI.get('V1/carts/mine/payment-methods', {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
   }
 }
 

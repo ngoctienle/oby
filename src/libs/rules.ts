@@ -105,3 +105,26 @@ export const ErrorMagento = {
   failCredentials:
     'The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later.'
 }
+
+export const fillPaymentForm = yup.object({
+  fullname: yup.string().required('Vui lòng nhập Họ và tên của bạn!').max(160, 'Độ dài không hợp lệ!'),
+  email: yup
+    .string()
+    .required('Vui lòng nhập Email của bạn!')
+    .matches(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      'Email không đúng định dạng!'
+    )
+    .min(5, 'Độ dài phải từ 5 ký tự!')
+    .max(100, 'Độ dài phải dưới 100 ký tự!'),
+  phone: yup
+    .string()
+    .required('Vui lòng nhập số điện thoại của bạn!')
+    .matches(/^\+?[0-9]{10,12}$/, 'Số điện thoại không hợp lệ!'),
+  provine: yup.string().required('Vui lòng chọn Tỉnh/Thành phố!'),
+  district: yup.string().required('Vui lòng chọn Quận/Huyện!'),
+  ward: yup.string().required('Vui lòng chọn Phường/Xã!'),
+  address: yup.string().required('Vui lòng nhập địa chỉ cụ thể!').max(200, 'Độ dài tối đa 200 ký tự!')
+})
+
+export type FillPaymentForm = yup.InferType<typeof fillPaymentForm>

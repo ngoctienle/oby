@@ -1,4 +1,4 @@
-import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
+import { ChevronRightIcon, EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
 import { InputHTMLAttributes, useState } from 'react'
 import { RegisterOptions, UseFormRegister } from 'react-hook-form'
 
@@ -11,6 +11,7 @@ interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   register?: UseFormRegister<any>
   rules?: RegisterOptions
+  isRead?: boolean
 }
 
 export default function Input({
@@ -19,6 +20,7 @@ export default function Input({
   classNameInput,
   className,
   name,
+  isRead,
   register,
   rules,
   ...restParams
@@ -43,7 +45,7 @@ export default function Input({
         <input
           className={twclsx(
             classNameInput,
-            'py-2.5 @768:px-4 px-3 border border-oby-DFDFDF rounded-2.5 @768:rounded-4 bg-white outline-none placeholder:fs-14 @768:placeholder:fs-16 placeholder:text-oby-9A9898 w-full h-full focus:border-oby-primary transition-colors',
+            'py-2.5 @768:px-4 px-3 border border-oby-DFDFDF rounded-2.5 @768:rounded-4 bg-white outline-none placeholder:fs-14 @768:placeholder:fs-16 placeholder:text-oby-9A9898 w-full h-full focus:border-oby-primary transition-colors disabled:bg-oby-F6F7F8 disabled:cursor-not-allowed',
             (errorMessage?.length === 0 || errorMessage) && 'border-oby-red focus:border-oby-red'
           )}
           {...registerResult}
@@ -63,6 +65,9 @@ export default function Input({
             type='button'
             onClick={toggleVisible}
           />
+        )}
+        {isRead && (
+          <ChevronRightIcon className='absolute w-6 h-6 top-1/2 -translate-y-1/2 cursor-pointer right-3 @768:right-4' />
         )}
       </div>
       {errorMessage && (
