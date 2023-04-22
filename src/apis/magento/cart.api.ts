@@ -26,7 +26,7 @@ const cartApi = {
     })
   },
   GetCart(token: string) {
-    return magentoAPI.get('V1/carts/mine', {
+    return magentoAPI.get<Cart>('V1/carts/mine', {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -47,7 +47,14 @@ const cartApi = {
     })
   },
   DeleteProductInMineCart(token: string, itemId: string) {
-    return magentoAPI.delete(`/V1/carts/mine/items/${itemId}`, {
+    return magentoAPI.delete(`V1/carts/mine/items/${itemId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+  },
+  GetPaymentMethod(token: string) {
+    return magentoAPI.get('V1/carts/mine/payment-methods', {
       headers: {
         Authorization: `Bearer ${token}`
       }

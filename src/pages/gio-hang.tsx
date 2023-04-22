@@ -397,7 +397,7 @@ export default function CartPage() {
                     </div>
                   </div>
                   <div className='@992:mt-4 mt-3 @992:px-6 px-4 @992:pb-5 pb-4'>
-                    <p className='@992:fs-18 fs-16 mb-4 font-bold text-oby-primary'>Tổng giỏ hàng</p>
+                    <p className='@992:fs-18 fs-16 mb-4 font-bold text-oby-green'>Tổng giỏ hàng</p>
                     <div className='flex items-center justify-between'>
                       <p className='@992:fs-16 fs-14'>Tạm tính ({initializeData.length})</p>
                       <p className='@992:fs-16 fs-14 text-end'>{calculateTotalOriginPrice(initializeData)}</p>

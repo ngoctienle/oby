@@ -131,8 +131,8 @@ export default function Header({ font, isFocus }: HeaderProps) {
                   </OBYLink>
                   {user ? (
                     <OBYLink href={hrefPath.home} className='@992:flex hidden flex-col items-center'>
-                      <UserCircleIcon className='w-8 h-8 text-oby-676869' strokeWidth={1} />
-                      <p className='fs-12'>{user.firstname}</p>
+                      <UserCircleIcon className='w-8 h-8 text-oby-primary' strokeWidth={1.1} />
+                      <p className='fs-12 line-clamp-1'>{user.firstname}</p>
                     </OBYLink>
                   ) : (
                     <OBYLink href={hrefPath.login} className='@992:flex hidden flex-col items-center'>

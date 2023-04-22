@@ -26,9 +26,9 @@ export const OBYImage: React.FunctionComponent<OBYImage> = ({
       />
     )
   }
-  /*   if (Number(width) < 40 && Number(height) < 40) {
+  if (Number(width) < 40 && Number(height) < 40) {
     return <Image src={src} alt={alt} width={width} height={height} {...props} />
-  } */
+  }
   return (
     <Image
       src={src}
