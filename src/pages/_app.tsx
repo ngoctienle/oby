@@ -40,20 +40,13 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
   const [, setCartId] = useGlobalState('cartId')
 
   useMemo(() => {
+    console.log(123)
     setGuestCartId(pageProps.guestCartId)
     setToken(pageProps.userToken)
     setUser(pageProps.userProfile)
     setCartId(pageProps.cartId)
-  }, [
-    pageProps.cartId,
-    pageProps.guestCartId,
-    pageProps.userProfile,
-    pageProps.userToken,
-    setCartId,
-    setGuestCartId,
-    setToken,
-    setUser
-  ])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageProps.cartId, pageProps.guestCartId, pageProps.userProfile, pageProps.userToken])
 
   const isAuth = useMemo(() => {
     const included = ['/dang-nhap', '/dang-ky']

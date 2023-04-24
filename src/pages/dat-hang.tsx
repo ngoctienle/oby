@@ -80,6 +80,7 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
     handleSubmit,
     control,
     clearErrors,
+    setValue,
     formState: { errors }
   } = useForm<FillPaymentForm>({
     resolver: yupResolver(fillPaymentForm)
@@ -113,7 +114,7 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
       setWardArr(wardsData.data.wards)
     }
     if (billing?.city && billing?.region && billing?.street.length > 0) {
-      if (!selectedProvine?.code && !selectedDistrict?.code && !selectedWard?.code) {
+      if (!selectedProvine && !selectedDistrict && !selectedWard) {
         setSelectedProvine({ name: billing.city })
         setSelectedDistrict({ name: billing.region })
         setSelectedWard({ name: billing.street[1] })
@@ -138,6 +139,8 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
         code
       })
       clearErrors('provine')
+      setValue('district', '')
+      setValue('ward', '')
 
       setSelectedDistrict(undefined)
       setSelectedWard(undefined)
@@ -145,7 +148,7 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
       setWardArr(undefined)
       setIsProvineOpen(false)
     },
-    [clearErrors]
+    [clearErrors, setValue]
   )
   const handleSelectDistrict = useCallback(
     (name: string, code: number) => {
@@ -154,15 +157,14 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
         code
       })
       clearErrors('district')
+      setValue('ward', '')
 
-      if (name !== billing?.region) {
-        setSelectedWard(undefined)
-        setWardArr(undefined)
-      }
+      setSelectedWard(undefined)
+      setWardArr(undefined)
 
       setIsDistrictOpen(false)
     },
-    [clearErrors, billing?.region]
+    [clearErrors, setValue]
   )
   const handleSelectWard = useCallback(
     (name: string, code: number) => {
