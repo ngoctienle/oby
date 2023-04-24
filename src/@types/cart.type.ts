@@ -1,4 +1,4 @@
-import { BillingAddress, Currency, CustomAttribute, Customer, ExtensionAttributes } from './magento.type'
+import { Currency, CustomAttribute, Customer, ExtensionAttributes, IBillingAddress } from './magento.type'
 
 export interface Cart {
   id: string
@@ -10,7 +10,7 @@ export interface Cart {
   items_count: number
   items_qty: number
   customer: Customer
-  billing_address: BillingAddress
+  billing_address: IBillingAddress
   orig_order_id: number
   currency: Currency
   customer_is_guest: boolean

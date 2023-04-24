@@ -73,10 +73,10 @@ export interface Customer {
   lastname: string
 }
 
-export interface BillingAddress {
+export interface IBillingAddress {
   id: number
   region: string
-  region_id: string
+  region_id: number
   region_code: string
   country_id: string
   street: string[]

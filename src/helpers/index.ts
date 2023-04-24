@@ -1,5 +1,5 @@
 import { ItemInCart } from '@/@types/cart.type'
-import { CustomAttribute } from '@/@types/magento.type'
+import { CustomAttribute, IBillingAddress } from '@/@types/magento.type'
 import { ProductResponse } from '@/@types/product.type'
 
 export function formatCurrency(currency: number) {
@@ -35,4 +35,32 @@ export function mergeArrayItems(arr1: ItemInCart[], arr2: ProductResponse) {
     ...item,
     custom_attributes: arr2.items.find((product) => product.sku === item.sku)?.custom_attributes ?? []
   }))
+}
+
+export function generateName(fullname: string) {
+  const nameParts = fullname.split(' ')
+  const lastname = nameParts.shift()
+  const firstname = nameParts.join(' ')
+  return [firstname, lastname]
+}
+
+export function formatAddress(address: IBillingAddress) {
+  const name = `${address.lastname} ${address.firstname}`
+  const phone = address.telephone
+  const street = address.street.join(', ')
+  const region = address.region
+  const city = address.city
+
+  if (!name || !phone || !street || !region || !city) {
+    return null
+  }
+
+  const nameAndPhone = `${name} | ${phone}`
+  const fullAddress = `${street}, ${region}, ${city}.`
+
+  return {
+    fullname: name,
+    nameAndPhone,
+    address: fullAddress
+  }
 }

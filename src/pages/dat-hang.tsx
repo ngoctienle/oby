@@ -11,16 +11,17 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useQuery } from '@tanstack/react-query'
 import { GetServerSideProps } from 'next'
 import { Fragment, useEffect, useMemo, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 
 import { Cart } from '@/@types/cart.type'
 import { District, Provine, Ward } from '@/@types/geo.type'
-import { IPayment, IPaymentElement } from '@/@types/payment.type'
+import { IBillingAddress } from '@/@types/magento.type'
+import { IBodyAddress, IPayment, IPaymentElement } from '@/@types/payment.type'
 
 import { FillPaymentForm, fillPaymentForm } from '@/libs/rules'
 import twclsx from '@/libs/twclsx'
 
-import { formatCurrency, mergeArrayItems } from '@/helpers'
+import { formatAddress, formatCurrency, generateName, mergeArrayItems } from '@/helpers'
 import { calculateTotalDiscountPrice, calculateTotalOriginPrice, calculateTotalPrice } from '@/helpers/cart'
 import {
   generateProductImageFromMagento,
@@ -39,22 +40,28 @@ import { cacheTime } from '@/constants/config.constant'
 
 import Input from '@/components/Input'
 import { OBYButton, OBYImage } from '@/components/UI/Element'
+import { OBYLocationIcon } from '@/components/UI/OBYIcons'
 
 interface IOrderPage {
+  userToken: string
   cartData: Cart
   listSKU: string
   paymentMethod: IPayment
   provines: Provine[]
+  billingData: IBillingAddress
 }
 
 interface SelectedPlace {
   name: string
-  code: number
+  code?: number
 }
 
-export default function OrderPage({ cartData, listSKU, paymentMethod, provines }: IOrderPage) {
+export default function OrderPage({ cartData, listSKU, paymentMethod, provines, userToken, billingData }: IOrderPage) {
+  const [billing, setBilling] = useState<IBillingAddress | null>(billingData)
+
   const [selected, setSelected] = useState<IPaymentElement | boolean>(false)
   const [isOpen, setIsOpen] = useState<boolean>(false)
+
   const [isProvineOpen, setIsProvineOpen] = useState<boolean>(false)
   const [selectedProvine, setSelectedProvine] = useState<SelectedPlace>()
   const [searchProvine] = useState<string>('')
@@ -70,6 +77,8 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines }
   const {
     register,
     handleSubmit,
+    control,
+    clearErrors,
     formState: { errors }
   } = useForm<FillPaymentForm>({
     resolver: yupResolver(fillPaymentForm)
@@ -102,7 +111,14 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines }
     if (wardsData) {
       setWardArr(wardsData.data.wards)
     }
-  }, [districtsData, wardsData])
+    if (billing?.city && billing?.region && billing?.street.length > 0) {
+      if (!selectedProvine?.code && !selectedDistrict?.code && !selectedWard?.code) {
+        setSelectedProvine({ name: billing.city })
+        setSelectedDistrict({ name: billing.region })
+        setSelectedWard({ name: billing.street[1] })
+      }
+    }
+  }, [districtsData, wardsData, billing, selectedProvine, selectedDistrict, selectedWard])
 
   const initializeData = useMemo(() => {
     const productInCart = productData && productData.data
@@ -119,6 +135,8 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines }
       name,
       code
     })
+    clearErrors('provine')
+
     setSelectedDistrict(undefined)
     setDistrictArr(undefined)
     setSelectedWard(undefined)
@@ -130,6 +148,8 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines }
       name,
       code
     })
+    clearErrors('district')
+
     setSelectedWard(undefined)
     setWardArr(undefined)
     setIsDistrictOpen(false)
@@ -139,6 +159,8 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines }
       name,
       code
     })
+    clearErrors('ward')
+
     setIsWardOpen(false)
   }
 
@@ -155,9 +177,39 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines }
     })
   }, [provines, searchProvine])
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data)
+  const onSubmit = handleSubmit(async (data) => {
+    const { address, district, provine, email, phone, fullname, ward } = data
+
+    const [firstname, lastname] = generateName(fullname)
+
+    const body: IBodyAddress = {
+      address: {
+        email,
+        firstname: firstname as string,
+        lastname: lastname as string,
+        telephone: phone,
+        country_id: 'VN',
+        city: provine,
+        street: [address, ward],
+        region: district,
+        postcode: ''
+      }
+    }
+
+    await paymentApi.SetBillingAddress(userToken, body).then(async () => {
+      await paymentApi.GetBillingAddress(userToken).then(({ data }) => {
+        setBilling(data)
+      })
+      setIsOpen(false)
+    })
   })
+
+  const addressInformation = useMemo(() => {
+    if (billing) {
+      return formatAddress(billing)
+    }
+    return null
+  }, [billing])
 
   return (
     <div className='@992:pt-7.5 pt-2 min-h-[50%]'>
@@ -198,7 +250,18 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines }
                   <ChevronRightIcon className='text-oby-primary w-5 h-5' />
                 </OBYButton>
               </div>
-              <p className='fs-16 text-oby-9A9898'>Vui lòng nhập thông tin giao hàng để tiếp tục</p>
+              {}
+              {addressInformation ? (
+                <>
+                  <p className='fs-16 font-semibold flex items-center'>
+                    <OBYLocationIcon className='w-6 h-6 mr-1 text-oby-676869' />
+                    <span>{addressInformation.nameAndPhone}</span>
+                  </p>
+                  <p className='fs-16 mt-2'>{addressInformation.address}</p>
+                </>
+              ) : (
+                <p className='fs-16 text-oby-9A9898'>Vui lòng nhập thông tin giao hàng để tiếp tục</p>
+              )}
             </div>
             <Transition show={isOpen} as={Fragment}>
               <Dialog as='div' className='relative z-10' onClose={() => setIsOpen(false)}>
@@ -225,7 +288,7 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines }
                       leaveFrom='opacity-100 scale-100'
                       leaveTo='opacity-0 scale-95'
                     >
-                      <Dialog.Panel className='w-full max-w-xl overflow-y-scroll h-[730px] transform overflow-hidden rounded-2.5 bg-white px-6 py-7.5 text-left align-middle shadow-xl transition-all'>
+                      <Dialog.Panel className='w-full max-w-xl h-[730px] transform overflow-hidden rounded-2.5 bg-white px-6 py-7.5 text-left align-middle shadow-xl transition-all'>
                         <Dialog.Title as='h3' className='fs-18 font-semibold text-center'>
                           Thông tin giao hàng
                         </Dialog.Title>
@@ -234,40 +297,66 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines }
                           type='button'
                           onClick={() => setIsOpen(false)}
                         />
-                        <form noValidate className='mt-6' onSubmit={onSubmit}>
+                        <form noValidate className='mt-6 overflow-y-auto max-h-[630px]' onSubmit={onSubmit}>
                           <p className='fs-16 text-oby-green font-semibold'>Liên hệ</p>
-                          <Input
-                            type='text'
-                            placeholder='Họ và tên'
+                          <Controller
                             name='fullname'
-                            className='mt-3'
-                            errorMessage={errors.fullname?.message}
-                            register={register}
+                            control={control}
+                            defaultValue={(addressInformation && addressInformation.fullname) || undefined}
+                            render={({ field }) => (
+                              <Input
+                                type='text'
+                                placeholder='Họ và tên'
+                                className='mt-3'
+                                value={field.value}
+                                onChange={field.onChange}
+                                errorMessage={errors.fullname?.message}
+                                register={register}
+                              />
+                            )}
                           />
-                          <Input
-                            type='email'
-                            placeholder='Địa chỉ email'
+                          <Controller
                             name='email'
-                            className='mt-3'
-                            errorMessage={errors.email?.message}
-                            register={register}
+                            control={control}
+                            defaultValue={(billing && billing.email) || undefined}
+                            render={({ field }) => (
+                              <Input
+                                type='email'
+                                placeholder='Địa chỉ email'
+                                className='mt-3'
+                                value={field.value}
+                                onChange={field.onChange}
+                                errorMessage={errors.email?.message}
+                                register={register}
+                              />
+                            )}
                           />
-                          <Input
-                            type='text'
-                            placeholder='Số điện thoại'
+                          <Controller
                             name='phone'
-                            className='mt-3'
-                            errorMessage={errors.phone?.message}
-                            register={register}
+                            control={control}
+                            defaultValue={(billing && billing.telephone) || undefined}
+                            render={({ field }) => (
+                              <Input
+                                type='text'
+                                placeholder='Số điện thoại'
+                                className='mt-3'
+                                value={field.value}
+                                onChange={field.onChange}
+                                errorMessage={errors.phone?.message}
+                                register={register}
+                              />
+                            )}
                           />
+
                           <p className='fs-16 mt-5 text-oby-green font-semibold'>Địa chỉ</p>
                           <Input
-                            type='text'
                             name='provine'
+                            type='text'
                             className='mt-3'
                             classNameInput='cursor-pointer'
                             placeholder='Tỉnh/Thành phố'
-                            value={selectedProvine?.name || ''}
+                            defaultValue={billing?.city ? billing.city : ''}
+                            value={(selectedProvine?.name && selectedProvine.name) || ''}
                             readOnly
                             isRead
                             onClick={() => setIsProvineOpen(true)}
@@ -324,12 +413,12 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines }
                                             <p
                                               className={twclsx(
                                                 'fs-16',
-                                                selectedProvine?.code === provine.code && 'text-oby-primary'
+                                                selectedProvine?.name === provine.name && 'text-oby-primary'
                                               )}
                                             >
                                               {provine.name}
                                             </p>
-                                            {selectedProvine?.code === provine.code && (
+                                            {selectedProvine?.name === provine.name && (
                                               <CheckIcon className='w-6 h-6 text-oby-primary' />
                                             )}
                                           </div>
@@ -348,8 +437,9 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines }
                             className='mt-3'
                             classNameInput='cursor-pointer'
                             placeholder='Quận/Huyện'
+                            defaultValue={(billing?.region && billing.region) || ''}
                             value={selectedDistrict?.name || ''}
-                            disabled={selectedProvine ? false : true}
+                            disabled={selectedProvine?.name ? false : true}
                             readOnly
                             isRead
                             onClick={() => setIsDistrictOpen(true)}
@@ -407,12 +497,12 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines }
                                               <p
                                                 className={twclsx(
                                                   'fs-16',
-                                                  selectedDistrict?.code === district.code && 'text-oby-primary'
+                                                  selectedDistrict?.name === district.name && 'text-oby-primary'
                                                 )}
                                               >
                                                 {district.name}
                                               </p>
-                                              {selectedDistrict?.code === district.code && (
+                                              {selectedDistrict?.name === district.name && (
                                                 <CheckIcon className='w-6 h-6 text-oby-primary' />
                                               )}
                                             </div>
@@ -432,8 +522,9 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines }
                             className='mt-3'
                             classNameInput='cursor-pointer'
                             placeholder='Phường/Xã'
+                            defaultValue={billing && billing.street.length > 0 ? billing.street[1] : ''}
                             value={selectedWard?.name || ''}
-                            disabled={selectedDistrict ? false : true}
+                            disabled={selectedDistrict?.name ? false : true}
                             readOnly
                             isRead
                             onClick={() => setIsWardOpen(true)}
@@ -491,7 +582,7 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines }
                                               <p
                                                 className={twclsx(
                                                   'fs-16',
-                                                  selectedWard?.code === ward.code && 'text-oby-primary'
+                                                  selectedWard?.name === ward.name && 'text-oby-primary'
                                                 )}
                                               >
                                                 {ward.name}
@@ -514,6 +605,7 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines }
                             placeholder='Địa chỉ cụ thể (số nhà, tên đường,...)'
                             name='address'
                             className='mt-3'
+                            defaultValue={(billing && billing.street[0]) || undefined}
                             errorMessage={errors.address?.message}
                             register={register}
                           />
@@ -523,8 +615,8 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines }
                             placeholder='Ghi chú đơn hàng'
                             name='note'
                             className='mt-3'
-                            /* errorMessage={errors.email?.message}
-                            register={register} */
+                            errorMessage={errors.note?.message}
+                            register={register}
                           />
                           <OBYButton
                             type='submit'
@@ -685,6 +777,7 @@ export const getServerSideProps: GetServerSideProps<IOrderPage> = async (context
   const userToken = context.req.cookies.token
   const { data } = await cartApi.GetCart(userToken as string)
   const { data: paymentMethod } = await paymentApi.GetPaymentMethod(userToken as string)
+  const { data: billingData } = await paymentApi.GetBillingAddress(userToken as string)
 
   const { data: provines } = await GeoAPI.GetProvine()
 
@@ -695,7 +788,9 @@ export const getServerSideProps: GetServerSideProps<IOrderPage> = async (context
       cartData: data,
       listSKU,
       paymentMethod,
-      provines
+      provines,
+      userToken: userToken as string,
+      billingData
     }
   }
 }

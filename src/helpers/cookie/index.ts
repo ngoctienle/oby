@@ -4,7 +4,7 @@ import { NextPageContext } from 'next'
 
 import { TypeUser } from '@/libs/state'
 
-export const getTokenSSRAndCSR = (ctx?: NextPageContext): [string, TypeUser, string | null] => {
+export const getTokenSSRAndCSR = (ctx?: NextPageContext): [string | null, TypeUser | null, string | null] => {
   let userToken = ''
   let userProfile = null
   let cartId = ''

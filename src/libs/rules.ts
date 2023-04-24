@@ -124,7 +124,8 @@ export const fillPaymentForm = yup.object({
   provine: yup.string().required('Vui lòng chọn Tỉnh/Thành phố!'),
   district: yup.string().required('Vui lòng chọn Quận/Huyện!'),
   ward: yup.string().required('Vui lòng chọn Phường/Xã!'),
-  address: yup.string().required('Vui lòng nhập địa chỉ cụ thể!').max(200, 'Độ dài tối đa 200 ký tự!')
+  address: yup.string().required('Vui lòng nhập địa chỉ cụ thể!').max(200, 'Độ dài tối đa 200 ký tự!'),
+  note: yup.string()
 })
 
 export type FillPaymentForm = yup.InferType<typeof fillPaymentForm>
