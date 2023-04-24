@@ -2,7 +2,6 @@ import '@/styles/globals.css'
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import cookie from 'cookie'
-import Cookies from 'js-cookie'
 import type { AppContext, AppProps } from 'next/app'
 import App from 'next/app'
 import { Inter } from 'next/font/google'
@@ -157,7 +156,7 @@ OBYApp.getInitialProps = async (appContext: AppContext) => {
     guestCartId = null
   }
 
-  // Clear userProfile and cartId cookies if userToken is not available
+  /* // Clear userProfile and cartId cookies if userToken is not available
   if (!userToken && guestCartId && cartId && userProfile) {
     if (typeof window !== undefined) {
       Cookies.remove('user')
@@ -165,7 +164,7 @@ OBYApp.getInitialProps = async (appContext: AppContext) => {
     }
     userProfile = null
     cartId = null
-  }
+  } */
 
   return {
     pageProps: {

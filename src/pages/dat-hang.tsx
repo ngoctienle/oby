@@ -786,24 +786,23 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
 }
 
 export const getServerSideProps: GetServerSideProps<IOrderPage> = async (context) => {
-  const userToken = context.req.cookies.token || ''
+  const userToken = context.req.cookies.token
 
-  const [cartData, paymentMethod, provines] = await Promise.all([
-    cartApi.GetCart(userToken as string),
-    paymentApi.GetPaymentMethod(userToken as string),
-    GeoAPI.GetProvine()
-  ])
+  const { data } = await cartApi.GetCart(userToken as string)
+  const { data: paymentMethod } = await paymentApi.GetPaymentMethod(userToken as string)
 
-  const listSKU = getSKUListProductAsString(cartData.data.items)
+  const { data: provines } = await GeoAPI.GetProvine()
+
+  const listSKU = getSKUListProductAsString(data.items)
 
   return {
     props: {
-      cartData: cartData.data,
+      cartData: data,
       listSKU,
-      paymentMethod: paymentMethod.data,
-      provines: provines.data,
-      userToken,
-      billingData: cartData.data.billing_address
+      paymentMethod,
+      provines,
+      userToken: userToken as string,
+      billingData: data.billing_address
     }
   }
 }
