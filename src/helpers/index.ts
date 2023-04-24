@@ -45,7 +45,17 @@ export function generateName(fullname: string) {
 }
 
 export function formatAddress(address: IBillingAddress) {
-  const name = `${address.lastname} ${address.firstname}`
+  let name = ''
+  if (!address.firstname && !address.lastname) {
+    return null
+  } else if (!address.firstname) {
+    name = address.lastname
+  } else if (!address.lastname) {
+    name = address.firstname
+  } else {
+    name = `${address.lastname} ${address.firstname}`
+  }
+
   const phone = address.telephone
   const street = address.street.join(', ')
   const region = address.region
