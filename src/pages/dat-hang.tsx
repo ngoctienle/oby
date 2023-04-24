@@ -10,8 +10,9 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useQuery } from '@tanstack/react-query'
 import { GetServerSideProps } from 'next'
-import { Fragment, useEffect, useMemo, useState } from 'react'
+import { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { toast } from 'react-hot-toast'
 
 import { Cart } from '@/@types/cart.type'
 import { District, Provine, Ward } from '@/@types/geo.type'
@@ -118,7 +119,7 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
         setSelectedWard({ name: billing.street[1] })
       }
     }
-  }, [districtsData, wardsData, billing, selectedProvine, selectedDistrict, selectedWard])
+  }, [districtsData, wardsData, selectedProvine, selectedDistrict, selectedWard, billing])
 
   const initializeData = useMemo(() => {
     const productInCart = productData && productData.data
@@ -130,39 +131,51 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
     return null
   }, [cartData, productData])
 
-  const handleSelectProvine = (name: string, code: number) => {
-    setSelectedProvine({
-      name,
-      code
-    })
-    clearErrors('provine')
+  const handleSelectProvine = useCallback(
+    (name: string, code: number) => {
+      setSelectedProvine({
+        name,
+        code
+      })
+      clearErrors('provine')
 
-    setSelectedDistrict(undefined)
-    setDistrictArr(undefined)
-    setSelectedWard(undefined)
-    setWardArr(undefined)
-    setIsProvineOpen(false)
-  }
-  const handleSelectDistrict = (name: string, code: number) => {
-    setSelectedDistrict({
-      name,
-      code
-    })
-    clearErrors('district')
+      setSelectedDistrict(undefined)
+      setSelectedWard(undefined)
+      setDistrictArr(undefined)
+      setWardArr(undefined)
+      setIsProvineOpen(false)
+    },
+    [clearErrors]
+  )
+  const handleSelectDistrict = useCallback(
+    (name: string, code: number) => {
+      setSelectedDistrict({
+        name,
+        code
+      })
+      clearErrors('district')
 
-    setSelectedWard(undefined)
-    setWardArr(undefined)
-    setIsDistrictOpen(false)
-  }
-  const handleSelectWard = (name: string, code: number) => {
-    setSelectedWard({
-      name,
-      code
-    })
-    clearErrors('ward')
+      if (name !== billing?.region) {
+        setSelectedWard(undefined)
+        setWardArr(undefined)
+      }
 
-    setIsWardOpen(false)
-  }
+      setIsDistrictOpen(false)
+    },
+    [clearErrors, billing?.region]
+  )
+  const handleSelectWard = useCallback(
+    (name: string, code: number) => {
+      setSelectedWard({
+        name,
+        code
+      })
+      clearErrors('ward')
+
+      setIsWardOpen(false)
+    },
+    [clearErrors]
+  )
 
   const filteredProvine = useMemo(() => {
     const searchRegex = new RegExp(
@@ -179,9 +192,7 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
 
   const onSubmit = handleSubmit(async (data) => {
     const { address, district, provine, email, phone, fullname, ward } = data
-
     const [firstname, lastname] = generateName(fullname)
-
     const body: IBodyAddress = {
       address: {
         email,
@@ -195,13 +206,14 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
         postcode: ''
       }
     }
-
-    await paymentApi.SetBillingAddress(userToken, body).then(async () => {
-      await paymentApi.GetBillingAddress(userToken).then(({ data }) => {
-        setBilling(data)
-      })
+    try {
+      await paymentApi.SetBillingAddress(userToken, body)
+      const { data: billingData } = await paymentApi.GetBillingAddress(userToken)
+      setBilling(billingData)
       setIsOpen(false)
-    })
+    } catch (error) {
+      toast.error('Có lỗi xảy ra!')
+    }
   })
 
   const addressInformation = useMemo(() => {
@@ -774,23 +786,24 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
 }
 
 export const getServerSideProps: GetServerSideProps<IOrderPage> = async (context) => {
-  const userToken = context.req.cookies.token
-  const { data } = await cartApi.GetCart(userToken as string)
-  const { data: paymentMethod } = await paymentApi.GetPaymentMethod(userToken as string)
-  const { data: billingData } = await paymentApi.GetBillingAddress(userToken as string)
+  const userToken = context.req.cookies.token || ''
 
-  const { data: provines } = await GeoAPI.GetProvine()
+  const [cartData, paymentMethod, provines] = await Promise.all([
+    cartApi.GetCart(userToken as string),
+    paymentApi.GetPaymentMethod(userToken as string),
+    GeoAPI.GetProvine()
+  ])
 
-  const listSKU = getSKUListProductAsString(data.items)
+  const listSKU = getSKUListProductAsString(cartData.data.items)
 
   return {
     props: {
-      cartData: data,
+      cartData: cartData.data,
       listSKU,
-      paymentMethod,
-      provines,
-      userToken: userToken as string,
-      billingData
+      paymentMethod: paymentMethod.data,
+      provines: provines.data,
+      userToken,
+      billingData: cartData.data.billing_address
     }
   }
 }
