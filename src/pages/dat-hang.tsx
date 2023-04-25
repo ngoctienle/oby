@@ -8,7 +8,7 @@ import {
   XMarkIcon
 } from '@heroicons/react/24/outline'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { GetServerSideProps } from 'next'
 import { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -17,12 +17,12 @@ import { toast } from 'react-hot-toast'
 import { Cart } from '@/@types/cart.type'
 import { District, Provine, Ward } from '@/@types/geo.type'
 import { IBillingAddress } from '@/@types/magento.type'
-import { IBodyAddress, IPayment, IPaymentElement } from '@/@types/payment.type'
+import { AddressBody, IBodyAddress, IBodyShippingInformation, IPayment } from '@/@types/payment.type'
 
 import { FillPaymentForm, fillPaymentForm } from '@/libs/rules'
 import twclsx from '@/libs/twclsx'
 
-import { formatAddress, formatCurrency, generateName, mergeArrayItems } from '@/helpers'
+import { formatAddress, formatCurrency, generateName, getShippingMethod, mergeArrayItems } from '@/helpers'
 import { calculateTotalDiscountPrice, calculateTotalOriginPrice, calculateTotalPrice } from '@/helpers/cart'
 import {
   generateProductImageFromMagento,
@@ -57,11 +57,26 @@ interface SelectedPlace {
   code?: number
 }
 
+interface CalculateOrder {
+  grand_total: number
+  shipping_amount: number
+}
+
+interface SeletedShipping {
+  name?: string
+  value?: number
+}
+
 export default function OrderPage({ cartData, listSKU, paymentMethod, provines, userToken, billingData }: IOrderPage) {
   const [billing, setBilling] = useState<IBillingAddress | null>(billingData)
+  const [orderCalculate, setOrderCalculate] = useState<CalculateOrder>()
 
-  const [selected, setSelected] = useState<IPaymentElement | boolean>(false)
+  const [shipMethod, setShipMethod] = useState<boolean | string>(false)
+  const [selectedMethod, setSelectedMethod] = useState<SeletedShipping>()
+  const [selected, setSelected] = useState<string | boolean>(false)
+
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [isMethodOpen, setIsMethodOpen] = useState<boolean>(false)
 
   const [isProvineOpen, setIsProvineOpen] = useState<boolean>(false)
   const [selectedProvine, setSelectedProvine] = useState<SelectedPlace>()
@@ -92,11 +107,30 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
     staleTime: cacheTime.halfHours
   })
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { data: provineSearchData } = useQuery({
+    queryKey: ['provineSelectedSearch', selectedProvine?.name],
+    queryFn: () => selectedProvine && GeoAPI.SearchProvine(selectedProvine.name),
+    enabled: !!selectedProvine?.name && !selectedProvine?.code,
+    onSuccess: (data) => {
+      setSelectedProvine((prev) => ({ ...prev, code: data?.data[0].code }))
+    }
+  })
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { data: districtSearchData } = useQuery({
+    queryKey: ['districtSelectedSearch', selectedDistrict?.name],
+    queryFn: () => selectedDistrict && GeoAPI.SearchDistrict(selectedDistrict.name),
+    enabled: !!selectedDistrict?.name && !selectedDistrict.code,
+    onSuccess: (data) => {
+      setSelectedDistrict((prev) => ({ ...prev, code: data?.data[0].code }))
+    }
+  })
+
   const { data: districtsData } = useQuery({
     queryKey: ['districts', selectedProvine?.code],
     queryFn: () => GeoAPI.GetDistrict(selectedProvine?.code ?? 0),
     staleTime: cacheTime.fiveMinutes,
-    enabled: !!selectedProvine?.code
+    enabled: Boolean(selectedProvine?.code)
   })
 
   const { data: wardsData } = useQuery({
@@ -104,6 +138,35 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
     queryFn: () => GeoAPI.GetWard(selectedDistrict?.code ?? 0),
     staleTime: cacheTime.fiveMinutes,
     enabled: !!selectedDistrict?.code
+  })
+
+  const bodyEstimate = useMemo(() => {
+    if (billing?.city) {
+      const { email, firstname, lastname, telephone, street, city, region, country_id, postcode } = billing
+      return {
+        email,
+        firstname,
+        lastname,
+        telephone,
+        street,
+        city,
+        region,
+        country_id,
+        postcode
+      }
+    }
+  }, [billing])
+
+  const { data: EstimateShippingRes } = useQuery({
+    queryKey: ['estimateShippingFee', billing?.city],
+    queryFn: () =>
+      paymentApi.EstimateShippingFeeByAddressId(userToken as string, { address: bodyEstimate as AddressBody }),
+    enabled: Boolean(billing?.city),
+    staleTime: cacheTime.fiveMinutes
+  })
+
+  const setAddressAndBillingMutation = useMutation({
+    mutationFn: (body: IBodyShippingInformation) => paymentApi.ShippingInformation(userToken as string, body)
   })
 
   useEffect(() => {
@@ -205,7 +268,7 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
         city: provine,
         street: [address, ward],
         region: district,
-        postcode: ''
+        postcode: 'OBYCode'
       }
     }
     try {
@@ -213,6 +276,8 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
       const { data: billingData } = await paymentApi.GetBillingAddress(userToken)
       setBilling(billingData)
       setIsOpen(false)
+      setOrderCalculate(undefined)
+      setSelectedMethod(undefined)
     } catch (error) {
       toast.error('Có lỗi xảy ra!')
     }
@@ -224,6 +289,44 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
     }
     return null
   }, [billing])
+
+  const setAddressAndBilling = () => {
+    const body: IBodyShippingInformation = {
+      addressInformation: {
+        shipping_address: {
+          email: billing?.email as string,
+          firstname: billing?.firstname as string,
+          lastname: billing?.lastname as string,
+          telephone: billing?.telephone as string,
+          city: billing?.city as string,
+          country_id: billing?.country_id as string,
+          region: billing?.region as string,
+          street: billing?.street as string[],
+          postcode: billing?.postcode as string
+        },
+        shipping_carrier_code: shipMethod as string,
+        shipping_method_code: shipMethod as string
+      }
+    }
+
+    if (shipMethod) {
+      setAddressAndBillingMutation.mutate(body, {
+        onSuccess: (data) => {
+          const totalSegments = data.data.totals.total_segments
+          const selected = getShippingMethod(totalSegments)
+          setOrderCalculate({
+            grand_total: data.data.totals.grand_total,
+            shipping_amount: data.data.totals.shipping_amount
+          })
+          setIsMethodOpen(false)
+          setSelectedMethod(selected)
+        },
+        onError: () => {
+          toast.error('Vui lòng thử lại!')
+        }
+      })
+    }
+  }
 
   return (
     <div className='@992:pt-7.5 pt-2 min-h-[50%]'>
@@ -650,14 +753,100 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
             <div className='border border-oby-DFDFDF rounded-2.5 bg-white p-4 mt-5'>
               <div className='flex items-center justify-between pb-3.5 border-b border-b-oby-DFDFDF mb-3.5'>
                 <p className='fs-18 font-bold text-oby-green'>Phương thức vận chuyển</p>
-                <OBYButton>
+                <OBYButton
+                  onClick={() => setIsMethodOpen(true)}
+                  disabled={!billing && !EstimateShippingRes}
+                  className='disabled:cursor-not-allowed'
+                >
                   <span className='fs-16 text-oby-primary'>Thay đổi</span>
                   <ChevronRightIcon className='text-oby-primary w-5 h-5' />
                 </OBYButton>
+                <Transition show={isMethodOpen} as={Fragment}>
+                  <Dialog as='div' className='relative z-10' onClose={() => setIsMethodOpen(false)}>
+                    <Transition.Child
+                      as={Fragment}
+                      enter='ease-out duration-300'
+                      enterFrom='opacity-0'
+                      enterTo='opacity-100'
+                      leave='ease-in duration-200'
+                      leaveFrom='opacity-100'
+                      leaveTo='opacity-0'
+                    >
+                      <div className='fixed inset-0 bg-black/30' />
+                    </Transition.Child>
+
+                    <div className='fixed inset-0 overflow-y-auto'>
+                      <div className='flex min-h-full items-center justify-center p-4 text-center'>
+                        <Transition.Child
+                          as={Fragment}
+                          enter='ease-out duration-300'
+                          enterFrom='opacity-0 scale-95'
+                          enterTo='opacity-100 scale-100'
+                          leave='ease-in duration-200'
+                          leaveFrom='opacity-100 scale-100'
+                          leaveTo='opacity-0 scale-95'
+                        >
+                          <Dialog.Panel className='w-full relative max-w-md transform overflow-hidden rounded-2.5 bg-white px-6 py-7.5 text-left align-middle shadow-xl transition-all'>
+                            <Dialog.Title as='h3' className='fs-18 font-semibold text-center'>
+                              Phương thức vận chuyển
+                            </Dialog.Title>
+                            <XMarkIcon
+                              className='w-6 h-6 text-oby-676869 absolute top-7.5 right-6 cursor-pointer'
+                              type='button'
+                              onClick={() => setIsMethodOpen(false)}
+                            />
+                            <RadioGroup value={shipMethod} onChange={setShipMethod}>
+                              <div className='flex flex-col gap-3 justify-between mt-6'>
+                                {EstimateShippingRes?.data?.map((plan) => (
+                                  <RadioGroup.Option
+                                    key={plan.carrier_code}
+                                    value={plan.carrier_code}
+                                    className={({ checked }) =>
+                                      twclsx(
+                                        `rounded-4 border cursor-pointer flex items-center justify-between transition-colors py-3 px-4`,
+                                        checked ? 'bg-oby-E4FBDB border-oby-green' : 'border-oby-DFDFDF bg-white'
+                                      )
+                                    }
+                                  >
+                                    {({ checked }) => {
+                                      return (
+                                        <>
+                                          <RadioGroup.Label as='p' className={checked ? 'text-oby-green' : ''}>
+                                            {plan.method_title}
+                                          </RadioGroup.Label>
+                                          <RadioGroup.Description as='p' className={checked ? 'text-oby-green' : ''}>
+                                            {formatCurrency(plan.amount)}
+                                          </RadioGroup.Description>
+                                        </>
+                                      )
+                                    }}
+                                  </RadioGroup.Option>
+                                ))}
+                              </div>
+                            </RadioGroup>
+                            <OBYButton
+                              onClick={setAddressAndBilling}
+                              className='mt-6 rounded-4 border border-transparent bg-oby-primary py-2.5 fs-16 text-white w-full'
+                            >
+                              Xác nhận
+                            </OBYButton>
+                          </Dialog.Panel>
+                        </Transition.Child>
+                      </div>
+                    </div>
+                  </Dialog>
+                </Transition>
               </div>
-              <p className='fs-16 text-oby-9A9898'>
-                Vui lòng chọn Thông tin giao hàng để xem danh sách phương thức vận chuyển
-              </p>
+              {selectedMethod ? (
+                <div className='flex items-center justify-between'>
+                  <p className='font-semibold fs-16'>{selectedMethod.name}</p>
+                  <p className='font-semibold fs-16'>{formatCurrency(selectedMethod.value as number)}</p>
+                </div>
+              ) : (
+                <p className='fs-16 text-oby-9A9898'>
+                  Vui lòng chọn Thông tin giao hàng để xem danh sách phương thức vận chuyển
+                </p>
+              )}
             </div>
             <div className='mt-5'>
               {initializeData &&
@@ -764,6 +953,12 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
                     </p>
                   </div>
                 )}
+                {orderCalculate && (
+                  <div className='flex items-center justify-between mt-3'>
+                    <p className='@992:fs-16 fs-14'>Phí vận chuyển</p>
+                    <p className='@992:fs-16 fs-14 text-end'>{formatCurrency(orderCalculate.shipping_amount)}</p>
+                  </div>
+                )}
                 <div className='mt-3 pt-3 border-t border-t-oby-DFDFDF'>
                   <div className='flex justify-between'>
                     <div className='flex flex-col'>
@@ -771,7 +966,8 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
                       <p className='@992:fs-14 fs-12 text-oby-9A9898'>(Đã bao gồm VAT)</p>
                     </div>
                     <p className='@992:fs-18 fs-16 font-semibold'>
-                      {initializeData && calculateTotalPrice(initializeData)}
+                      {initializeData && !orderCalculate && calculateTotalPrice(initializeData)}
+                      {orderCalculate && formatCurrency(orderCalculate.grand_total)}
                     </p>
                   </div>
                 </div>

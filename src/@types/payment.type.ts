@@ -7,11 +7,19 @@ export interface IPaymentElement {
   title: string
 }
 
-type AddressBody = Pick<
+export type AddressBody = Pick<
   IBillingAddress,
   'email' | 'firstname' | 'lastname' | 'telephone' | 'street' | 'postcode' | 'city' | 'region' | 'country_id'
 >
 
 export interface IBodyAddress {
   address: AddressBody
+}
+
+export interface IBodyShippingInformation {
+  addressInformation: {
+    shipping_address: AddressBody
+    shipping_carrier_code: string
+    shipping_method_code: string
+  }
 }

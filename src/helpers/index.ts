@@ -1,5 +1,5 @@
 import { ItemInCart } from '@/@types/cart.type'
-import { CustomAttribute, IBillingAddress } from '@/@types/magento.type'
+import { CustomAttribute, IBillingAddress, TotalSegment } from '@/@types/magento.type'
 import { ProductResponse } from '@/@types/product.type'
 
 export function formatCurrency(currency: number) {
@@ -72,5 +72,13 @@ export function formatAddress(address: IBillingAddress) {
     fullname: name,
     nameAndPhone,
     address: fullAddress
+  }
+}
+export function getShippingMethod(totalSegments: TotalSegment[]) {
+  const shippingMethod = totalSegments.find((segment) => segment.code === 'shipping')
+  const title = shippingMethod?.title.replace('Shipping & Handling (', '').replace(')', '')
+  return {
+    name: title,
+    value: shippingMethod?.value
   }
 }
