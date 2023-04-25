@@ -756,7 +756,7 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
                 <p className='fs-18 font-bold text-oby-green'>Phương thức vận chuyển</p>
                 <OBYButton
                   onClick={() => setIsMethodOpen(true)}
-                  disabled={!billing && !EstimateShippingRes}
+                  disabled={!billing?.city && !EstimateShippingRes}
                   className='disabled:cursor-not-allowed'
                 >
                   <span className='fs-16 text-oby-primary'>Thay đổi</span>
