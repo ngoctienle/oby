@@ -40,3 +40,7 @@ export const generateProductImageFromMagento = (data: CustomAttribute[]) => {
   const item = data.find((item) => item.attribute_code === 'image')
   return `${SITE_URL}/pub/media/catalog/product${item?.value}`
 }
+
+export function getTotalQuantity(items: ItemInCart[]) {
+  return items.reduce((total, item) => total + item.qty, 0)
+}
