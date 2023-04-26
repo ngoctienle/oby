@@ -8,7 +8,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import DOMPurify from 'isomorphic-dompurify'
-import { GetStaticPaths, GetStaticProps } from 'next'
+import { GetServerSideProps } from 'next'
 import Image from 'next/image'
 import { ParsedUrlQuery } from 'querystring'
 import React, { useRef, useState } from 'react'
@@ -34,7 +34,7 @@ import cartApi from '@/apis/magento/cart.api'
 import categoryApi from '@/apis/magento/category.api'
 import productApi from '@/apis/magento/product.api'
 
-import { MAX_PRODUCT, cacheTime } from '@/constants/config.constant'
+import { MAX_PRODUCT } from '@/constants/config.constant'
 import { hrefPath } from '@/constants/href.constant'
 
 import Breadcrumb from '@/components/Breadcrumb'
@@ -310,19 +310,9 @@ export default function ProductDetail({ subName, productData, parentName, produc
 }
 
 /* Generate Data as Server Side */
-export const getStaticPaths: GetStaticPaths = async () => {
-  const { data } = await productApi.GetAllProducts()
-
-  const paths = data.items.map((product) => {
-    const slug = product.sku
-    return { params: { slug } }
-  })
-
-  return { paths, fallback: false }
-}
-
-export const getStaticProps: GetStaticProps<IProductDetailProps> = async (context) => {
+export const getServerSideProps: GetServerSideProps<IProductDetailProps> = async (context) => {
   const { slug } = context.params as IParams
+  console.log(context.req.cookies)
 
   try {
     const { data: productData } = await productApi.GetProductDetailBySKU(slug)
@@ -340,8 +330,7 @@ export const getStaticProps: GetStaticProps<IProductDetailProps> = async (contex
         productName: productData.name,
         productData,
         slug
-      },
-      revalidate: cacheTime.halfHours
+      }
     }
   } catch (error) {
     return {

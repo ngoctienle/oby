@@ -52,7 +52,7 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.events])
 
-  useMemo(() => {
+  useEffect(() => {
     setGuestCartId(pageProps.guestCartId)
     setToken(pageProps.userToken)
     setUser(pageProps.userProfile)
