@@ -2,7 +2,6 @@ import '@/styles/globals.css'
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import cookie from 'cookie'
-import Cookies from 'js-cookie'
 import type { AppContext, AppProps } from 'next/app'
 import App from 'next/app'
 import { Inter } from 'next/font/google'
@@ -129,7 +128,7 @@ OBYApp.getInitialProps = async (appContext: AppContext) => {
 
     /* Serialize GuestCartId To Cookie */
     const cookieStr = cookie.serialize('guestCartId', guestCartId, {
-      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      expires: new Date(Date.now() + 24 * 60 * 60),
       path: '/'
     })
     appContext.ctx.res?.setHeader('Set-Cookie', cookieStr)
@@ -157,11 +156,8 @@ OBYApp.getInitialProps = async (appContext: AppContext) => {
   }
 
   // Clear userProfile and cartId cookies if userToken is not available
-  if (!userToken && guestCartId && cartId && userProfile) {
-    if (typeof window !== undefined) {
-      Cookies.remove('user')
-      Cookies.remove('cartId')
-    }
+  if (!userToken && cartId && userProfile) {
+    appContext.ctx.res?.setHeader('Set-Cookie', '')
     userProfile = null
     cartId = null
   }
