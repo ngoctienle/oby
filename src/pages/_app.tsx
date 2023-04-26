@@ -40,29 +40,6 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
   const [, setToken] = useGlobalState('token')
   const [, setCartId] = useGlobalState('cartId')
 
-  useMemo(() => {
-    setGuestCartId(pageProps.guestCartId)
-    setToken(pageProps.userToken)
-    setUser(pageProps.userProfile)
-    setCartId(pageProps.cartId)
-  }, [
-    pageProps.cartId,
-    pageProps.guestCartId,
-    pageProps.userProfile,
-    pageProps.userToken,
-    setCartId,
-    setGuestCartId,
-    setToken,
-    setUser
-  ])
-
-  const isAuth = useMemo(() => {
-    const included = ['/dang-nhap', '/dang-ky']
-    const currentRouter = router.pathname
-
-    return included.indexOf(currentRouter) !== -1
-  }, [router.pathname])
-
   useEffect(() => {
     const handleRouteChange = () => {
       window.scrollTo(0, 0)
@@ -76,13 +53,35 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.events])
 
+  useEffect(() => {
+    setGuestCartId(pageProps.guestCartId)
+    setToken(pageProps.userToken)
+    setUser(pageProps.userProfile)
+    setCartId(pageProps.cartId)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageProps.cartId, pageProps.guestCartId, pageProps.userProfile, pageProps.userToken])
+
+  const isAuth = useMemo(() => {
+    const included = ['/dang-nhap', '/dang-ky']
+    const currentRouter = router.pathname
+
+    return included.indexOf(currentRouter) !== -1
+  }, [router.pathname])
+
   return (
     <Fragment>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <NextNProgress height={2} startPosition={0.3} stopDelayMs={200} showOnShallow={true} color='#4AA02C' />
           {/* <HeaderAds /> */}
-          <Header font={inter} isFocus={isAuth} />
+          <Header
+            font={inter}
+            isFocus={isAuth}
+            user={pageProps.userProfile || null}
+            guestCartId={pageProps.guestCartId}
+            cartId={pageProps.cartId || null}
+            token={pageProps.userToken || null}
+          />
           <main className={inter.className}>
             <Component {...pageProps} />
           </main>

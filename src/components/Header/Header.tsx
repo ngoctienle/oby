@@ -5,7 +5,7 @@ import { useMemo } from 'react'
 
 import { useWindowScrollY } from '@/hooks'
 
-import { useGlobalState } from '@/libs/state'
+import { TypeUser } from '@/libs/state'
 import twclsx from '@/libs/twclsx'
 
 import cartApi from '@/apis/magento/cart.api'
@@ -19,14 +19,14 @@ import { OBYCategoryIcon } from '@/components/UI/OBYIcons'
 interface HeaderProps {
   font: NextFont
   isFocus: boolean
+  token?: string
+  user?: TypeUser
+  guestCartId?: string
+  cartId?: string
 }
 
-export default function Header({ font, isFocus }: HeaderProps) {
+export default function Header({ font, isFocus, user, guestCartId, cartId, token }: HeaderProps) {
   const y = useWindowScrollY()
-  const [guestCartId] = useGlobalState('guestCartId')
-  const [token] = useGlobalState('token')
-  const [cartId] = useGlobalState('cartId')
-  const [user] = useGlobalState('user')
 
   const { data: guestData } = useQuery({
     queryKey: ['guestCart', guestCartId],
