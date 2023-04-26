@@ -1,5 +1,6 @@
 import { Dialog, RadioGroup, Transition } from '@headlessui/react'
 import {
+  ArrowPathIcon,
   BanknotesIcon,
   CheckIcon,
   ChevronLeftIcon,
@@ -166,6 +167,10 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
     staleTime: cacheTime.fiveMinutes
   })
 
+  const setBillingAddressMutation = useMutation({
+    mutationFn: (body: IBodyAddress) => paymentApi.SetBillingAddress(userToken as string, body)
+  })
+
   const setAddressAndBillingMutation = useMutation({
     mutationFn: (body: IBodyShippingInformation) => paymentApi.ShippingInformation(userToken as string, body)
   })
@@ -256,7 +261,7 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
     })
   }, [provines, searchProvine])
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit((data) => {
     const { address, district, provine, email, phone, fullname, ward } = data
     const [firstname, lastname] = generateName(fullname)
     const body: IBodyAddress = {
@@ -273,12 +278,13 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
       }
     }
     try {
-      await paymentApi.SetBillingAddress(userToken, body)
-      const { data: billingData } = await paymentApi.GetBillingAddress(userToken)
-      setBilling(billingData)
-      setIsOpen(false)
-      setOrderCalculate(undefined)
-      setSelectedMethod(undefined)
+      setBillingAddressMutation.mutateAsync(body).then(async () => {
+        const { data: billingData } = await paymentApi.GetBillingAddress(userToken)
+        setBilling(billingData)
+        setIsOpen(false)
+        setOrderCalculate(undefined)
+        setSelectedMethod(undefined)
+      })
     } catch (error) {
       toast.error('Có lỗi xảy ra!')
     }
@@ -362,23 +368,22 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
             {/* Information User */}
             <div className='border border-oby-DFDFDF rounded-2.5 bg-white p-4'>
               <div className='flex items-center justify-between pb-3.5 border-b border-b-oby-DFDFDF mb-3.5'>
-                <p className='fs-18 font-bold text-oby-green'>Thông tin giao hàng</p>
+                <p className='@992:fs-18 fs-16 font-bold text-oby-green'>Thông tin giao hàng</p>
                 <OBYButton onClick={() => setIsOpen(true)}>
-                  <span className='fs-16 text-oby-primary'>Thay đổi</span>
+                  <span className='@992:fs-16 fs-14 text-oby-primary'>Thay đổi</span>
                   <ChevronRightIcon className='text-oby-primary w-5 h-5' />
                 </OBYButton>
               </div>
-              {}
               {addressInformation ? (
                 <>
-                  <p className='fs-16 font-semibold flex items-center'>
+                  <p className='@992:fs-16 fs-14 font-semibold flex items-center'>
                     <OBYLocationIcon className='w-6 h-6 mr-1 text-oby-676869' />
                     <span>{addressInformation.nameAndPhone}</span>
                   </p>
-                  <p className='fs-16 mt-2'>{addressInformation.address}</p>
+                  <p className='@992:fs-16 fs-14 mt-2'>{addressInformation.address}</p>
                 </>
               ) : (
-                <p className='fs-16 text-oby-9A9898'>Vui lòng nhập thông tin giao hàng để tiếp tục</p>
+                <p className='@992:fs-16 fs-14 text-oby-9A9898'>Vui lòng nhập thông tin giao hàng để tiếp tục</p>
               )}
             </div>
             <Transition show={isOpen} as={Fragment}>
@@ -406,17 +411,17 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
                       leaveFrom='opacity-100 scale-100'
                       leaveTo='opacity-0 scale-95'
                     >
-                      <Dialog.Panel className='w-full max-w-xl h-[730px] transform overflow-hidden rounded-2.5 bg-white px-6 py-7.5 text-left align-middle shadow-xl transition-all'>
-                        <Dialog.Title as='h3' className='fs-18 font-semibold text-center'>
+                      <Dialog.Panel className='w-full max-w-xl h-[730px] transform overflow-hidden rounded-2.5 bg-white @992:px-6 px-4 @992:py-7.5 py-5 text-left align-middle shadow-xl transition-all'>
+                        <Dialog.Title as='h3' className='@992:fs-18 fs-16 font-semibold text-center'>
                           Thông tin giao hàng
                         </Dialog.Title>
                         <XMarkIcon
-                          className='w-6 h-6 text-oby-676869 absolute top-7.5 right-6 cursor-pointer'
+                          className='w-6 h-6 text-oby-676869 absolute @992:top-7.5 top-5 @992:right-6 right-4 cursor-pointer'
                           type='button'
                           onClick={() => setIsOpen(false)}
                         />
-                        <form noValidate className='mt-6 overflow-y-auto max-h-[630px]' onSubmit={onSubmit}>
-                          <p className='fs-16 text-oby-green font-semibold'>Liên hệ</p>
+                        <form noValidate className='@992:mt-6 mt-5 overflow-y-auto max-h-[630px]' onSubmit={onSubmit}>
+                          <p className='@992:fs-16 fs-14 text-oby-green font-semibold'>Liên hệ</p>
                           <Controller
                             name='fullname'
                             control={control}
@@ -466,7 +471,7 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
                             )}
                           />
 
-                          <p className='fs-16 mt-5 text-oby-green font-semibold'>Địa chỉ</p>
+                          <p className='@992:fs-16 fs-14 @992:mt-5 mt-4 text-oby-green font-semibold'>Địa chỉ</p>
                           <Input
                             name='provine'
                             type='text'
@@ -507,12 +512,12 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
                                     leaveFrom='opacity-100 scale-100'
                                     leaveTo='opacity-0 scale-95'
                                   >
-                                    <Dialog.Panel className='w-[576px] relative max-w-xl h-[730px] transform overflow-hidden rounded-2.5 bg-white px-6 py-7.5 text-left align-middle shadow-xl transition-all'>
-                                      <Dialog.Title as='h3' className='fs-18 font-semibold text-center'>
+                                    <Dialog.Panel className='w-[576px] relative max-w-xl h-[730px] transform overflow-hidden rounded-2.5 bg-white @992:px-6 px-4 @992:py-7.5 py-5 text-left align-middle shadow-xl transition-all'>
+                                      <Dialog.Title as='h3' className='@992:fs-18 fs-16 font-semibold text-center'>
                                         Tỉnh/Thành phố
                                       </Dialog.Title>
                                       <ChevronLeftIcon
-                                        className='w-6 h-6 text-oby-676869 absolute top-7.5 left-6 cursor-pointer'
+                                        className='w-6 h-6 text-oby-676869 absolute @992:top-7.5 top-5 @992:left-6 left-4 cursor-pointer'
                                         type='button'
                                         onClick={() => setIsProvineOpen(false)}
                                       />
@@ -520,7 +525,7 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
                                         <p>Search TODO</p>
                                       </div>
                                       <div className='overflow-y-scroll max-h-[550px]'>
-                                        <p className='fs-14 mb-1.5'>Tỉnh/Thành phố</p>
+                                        <p className='@992:fs-14 fs-12 mb-1.5'>Tỉnh/Thành phố</p>
                                         {filteredProvine.map((provine, index) => (
                                           <div
                                             className='py-2.5 border-b cursor-pointer border-b-DFDFDF flex items-center justify-between'
@@ -530,7 +535,7 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
                                           >
                                             <p
                                               className={twclsx(
-                                                'fs-16',
+                                                '@992:fs-16 fs-14',
                                                 selectedProvine?.name === provine.name && 'text-oby-primary'
                                               )}
                                             >
@@ -591,12 +596,12 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
                                       leaveFrom='opacity-100 scale-100'
                                       leaveTo='opacity-0 scale-95'
                                     >
-                                      <Dialog.Panel className='w-[576px] relative max-w-xl h-[730px] transform overflow-hidden rounded-2.5 bg-white px-6 py-7.5 text-left align-middle shadow-xl transition-all'>
-                                        <Dialog.Title as='h3' className='fs-18 font-semibold text-center'>
+                                      <Dialog.Panel className='w-[576px] relative max-w-xl h-[730px] transform overflow-hidden rounded-2.5 bg-white @992:px-6 px-4 @992:py-7.5 py-5 text-left align-middle shadow-xl transition-all'>
+                                        <Dialog.Title as='h3' className='@992:fs-18 fs-16 font-semibold text-center'>
                                           Quận/Huyện
                                         </Dialog.Title>
                                         <ChevronLeftIcon
-                                          className='w-6 h-6 text-oby-676869 absolute top-7.5 left-6 cursor-pointer'
+                                          className='w-6 h-6 text-oby-676869 absolute @992:top-7.5 top-5 @992:left-6 left-4 cursor-pointer'
                                           type='button'
                                           onClick={() => setIsDistrictOpen(false)}
                                         />
@@ -604,7 +609,7 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
                                           <p className='fs-16 text-oby-676869'>Todo Input</p>
                                         </div>
                                         <div className='overflow-y-scroll max-h-[550px]'>
-                                          <p className='fs-14 mb-1.5'>Quận/Huyện</p>
+                                          <p className='@992:fs-14 fs-12 mb-1.5'>Quận/Huyện</p>
                                           {districtArr.map((district, index) => (
                                             <div
                                               className='py-2.5 border-b cursor-pointer border-b-DFDFDF flex items-center justify-between'
@@ -614,7 +619,7 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
                                             >
                                               <p
                                                 className={twclsx(
-                                                  'fs-16',
+                                                  '@992:fs-16 fs-14',
                                                   selectedDistrict?.name === district.name && 'text-oby-primary'
                                                 )}
                                               >
@@ -676,12 +681,12 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
                                       leaveFrom='opacity-100 scale-100'
                                       leaveTo='opacity-0 scale-95'
                                     >
-                                      <Dialog.Panel className='w-[576px] relative max-w-xl h-[730px] transform overflow-hidden rounded-2.5 bg-white px-6 py-7.5 text-left align-middle shadow-xl transition-all'>
-                                        <Dialog.Title as='h3' className='fs-18 font-semibold text-center'>
+                                      <Dialog.Panel className='w-[576px] relative max-w-xl h-[730px] transform overflow-hidden rounded-2.5 bg-white @992:px-6 px-4 @992:py-7.5 py-5 text-left align-middle shadow-xl transition-all'>
+                                        <Dialog.Title as='h3' className='@992:fs-18 fs-16 font-semibold text-center'>
                                           Phường/Xã
                                         </Dialog.Title>
                                         <ChevronLeftIcon
-                                          className='w-6 h-6 text-oby-676869 absolute top-7.5 left-6 cursor-pointer'
+                                          className='w-6 h-6 text-oby-676869 absolute @992:top-7.5 @992:left-6 top-5 left-4 cursor-pointer'
                                           type='button'
                                           onClick={() => setIsWardOpen(false)}
                                         />
@@ -689,7 +694,7 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
                                           <p className='fs-16 text-oby-676869'>Todo Input</p>
                                         </div>
                                         <div className='overflow-y-scroll max-h-[550px]'>
-                                          <p className='fs-14 mb-1.5'>Phường/Xã</p>
+                                          <p className='@992:fs-14 fs-12 mb-1.5'>Phường/Xã</p>
                                           {wardArr.map((ward, index) => (
                                             <div
                                               className='py-2.5 border-b cursor-pointer border-b-DFDFDF flex items-center justify-between'
@@ -699,7 +704,7 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
                                             >
                                               <p
                                                 className={twclsx(
-                                                  'fs-16',
+                                                  '@992:fs-16 fs-14',
                                                   selectedWard?.name === ward.name && 'text-oby-primary'
                                                 )}
                                               >
@@ -727,7 +732,9 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
                             errorMessage={errors.address?.message}
                             register={register}
                           />
-                          <p className='fs-16 mt-5 text-oby-green font-semibold'>Ghi chú (nếu có)</p>
+                          <p className='@992:fs-16 fs-14 @992:mt-5 mt-4 text-oby-green font-semibold'>
+                            Ghi chú (nếu có)
+                          </p>
                           <Input
                             type='text'
                             placeholder='Ghi chú đơn hàng'
@@ -738,9 +745,14 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
                           />
                           <OBYButton
                             type='submit'
-                            className='mt-6 rounded-4 border border-transparent bg-oby-primary py-2.5 fs-16 text-white w-full'
+                            disabled={setBillingAddressMutation.isLoading}
+                            className='mt-6 rounded-4 border border-transparent transition-colors bg-oby-primary disabled:bg-oby-primary/40 disabled:cursor-not-allowed py-2.5 fs-16 text-white w-full'
                           >
-                            Xác nhận
+                            {setBillingAddressMutation.isLoading ? (
+                              <ArrowPathIcon className='animate-spin w-6 h-6 text-white' />
+                            ) : (
+                              'Xác nhận'
+                            )}
                           </OBYButton>
                         </form>
                       </Dialog.Panel>
@@ -751,15 +763,15 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
             </Transition>
 
             {/* Shipping Method & Fee */}
-            <div className='border border-oby-DFDFDF rounded-2.5 bg-white p-4 mt-5'>
+            <div className='border border-oby-DFDFDF rounded-2.5 bg-white p-4 @992:mt-5 mt-4'>
               <div className='flex items-center justify-between pb-3.5 border-b border-b-oby-DFDFDF mb-3.5'>
-                <p className='fs-18 font-bold text-oby-green'>Phương thức vận chuyển</p>
+                <p className='@992:fs-18 fs-16 font-bold text-oby-green'>Phương thức vận chuyển</p>
                 <OBYButton
                   onClick={() => setIsMethodOpen(true)}
                   disabled={!billing?.city && !EstimateShippingRes}
                   className='disabled:cursor-not-allowed'
                 >
-                  <span className='fs-16 text-oby-primary'>Thay đổi</span>
+                  <span className='@992:fs-16 fs-14 text-oby-primary'>Thay đổi</span>
                   <ChevronRightIcon className='text-oby-primary w-5 h-5' />
                 </OBYButton>
                 <Transition show={isMethodOpen} as={Fragment}>
@@ -787,24 +799,24 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
                           leaveFrom='opacity-100 scale-100'
                           leaveTo='opacity-0 scale-95'
                         >
-                          <Dialog.Panel className='w-full relative max-w-md transform overflow-hidden rounded-2.5 bg-white px-6 py-7.5 text-left align-middle shadow-xl transition-all'>
-                            <Dialog.Title as='h3' className='fs-18 font-semibold text-center'>
+                          <Dialog.Panel className='w-full relative max-w-md transform overflow-hidden rounded-2.5 bg-white @992:px-6 @992:py-7.5 px-4 py-5 text-left align-middle shadow-xl transition-all'>
+                            <Dialog.Title as='h3' className='@992:fs-18 fs-16 font-semibold text-center'>
                               Phương thức vận chuyển
                             </Dialog.Title>
                             <XMarkIcon
-                              className='w-6 h-6 text-oby-676869 absolute top-7.5 right-6 cursor-pointer'
+                              className='w-6 h-6 text-oby-676869 absolute @992:top-7.5 @992:right-6 top-5 right-4 cursor-pointer'
                               type='button'
                               onClick={() => setIsMethodOpen(false)}
                             />
                             <RadioGroup value={shipMethod} onChange={setShipMethod}>
-                              <div className='flex flex-col gap-3 justify-between mt-6'>
+                              <div className='flex flex-col gap-3 justify-between @992:mt-6 mt-5'>
                                 {EstimateShippingRes?.data?.map((plan) => (
                                   <RadioGroup.Option
                                     key={plan.carrier_code}
                                     value={plan.carrier_code}
                                     className={({ checked }) =>
                                       twclsx(
-                                        `rounded-4 border cursor-pointer flex items-center justify-between transition-colors py-3 px-4`,
+                                        `rounded-4 border cursor-pointer flex items-center justify-between transition-colors py-3 @992:px-4 px-3`,
                                         checked ? 'bg-oby-E4FBDB border-oby-green' : 'border-oby-DFDFDF bg-white'
                                       )
                                     }
@@ -812,10 +824,16 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
                                     {({ checked }) => {
                                       return (
                                         <>
-                                          <RadioGroup.Label as='p' className={checked ? 'text-oby-green' : ''}>
+                                          <RadioGroup.Label
+                                            as='p'
+                                            className={checked ? 'text-oby-green @992:fs-16 fs-14' : '@992:fs-16 fs-14'}
+                                          >
                                             {plan.method_title}
                                           </RadioGroup.Label>
-                                          <RadioGroup.Description as='p' className={checked ? 'text-oby-green' : ''}>
+                                          <RadioGroup.Description
+                                            as='p'
+                                            className={checked ? 'text-oby-green @992:fs-16 fs-14' : '@992:fs-16 fs-14'}
+                                          >
                                             {formatCurrency(plan.amount)}
                                           </RadioGroup.Description>
                                         </>
@@ -824,13 +842,18 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
                                   </RadioGroup.Option>
                                 ))}
                               </div>
+                              <OBYButton
+                                disabled={setAddressAndBillingMutation.isLoading || !shipMethod}
+                                onClick={setAddressAndBilling}
+                                className='@992:mt-6 mt-5 rounded-4 border border-transparent transition-colors disabled:bg-oby-primary/40 bg-oby-primary py-2.5 @992:fs-16 fs-14 text-white w-full disabled:cursor-not-allowed'
+                              >
+                                {setAddressAndBillingMutation.isLoading ? (
+                                  <ArrowPathIcon className='w-6 h-6 text-white animate-spin' />
+                                ) : (
+                                  'Xác nhận'
+                                )}
+                              </OBYButton>
                             </RadioGroup>
-                            <OBYButton
-                              onClick={setAddressAndBilling}
-                              className='mt-6 rounded-4 border border-transparent bg-oby-primary py-2.5 fs-16 text-white w-full'
-                            >
-                              Xác nhận
-                            </OBYButton>
                           </Dialog.Panel>
                         </Transition.Child>
                       </div>
@@ -840,11 +863,11 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
               </div>
               {selectedMethod ? (
                 <div className='flex items-center justify-between'>
-                  <p className='font-semibold fs-16'>{selectedMethod.name}</p>
-                  <p className='font-semibold fs-16'>{formatCurrency(selectedMethod.value as number)}</p>
+                  <p className='font-semibold @992:fs-16 fs-14'>{selectedMethod.name}</p>
+                  <p className='font-semibold @992:fs-16 fs-14'>{formatCurrency(selectedMethod.value as number)}</p>
                 </div>
               ) : (
-                <p className='fs-16 text-oby-9A9898'>
+                <p className='@992:fs-16 fs-14 text-oby-9A9898'>
                   Vui lòng chọn Thông tin giao hàng để xem danh sách phương thức vận chuyển
                 </p>
               )}
@@ -972,7 +995,10 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
                     </p>
                   </div>
                 </div>
-                <OBYButton className='@992:mt-5 mt-3 bg-oby-primary text-white w-full py-2.5 rounded-4'>
+                <OBYButton
+                  disabled={!billing?.city || !selected || !shipMethod}
+                  className='@992:mt-5 mt-3 bg-oby-primary transition-colors disabled:bg-oby-primary/40 disabled:cursor-not-allowed text-white w-full py-2.5 rounded-4'
+                >
                   Tiếp tục
                 </OBYButton>
               </div>
