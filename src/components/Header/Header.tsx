@@ -29,7 +29,7 @@ export default function Header({ font, isFocus, user, guestCartId, cartId, token
   const y = useWindowScrollY()
 
   const { data: guestData } = useQuery({
-    queryKey: ['guestCart', guestCartId],
+    queryKey: ['guestCart', guestCartId || ''],
     queryFn: () => cartApi.GetGuestCart(guestCartId || ''),
     enabled: !token,
     refetchOnWindowFocus: true,
@@ -37,9 +37,9 @@ export default function Header({ font, isFocus, user, guestCartId, cartId, token
   })
 
   const { data: mineData } = useQuery({
-    queryKey: ['cartId', cartId],
+    queryKey: ['cartId', cartId || ''],
     queryFn: () => cartApi.GetCart(token || ''),
-    enabled: !!token && !!cartId,
+    enabled: Boolean(token && cartId),
     refetchOnWindowFocus: true,
     staleTime: cacheTime.fiveMinutes
   })

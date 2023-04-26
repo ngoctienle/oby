@@ -1,5 +1,5 @@
 import '@/styles/globals.css'
-import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import cookie from 'cookie'
 import type { AppContext, AppProps } from 'next/app'
@@ -57,8 +57,16 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
     setToken(pageProps.userToken)
     setUser(pageProps.userProfile)
     setCartId(pageProps.cartId)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageProps.cartId, pageProps.guestCartId, pageProps.userProfile, pageProps.userToken])
+  }, [
+    pageProps.cartId,
+    pageProps.guestCartId,
+    pageProps.userProfile,
+    pageProps.userToken,
+    setCartId,
+    setGuestCartId,
+    setToken,
+    setUser
+  ])
 
   const isAuth = useMemo(() => {
     const included = ['/dang-nhap', '/dang-ky']
@@ -70,34 +78,33 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
   return (
     <Fragment>
       <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
-          <NextNProgress height={2} startPosition={0.3} stopDelayMs={200} showOnShallow={true} color='#4AA02C' />
-          {/* <HeaderAds /> */}
-          <Header
-            font={inter}
-            isFocus={isAuth}
-            user={pageProps.userProfile || null}
-            guestCartId={pageProps.guestCartId}
-            cartId={pageProps.cartId || null}
-            token={pageProps.userToken || null}
-          />
-          <main className={inter.className}>
-            <Component {...pageProps} />
-          </main>
-          <ToTopButton />
-          <Footer font={inter} />
-          <Toaster
-            position='top-center'
-            reverseOrder={true}
-            toastOptions={{
-              className: twclsx('rounded-1.5'),
-              duration: 2500
-            }}
-          />
+        <NextNProgress height={2} startPosition={0.3} stopDelayMs={200} showOnShallow={true} color='#4AA02C' />
+        {/* <HeaderAds /> */}
+        <Header
+          font={inter}
+          isFocus={isAuth}
+          user={pageProps.userProfile || null}
+          guestCartId={pageProps.guestCartId}
+          cartId={pageProps.cartId || null}
+          token={pageProps.userToken || null}
+        />
+        <main className={inter.className}>
+          <Component {...pageProps} />
+        </main>
+        <ToTopButton />
+        <Footer font={inter} />
+        <Toaster
+          position='top-center'
+          reverseOrder={true}
+          toastOptions={{
+            className: twclsx('rounded-1.5'),
+            duration: 2500
+          }}
+        />
 
-          {/* TawkTo Extension */}
-          <Script id='tawk' strategy='lazyOnload'>
-            {`
+        {/* TawkTo Extension */}
+        <Script id='tawk' strategy='lazyOnload'>
+          {`
             var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
             (function(){
             var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
@@ -108,9 +115,8 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
             s0.parentNode.insertBefore(s1,s0);
             })();  
         `}
-          </Script>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </Hydrate>
+        </Script>
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </Fragment>
   )
@@ -156,7 +162,7 @@ OBYApp.getInitialProps = async (appContext: AppContext) => {
   }
 
   // Clear userProfile and cartId cookies if userToken is not available
-  if (!userToken && cartId && userProfile) {
+  if (!userToken && cartId && userProfile && guestCartId) {
     appContext.ctx.res?.setHeader('Set-Cookie', '')
     userProfile = null
     cartId = null

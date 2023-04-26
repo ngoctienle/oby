@@ -32,6 +32,5 @@ export const getGuestCartIdSSRAndCSR = (ctx?: NextPageContext): string | null =>
   } else {
     guestCartId = Cookies.get('guestCartId') || ''
   }
-
   return guestCartId
 }
