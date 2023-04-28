@@ -12,7 +12,7 @@ import twclsx from '@/libs/twclsx'
 import cartApi from '@/apis/magento/cart.api'
 import paymentApi from '@/apis/magento/payment.api'
 
-import { OBYImage } from '@/components/UI/Element'
+import { OBYImage, OBYLink } from '@/components/UI/Element'
 
 interface IPaymentResult {
   statusMessage: string
@@ -80,7 +80,13 @@ export default function PaymentResult({ statusMessage, orderId, orderInfo, cartI
             </p>
             <p className='@992:fs-16 fs-14 text-center mt-2 max-w-[350px]'>
               Chúng tôi vừa gửi một email xác nhận đến email{' '}
-              <span className='text-oby-primary'>{orderInfo.billing_address.email}</span>
+              <OBYLink
+                href={`mailto:${orderInfo.billing_address.email}`}
+                title={orderInfo.billing_address.email}
+                className='text-oby-primary'
+              >
+                {orderInfo.billing_address.email}
+              </OBYLink>
             </p>
             <p className='@992:fs-16 fs-14 mt-2'>Cảm ơn bạn đã mua hàng!</p>
           </div>
