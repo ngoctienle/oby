@@ -80,6 +80,8 @@ interface SeletedShipping {
 
 export default function OrderPage({ cartData, listSKU, paymentMethod, provines, userToken, billingData }: IOrderPage) {
   const router = useRouter()
+  /* const [user] = useGlobalState('user')
+  const [, setCartId] = useGlobalState('cartId') */
 
   const [billing, setBilling] = useState<IBillingAddress | null>(billingData)
   const [orderCalculate, setOrderCalculate] = useState<CalculateOrder>()
@@ -192,6 +194,10 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
   const captureMomoMutation = useMutation({
     mutationFn: (body: ICaptureMomo) => paymentApi.CaptureMomo(body)
   })
+
+  /* const guestCartIdMutation = useMutation({
+    mutationFn: () => cartApi.GenerateGuestCart()
+  }) */
 
   useEffect(() => {
     if (districtsData) {
@@ -372,6 +378,12 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
     }
     paymentInformationMutation.mutate(body, {
       onSuccess: (data) => {
+        /* const bodyMerge:MergeCartRequestBody = {
+          customerId: user?.id as number
+
+        }
+        const {data: guestCartId} = guestCartIdMutation.mutateAsync() */
+
         if (selected === 'momo') {
           captureMomoMutation.mutate(
             { orderId: data.data },

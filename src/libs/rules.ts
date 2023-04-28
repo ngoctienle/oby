@@ -107,7 +107,15 @@ export const ErrorMagento = {
 }
 
 export const fillPaymentForm = yup.object({
-  fullname: yup.string().required('Vui lòng nhập Họ và tên của bạn!').max(160, 'Độ dài không hợp lệ!'),
+  fullname: yup
+    .string()
+    .required('Vui lòng nhập Họ và tên của bạn!')
+    .min(2, 'Độ dài không hợp lệ!')
+    .matches(
+      /^[^\d`~!@#$%^&*()+=|\\\[\]{};':"<>?,./_]+(\s+[^\d`~!@#$%^&*()+=|\\\[\]{};':"<>?,./_]+){1,}$/u,
+      'Vui lòng nhập đầy đủ Họ và tên!'
+    )
+    .max(160, 'Độ dài không hợp lệ!'),
   email: yup
     .string()
     .required('Vui lòng nhập Email của bạn!')
