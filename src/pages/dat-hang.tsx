@@ -11,6 +11,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { GetServerSideProps } from 'next'
+import { useRouter } from 'next/router'
 import { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
@@ -18,7 +19,14 @@ import { toast } from 'react-hot-toast'
 import { Cart } from '@/@types/cart.type'
 import { District, Provine, Ward } from '@/@types/geo.type'
 import { IBillingAddress } from '@/@types/magento.type'
-import { AddressBody, IBodyAddress, IBodyShippingInformation, IPayment } from '@/@types/payment.type'
+import {
+  AddressBody,
+  IBodyAddress,
+  IBodyPaymentInformation,
+  IBodyShippingInformation,
+  ICaptureMomo,
+  IPayment
+} from '@/@types/payment.type'
 
 import { FillPaymentForm, fillPaymentForm } from '@/libs/rules'
 import twclsx from '@/libs/twclsx'
@@ -40,6 +48,7 @@ import paymentApi from '@/apis/magento/payment.api'
 import productApi from '@/apis/magento/product.api'
 
 import { cacheTime } from '@/constants/config.constant'
+import { hrefPath } from '@/constants/href.constant'
 
 import Input from '@/components/Input'
 import { OBYButton, OBYImage } from '@/components/UI/Element'
@@ -70,6 +79,8 @@ interface SeletedShipping {
 }
 
 export default function OrderPage({ cartData, listSKU, paymentMethod, provines, userToken, billingData }: IOrderPage) {
+  const router = useRouter()
+
   const [billing, setBilling] = useState<IBillingAddress | null>(billingData)
   const [orderCalculate, setOrderCalculate] = useState<CalculateOrder>()
 
@@ -173,6 +184,13 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
 
   const setAddressAndBillingMutation = useMutation({
     mutationFn: (body: IBodyShippingInformation) => paymentApi.ShippingInformation(userToken as string, body)
+  })
+
+  const paymentInformationMutation = useMutation({
+    mutationFn: (body: IBodyPaymentInformation) => paymentApi.PaymentInformation(userToken as string, body)
+  })
+  const captureMomoMutation = useMutation({
+    mutationFn: (body: ICaptureMomo) => paymentApi.CaptureMomo(body)
   })
 
   useEffect(() => {
@@ -333,6 +351,48 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
         }
       })
     }
+  }
+
+  const handlePayment = () => {
+    const body: IBodyPaymentInformation = {
+      paymentMethod: {
+        method: selected as string
+      },
+      billingAddress: {
+        email: billing?.email as string,
+        firstname: billing?.firstname as string,
+        lastname: billing?.lastname as string,
+        telephone: billing?.telephone as string,
+        country_id: billing?.country_id as string,
+        city: billing?.city as string,
+        region: billing?.region as string,
+        street: billing?.street as string[],
+        postcode: billing?.postcode as string
+      }
+    }
+    paymentInformationMutation.mutate(body, {
+      onSuccess: (data) => {
+        if (selected === 'momo') {
+          captureMomoMutation.mutate(
+            { orderId: data.data },
+            {
+              onSuccess: (data) => {
+                if (data.data[0].success) {
+                  router.push(data.data[0].process3d_url as string)
+                } else {
+                  toast.error(data.data[0].message as string)
+                }
+              }
+            }
+          )
+        } else if (selected === 'cashondelivery') {
+          const dataID = { orderId: data.data }
+          const encodeData = Buffer.from(JSON.stringify(dataID)).toString('base64')
+
+          router.push(hrefPath.resultPurchase + `/?extraData=${encodeData}`)
+        }
+      }
+    })
   }
 
   return (
@@ -996,10 +1056,21 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
                   </div>
                 </div>
                 <OBYButton
-                  disabled={!billing?.city || !selected || !shipMethod}
+                  disabled={
+                    !billing?.city ||
+                    !selected ||
+                    !shipMethod ||
+                    paymentInformationMutation.isLoading ||
+                    captureMomoMutation.isLoading
+                  }
+                  onClick={handlePayment}
                   className='@992:mt-5 mt-3 bg-oby-primary transition-colors disabled:bg-oby-primary/40 disabled:cursor-not-allowed text-white w-full py-2.5 rounded-4'
                 >
-                  Tiếp tục
+                  {paymentInformationMutation.isLoading || captureMomoMutation.isLoading ? (
+                    <ArrowPathIcon className='w-6 h-6 text-white animate-spin' />
+                  ) : (
+                    'Tiếp tục'
+                  )}
                 </OBYButton>
               </div>
             </div>

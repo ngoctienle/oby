@@ -1,7 +1,14 @@
 import magentoAPI from '@/vendors/magento.vendor'
 
-import { IBillingAddress, IShippingInformation, IShippingMethod } from '@/@types/magento.type'
-import { IBodyAddress, IBodyShippingInformation, IPayment } from '@/@types/payment.type'
+import { IBillingAddress, IOrder, IShippingInformation, IShippingMethod } from '@/@types/magento.type'
+import {
+  IBodyAddress,
+  IBodyPaymentInformation,
+  IBodyShippingInformation,
+  ICaptureMomo,
+  ICaptureMomoResponse,
+  IPayment
+} from '@/@types/payment.type'
 
 const paymentApi = {
   GetPaymentMethod(token: string) {
@@ -36,6 +43,23 @@ const paymentApi = {
     return magentoAPI.post<IShippingInformation>('V1/carts/mine/shipping-information', body, {
       headers: {
         Authorization: `Bearer ${token}`
+      }
+    })
+  },
+  PaymentInformation(token: string, body: IBodyPaymentInformation) {
+    return magentoAPI.post<number>('V1/carts/mine/payment-information', body, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+  },
+  CaptureMomo(body: ICaptureMomo) {
+    return magentoAPI.post<ICaptureMomoResponse[]>('V1/oby/momo/capture-wallet/', body)
+  },
+  GetOrderInfo(id: string) {
+    return magentoAPI.get<IOrder>(`V1/orders/${id}`, {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRECT_TOKEN}`
       }
     })
   }

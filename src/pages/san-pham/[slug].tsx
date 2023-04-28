@@ -312,7 +312,6 @@ export default function ProductDetail({ subName, productData, parentName, produc
 /* Generate Data as Server Side */
 export const getServerSideProps: GetServerSideProps<IProductDetailProps> = async (context) => {
   const { slug } = context.params as IParams
-  console.log(context.req.cookies)
 
   try {
     const { data: productData } = await productApi.GetProductDetailBySKU(slug)

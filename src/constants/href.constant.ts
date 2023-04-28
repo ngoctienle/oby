@@ -4,5 +4,6 @@ export const hrefPath = {
   cartPage: '/gio-hang',
   login: '/dang-nhap',
   signup: '/dang-ky',
-  purchase: '/dat-hang'
+  purchase: '/dat-hang',
+  resultPurchase: '/ket-qua-thanh-toán'
 } as const

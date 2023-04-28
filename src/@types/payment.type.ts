@@ -19,7 +19,25 @@ export interface IBodyAddress {
 export interface IBodyShippingInformation {
   addressInformation: {
     shipping_address: AddressBody
+    billing_address?: AddressBody
     shipping_carrier_code: string
     shipping_method_code: string
   }
+}
+
+export interface IBodyPaymentInformation {
+  paymentMethod: {
+    method: 'momo' | 'cashondelivery' | string
+  }
+  billingAddress: AddressBody
+}
+
+export interface ICaptureMomo {
+  orderId: number
+}
+
+export interface ICaptureMomoResponse {
+  success: boolean
+  process3d_url?: string
+  message?: string
 }
