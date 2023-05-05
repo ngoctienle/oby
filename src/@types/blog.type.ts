@@ -30,3 +30,24 @@ export interface Blog {
   author_url: string
   view_traffic: number
 }
+
+export interface BlogCategory {
+  id: number
+  name: string
+  description: string
+  store_ids: number
+  image: string
+  enabled: number
+  url_key: string
+  meta_title: string
+  meta_description: string
+  meta_keywords: string
+  meta_robots: string
+  created_at: string
+  updated_at: string
+  parent_id: number
+  path: string
+  position: number
+  level: number
+  children_count: number
+}

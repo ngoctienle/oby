@@ -12,7 +12,11 @@ interface BlogProps {
 
 export default function Blog({ blog }: BlogProps) {
   return (
-    <OBYLink className='flex @992:gap-4 gap-3' href={hrefPath.blog + '/' + blog.url_key} title={blog.name}>
+    <OBYLink
+      className='flex @992:gap-4 gap-3'
+      href={hrefPath.blog + '/' + blog.url_key + '-' + blog.id}
+      title={blog.name}
+    >
       <div className='relative rounded-tl-4 rounded-br-4 overflow-hidden @768:w-[205px] @768:h-[140px] w-[129px] h-[88px] flex-shrink-0'>
         <OBYImage
           display='responsive'

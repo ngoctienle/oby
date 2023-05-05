@@ -7,7 +7,7 @@ export default function NoProduct() {
   return (
     <>
       <div className='flex flex-col items-center @768:pt-[80px] pt-10'>
-        <div className='relative w-[120px] h-[120px]'>
+        <div className='relative @768:w-[120px] @768:h-[120px] w-[100px] h-[100px]'>
           <OBYImage
             src='/images/no-product-incart.png'
             display='responsive'

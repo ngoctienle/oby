@@ -23,7 +23,5 @@ export const generateCateNameById = (id: number) => {
 
   if (category) {
     return category.name
-  } else {
-    return null
   }
 }
