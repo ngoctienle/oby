@@ -5,5 +5,6 @@ export const hrefPath = {
   login: '/dang-nhap',
   signup: '/dang-ky',
   purchase: '/dat-hang',
+  blog: '/blog',
   resultPurchase: '/ket-qua-thanh-toan'
 } as const
