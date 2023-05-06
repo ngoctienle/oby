@@ -63,7 +63,9 @@ export default function Footer({ font }: FooterProps) {
             <div className='flex flex-col'>
               <h3 className='uppercase fs-18 mb-4 font-semibold'>Về chúng tôi</h3>
               <ul role='list' className='fs-14 @992:block flex items-center flex-wrap justify-between gap-3'>
-                <li className='block @992:mb-3.5 whitespace-nowrap order-1 w-[150px] @768:w-auto'>Giới thiệu</li>
+                <li className='block @992:mb-3.5 whitespace-nowrap order-1 w-[150px] @768:w-auto'>
+                  <OBYLink href='/ve-chung-toi'>Giới thiệu</OBYLink>
+                </li>
                 <li className='block @992:mb-3.5 whitespace-nowrap order-3 w-[150px] @768:w-auto'>Liên hệ</li>
                 <li className='block @992:mb-3.5 whitespace-nowrap order-5'>Blogs</li>
                 <li className='block @992:mb-3.5 whitespace-nowrap w-[160px] order-2'>Điều khoản và điều kiện</li>
@@ -78,7 +80,9 @@ export default function Footer({ font }: FooterProps) {
                 <li className='@992:mb-3.5 order-5'>Chính sách vận chuyển</li>
                 <li className='@992:mb-3.5 order-2'>Thông tin thanh toán</li>
                 <li className='@992:mb-3.5 order-4'>Chính sách bảo hành</li>
-                <li className='order-6'>Đổi trả và hoàn tiền</li>
+                <li className='order-6'>
+                  <OBYLink href='/doi-tra-va-hoan-tien'>Đổi trả và hoàn tiền</OBYLink>
+                </li>
               </ul>
             </div>
             <div className='flex flex-col gap-4'>
