@@ -34,7 +34,7 @@ export default function BlogDetail({ blogData, cateName }: BlogDetailProps) {
             <span className='fs-14 text-oby-676869'>{dayjs(blogData.publish_date).format('DD/MM/YYYY')}</span>
           </div>
           <div
-            className='@992:fs-16 fs-14'
+            className='@992:fs-16 fs-14 space-y-2.5 blog-desc'
             dangerouslySetInnerHTML={{
               __html: DOMPurify.sanitize(blogData.post_content)
             }}

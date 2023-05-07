@@ -90,6 +90,12 @@
     display: none;
   }
 }
+.blog-desc ul {
+  @apply list-disc space-y-1 pl-6;
+}
+.blog-desc a {
+  @apply text-oby-primary;
+}
 
 @layer {
   body,
