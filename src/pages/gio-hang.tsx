@@ -5,7 +5,6 @@ import {
   CheckIcon,
   ChevronRightIcon,
   ShoppingBagIcon,
-  TrashIcon,
   XMarkIcon
 } from '@heroicons/react/24/outline'
 import { useMutation, useQuery } from '@tanstack/react-query'
@@ -53,12 +52,14 @@ export default function CartPage() {
     queryKey: ['guestCart', guestCartId],
     queryFn: () => cartApi.GetGuestCart(guestCartId || ''),
     enabled: !token,
+    keepPreviousData: true,
     staleTime: cacheTime.fiveMinutes
   })
   const { data: mineData, refetch: mineRefetch } = useQuery({
     queryKey: ['cartId', cartId],
     queryFn: () => cartApi.GetCart(token || ''),
     enabled: !!token && !!cartId,
+    keepPreviousData: true,
     staleTime: cacheTime.fiveMinutes
   })
 
@@ -215,7 +216,7 @@ export default function CartPage() {
               <div className='@992:col-span-8 col-span-12'>
                 {initializeData.map((item) => (
                   <div
-                    className='@992:p-5 py-3.5 px-4 border border-oby-DFDFDF bg-white rounded-tl-4 rounded-br-4 first:mt-0 @992:mt-5 mt-3 flex @992:gap-5 gap-3.5'
+                    className='@992:p-5 py-3.5 px-4 relative border border-oby-DFDFDF bg-white rounded-tl-4 rounded-br-4 first:mt-0 @992:mt-5 mt-3 flex @992:gap-5 gap-3.5'
                     key={item.item_id}
                   >
                     <div className='flex-shrink-0 relative w-[150px] h-[100px] bg-white rounded-tl-4 rounded-br-4 overflow-hidden'>
@@ -229,34 +230,42 @@ export default function CartPage() {
                     </div>
                     <div className='w-full'>
                       <h2 className='@992:fs-16 fs-14 @992:line-clamp-1 line-clamp-2'>{item.name}</h2>
-                      <div className='flex items-center gap-2.5 my-2'>
-                        {isHaveDiscount(item.custom_attributes) ? (
-                          <>
-                            <p className='@992:fs-16 fs-14 font-semibold'>{getDiscount(item.custom_attributes)}</p>
-                            <p className='@992:fs-14 fs-12 line-through text-oby-676869'>
-                              {getCost(item.custom_attributes)}
-                            </p>
-                          </>
-                        ) : (
-                          <p className='@992:fs-16 fs-14 font-semibold'>{formatCurrency(item.price)}</p>
-                        )}
-                      </div>
-                      <div className='flex items-center justify-between'>
-                        <QuantityController
-                          classNameWrapper='max-w-max px-1.5 py-1.75'
-                          onIncrease={(value) => handleQuantity(item.item_id.toString(), value, value <= MAX_PRODUCT)}
-                          onDecrease={(value) => handleQuantity(item.item_id.toString(), value, value >= 1)}
-                          onTyping={handleTypeQuantity(item.item_id.toString())}
-                          value={item.qty}
-                          max={MAX_PRODUCT}
-                        />
-                        <TrashIcon
-                          className='text-oby-9A9898 w-6 h-6 cursor-pointer'
-                          onClick={() => handleShowModal(item.item_id.toString(), item.name)}
-                          type='button'
-                        />
+                      <div className='@576:block flex items-center justify-between'>
+                        <div className='flex items-center flex-wrap gap-2.5 my-2'>
+                          {isHaveDiscount(item.custom_attributes) ? (
+                            <>
+                              <p className='@992:fs-16 fs-14 font-semibold'>{getDiscount(item.custom_attributes)}</p>
+                              <p className='@992:fs-14 fs-12 line-through text-oby-676869'>
+                                {getCost(item.custom_attributes)}
+                              </p>
+                            </>
+                          ) : (
+                            <p className='@992:fs-16 fs-14 font-semibold'>{formatCurrency(item.price)}</p>
+                          )}
+                        </div>
+                        <div className='flex items-center justify-between'>
+                          <QuantityController
+                            classNameWrapper='max-w-max px-1.5 py-1.75'
+                            onIncrease={(value) => handleQuantity(item.item_id.toString(), value, value <= MAX_PRODUCT)}
+                            onDecrease={(value) => handleQuantity(item.item_id.toString(), value, value >= 1)}
+                            onTyping={handleTypeQuantity(item.item_id.toString())}
+                            value={item.qty}
+                            max={MAX_PRODUCT}
+                          />
+                          <p className='fs-16 @576:block hidden'>
+                            Số tiền: <span className='font-semibold'>{formatCurrency(item.price * item.qty)}</span>
+                          </p>
+                        </div>
                       </div>
                     </div>
+                    <OBYImage
+                      src='/images/x-delete.png'
+                      className='cursor-pointer absolute -top-2.25 -right-2.25'
+                      width={18}
+                      height={18}
+                      alt='Xóa sản phẩm'
+                      onClick={() => handleShowModal(item.item_id.toString(), item.name)}
+                    />
                   </div>
                 ))}
                 {/* Delete Modal */}
@@ -305,18 +314,17 @@ export default function CartPage() {
                               </OBYButton>
                               <OBYButton
                                 type='button'
-                                className='rounded-4 border border-oby-DFDFDF py-2.5 fs-16 text-oby-676869 w-full'
+                                className='rounded-4 border disabled:cursor-not-allowed border-oby-DFDFDF py-2.5 fs-16 text-oby-676869 w-full'
                                 onClick={() => handleRemove(itemId)}
-                                disabled={
-                                  !token ? deleteProductMutation.isLoading : deleteProductMineMutation.isLoading
-                                }
+                                disabled={deleteProductMutation.isLoading || deleteProductMineMutation.isLoading}
                               >
                                 Đồng ý
-                                {!token
-                                  ? deleteProductMutation.isLoading
-                                  : deleteProductMineMutation.isLoading && (
-                                      <ArrowPathIcon className='text-oby-676869 ml-1.5 @992:h-6 @992:w-6 h-5 w-5 animate-spin' />
-                                    )}
+                                {deleteProductMutation.isLoading && (
+                                  <ArrowPathIcon className='text-oby-676869 ml-1.5 @992:h-6 @992:w-6 h-5 w-5 animate-spin' />
+                                )}
+                                {deleteProductMineMutation.isLoading && (
+                                  <ArrowPathIcon className='text-oby-676869 ml-1.5 @992:h-6 @992:w-6 h-5 w-5 animate-spin' />
+                                )}
                               </OBYButton>
                             </div>
                           </Dialog.Panel>

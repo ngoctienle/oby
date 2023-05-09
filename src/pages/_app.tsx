@@ -57,16 +57,8 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
     setToken(pageProps.userToken)
     setUser(pageProps.userProfile)
     setCartId(pageProps.cartId)
-  }, [
-    pageProps.cartId,
-    pageProps.guestCartId,
-    pageProps.userProfile,
-    pageProps.userToken,
-    setCartId,
-    setGuestCartId,
-    setToken,
-    setUser
-  ])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageProps.cartId, pageProps.guestCartId, pageProps.userProfile, pageProps.userToken])
 
   const isAuth = useMemo(() => {
     const included = ['/dang-nhap', '/dang-ky']
@@ -134,7 +126,7 @@ OBYApp.getInitialProps = async (appContext: AppContext) => {
 
     /* Serialize GuestCartId To Cookie */
     const cookieStr = cookie.serialize('guestCartId', guestCartId, {
-      expires: new Date(Date.now() + 24 * 60 * 60),
+      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
       path: '/'
     })
     appContext.ctx.res?.setHeader('Set-Cookie', cookieStr)
