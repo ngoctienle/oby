@@ -1,14 +1,11 @@
 import HomeLayout from '@/layouts/HomeLayout'
 import { ChevronRightIcon } from '@heroicons/react/24/outline'
 import { useQuery } from '@tanstack/react-query'
-import { useMemo } from 'react'
 import { Element as TriggerScroll } from 'react-scroll'
-
-import { ItemWithAttribute } from '@/@types/category.type'
 
 import { generateMetaSEO } from '@/libs/seo'
 
-import { getIDListCategoryAsString, getParentCategory } from '@/helpers/category'
+import { getParentCategory } from '@/helpers/category'
 
 import categoryApi from '@/apis/magento/category.api'
 
@@ -57,7 +54,7 @@ export default function Home() {
   })
   const parentCategory = (parentCategoryRes && getParentCategory(parentCategoryRes.data)) || []
 
-  const { data: parentCategoryAttrRes } = useQuery({
+  /* const { data: parentCategoryAttrRes } = useQuery({
     queryKey: ['categoryAttr'],
     queryFn: () => categoryApi.GetAttrCategoryById(getIDListCategoryAsString(parentCategory)),
     enabled: parentCategory.length > 0,
@@ -66,7 +63,7 @@ export default function Home() {
 
   const parentCategoryItem = useMemo(() => {
     return parentCategoryAttrRes?.data.items as ItemWithAttribute[]
-  }, [parentCategoryAttrRes])
+  }, [parentCategoryAttrRes]) */
 
   const meta = generateMetaSEO({
     title: 'Ông Bà Yêu',
@@ -83,7 +80,7 @@ export default function Home() {
     <>
       <OBYSeo {...meta} />
       <Banner />
-      <HomeLayout dataCategory={parentCategoryItem}>
+      <HomeLayout>
         {/* <ProductSuggest /> */}
 
         {/* Suggest Category */}

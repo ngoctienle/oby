@@ -1,20 +1,28 @@
-import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, UserCircleIcon } from '@heroicons/react/24/outline'
+import HeaderNav from './HeaderNav'
+import HeaderSearch from './HeaderSearch'
+import TopHeader from './TopHeader'
+import UserHeader from './UserHeader'
+import { ShoppingBagIcon, UserCircleIcon } from '@heroicons/react/24/outline'
 import { useQuery } from '@tanstack/react-query'
 import { NextFont } from 'next/dist/compiled/@next/font'
 import { useMemo } from 'react'
 
-import { useWindowScrollY } from '@/hooks'
+import { ItemWithAttribute } from '@/@types/category.type'
+
+import { useMediaQuery, useWindowScrollY } from '@/hooks'
 
 import { TypeUser } from '@/libs/state'
 import twclsx from '@/libs/twclsx'
 
-import cartApi from '@/apis/magento/cart.api'
+import { getIDListCategoryAsString, getParentCategory } from '@/helpers/category'
 
-import { appInformationConfig, cacheTime } from '@/constants/config.constant'
+import cartApi from '@/apis/magento/cart.api'
+import categoryApi from '@/apis/magento/category.api'
+
+import { cacheTime } from '@/constants/config.constant'
 import { hrefPath } from '@/constants/href.constant'
 
 import { OBYImage, OBYLink } from '@/components/UI/Element'
-import { OBYCategoryIcon } from '@/components/UI/OBYIcons'
 
 interface HeaderProps {
   font: NextFont
@@ -27,6 +35,7 @@ interface HeaderProps {
 
 export default function Header({ font, isFocus, user, guestCartId, cartId, token }: HeaderProps) {
   const y = useWindowScrollY()
+  const isMatch992 = useMediaQuery('(min-width:992px)')
 
   const { data: guestData } = useQuery({
     queryKey: ['guestCart', guestCartId || ''],
@@ -51,40 +60,31 @@ export default function Header({ font, isFocus, user, guestCartId, cartId, token
     return mineData?.data
   }, [guestData?.data, mineData?.data, token])
 
+  const { data: parentCategoryRes } = useQuery({
+    queryKey: ['categories'],
+    queryFn: () => {
+      return categoryApi.GetCategoryList()
+    },
+    staleTime: cacheTime.halfHours
+  })
+  const parentCategory = (parentCategoryRes && getParentCategory(parentCategoryRes.data)) || []
+
+  const { data: parentCategoryAttrRes } = useQuery({
+    queryKey: ['categoryAttr'],
+    queryFn: () => categoryApi.GetAttrCategoryById(getIDListCategoryAsString(parentCategory)),
+    enabled: parentCategory.length > 0,
+    staleTime: cacheTime.halfHours
+  })
+
+  const parentCategoryItem = useMemo(() => {
+    return parentCategoryAttrRes?.data.items as ItemWithAttribute[]
+  }, [parentCategoryAttrRes])
+
   return (
     <>
       <header className={twclsx(font.className, 'sticky top-0 inset-x-0 z-10')}>
         {/* Top Header */}
-        <div className='bg-[#F6F7F8] py-1.5 @992:block hidden'>
-          <div className='container'>
-            <div className='flex items-center'>
-              <div className='flex items-center gap-1'>
-                <OBYCategoryIcon className='w-5 h-5 text-oby-676869' />
-                <p className='fs-14'>Danh mục</p>
-              </div>
-              <div className='flex items-center gap-1 ml-15'>
-                <p className='fs-14'>Mua hàng và CSKH</p>
-                <OBYLink
-                  href={`tel:${appInformationConfig.APP_PHONE}`}
-                  title='Mua hàng và CSKH'
-                  className='text-oby-primary font-bold fs-14'
-                >
-                  {appInformationConfig.APP_PHONE}
-                </OBYLink>
-              </div>
-              <div className='flex items-center gap-1 ml-15'>
-                <p className='fs-14'>Email</p>
-                <OBYLink
-                  href={`mailto:${appInformationConfig.APP_EMAIL}`}
-                  title='Email'
-                  className='text-oby-primary font-bold fs-14'
-                >
-                  {appInformationConfig.APP_EMAIL}
-                </OBYLink>
-              </div>
-            </div>
-          </div>
-        </div>
+        {isMatch992 && <TopHeader parentCategory={parentCategory} parentCategoryItem={parentCategoryItem} />}
         {/*  Main Header */}
         <div className={`@992:bg-white bg-transparent ${y > 0 && 'bg-white'}`}>
           <div className='container'>
@@ -106,18 +106,13 @@ export default function Header({ font, isFocus, user, guestCartId, cartId, token
                 />
                 <h1 className='sr-only'>Ông Bà Yêu</h1>
               </OBYLink>
-              {!isFocus && <Bars3Icon className='@992:hidden inline-block w-7 h-7' />}
+              {!isFocus && !isMatch992 && (
+                <HeaderNav parentCategory={parentCategory} parentCategoryItem={parentCategoryItem} userInfo={user} />
+              )}
               {/* Search Form */}
               {!isFocus && (
                 <>
-                  <form className='flex items-center flex-grow border bg-white border-oby-DFDFDF rounded-tl-5 rounded-br-5 @992:py-2.75 @992:px-6 px-3 py-3.25'>
-                    <input
-                      type='text'
-                      placeholder='Cô chú cần tìm món hàng gì'
-                      className='outline-none w-full placeholder:text-oby-9A9898 placeholder:fs-14 @992:placeholder:fs-16'
-                    />
-                    <MagnifyingGlassIcon className='w-4.5 h-4.5' />
-                  </form>
+                  <HeaderSearch />
                   <OBYLink href={hrefPath.cartPage} className='flex flex-col items-center'>
                     <div className='relative'>
                       <ShoppingBagIcon className='w-8 h-8 text-oby-676869' strokeWidth={1} />
@@ -129,17 +124,14 @@ export default function Header({ font, isFocus, user, guestCartId, cartId, token
                     </div>
                     <p className='@992:fs-12 @992:block hidden'>Giỏ hàng</p>
                   </OBYLink>
-                  {user ? (
-                    <OBYLink href={hrefPath.home} className='@992:flex hidden flex-col items-center'>
-                      <UserCircleIcon className='w-8 h-8 text-oby-primary' strokeWidth={1.1} />
-                      <p className='fs-12 line-clamp-1'>{user.firstname}</p>
-                    </OBYLink>
-                  ) : (
-                    <OBYLink href={hrefPath.login} className='@992:flex hidden flex-col items-center'>
-                      <UserCircleIcon className='w-8 h-8 text-oby-676869' strokeWidth={1} />
-                      <p className='fs-12'>Đăng nhập</p>
-                    </OBYLink>
-                  )}
+                  {user
+                    ? isMatch992 && <UserHeader userInfo={user} />
+                    : isMatch992 && (
+                        <OBYLink href={hrefPath.login} className='flex flex-col items-center'>
+                          <UserCircleIcon className='w-8 h-8 text-oby-676869' strokeWidth={1} />
+                          <p className='fs-12'>Đăng nhập</p>
+                        </OBYLink>
+                      )}
                 </>
               )}
 

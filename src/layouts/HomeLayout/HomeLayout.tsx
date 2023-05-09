@@ -1,21 +1,14 @@
-import { Link as ScrollHandler } from 'react-scroll'
-
 import { ItemWithAttribute } from '@/@types/category.type'
-
-import { generateCategoryImageFromMagento } from '@/helpers/category'
-
-import { OBYImage } from '@/components/UI/Element'
-import { OBYCategoryIcon } from '@/components/UI/OBYIcons'
 
 interface HomeLayoutProps {
   children?: React.ReactNode
-  dataCategory: ItemWithAttribute[]
+  dataCategory?: ItemWithAttribute[]
 }
 
-export default function HomeLayout({ children, dataCategory }: HomeLayoutProps) {
+export default function HomeLayout({ children }: HomeLayoutProps) {
   return (
     <div id='home-content' className='@992:pt-15 pt-7'>
-      <div className='hidden @1544:block @1544:sticky @1544:w-full @1544:top-[130px] @1544:z-[2]'>
+      {/* <div className='hidden @1544:block @1544:sticky @1544:w-full @1544:top-[130px] @1544:z-[2]'>
         <div className='container' style={{ position: 'relative', zIndex: '-1' }}>
           <div className='flex'>
             <div className='absolute @1544:right-[calc(100%+4px)] @1600:right-[calc(100%+32px)]'>
@@ -58,7 +51,7 @@ export default function HomeLayout({ children, dataCategory }: HomeLayoutProps) 
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       <div className='container overflow-hidden'>{children}</div>
     </div>
   )
