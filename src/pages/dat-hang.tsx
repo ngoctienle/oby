@@ -387,7 +387,7 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
         }
         const {data: guestCartId} = guestCartIdMutation.mutateAsync() */
 
-        if (selected === 'momo') {
+        if (selected === 'momo' || selected === 'vnpay') {
           captureMomoMutation.mutate(
             { orderId: data.data },
             {
