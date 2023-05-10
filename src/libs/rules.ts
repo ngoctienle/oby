@@ -103,7 +103,8 @@ export type FormSchema = yup.InferType<typeof formSchema>
 export const ErrorMagento = {
   emailExisted: 'A customer with the same email address already exists in an associated website.',
   failCredentials:
-    'The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later.'
+    'The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later.',
+  failCoupon: "The coupon code isn't valid. Verify the code and try again."
 }
 
 export const fillPaymentForm = yup.object({
@@ -137,3 +138,9 @@ export const fillPaymentForm = yup.object({
 })
 
 export type FillPaymentForm = yup.InferType<typeof fillPaymentForm>
+
+export const anotherForm = yup.object({
+  coupon: yup.string().trim().required('Vui lòng nhập mã giảm giá!')
+})
+
+export type AnotherForm = yup.InferType<typeof anotherForm>

@@ -1,22 +1,21 @@
 import { Dialog, Transition } from '@headlessui/react'
-import {
-  ArrowPathIcon,
-  BanknotesIcon,
-  CheckIcon,
-  ChevronRightIcon,
-  ShoppingBagIcon,
-  XMarkIcon
-} from '@heroicons/react/24/outline'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { ArrowPathIcon, BanknotesIcon, CheckIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useMutation, useQueries, useQuery } from '@tanstack/react-query'
+import dayjs from 'dayjs'
 import { useRouter } from 'next/router'
 import { Fragment, useMemo, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
 
 import { CartUpdateRequest } from '@/@types/cart.type'
+import { ResponseError } from '@/@types/magento.type'
 
+import { AnotherForm, ErrorMagento, anotherForm } from '@/libs/rules'
 import { useGlobalState } from '@/libs/state'
 
 import { formatCurrency, mergeArrayItems } from '@/helpers'
+import { isAxiosError } from '@/helpers/auth'
 import { calculateTotalDiscountPrice, calculateTotalOriginPrice, calculateTotalPrice } from '@/helpers/cart'
 import {
   generateProductImageFromMagento,
@@ -33,9 +32,13 @@ import productApi from '@/apis/magento/product.api'
 import { MAX_PRODUCT, cacheTime } from '@/constants/config.constant'
 import { hrefPath } from '@/constants/href.constant'
 
+import Input from '@/components/Input'
 import NoProduct from '@/components/NoProduct'
 import QuantityController from '@/components/QuantityController'
 import { OBYButton, OBYImage } from '@/components/UI/Element'
+
+type PromotionForm = Pick<AnotherForm, 'coupon'>
+const promotionForm = anotherForm.pick(['coupon'])
 
 export default function CartPage() {
   const [guestCartId] = useGlobalState('guestCartId')
@@ -45,9 +48,18 @@ export default function CartPage() {
   const [isPromoOpen, setIsPromoOpen] = useState<boolean>(false)
   const [itemId, setItemId] = useState<string>('')
   const [itemName, setItemName] = useState<string>('')
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors }
+  } = useForm<PromotionForm>({
+    resolver: yupResolver(promotionForm)
+  })
 
   const router = useRouter()
 
+  /* Fetch CartData Guest - Mine */
   const { data: guestData, refetch: guestRefetch } = useQuery({
     queryKey: ['guestCart', guestCartId],
     queryFn: () => cartApi.GetGuestCart(guestCartId || ''),
@@ -63,6 +75,7 @@ export default function CartPage() {
     staleTime: cacheTime.fiveMinutes
   })
 
+  /* Wrap cartData */
   const cartData = useMemo(() => {
     if (!token) {
       return guestData?.data
@@ -70,19 +83,18 @@ export default function CartPage() {
     return mineData?.data
   }, [guestData?.data, mineData?.data, token])
 
+  /* Fetch Product UI and Generate New Product Array */
   const listSKU = useMemo(() => {
     if (cartData) {
       return getSKUListProductAsString(cartData.items)
     }
   }, [cartData])
-
   const { data: productData } = useQuery({
     queryKey: ['productInCart'],
     queryFn: () => productApi.GetListProductByListSKU(listSKU as string),
     enabled: !!listSKU,
     staleTime: cacheTime.halfHours
   })
-
   const initializeData = useMemo(() => {
     const productInCart = productData && productData?.data
 
@@ -92,6 +104,62 @@ export default function CartPage() {
     return null
   }, [cartData, productData])
 
+  /* Get Coupons List */
+  const { data: couponRes } = useQuery({
+    queryKey: ['coupons'],
+    queryFn: () => cartApi.GetListCoupons(),
+    staleTime: cacheTime.halfHours
+  })
+  const couponList = useMemo(() => {
+    return couponRes && couponRes.data.items
+  }, [couponRes])
+
+  /* Get List Rule Detail Coupon */
+  const couponDetails = useQueries({
+    queries:
+      couponList?.map((coupon) => {
+        return {
+          queryKey: ['rules', coupon.rule_id],
+          queryFn: () => cartApi.GetRulesCoupon(coupon.rule_id),
+          enabled: Boolean(couponList)
+        }
+      }) || []
+  })
+  const ruleList = useMemo(() => {
+    return couponDetails.map((item) => item.data?.data)
+  }, [couponDetails])
+
+  /* Get Cart Total Guest-Mine */
+  const { data: totalRes, refetch: guestTotalRefetch } = useQuery({
+    queryKey: ['totals', cartData],
+    queryFn: () => cartApi.GetCartTotals(guestCartId as string),
+    staleTime: cacheTime.fiveMinutes,
+    enabled: Boolean(guestCartId)
+  })
+  const { data: totalMineRes, refetch: mineTotalRefetch } = useQuery({
+    queryKey: ['totalsMine', cartData],
+    queryFn: () => cartApi.GetCartMineTotal(token as string),
+    staleTime: cacheTime.fiveMinutes,
+    enabled: Boolean(token)
+  })
+
+  /* Wrap Total Guest-Mine */
+  const totalData = useMemo(() => {
+    if (!token) {
+      return totalRes?.data
+    }
+    return totalMineRes?.data
+  }, [token, totalMineRes?.data, totalRes?.data])
+
+  /* Apply Promotion Mutation */
+  const applyGuestMutation = useMutation({
+    mutationFn: (code: string) => cartApi.ApplyCoupon(guestCartId as string, code)
+  })
+  const applyMineMutation = useMutation({
+    mutationFn: (code: string) => cartApi.ApplyCouponMine(token as string, code)
+  })
+
+  /* Update Cart API */
   const updateCartMutation = useMutation({
     mutationFn: ({ itemId, body }: { itemId: string; body: CartUpdateRequest }) =>
       cartApi.UpdateGuestCart(guestCartId as string, itemId, body),
@@ -113,6 +181,7 @@ export default function CartPage() {
     }
   })
 
+  /* Delete Cart API */
   const deleteProductMutation = useMutation({
     mutationFn: (itemId: string) => cartApi.DeleteProductInCart(guestCartId as string, itemId),
     onSuccess: () => {
@@ -130,6 +199,7 @@ export default function CartPage() {
     }
   })
 
+  /* Handle Quantity (+/-) & Delete */
   const handleQuantity = (itemId: string, value: number, isValid: boolean) => {
     if (isValid) {
       const cartRequest: CartUpdateRequest = {
@@ -156,7 +226,6 @@ export default function CartPage() {
       updateMineCartMutation.mutateAsync({ itemId: itemId, body: cartRequest })
     }
   }
-
   const handleRemove = (itemId: string) => {
     if (!token) {
       deleteProductMutation.mutate(itemId)
@@ -164,15 +233,6 @@ export default function CartPage() {
       deleteProductMineMutation.mutate(itemId)
     }
   }
-
-  const handleContinue = () => {
-    if (token) {
-      router.push(hrefPath.purchase)
-    } else {
-      router.push(hrefPath.login + `?cb=${router.pathname}`)
-    }
-  }
-
   const handleShowModal = (itemId: string, itemName: string) => {
     setIsOpen(true)
     setItemId(itemId)
@@ -182,6 +242,61 @@ export default function CartPage() {
     setItemId('')
     setItemName('')
     setIsOpen(false)
+  }
+
+  /* Handle Validate Promotion Form */
+  const onSubmitPromotion = handleSubmit((data) => {
+    const code = data.coupon
+    if (!token) {
+      applyGuestMutation.mutate(code, {
+        onSuccess: () => {
+          guestTotalRefetch()
+          setIsPromoOpen(false)
+        },
+        onError: (error) => {
+          guestTotalRefetch()
+          if (isAxiosError<ResponseError>(error)) {
+            const formError = error.response?.data
+            if (formError?.message === ErrorMagento.failCoupon) {
+              setError('coupon', {
+                message: 'Đơn hàng của bạn không thể dùng mã này. Vui lòng kiểm tra lại điều kiện áp dụng'
+              })
+            }
+          } else {
+            toast.error('Có lỗi xảy ra! Vui lòng thử lại.')
+          }
+        }
+      })
+    } else {
+      applyMineMutation.mutate(code, {
+        onSuccess: () => {
+          mineTotalRefetch()
+          setIsPromoOpen(false)
+        },
+        onError: (error) => {
+          mineTotalRefetch()
+          if (isAxiosError<ResponseError>(error)) {
+            const formError = error.response?.data
+            if (formError?.message === ErrorMagento.failCoupon) {
+              setError('coupon', {
+                message: 'Đơn hàng của bạn không thể dùng mã này. Vui lòng kiểm tra lại điều kiện áp dụng'
+              })
+            }
+          } else {
+            toast.error('Có lỗi xảy ra! Vui lòng thử lại.')
+          }
+        }
+      })
+    }
+  })
+
+  /* Next Step Order Condition */
+  const handleContinue = () => {
+    if (token) {
+      router.push(hrefPath.purchase)
+    } else {
+      router.push(hrefPath.login + `?cb=${router.pathname}`)
+    }
   }
 
   return (
@@ -342,12 +457,15 @@ export default function CartPage() {
                       <p className='@992:fs-16 fs-14 font-semibold'>Mã giảm giá</p>
                       <OBYButton
                         onClick={() => setIsPromoOpen(true)}
-                        className='rounded-4 border border-oby-DFDFDF flex items-center py-2 px-3 flex-grow'
+                        className='rounded-4 justify-start border border-oby-DFDFDF h-[38px] px-3 flex-grow'
                       >
-                        <div className='flex-grow'>
+                        {totalData && totalData.coupon_code ? (
+                          <p className='fs-14 bg-oby-orange text-white px-1.5 py-1.25 rounded-2'>
+                            {totalData.coupon_code}
+                          </p>
+                        ) : (
                           <p className='fs-14 text-oby-9A9898 text-left'>Chọn hoặc nhập mã</p>
-                        </div>
-                        <ChevronRightIcon className='w-6 h-6 text-oby-676869 justify-end' />
+                        )}
                       </OBYButton>
                       {/* Promo Modal */}
                       <Transition show={isPromoOpen} as={Fragment}>
@@ -384,18 +502,70 @@ export default function CartPage() {
                                     type='button'
                                     onClick={() => setIsPromoOpen(false)}
                                   />
-                                  <div className='mt-6 flex flex-col items-center'>
-                                    <div className='relative w-[80px] h-[80px] mb-5'>
-                                      <OBYImage
-                                        src='/images/no-product-incart.png'
-                                        display='responsive'
-                                        alt='Hiện tại bạn chưa có mã giảm giá'
-                                        title='Hiện tại bạn chưa có mã giảm giá'
-                                        className='object-cover'
+                                  <form className='flex items-start gap-3 my-6' onSubmit={onSubmitPromotion} noValidate>
+                                    <div className='flex-grow max-w-[294px]'>
+                                      <Input
+                                        type='text'
+                                        name='coupon'
+                                        placeholder='Nhập mã giảm giá'
+                                        register={register}
+                                        defaultValue={totalRes?.data.coupon_code}
+                                        errorMessage={errors.coupon?.message}
                                       />
                                     </div>
-                                    <p className='fs-16 text-oby-676869'>Hiện tại bạn chưa có mã giảm giá</p>
-                                  </div>
+                                    <OBYButton
+                                      type='submit'
+                                      className='bg-oby-primary disabled:cursor-not-allowed disabled:bg-oby-primary/50 flex-shrink max-h-[42px] text-white px-4 py-2.25 fs-16 rounded-4'
+                                      disabled={
+                                        !couponList ||
+                                        couponList.length === 0 ||
+                                        applyGuestMutation.isLoading ||
+                                        applyMineMutation.isLoading
+                                      }
+                                    >
+                                      Áp dụng
+                                    </OBYButton>
+                                  </form>
+                                  {!couponList || couponList.length === 0 ? (
+                                    <div className='mt-6 flex flex-col items-center'>
+                                      <div className='relative w-[80px] h-[80px] mb-5'>
+                                        <OBYImage
+                                          src='/images/no-product-incart.png'
+                                          display='responsive'
+                                          alt='Hiện tại bạn chưa có mã giảm giá'
+                                          title='Hiện tại bạn chưa có mã giảm giá'
+                                          className='object-cover'
+                                        />
+                                      </div>
+                                      <p className='fs-16 text-oby-676869'>Hiện tại bạn chưa có mã giảm giá</p>
+                                    </div>
+                                  ) : (
+                                    <>
+                                      <p className='fs-16 mb-4'>Mã giảm giá của bạn</p>
+                                      {couponList.flatMap((coupon) => {
+                                        return ruleList.map((rule) => {
+                                          if (coupon.rule_id === rule?.rule_id) {
+                                            return (
+                                              <div
+                                                className='px-4 py-3.5 space-y-2 rounded-4 border border-oby-DFDFDF first:mt-0 mt-4'
+                                                key={coupon.coupon_id}
+                                              >
+                                                <p className='font-semibold fs-16 text-oby-green'>{rule.name}</p>
+                                                <p className='fs-16'>
+                                                  Code: <span className='text-oby-primary'>{coupon.code}</span>
+                                                </p>
+                                                <p className='fs-16 text-oby-9A9898'>
+                                                  HSD: {dayjs(rule.to_date).format('DD/MM/YYYY')}
+                                                </p>
+                                              </div>
+                                            )
+                                          } else {
+                                            return null
+                                          }
+                                        })
+                                      })}
+                                    </>
+                                  )}
                                 </Dialog.Panel>
                               </Transition.Child>
                             </div>
@@ -419,13 +589,25 @@ export default function CartPage() {
                         </p>
                       </div>
                     )}
+                    {totalData && totalData.discount_amount !== 0 && (
+                      <div className='flex items-center justify-between mt-3'>
+                        <p className='@992:fs-16 fs-14'>Giảm giá voucher</p>
+                        <p className='@992:fs-16 fs-14 text-end text-oby-orange'>
+                          {formatCurrency(totalData.discount_amount)}
+                        </p>
+                      </div>
+                    )}
                     <div className='mt-3 pt-3 border-t border-t-oby-DFDFDF'>
                       <div className='flex justify-between'>
                         <div className='flex flex-col'>
                           <p className='@992:fs-16 fs-14 font-semibold'>Thành tiền</p>
                           <p className='@992:fs-14 fs-12 text-oby-9A9898'>(Đã bao gồm VAT)</p>
                         </div>
-                        <p className='@992:fs-18 fs-16 font-semibold'>{calculateTotalPrice(initializeData)}</p>
+                        <p className='@992:fs-18 fs-16 font-semibold'>
+                          {!totalData
+                            ? calculateTotalPrice(initializeData)
+                            : formatCurrency(totalData.base_grand_total)}
+                        </p>
                       </div>
                     </div>
                     <OBYButton

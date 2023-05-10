@@ -338,6 +338,7 @@ export interface IOrder {
   total_qty_ordered: number
   updated_at: string
   weight: number
+  coupon_code?: string
   items: Item[]
   billing_address: BillingAddress
   payment: Payment
@@ -440,4 +441,54 @@ export interface ExtensionAttributes {
   payment_additional_info: any[]
   applied_taxes: any[]
   item_applied_taxes: any[]
+}
+
+export interface Rule {
+  rule_id: number
+  name: string
+  store_labels: any[]
+  description: string
+  website_ids: number[]
+  customer_group_ids: number[]
+  from_date: string
+  to_date: string
+  uses_per_customer: number
+  is_active: boolean
+  condition: Condition
+  action_condition: ActionCondition
+  stop_rules_processing: boolean
+  is_advanced: boolean
+  sort_order: number
+  simple_action: string
+  discount_amount: number
+  discount_step: number
+  apply_to_shipping: boolean
+  times_used: number
+  is_rss: boolean
+  coupon_type: string
+  use_auto_generation: boolean
+  uses_per_coupon: number
+  simple_free_shipping: string
+}
+
+export interface Condition {
+  condition_type: string
+  conditions: Condition2[]
+  aggregator_type: string
+  operator: any
+  value: string
+}
+
+export interface Condition2 {
+  condition_type: string
+  operator: string
+  attribute_name: string
+  value: string
+}
+
+export interface ActionCondition {
+  condition_type: string
+  aggregator_type: string
+  operator: any
+  value: string
 }

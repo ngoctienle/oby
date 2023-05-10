@@ -1,6 +1,7 @@
 import magentoAPI from '@/vendors/magento.vendor'
 
-import { Cart, MergeCartRequestBody } from '@/@types/cart.type'
+import { Cart, Coupon, MergeCartRequestBody } from '@/@types/cart.type'
+import { IOrder, Rule } from '@/@types/magento.type'
 
 const cartApi = {
   GenerateGuestCart() {
@@ -48,6 +49,48 @@ const cartApi = {
   },
   DeleteProductInMineCart(token: string, itemId: string) {
     return magentoAPI.delete(`V1/carts/mine/items/${itemId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+  },
+  GetListCoupons() {
+    return magentoAPI.get<Coupon>('all/V1/coupons/search?searchCriteria[pageSize]=0', {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRECT_TOKEN}`
+      }
+    })
+  },
+  GetRulesCoupon(id: number) {
+    return magentoAPI.get<Rule>(`all/V1/salesRules/${id}`, {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRECT_TOKEN}`
+      }
+    })
+  },
+  GetCartTotals(id: string) {
+    return magentoAPI.get<IOrder>(`all/V1/guest-carts/${id}/totals`, {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRECT_TOKEN}`
+      }
+    })
+  },
+  GetCartMineTotal(token: string) {
+    return magentoAPI.get<IOrder>('V1/carts/mine/totals', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+  },
+  ApplyCoupon(id: string, code: string) {
+    return magentoAPI.put<boolean>(`all/V1/guest-carts/${id}/coupons/${code}`, {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRECT_TOKEN}`
+      }
+    })
+  },
+  ApplyCouponMine(token: string, code: string) {
+    return magentoAPI.put<boolean>(`V1/carts/mine/coupons/${code}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }

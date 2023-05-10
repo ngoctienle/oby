@@ -1,4 +1,4 @@
-import { Currency, CustomAttribute, Customer, ExtensionAttributes, IBillingAddress } from './magento.type'
+import { Currency, CustomAttribute, Customer, ExtensionAttributes, FilterGroup, IBillingAddress } from './magento.type'
 
 export interface Cart {
   id: string
@@ -57,4 +57,25 @@ interface CartItemRequest {
 export interface MergeCartRequestBody {
   customerId: number
   storeId: 1
+}
+
+export interface Coupon {
+  items: ItemCoupon[]
+  search_criteria: SearchCriteria
+  total_count: number
+}
+
+export interface ItemCoupon {
+  coupon_id: number
+  rule_id: number
+  code: string
+  usage_limit: number
+  times_used: number
+  is_primary: boolean
+  type: number
+}
+
+export interface SearchCriteria {
+  filter_groups: FilterGroup[]
+  page_size: number
 }

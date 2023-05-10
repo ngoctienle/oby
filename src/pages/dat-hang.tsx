@@ -71,6 +71,7 @@ interface SelectedPlace {
 interface CalculateOrder {
   grand_total: number
   shipping_amount: number
+  discount_amount: number
 }
 
 interface SeletedShipping {
@@ -85,6 +86,7 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
 
   const [billing, setBilling] = useState<IBillingAddress | null>(billingData)
   const [orderCalculate, setOrderCalculate] = useState<CalculateOrder>()
+  console.log(orderCalculate)
 
   const [shipMethod, setShipMethod] = useState<boolean | string>(false)
   const [selectedMethod, setSelectedMethod] = useState<SeletedShipping>()
@@ -347,7 +349,8 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
           const selected = getShippingMethod(totalSegments)
           setOrderCalculate({
             grand_total: data.data.totals.grand_total,
-            shipping_amount: data.data.totals.shipping_amount
+            shipping_amount: data.data.totals.shipping_amount,
+            discount_amount: data.data.totals.discount_amount
           })
           setIsMethodOpen(false)
           setSelectedMethod(selected)
@@ -1006,6 +1009,14 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
                           {({ checked }) => (
                             <>
                               <RadioGroup.Label as='div'>
+                                {plan.code === 'cashondelivery' && (
+                                  <BanknotesIcon
+                                    className={twclsx(
+                                      '@768:w-9.5 @768:h-9.5 w-6 h-6',
+                                      checked ? 'text-oby-green' : 'text-oby-9A9898'
+                                    )}
+                                  />
+                                )}
                                 {plan.code === 'momo' && (
                                   <OBYImage
                                     src='/images/payment-momo.png'
@@ -1016,12 +1027,14 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
                                     title={plan.title}
                                   />
                                 )}
-                                {plan.code === 'cashondelivery' && (
-                                  <BanknotesIcon
-                                    className={twclsx(
-                                      '@768:w-9.5 @768:h-9.5 w-6 h-6',
-                                      checked ? 'text-oby-green' : 'text-oby-9A9898'
-                                    )}
+                                {plan.code === 'vnpay' && (
+                                  <OBYImage
+                                    src='/images/payment-vnpay.png'
+                                    width={60}
+                                    height={36}
+                                    quality={100}
+                                    alt={plan.title}
+                                    title={plan.title}
                                   />
                                 )}
                               </RadioGroup.Label>
@@ -1046,6 +1059,14 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
                     <p className='@992:fs-16 fs-14'>Giảm giá sản phẩm</p>
                     <p className='@992:fs-16 fs-14 text-end text-oby-orange'>
                       {calculateTotalDiscountPrice(initializeData)}
+                    </p>
+                  </div>
+                )}
+                {orderCalculate && orderCalculate.discount_amount !== 0 && (
+                  <div className='flex items-center justify-between mt-3'>
+                    <p className='@992:fs-16 fs-14'>Giảm giá voucher</p>
+                    <p className='@992:fs-16 fs-14 text-end text-oby-orange'>
+                      {formatCurrency(orderCalculate.discount_amount)}
                     </p>
                   </div>
                 )}
