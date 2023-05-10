@@ -606,7 +606,7 @@ export default function CartPage() {
                         <p className='@992:fs-18 fs-16 font-semibold'>
                           {!totalData
                             ? calculateTotalPrice(initializeData)
-                            : formatCurrency(totalData.base_grand_total)}
+                            : formatCurrency(totalData.subtotal_with_discount)}
                         </p>
                       </div>
                     </div>

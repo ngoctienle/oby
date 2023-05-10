@@ -1,7 +1,7 @@
 import magentoAPI from '@/vendors/magento.vendor'
 
 import { Cart, Coupon, MergeCartRequestBody } from '@/@types/cart.type'
-import { IOrder, Rule } from '@/@types/magento.type'
+import { Rule, Totals } from '@/@types/magento.type'
 
 const cartApi = {
   GenerateGuestCart() {
@@ -69,14 +69,14 @@ const cartApi = {
     })
   },
   GetCartTotals(id: string) {
-    return magentoAPI.get<IOrder>(`all/V1/guest-carts/${id}/totals`, {
+    return magentoAPI.get<Totals>(`all/V1/guest-carts/${id}/totals`, {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRECT_TOKEN}`
       }
     })
   },
   GetCartMineTotal(token: string) {
-    return magentoAPI.get<IOrder>('V1/carts/mine/totals', {
+    return magentoAPI.get<Totals>('V1/carts/mine/totals', {
       headers: {
         Authorization: `Bearer ${token}`
       }
