@@ -86,7 +86,6 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
 
   const [billing, setBilling] = useState<IBillingAddress | null>(billingData)
   const [orderCalculate, setOrderCalculate] = useState<CalculateOrder>()
-  console.log(orderCalculate)
 
   const [shipMethod, setShipMethod] = useState<boolean | string>(false)
   const [selectedMethod, setSelectedMethod] = useState<SeletedShipping>()
@@ -195,6 +194,9 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
   })
   const captureMomoMutation = useMutation({
     mutationFn: (body: ICaptureMomo) => paymentApi.CaptureMomo(body)
+  })
+  const captureVNPayMutation = useMutation({
+    mutationFn: (body: ICaptureMomo) => paymentApi.CaptureVNPay(body)
   })
 
   /* const guestCartIdMutation = useMutation({
@@ -387,7 +389,7 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
         }
         const {data: guestCartId} = guestCartIdMutation.mutateAsync() */
 
-        if (selected === 'momo' || selected === 'vnpay') {
+        if (selected === 'momo') {
           captureMomoMutation.mutate(
             { orderId: data.data },
             {
@@ -405,6 +407,19 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
           const encodeData = Buffer.from(JSON.stringify(dataID)).toString('base64')
 
           router.push(hrefPath.resultPurchase + `/?extraData=${encodeData}`)
+        } else if (selected === 'vnpay') {
+          captureVNPayMutation.mutate(
+            { orderId: data.data },
+            {
+              onSuccess: (data) => {
+                if (data.data[0].success) {
+                  router.push(data.data[0].process3d_url as string)
+                } else {
+                  toast.error(data.data[0].message as string)
+                }
+              }
+            }
+          )
         }
       }
     })

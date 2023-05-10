@@ -56,6 +56,9 @@ const paymentApi = {
   CaptureMomo(body: ICaptureMomo) {
     return magentoAPI.post<ICaptureMomoResponse[]>('V1/oby/momo/capture-wallet/', body)
   },
+  CaptureVNPay(body: ICaptureMomo) {
+    return magentoAPI.post<ICaptureMomoResponse[]>('V1/oby/vnpay/create-order/', body)
+  },
   GetOrderInfo(id: string) {
     return magentoAPI.get<IOrder>(`V1/orders/${id}`, {
       headers: {
