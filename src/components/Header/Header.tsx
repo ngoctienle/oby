@@ -86,7 +86,7 @@ export default function Header({ font, isFocus, user, guestCartId, cartId, token
         {/* Top Header */}
         {isMatch992 && <TopHeader parentCategory={parentCategory} parentCategoryItem={parentCategoryItem} />}
         {/*  Main Header */}
-        <div className={`@992:bg-white bg-transparent ${y > 0 && 'bg-white'}`}>
+        <div className={`@992:bg-white relative bg-transparent ${y > 0 && 'bg-white'}`}>
           <div className='container'>
             <div className='flex justify-between @992:gap-12.5 gap-3.5 items-center @992:py-1.5 py-3'>
               <OBYLink

@@ -18,6 +18,11 @@ const productApi = {
   },
   GetAllProducts() {
     return magentoAPI.get<ProductResponse>('V1/products/?searchCriteria[pageSize]=0')
+  },
+  Search(value: string) {
+    return magentoAPI.get<ProductResponse>(
+      `all/V1/products/?searchCriteria[filter_groups][0][filters][0][field]=name&searchCriteria[filter_groups][0][filters][0][value]=%${value}%&searchCriteria[filter_groups][0][filters][0][condition_type]=like`
+    )
   }
 }
 
