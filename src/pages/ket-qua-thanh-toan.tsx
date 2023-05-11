@@ -144,15 +144,22 @@ export const getServerSideProps: GetServerSideProps<IPaymentResult> = async (con
   const userToken = context.req.cookies.token
   const user = context.req.cookies.user
   const customerId = JSON.parse(user as string).id
+  let originOrderId
 
   const bodyMerge: MergeCartRequestBody = {
     customerId,
     storeId: 1
   }
 
-  const { orderType, orderInfo, resultCode, extraData } = context.query
+  const { orderType, orderInfo, resultCode, extraData, vnp_ResponseCode, vnp_TxnRef } = context.query
 
-  const originOrderId = JSON.parse(atob(extraData as string)).orderId
+  if (extraData) {
+    originOrderId = JSON.parse(atob(extraData as string)).orderId
+  }
+  if (vnp_TxnRef) {
+    originOrderId = vnp_TxnRef
+  }
+
   const { data } = await paymentApi.GetOrderInfo(originOrderId)
 
   const { data: guestCartId } = await cartApi.GenerateGuestCart()
@@ -164,6 +171,15 @@ export const getServerSideProps: GetServerSideProps<IPaymentResult> = async (con
       props: {
         statusMessage: resultCode && Number(resultCode) === 0 ? 'success' : 'false',
         orderId: orderInfo as string,
+        orderInfo: data,
+        cartId: guestCartId
+      }
+    }
+  } else if (vnp_ResponseCode && vnp_TxnRef) {
+    return {
+      props: {
+        statusMessage: Number(vnp_ResponseCode) === 0 ? 'success' : 'false',
+        orderId: `#DH${vnp_TxnRef.toString().padStart(9, '0')}`,
         orderInfo: data,
         cartId: guestCartId
       }

@@ -82,17 +82,17 @@ const cartApi = {
       }
     })
   },
+  ApplyCouponMine(code: string, token: string) {
+    return magentoAPI.put<boolean>(`V1/carts/mine/coupons/${code}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+  },
   ApplyCoupon(id: string, code: string) {
     return magentoAPI.put<boolean>(`all/V1/guest-carts/${id}/coupons/${code}`, {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRECT_TOKEN}`
-      }
-    })
-  },
-  ApplyCouponMine(token: string, code: string) {
-    return magentoAPI.put<boolean>(`V1/carts/mine/coupons/${code}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
       }
     })
   }

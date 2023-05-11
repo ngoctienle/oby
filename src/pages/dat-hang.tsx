@@ -18,7 +18,7 @@ import { toast } from 'react-hot-toast'
 
 import { Cart } from '@/@types/cart.type'
 import { District, Provine, Ward } from '@/@types/geo.type'
-import { IBillingAddress } from '@/@types/magento.type'
+import { IBillingAddress, Totals } from '@/@types/magento.type'
 import {
   AddressBody,
   IBodyAddress,
@@ -32,7 +32,7 @@ import { FillPaymentForm, fillPaymentForm } from '@/libs/rules'
 import twclsx from '@/libs/twclsx'
 
 import { formatAddress, formatCurrency, generateName, getShippingMethod, mergeArrayItems } from '@/helpers'
-import { calculateTotalDiscountPrice, calculateTotalOriginPrice, calculateTotalPrice } from '@/helpers/cart'
+import { calculateTotalDiscountPrice, calculateTotalOriginPrice } from '@/helpers/cart'
 import {
   generateProductImageFromMagento,
   getCost,
@@ -61,6 +61,7 @@ interface IOrderPage {
   paymentMethod: IPayment
   provines: Provine[]
   billingData: IBillingAddress
+  total: Totals
 }
 
 interface SelectedPlace {
@@ -71,7 +72,6 @@ interface SelectedPlace {
 interface CalculateOrder {
   grand_total: number
   shipping_amount: number
-  discount_amount: number
 }
 
 interface SeletedShipping {
@@ -79,7 +79,15 @@ interface SeletedShipping {
   value?: number
 }
 
-export default function OrderPage({ cartData, listSKU, paymentMethod, provines, userToken, billingData }: IOrderPage) {
+export default function OrderPage({
+  cartData,
+  listSKU,
+  paymentMethod,
+  provines,
+  userToken,
+  billingData,
+  total
+}: IOrderPage) {
   const router = useRouter()
   /* const [user] = useGlobalState('user')
   const [, setCartId] = useGlobalState('cartId') */
@@ -343,7 +351,6 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
         shipping_method_code: shipMethod as string
       }
     }
-
     if (shipMethod) {
       setAddressAndBillingMutation.mutate(body, {
         onSuccess: (data) => {
@@ -351,8 +358,7 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
           const selected = getShippingMethod(totalSegments)
           setOrderCalculate({
             grand_total: data.data.totals.grand_total,
-            shipping_amount: data.data.totals.shipping_amount,
-            discount_amount: data.data.totals.discount_amount
+            shipping_amount: data.data.totals.shipping_amount
           })
           setIsMethodOpen(false)
           setSelectedMethod(selected)
@@ -1077,12 +1083,10 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
                     </p>
                   </div>
                 )}
-                {orderCalculate && orderCalculate.discount_amount !== 0 && (
+                {total && total.discount_amount !== 0 && (
                   <div className='flex items-center justify-between mt-3'>
                     <p className='@992:fs-16 fs-14'>Giảm giá voucher</p>
-                    <p className='@992:fs-16 fs-14 text-end text-oby-orange'>
-                      {formatCurrency(orderCalculate.discount_amount)}
-                    </p>
+                    <p className='@992:fs-16 fs-14 text-end text-oby-orange'>{formatCurrency(total.discount_amount)}</p>
                   </div>
                 )}
                 {orderCalculate && (
@@ -1098,8 +1102,9 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
                       <p className='@992:fs-14 fs-12 text-oby-9A9898'>(Đã bao gồm VAT)</p>
                     </div>
                     <p className='@992:fs-18 fs-16 font-semibold'>
-                      {initializeData && !orderCalculate && calculateTotalPrice(initializeData)}
-                      {orderCalculate && formatCurrency(orderCalculate.grand_total)}
+                      {!orderCalculate
+                        ? formatCurrency(total.base_subtotal_with_discount)
+                        : formatCurrency(orderCalculate.grand_total)}
                     </p>
                   </div>
                 </div>
@@ -1107,7 +1112,7 @@ export default function OrderPage({ cartData, listSKU, paymentMethod, provines, 
                   disabled={
                     !billing?.city ||
                     !selected ||
-                    !shipMethod ||
+                    !selectedMethod ||
                     paymentInformationMutation.isLoading ||
                     captureMomoMutation.isLoading
                   }
@@ -1136,6 +1141,7 @@ export const getServerSideProps: GetServerSideProps<IOrderPage> = async (context
   const { data: paymentMethod } = await paymentApi.GetPaymentMethod(userToken as string)
 
   const { data: provines } = await GeoAPI.GetProvine()
+  const { data: total } = await cartApi.GetCartMineTotal(userToken as string)
 
   const listSKU = getSKUListProductAsString(data.items)
 
@@ -1146,7 +1152,8 @@ export const getServerSideProps: GetServerSideProps<IOrderPage> = async (context
       paymentMethod,
       provines,
       userToken: userToken as string,
-      billingData: data.billing_address
+      billingData: data.billing_address,
+      total
     }
   }
 }

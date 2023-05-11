@@ -134,7 +134,7 @@ export default function CartPage() {
     queryKey: ['totals', cartData],
     queryFn: () => cartApi.GetCartTotals(guestCartId as string),
     staleTime: cacheTime.fiveMinutes,
-    enabled: Boolean(guestCartId)
+    enabled: Boolean(!token)
   })
   const { data: totalMineRes, refetch: mineTotalRefetch } = useQuery({
     queryKey: ['totalsMine', cartData],
@@ -156,7 +156,7 @@ export default function CartPage() {
     mutationFn: (code: string) => cartApi.ApplyCoupon(guestCartId as string, code)
   })
   const applyMineMutation = useMutation({
-    mutationFn: (code: string) => cartApi.ApplyCouponMine(token as string, code)
+    mutationFn: (code: string) => cartApi.ApplyCouponMine(code, token as string)
   })
 
   /* Update Cart API */
@@ -254,7 +254,6 @@ export default function CartPage() {
           setIsPromoOpen(false)
         },
         onError: (error) => {
-          guestTotalRefetch()
           if (isAxiosError<ResponseError>(error)) {
             const formError = error.response?.data
             if (formError?.message === ErrorMagento.failCoupon) {
@@ -265,6 +264,7 @@ export default function CartPage() {
           } else {
             toast.error('Có lỗi xảy ra! Vui lòng thử lại.')
           }
+          guestTotalRefetch()
         }
       })
     } else {
@@ -274,17 +274,21 @@ export default function CartPage() {
           setIsPromoOpen(false)
         },
         onError: (error) => {
-          mineTotalRefetch()
           if (isAxiosError<ResponseError>(error)) {
             const formError = error.response?.data
             if (formError?.message === ErrorMagento.failCoupon) {
               setError('coupon', {
                 message: 'Đơn hàng của bạn không thể dùng mã này. Vui lòng kiểm tra lại điều kiện áp dụng'
               })
+            } else {
+              setError('coupon', {
+                message: 'Điều kiện áp dụng không đúng!'
+              })
             }
           } else {
             toast.error('Có lỗi xảy ra! Vui lòng thử lại.')
           }
+          mineTotalRefetch()
         }
       })
     }
