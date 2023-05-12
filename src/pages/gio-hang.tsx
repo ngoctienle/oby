@@ -48,6 +48,8 @@ export default function CartPage() {
   const [isPromoOpen, setIsPromoOpen] = useState<boolean>(false)
   const [itemId, setItemId] = useState<string>('')
   const [itemName, setItemName] = useState<string>('')
+
+  const [isRouting, setIsRouting] = useState<boolean>(false)
   const {
     register,
     handleSubmit,
@@ -296,6 +298,7 @@ export default function CartPage() {
 
   /* Next Step Order Condition */
   const handleContinue = () => {
+    setIsRouting(true)
     if (token) {
       router.push(hrefPath.purchase)
     } else {
@@ -615,10 +618,11 @@ export default function CartPage() {
                       </div>
                     </div>
                     <OBYButton
-                      className='@992:mt-5 mt-3 bg-oby-primary text-white w-full py-2.5 rounded-4'
+                      className='@992:mt-5 mt-3 bg-oby-primary disabled:bg-oby-primary/50 disabled:cursor-not-allowed text-white w-full py-2.5 rounded-4'
                       onClick={handleContinue}
+                      disabled={isRouting}
                     >
-                      Tiếp tục
+                      {isRouting ? <ArrowPathIcon className='w-5 h-5 animate-spin' /> : <>Tiếp tục</>}
                     </OBYButton>
                   </div>
                 </div>
