@@ -1,6 +1,7 @@
 import '@/styles/globals.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { Analytics } from '@vercel/analytics/react'
 import cookie from 'cookie'
 import type { AppContext, AppProps } from 'next/app'
 import App from 'next/app'
@@ -108,6 +109,7 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
             })();  
         `}
         </Script>
+        <Analytics />
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </Fragment>

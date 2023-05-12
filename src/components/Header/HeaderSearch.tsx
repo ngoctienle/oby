@@ -133,7 +133,12 @@ export default function HeaderSearch() {
                   </div>
                 </OBYLink>
               ))
-            : !isLoading && <p>No Product</p>}
+            : !isLoading && (
+                <p className='fs-16 text-center text-oby-676869'>
+                  Xin lỗi, chúng tôi không thể tìm thấy kết quả phù hợp với từ khóa{' '}
+                  <span className='font-semibold'>&quot;{debounceSearchStr}&quot;</span>
+                </p>
+              )}
           {isLoading && <SearchLoading />}
         </div>
       )}
