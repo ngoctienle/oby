@@ -3,12 +3,14 @@ import atob from 'atob'
 import { GetServerSideProps } from 'next'
 import { useMemo } from 'react'
 
+import { Address, BodyUpdate } from '@/@types/auth.type'
 import { MergeCartRequestBody } from '@/@types/cart.type'
 import { IOrder } from '@/@types/magento.type'
 
 import { useGlobalState } from '@/libs/state'
 import twclsx from '@/libs/twclsx'
 
+import authApi from '@/apis/magento/auth.api'
 import cartApi from '@/apis/magento/cart.api'
 import paymentApi from '@/apis/magento/payment.api'
 
@@ -161,6 +163,27 @@ export const getServerSideProps: GetServerSideProps<IPaymentResult> = async (con
   }
 
   const { data } = await paymentApi.GetOrderInfo(originOrderId)
+  const addresses: Address = {
+    firstname: data.billing_address.firstname,
+    lastname: data.billing_address.lastname,
+    region: {
+      region: data.billing_address.region,
+      region_code: data.billing_address.region_code
+    },
+    country_id: data.billing_address.country_id,
+    city: data.billing_address.city,
+    street: data.billing_address.street,
+    telephone: data.billing_address.telephone,
+    postcode: data.billing_address.postcode,
+    default_shipping: true,
+    default_billing: true
+  }
+  const body: BodyUpdate = {
+    customer: {
+      addresses: [addresses]
+    }
+  }
+  await authApi.UpdateMe(customerId, body)
 
   const { data: guestCartId } = await cartApi.GenerateGuestCart()
 

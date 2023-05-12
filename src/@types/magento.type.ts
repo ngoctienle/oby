@@ -1,3 +1,5 @@
+import { ItemInCart } from './cart.type'
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface CustomAttribute {
   attribute_code: string
@@ -74,9 +76,9 @@ export interface Customer {
 }
 
 export interface IBillingAddress {
-  id: number
+  id?: number
   region: string
-  region_id: number
+  region_id?: number
   region_code: string
   country_id: string
   street: string[]
@@ -86,8 +88,8 @@ export interface IBillingAddress {
   firstname: string
   lastname: string
   email: string
-  same_as_billing: number
-  save_in_address_book: number
+  same_as_billing?: number
+  save_in_address_book?: number
 }
 
 export interface Currency {
@@ -161,7 +163,7 @@ export interface Totals {
   quote_currency_code: string
   coupon_code: string
   items_qty: number
-  items: Item[]
+  items: Item[] | ItemInCart[]
   total_segments: TotalSegment[]
   extension_attributes: ExtensionAttributes4
 }

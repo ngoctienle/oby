@@ -140,7 +140,8 @@ export const fillPaymentForm = yup.object({
 export type FillPaymentForm = yup.InferType<typeof fillPaymentForm>
 
 export const anotherForm = yup.object({
-  coupon: yup.string().trim().required('Vui lòng nhập mã giảm giá!')
+  coupon: yup.string().trim().required('Vui lòng nhập mã giảm giá!'),
+  name: yup.string().trim().required()
 })
 
 export type AnotherForm = yup.InferType<typeof anotherForm>

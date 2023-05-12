@@ -1,6 +1,7 @@
 export interface BlogListConfig {
   page?: number | string
   limit?: number | string
+  name?: string
 }
 export interface Blog {
   id: number

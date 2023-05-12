@@ -156,7 +156,7 @@ export default function CartPage() {
     mutationFn: (code: string) => cartApi.ApplyCoupon(guestCartId as string, code)
   })
   const applyMineMutation = useMutation({
-    mutationFn: (code: string) => cartApi.ApplyCouponMine(code, token as string)
+    mutationFn: (code: string) => cartApi.ApplyCouponMine(token as string, code)
   })
 
   /* Update Cart API */

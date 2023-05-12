@@ -43,6 +43,7 @@ import {
 } from '@/helpers/product'
 
 import GeoAPI from '@/apis/geo/geo.api'
+import authApi from '@/apis/magento/auth.api'
 import cartApi from '@/apis/magento/cart.api'
 import paymentApi from '@/apis/magento/payment.api'
 import productApi from '@/apis/magento/product.api'
@@ -93,6 +94,7 @@ export default function OrderPage({
   const [, setCartId] = useGlobalState('cartId') */
 
   const [billing, setBilling] = useState<IBillingAddress | null>(billingData)
+
   const [orderCalculate, setOrderCalculate] = useState<CalculateOrder>()
 
   const [shipMethod, setShipMethod] = useState<boolean | string>(false)
@@ -1138,12 +1140,43 @@ export const getServerSideProps: GetServerSideProps<IOrderPage> = async (context
   const userToken = context.req.cookies.token
 
   const { data } = await cartApi.GetCart(userToken as string)
+  const listSKU = getSKUListProductAsString(data.items)
+
   const { data: paymentMethod } = await paymentApi.GetPaymentMethod(userToken as string)
 
   const { data: provines } = await GeoAPI.GetProvine()
   const { data: total } = await cartApi.GetCartMineTotal(userToken as string)
 
-  const listSKU = getSKUListProductAsString(data.items)
+  const { data: mine } = await authApi.FetchMe(userToken as string)
+  if (mine) {
+    const defaultAddress = mine.addresses?.find((item) => item.default_shipping === true)
+    if (defaultAddress) {
+      const billingData: IBillingAddress = {
+        email: mine.email,
+        firstname: defaultAddress.firstname,
+        lastname: defaultAddress.lastname,
+        city: defaultAddress.city,
+        region: defaultAddress.region.region,
+        region_code: defaultAddress.region.region_code,
+        region_id: defaultAddress.region_id,
+        street: defaultAddress.street,
+        country_id: defaultAddress.country_id,
+        telephone: defaultAddress.telephone,
+        postcode: defaultAddress.postcode
+      }
+      return {
+        props: {
+          cartData: data,
+          listSKU,
+          paymentMethod,
+          provines,
+          userToken: userToken as string,
+          billingData,
+          total
+        }
+      }
+    }
+  }
 
   return {
     props: {

@@ -1,23 +1,9 @@
 import Cookies from 'js-cookie'
 import { createGlobalState } from 'react-hooks-global-state'
 
-export type TypeUser = {
-  id: number
-  group_id: number
-  created_at: string
-  updated_at: string
-  created_in: string
-  email: string
-  firstname: string
-  lastname: string
-  store_id: number
-  website_id: number
-  addresses: string[]
-  disable_auto_group_change: number
-  extension_attributes: {
-    is_subscribed: boolean
-  }
-}
+import { Customer } from '@/@types/auth.type'
+
+export type TypeUser = Customer
 
 type InitialGlobalState = {
   guestCartId: string | null

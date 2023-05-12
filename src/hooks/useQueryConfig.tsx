@@ -12,7 +12,8 @@ export const useQueryConfig = () => {
   const queryConfig: QueryConfig = omitBy(
     {
       page: query.page || '1',
-      limit: query.limit || '9'
+      limit: query.limit || '9',
+      name: query.name
     },
     isUndefined
   )
