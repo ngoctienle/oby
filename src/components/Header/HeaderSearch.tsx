@@ -1,15 +1,11 @@
 import { OBYImage, OBYLink } from '../UI/Element'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { useQuery } from '@tanstack/react-query'
 import DOMPurify from 'isomorphic-dompurify'
 import { useRouter } from 'next/router'
 import { useRef, useState } from 'react'
-import { useForm } from 'react-hook-form'
 
 import { useClickOutSide, useDebounce, useQueryConfig } from '@/hooks'
-
-import { AnotherForm, anotherForm } from '@/libs/rules'
 
 import { accentsMap, formatCurrency, getDiscountPercent } from '@/helpers'
 import { generateProductImageFromMagento, getDiscount, isHaveDiscount } from '@/helpers/product'
@@ -42,9 +38,6 @@ function SearchLoading() {
   )
 }
 
-type FormData = Pick<AnotherForm, 'name'>
-const nameSchema = anotherForm.pick(['name'])
-
 export default function HeaderSearch() {
   const ref = useRef<HTMLDivElement>(null)
   const [isOpen, setIsOpen] = useState(false)
@@ -53,13 +46,6 @@ export default function HeaderSearch() {
 
   const [searchStr, setSearchStr] = useState<string>('')
   const debounceSearchStr = useDebounce(searchStr, 650)
-
-  const { register, handleSubmit } = useForm<FormData>({
-    defaultValues: {
-      name: ''
-    },
-    resolver: yupResolver(nameSchema)
-  })
 
   useClickOutSide(ref, () => {
     setIsOpen(false)
@@ -70,17 +56,20 @@ export default function HeaderSearch() {
     setIsOpen(true)
   }
 
-  const handleSubmitSearch = handleSubmit((data) => {
+  const handleSubmitSearch = (e: React.ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const data = new FormData(e.target)
+
     const config = {
       ...queryConfig,
-      name: data.name
+      name: data ? (data.get('name') as string) : undefined
     }
 
     router.push({
       pathname: hrefPath.find,
       query: config
     })
-  })
+  }
 
   const filterStr = (str: string, searchStr: string) => {
     const regex = new RegExp(
@@ -115,9 +104,9 @@ export default function HeaderSearch() {
     >
       <input
         type='text'
+        name='name'
         placeholder='Cô chú cần tìm món hàng gì'
         className='outline-none w-full placeholder:text-oby-9A9898 placeholder:fs-14 @992:placeholder:fs-16'
-        {...register('name')}
         onChange={handleTyping}
       />
       <MagnifyingGlassIcon className='w-4.5 h-4.5' />

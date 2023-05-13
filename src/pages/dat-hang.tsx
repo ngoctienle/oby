@@ -245,6 +245,7 @@ export default function OrderPage({
         name,
         code
       })
+      setValue('provine', name)
       clearErrors('provine')
       setValue('district', '')
       setValue('ward', '')
@@ -263,6 +264,7 @@ export default function OrderPage({
         name,
         code
       })
+      setValue('district', name)
       clearErrors('district')
       setValue('ward', '')
 
@@ -279,11 +281,12 @@ export default function OrderPage({
         name,
         code
       })
+      setValue('ward', name)
       clearErrors('ward')
 
       setIsWardOpen(false)
     },
-    [clearErrors]
+    [clearErrors, setValue]
   )
 
   const filteredProvine = useMemo(() => {
@@ -529,6 +532,7 @@ export default function OrderPage({
                                 type='text'
                                 placeholder='Họ và tên'
                                 className='mt-3'
+                                {...field}
                                 value={field.value}
                                 onChange={field.onChange}
                                 errorMessage={errors.fullname?.message}
@@ -545,6 +549,7 @@ export default function OrderPage({
                                 type='email'
                                 placeholder='Địa chỉ email'
                                 className='mt-3'
+                                {...field}
                                 value={field.value}
                                 onChange={field.onChange}
                                 errorMessage={errors.email?.message}
@@ -561,6 +566,7 @@ export default function OrderPage({
                                 type='text'
                                 placeholder='Số điện thoại'
                                 className='mt-3'
+                                {...field}
                                 value={field.value}
                                 onChange={field.onChange}
                                 errorMessage={errors.phone?.message}
@@ -576,8 +582,8 @@ export default function OrderPage({
                             className='mt-3'
                             classNameInput='cursor-pointer'
                             placeholder='Tỉnh/Thành phố'
-                            defaultValue={billing?.city ? billing.city : ''}
-                            value={(selectedProvine?.name && selectedProvine.name) || ''}
+                            defaultValue={billing?.city ? billing.city : undefined}
+                            /* value={(selectedProvine?.name && selectedProvine.name) || ''} */
                             readOnly
                             isRead
                             onClick={() => setIsProvineOpen(true)}
@@ -658,8 +664,8 @@ export default function OrderPage({
                             className='mt-3'
                             classNameInput='cursor-pointer'
                             placeholder='Quận/Huyện'
-                            defaultValue={(billing?.region && billing.region) || ''}
-                            value={selectedDistrict?.name || ''}
+                            defaultValue={(billing?.region && billing.region) || undefined}
+                            /* value={selectedDistrict?.name || ''} */
                             disabled={selectedProvine?.name ? false : true}
                             readOnly
                             isRead
@@ -743,8 +749,8 @@ export default function OrderPage({
                             className='mt-3'
                             classNameInput='cursor-pointer'
                             placeholder='Phường/Xã'
-                            defaultValue={billing && billing.street.length > 0 ? billing.street[1] : ''}
-                            value={selectedWard?.name || ''}
+                            defaultValue={billing && billing.street.length > 0 ? billing.street[1] : undefined}
+                            /* value={selectedWard?.name || ''} */
                             disabled={selectedDistrict?.name ? false : true}
                             readOnly
                             isRead
