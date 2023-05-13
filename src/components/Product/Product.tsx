@@ -68,7 +68,7 @@ export default function Product({ data }: ProductProps) {
   }
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex group flex-col'>
       <OBYLink
         href={`${hrefPath.productDetail}/${data.sku}`}
         title={data.name}
@@ -79,7 +79,7 @@ export default function Product({ data }: ProductProps) {
           alt={data.name}
           title={data.name}
           display='responsive'
-          className='object-cover'
+          className='object-cover group-hover:scale-110 transition-all'
         />
       </OBYLink>
       <OBYLink
@@ -101,18 +101,16 @@ export default function Product({ data }: ProductProps) {
               </p>
             </div>
             <AddCartButton
-              className='@992:mt-3.5 mt-0 @992:max-w-full max-w-max'
               onClick={handleAddToCart}
-              isloading={!token ? addToCartMutation.isLoading : addToCartMineMutation.isLoading}
+              isLoading={!token ? addToCartMutation.isLoading : addToCartMineMutation.isLoading}
             />
           </>
         ) : (
           <>
             <p className='font-bold'>{formatCurrency(data.price)}</p>
             <AddCartButton
-              className='@992:mt-3.5 mt-0 @992:max-w-full max-w-max'
               onClick={handleAddToCart}
-              isloading={!token ? addToCartMutation.isLoading : addToCartMineMutation.isLoading}
+              isLoading={!token ? addToCartMutation.isLoading : addToCartMineMutation.isLoading}
             />
           </>
         )}

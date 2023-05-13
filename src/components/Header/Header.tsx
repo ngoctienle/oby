@@ -13,6 +13,7 @@ import { useMediaQuery, useWindowScrollY } from '@/hooks'
 
 import { TypeUser } from '@/libs/state'
 import twclsx from '@/libs/twclsx'
+import { cn } from '@/libs/utils'
 
 import { getIDListCategoryAsString, getParentCategory } from '@/helpers/category'
 
@@ -22,7 +23,7 @@ import categoryApi from '@/apis/magento/category.api'
 import { cacheTime } from '@/constants/config.constant'
 import { hrefPath } from '@/constants/href.constant'
 
-import { OBYImage, OBYLink } from '@/components/UI/Element'
+import { OBYButton, OBYImage, OBYLink } from '@/components/UI/Element'
 
 interface HeaderProps {
   font: NextFont
@@ -89,23 +90,24 @@ export default function Header({ font, isFocus, user, guestCartId, cartId, token
         <div className={`@992:bg-white relative bg-transparent ${y > 0 && 'bg-white'}`}>
           <div className='container'>
             <div className='flex justify-between @992:gap-12.5 gap-3.5 items-center @992:py-1.5 py-3'>
-              <OBYLink
-                href={hrefPath.home}
-                title='OBY Trang chủ'
-                className={twclsx(
-                  '@992:flex items-center justify-center @992:w-[56px] @992:h-[56px] w-[44px] h-[44px] relative',
+              <OBYButton
+                asChild
+                variant='ghost'
+                className={cn(
+                  '@992:flex py-0 @992:w-[56px] @992:h-[56px] w-[44px] h-[44px] relative',
                   !isFocus && 'hidden'
                 )}
               >
-                <OBYImage
-                  display='responsive'
-                  src='/images/oby-logo.png'
-                  alt='Ông Bà Yêu Logo Brand'
-                  title='Ông Bà Yêu Logo Brand'
-                  className='object-cover'
-                />
-                <h1 className='sr-only'>Ông Bà Yêu</h1>
-              </OBYLink>
+                <OBYLink href={hrefPath.home} title='OBY Trang chủ'>
+                  <OBYImage
+                    display='responsive'
+                    src='/images/oby-logo.png'
+                    alt='Ông Bà Yêu Logo Brand'
+                    title='Ông Bà Yêu Logo Brand'
+                    className='object-cover'
+                  />
+                </OBYLink>
+              </OBYButton>
               {!isFocus && !isMatch992 && (
                 <HeaderNav parentCategory={parentCategory} parentCategoryItem={parentCategoryItem} userInfo={user} />
               )}
@@ -113,32 +115,38 @@ export default function Header({ font, isFocus, user, guestCartId, cartId, token
               {!isFocus && (
                 <>
                   <HeaderSearch />
-                  <OBYLink href={hrefPath.cartPage} className='flex flex-col items-center'>
-                    <div className='relative'>
-                      <ShoppingBagIcon className='w-8 h-8 text-oby-676869' strokeWidth={1} />
-                      {cartData && (
-                        <p className='absolute flex items-center justify-center top-1 -right-1 w-4.5 h-4.5 @992:fs-11 fs-10 bg-oby-primary text-white rounded-full'>
-                          {cartData.items_qty}
-                        </p>
-                      )}
-                    </div>
-                    <p className='@992:fs-12 @992:block hidden'>Giỏ hàng</p>
-                  </OBYLink>
+                  <OBYButton asChild variant='ghost' size='ghost'>
+                    <OBYLink href={hrefPath.cartPage} className='flex flex-col items-center'>
+                      <div className='relative'>
+                        <ShoppingBagIcon className='w-8 h-8 text-oby-676869' strokeWidth={1} />
+                        {cartData && (
+                          <p className='absolute flex items-center justify-center top-1 -right-1 w-4.5 h-4.5 @992:fs-11 fs-10 bg-oby-primary text-white rounded-full'>
+                            {cartData.items_qty}
+                          </p>
+                        )}
+                      </div>
+                      <p className='@992:fs-12 @992:block hidden'>Giỏ hàng</p>
+                    </OBYLink>
+                  </OBYButton>
                   {user
                     ? isMatch992 && <UserHeader userInfo={user} />
                     : isMatch992 && (
-                        <OBYLink href={hrefPath.login} className='flex flex-col items-center'>
-                          <UserCircleIcon className='w-8 h-8 text-oby-676869' strokeWidth={1} />
-                          <p className='fs-12'>Đăng nhập</p>
-                        </OBYLink>
+                        <OBYButton variant='ghost' asChild size='ghost'>
+                          <OBYLink href={hrefPath.login} className='flex flex-col items-center'>
+                            <UserCircleIcon className='w-8 h-8 text-oby-676869' strokeWidth={1} />
+                            <p className='fs-12'>Đăng nhập</p>
+                          </OBYLink>
+                        </OBYButton>
                       )}
                 </>
               )}
 
               {isFocus && (
-                <OBYLink href={hrefPath.home} className='@992:fs-16 fs-14 text-oby-primary'>
-                  Bạn cần giúp đỡ?
-                </OBYLink>
+                <OBYButton asChild variant='link' size='link' className={cn('@992:fs-16 fs-14')}>
+                  <OBYLink href={hrefPath.home} title='Bạn cần giúp đỡ?'>
+                    Bạn cần giúp đỡ?
+                  </OBYLink>
+                </OBYButton>
               )}
             </div>
           </div>

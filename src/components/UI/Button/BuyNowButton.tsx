@@ -1,19 +1,14 @@
-import { OBYDefaultButton } from 'oby'
+import { AsyncButton, IAsyncButtonProps } from './AsyncButton'
+import { FC } from 'react'
 
-import twclsx from '@/libs/twclsx'
+import { cn } from '@/libs/utils'
 
-import { OBYButton } from '@/components/UI/Element'
+type IBuyNowProps = IAsyncButtonProps
 
-export const BuyNowButton: React.FunctionComponent<OBYDefaultButton> = (props) => {
+export const BuyNowButton: FC<IBuyNowProps> = ({ isLoading, ...props }) => {
   return (
-    <OBYButton
-      {...props}
-      className={twclsx(
-        props.className,
-        '@768:py-2.5 py-3 rounded-4 justify-center border border-transparent bg-oby-primary'
-      )}
-    >
+    <AsyncButton isLoading={isLoading} className={cn(props.className, '@992:min-w-[270px] @768:min-w-[200px] w-full')}>
       <p className='text-white'>Mua Ngay</p>
-    </OBYButton>
+    </AsyncButton>
   )
 }

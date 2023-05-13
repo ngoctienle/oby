@@ -1,11 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import {
-  ArrowPathIcon,
-  ChevronDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ChevronUpIcon
-} from '@heroicons/react/24/outline'
+import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import DOMPurify from 'isomorphic-dompurify'
 import { GetServerSideProps } from 'next'
@@ -19,7 +13,7 @@ import { Product } from '@/@types/product.type'
 
 import { generateMetaSEO } from '@/libs/seo'
 import { useGlobalState } from '@/libs/state'
-import twclsx from '@/libs/twclsx'
+import { cn } from '@/libs/utils'
 
 import { formatCurrency, getDiscountPercent } from '@/helpers'
 import {
@@ -40,7 +34,7 @@ import { hrefPath } from '@/constants/href.constant'
 import Breadcrumb from '@/components/Breadcrumb'
 import ProductRating from '@/components/ProductRating'
 import QuantityController from '@/components/QuantityController'
-import { BuyNowButton } from '@/components/UI/Button'
+import { AsyncButton, BuyNowButton } from '@/components/UI/Button'
 import { OBYButton } from '@/components/UI/Element'
 import { OBYAddCartIcon, OBYCommentIcon } from '@/components/UI/OBYIcons'
 import { OBYSeo } from '@/components/UI/OBYSeo'
@@ -263,20 +257,16 @@ export default function ProductDetail({ subName, productData, parentName, produc
                 />
               </div>
               <div className='mt-6 flex items-center gap-5'>
-                <OBYButton
-                  className={twclsx(
-                    '@992:min-w-[270px] @768:min-w-[200px] w-full @992:py-2.5 py-3 rounded-4 justify-center border border-oby-primary bg-white disabled:cursor-not-allowed'
-                  )}
-                  disabled={addToCartMutation.isLoading}
+                <AsyncButton
+                  isLoading={addToCartMutation.isLoading || addToCartMineMutation.isLoading}
                   onClick={handleAddToCart}
+                  className={cn('@992:min-w-[270px] @768:min-w-[200px] w-full')}
+                  variant='outlinePrimary'
                 >
                   <OBYAddCartIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary @992:mr-1.5 mr-0' />
                   <p className='text-oby-primary fs-16'>Thêm vào giỏ</p>
-                  {addToCartMutation.isLoading ? (
-                    <ArrowPathIcon className='ml-1.5 @992:h-6 @992:w-6 h-5 w-5 animate-spin text-oby-primary' />
-                  ) : null}
-                </OBYButton>
-                <BuyNowButton className='@992:min-w-[270px] @768:min-w-[200px] w-full' />
+                </AsyncButton>
+                <BuyNowButton isLoading={false} />
               </div>
             </div>
           </div>

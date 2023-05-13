@@ -3,6 +3,7 @@ import { ArrowPathIcon, BanknotesIcon, CheckIcon, ShoppingBagIcon, XMarkIcon } f
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation, useQueries, useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
+import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/router'
 import { Fragment, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -13,6 +14,7 @@ import { ResponseError } from '@/@types/magento.type'
 
 import { AnotherForm, ErrorMagento, anotherForm } from '@/libs/rules'
 import { useGlobalState } from '@/libs/state'
+import { cn } from '@/libs/utils'
 
 import { formatCurrency, mergeArrayItems } from '@/helpers'
 import { isAxiosError } from '@/helpers/auth'
@@ -35,6 +37,7 @@ import { hrefPath } from '@/constants/href.constant'
 import Input from '@/components/Input'
 import NoProduct from '@/components/NoProduct'
 import QuantityController from '@/components/QuantityController'
+import { AsyncButton } from '@/components/UI/Button'
 import { OBYButton, OBYImage } from '@/components/UI/Element'
 
 type PromotionForm = Pick<AnotherForm, 'coupon'>
@@ -427,18 +430,15 @@ export default function CartPage() {
                             </div>
 
                             <div className='flex items-center gap-3'>
-                              <OBYButton
-                                type='button'
-                                className='rounded-4 border border-transparent bg-oby-primary py-2.5 fs-16 text-white w-full'
-                                onClick={() => handleCloseModal()}
-                              >
+                              <OBYButton type='button' className='fs-16 w-full' onClick={() => handleCloseModal()}>
                                 Hủy bỏ
                               </OBYButton>
-                              <OBYButton
+                              <AsyncButton
+                                variant='outline'
                                 type='button'
-                                className='rounded-4 border disabled:cursor-not-allowed border-oby-DFDFDF py-2.5 fs-16 text-oby-676869 w-full'
+                                className='fs-16 text-oby-676869 w-full'
                                 onClick={() => handleRemove(itemId)}
-                                disabled={deleteProductMutation.isLoading || deleteProductMineMutation.isLoading}
+                                isLoading={deleteProductMutation.isLoading || deleteProductMineMutation.isLoading}
                               >
                                 Đồng ý
                                 {deleteProductMutation.isLoading && (
@@ -447,7 +447,7 @@ export default function CartPage() {
                                 {deleteProductMineMutation.isLoading && (
                                   <ArrowPathIcon className='text-oby-676869 ml-1.5 @992:h-6 @992:w-6 h-5 w-5 animate-spin' />
                                 )}
-                              </OBYButton>
+                              </AsyncButton>
                             </div>
                           </Dialog.Panel>
                         </Transition.Child>
@@ -464,7 +464,8 @@ export default function CartPage() {
                       <p className='@992:fs-16 fs-14 font-semibold'>Mã giảm giá</p>
                       <OBYButton
                         onClick={() => setIsPromoOpen(true)}
-                        className='rounded-4 justify-start border border-oby-DFDFDF h-[38px] px-3 flex-grow'
+                        variant='outline'
+                        className='justify-start h-[38px] px-3 flex-grow'
                       >
                         {totalData && totalData.coupon_code ? (
                           <p className='fs-14 bg-oby-orange text-white px-1.5 py-1.25 rounded-2'>
@@ -504,11 +505,15 @@ export default function CartPage() {
                                   <Dialog.Title as='h3' className='fs-18 font-semibold text-center'>
                                     Chọn mã giảm giá
                                   </Dialog.Title>
-                                  <XMarkIcon
-                                    className='w-6 h-6 text-oby-676869 absolute top-7.5 right-6 cursor-pointer'
-                                    type='button'
+                                  <OBYButton
+                                    variant='ghost'
+                                    asChild
+                                    size='ghost'
                                     onClick={() => setIsPromoOpen(false)}
-                                  />
+                                    className={cn('text-oby-676869 absolute top-7.5 right-6')}
+                                  >
+                                    <XMarkIcon className='w-6 h-6 cursor-pointer' />
+                                  </OBYButton>
                                   <form className='flex items-start gap-3 my-6' onSubmit={onSubmitPromotion} noValidate>
                                     <div className='flex-grow max-w-[294px]'>
                                       <Input
@@ -520,18 +525,14 @@ export default function CartPage() {
                                         errorMessage={errors.coupon?.message}
                                       />
                                     </div>
-                                    <OBYButton
+                                    <AsyncButton
                                       type='submit'
-                                      className='bg-oby-primary disabled:cursor-not-allowed disabled:bg-oby-primary/50 flex-shrink max-h-[42px] text-white px-4 py-2.25 fs-16 rounded-4'
-                                      disabled={
-                                        !couponList ||
-                                        couponList.length === 0 ||
-                                        applyGuestMutation.isLoading ||
-                                        applyMineMutation.isLoading
-                                      }
+                                      isLoading={applyGuestMutation.isLoading || applyMineMutation.isLoading}
+                                      disabled={!couponList || couponList.length === 0}
+                                      className='flex-grow max-h-[42px]'
                                     >
                                       Áp dụng
-                                    </OBYButton>
+                                    </AsyncButton>
                                   </form>
                                   {!couponList || couponList.length === 0 ? (
                                     <div className='mt-6 flex flex-col items-center'>
@@ -617,12 +618,8 @@ export default function CartPage() {
                         </p>
                       </div>
                     </div>
-                    <OBYButton
-                      className='@992:mt-5 mt-3 bg-oby-primary disabled:bg-oby-primary/50 disabled:cursor-not-allowed text-white w-full py-2.5 rounded-4'
-                      onClick={handleContinue}
-                      disabled={isRouting}
-                    >
-                      {isRouting ? <ArrowPathIcon className='w-5 h-5 animate-spin' /> : <>Tiếp tục</>}
+                    <OBYButton className='@992:mt-5 mt-3 w-full' onClick={handleContinue} disabled={isRouting}>
+                      {isRouting ? <Loader2 className='w-5 h-5 animate-spin' /> : <>Tiếp tục</>}
                     </OBYButton>
                   </div>
                 </div>

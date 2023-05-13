@@ -8,6 +8,7 @@ import { RegisterBodyRequest } from '@/@types/auth.type'
 import { ResponseError } from '@/@types/magento.type'
 
 import { ErrorMagento, FormSchema, formSchema } from '@/libs/rules'
+import { cn } from '@/libs/utils'
 
 import { isAxiosError } from '@/helpers/auth'
 
@@ -16,6 +17,7 @@ import authApi from '@/apis/magento/auth.api'
 import { hrefPath } from '@/constants/href.constant'
 
 import Input from '@/components/Input'
+import { AsyncButton } from '@/components/UI/Button'
 import { OBYButton, OBYLink } from '@/components/UI/Element'
 
 export default function Signup() {
@@ -108,27 +110,25 @@ export default function Signup() {
             errorMessage={errors.password?.message}
             register={register}
           />
-          <OBYButton
-            className='border border-transparent bg-oby-primary text-white fs-16 w-full py-2.5 rounded-4 mt-7.5'
-            type='submit'
-          >
+          <AsyncButton type='submit' isLoading={registerMutation.isLoading} className={cn('w-full mt-7.5 fs-16')}>
             Đăng Ký
-          </OBYButton>
+          </AsyncButton>
           <p className='text-center @768:fs-14 fs-12 text-oby-9A9898 mt-4.5'>
             Bằng việc Tiếp tục, bạn đã chấp nhận{' '}
-            <OBYLink href={hrefPath.home} className='text-oby-primary'>
-              điều khoản sử dụng
-            </OBYLink>
+            <OBYButton variant='link' size='link' asChild>
+              <OBYLink href={hrefPath.home} title='Điều khoản sử dụng'>
+                điều khoản sử dụng
+              </OBYLink>
+            </OBYButton>
           </p>
         </form>
         <p className='mt-5 fs-14 @768:fs-16 text-center'>
           Bạn đã có tài khoản?{' '}
-          <OBYLink
-            href={queryRedirect !== hrefPath.login ? hrefPath.login + `?cb=${queryRedirect}` : hrefPath.login}
-            className='text-oby-primary'
-          >
-            Đăng nhập ngay
-          </OBYLink>
+          <OBYButton variant='link' size='link' asChild>
+            <OBYLink href={queryRedirect !== hrefPath.login ? hrefPath.login + `?cb=${queryRedirect}` : hrefPath.login}>
+              Đăng nhập ngay
+            </OBYLink>
+          </OBYButton>
         </p>
       </div>
     </div>

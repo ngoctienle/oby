@@ -1,12 +1,11 @@
-import { ArrowPathIcon } from '@heroicons/react/24/outline'
-import { OBYDefaultButton } from 'oby'
+import { AsyncButton, IAsyncButtonProps } from './AsyncButton'
+import { FC } from 'react'
 
-import twclsx from '@/libs/twclsx'
+import { cn } from '@/libs/utils'
 
-import { OBYButton } from '@/components/UI/Element'
 import { OBYAddCartIcon } from '@/components/UI/OBYIcons'
 
-interface IAddCartButton extends OBYDefaultButton {
+/* interface IAddCartButton extends OBYDefaultButton {
   isloading?: boolean
 }
 
@@ -26,5 +25,21 @@ export const AddCartButton: React.FunctionComponent<IAddCartButton> = (props) =>
         <ArrowPathIcon className='ml-1.5 @992:h-6 @992:w-6 h-5 w-5 animate-spin text-oby-primary' />
       ) : null}
     </OBYButton>
+  )
+} */
+
+type IAddCartButton = IAsyncButtonProps
+
+export const AddCartButton: FC<IAddCartButton> = ({ isLoading, ...props }) => {
+  return (
+    <AsyncButton
+      isLoading={isLoading}
+      variant='outlinePrimary'
+      className={cn('@992:mt-3.5 mt-0 @992:h-11 h-10 @992:w-full w-10')}
+      {...props}
+    >
+      <OBYAddCartIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary @992:mr-1.5 mr-0' />
+      <p className='text-oby-primary fs-16 @992:block hidden'>Thêm vào giỏ</p>
+    </AsyncButton>
   )
 }

@@ -1,4 +1,4 @@
-import { OBYImage, OBYLink } from '../UI/Element'
+import { OBYButton, OBYImage, OBYLink } from '../UI/Element'
 import { CateHeaderProps } from './TopHeader'
 import { Dialog, Disclosure, Transition } from '@headlessui/react'
 import {
@@ -12,6 +12,7 @@ import Cookies from 'js-cookie'
 import { Fragment, useState } from 'react'
 
 import { TypeUser, useGlobalState } from '@/libs/state'
+import { cn } from '@/libs/utils'
 
 import { generateCategoryImageFromMagento } from '@/helpers/category'
 
@@ -40,11 +41,9 @@ export default function HeaderNav({ parentCategory, parentCategoryItem, userInfo
 
   return (
     <>
-      <Bars3Icon
-        type='button'
-        className='@992:hidden inline-block w-7 h-7 cursor-pointer'
-        onClick={() => setOpen(true)}
-      />
+      <OBYButton variant='ghost' className={cn('@992:hidden w-7 h-7')}>
+        <Bars3Icon type='button' onClick={() => setOpen(true)} />
+      </OBYButton>
       <Transition appear show={open} as={Fragment}>
         <Dialog as='div' className='relative z-10' onClose={() => setOpen(false)}>
           <Transition.Child
@@ -71,16 +70,20 @@ export default function HeaderNav({ parentCategory, parentCategoryItem, userInfo
                 leaveTo='-translate-x-full opacity-0'
               >
                 <Dialog.Panel className='w-2/3 min-w-[275px] transform overflow-hidden bg-white p-4 text-left align-middle bsd transition-all'>
-                  <ChevronLeftIcon className='w-6 h-6 cursor-pointer' onClick={() => setOpen(false)} />
+                  <OBYButton variant='ghost' className={cn('w-6 h-6 p-0')} onClick={() => setOpen(false)}>
+                    <ChevronLeftIcon />
+                  </OBYButton>
                   {!userInfo ? (
-                    <OBYLink
-                      href={hrefPath.login}
-                      title='Đăng nhập'
-                      className='flex items-center gap-1.5 py-2.5 border-b border-b-oby-DFDFDF outline-none'
+                    <OBYButton
+                      asChild
+                      variant='ghost'
+                      className={cn('flex justify-start gap-1.5 border-b border-b-oby-DFDFDF')}
                     >
-                      <UserCircleIcon className='w-8 h-8 text-oby-676869' strokeWidth={1} />
-                      <p className='fs-16'>Đăng nhập</p>
-                    </OBYLink>
+                      <OBYLink href={hrefPath.login} title='Đăng nhập'>
+                        <UserCircleIcon className='w-8 h-8 text-oby-676869' strokeWidth={1} />
+                        <p className='fs-16'>Đăng nhập</p>
+                      </OBYLink>
+                    </OBYButton>
                   ) : (
                     <Disclosure as='div' className='py-3 transition-all border-b border-b-oby-DFDFDF relative'>
                       {({ open }) => (
@@ -106,39 +109,40 @@ export default function HeaderNav({ parentCategory, parentCategoryItem, userInfo
                             leaveTo='transform opacity-0'
                           >
                             <Disclosure.Panel>
-                              <Disclosure.Button className='w-full'>
-                                <OBYLink href='/' className='flex items-center justify-between py-2.5 group'>
+                              <OBYButton variant='ghost' asChild className={cn('w-full justify-between group')}>
+                                <OBYLink href='/'>
                                   <p className='fs-14 font-semibold text-oby-676869 group-hover:text-oby-primary transition-colors'>
                                     Hồ sơ của tôi
                                   </p>
                                   <ChevronRightIcon className='w-6 h-6 text-oby-676869 group-hover:text-oby-primary transition-colors' />
                                 </OBYLink>
-                              </Disclosure.Button>
-                              <Disclosure.Button className='w-full'>
-                                <OBYLink href='/' className='flex items-center justify-between py-2.5 group'>
+                              </OBYButton>
+                              <OBYButton variant='ghost' asChild className={cn('w-full justify-between group')}>
+                                <OBYLink href='/'>
                                   <p className='fs-14 font-semibold text-oby-676869 group-hover:text-oby-primary transition-colors'>
                                     Quản lý đơn hàng
                                   </p>
                                   <ChevronRightIcon className='w-6 h-6 text-oby-676869 group-hover:text-oby-primary transition-colors' />
                                 </OBYLink>
-                              </Disclosure.Button>
-                              <Disclosure.Button className='w-full'>
-                                <OBYLink href='/' className='flex items-center justify-between py-2.5 group'>
+                              </OBYButton>
+                              <OBYButton variant='ghost' asChild className={cn('w-full justify-between group')}>
+                                <OBYLink href='/'>
                                   <p className='fs-14 font-semibold text-oby-676869 group-hover:text-oby-primary transition-colors'>
                                     Danh sách địa chỉ
                                   </p>
                                   <ChevronRightIcon className='w-6 h-6 text-oby-676869 group-hover:text-oby-primary transition-colors' />
                                 </OBYLink>
-                              </Disclosure.Button>
-                              <Disclosure.Button
+                              </OBYButton>
+                              <OBYButton
+                                variant='ghost'
+                                className={cn('w-full justify-between group')}
                                 onClick={handleLogout}
-                                className='w-full flex items-center justify-between py-2.5 group'
                               >
                                 <p className='fs-14 font-semibold text-oby-676869 group-hover:text-oby-primary transition-colors'>
                                   Đăng xuất
                                 </p>
                                 <ChevronRightIcon className='w-6 h-6 text-oby-676869 group-hover:text-oby-primary transition-colors' />
-                              </Disclosure.Button>
+                              </OBYButton>
                             </Disclosure.Panel>
                           </Transition>
                         </>

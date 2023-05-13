@@ -1,6 +1,5 @@
 import { Dialog, RadioGroup, Transition } from '@headlessui/react'
 import {
-  ArrowPathIcon,
   BanknotesIcon,
   CheckIcon,
   ChevronLeftIcon,
@@ -52,6 +51,7 @@ import { cacheTime } from '@/constants/config.constant'
 import { hrefPath } from '@/constants/href.constant'
 
 import Input from '@/components/Input'
+import { AsyncButton } from '@/components/UI/Button'
 import { OBYButton, OBYImage } from '@/components/UI/Element'
 import { OBYLocationIcon } from '@/components/UI/OBYIcons'
 
@@ -470,9 +470,9 @@ export default function OrderPage({
             <div className='border border-oby-DFDFDF rounded-2.5 bg-white p-4'>
               <div className='flex items-center justify-between pb-3.5 border-b border-b-oby-DFDFDF mb-3.5'>
                 <p className='@992:fs-18 fs-16 font-bold text-oby-green'>Thông tin giao hàng</p>
-                <OBYButton onClick={() => setIsOpen(true)}>
-                  <span className='@992:fs-16 fs-14 text-oby-primary'>Thay đổi</span>
-                  <ChevronRightIcon className='text-oby-primary w-5 h-5' />
+                <OBYButton variant='link' size='link' onClick={() => setIsOpen(true)}>
+                  <span className='@992:fs-16 fs-14'>Thay đổi</span>
+                  <ChevronRightIcon className='w-5 h-5' />
                 </OBYButton>
               </div>
               {addressInformation ? (
@@ -847,17 +847,13 @@ export default function OrderPage({
                             errorMessage={errors.note?.message}
                             register={register}
                           />
-                          <OBYButton
+                          <AsyncButton
                             type='submit'
-                            disabled={setBillingAddressMutation.isLoading}
-                            className='mt-6 rounded-4 border border-transparent transition-colors bg-oby-primary disabled:bg-oby-primary/40 disabled:cursor-not-allowed py-2.5 fs-16 text-white w-full'
+                            isLoading={setBillingAddressMutation.isLoading}
+                            className='mt-6 fs-16 text-white w-full'
                           >
-                            {setBillingAddressMutation.isLoading ? (
-                              <ArrowPathIcon className='animate-spin w-6 h-6 text-white' />
-                            ) : (
-                              'Xác nhận'
-                            )}
-                          </OBYButton>
+                            Xác nhận
+                          </AsyncButton>
                         </form>
                       </Dialog.Panel>
                     </Transition.Child>
@@ -873,7 +869,8 @@ export default function OrderPage({
                 <OBYButton
                   onClick={() => setIsMethodOpen(true)}
                   disabled={!billing?.city && !EstimateShippingRes}
-                  className='disabled:cursor-not-allowed'
+                  variant='link'
+                  size='link'
                 >
                   <span className='@992:fs-16 fs-14 text-oby-primary'>Thay đổi</span>
                   <ChevronRightIcon className='text-oby-primary w-5 h-5' />
@@ -946,17 +943,14 @@ export default function OrderPage({
                                   </RadioGroup.Option>
                                 ))}
                               </div>
-                              <OBYButton
-                                disabled={setAddressAndBillingMutation.isLoading || !shipMethod}
+                              <AsyncButton
+                                isLoading={setAddressAndBillingMutation.isLoading}
+                                disabled={!shipMethod || setAddressAndBillingMutation.isLoading}
                                 onClick={setAddressAndBilling}
-                                className='@992:mt-6 mt-5 rounded-4 border border-transparent transition-colors disabled:bg-oby-primary/40 bg-oby-primary py-2.5 @992:fs-16 fs-14 text-white w-full disabled:cursor-not-allowed'
+                                className='@992:mt-6 mt-5 @992:fs-16 fs-14 w-full'
                               >
-                                {setAddressAndBillingMutation.isLoading ? (
-                                  <ArrowPathIcon className='w-6 h-6 text-white animate-spin' />
-                                ) : (
-                                  'Xác nhận'
-                                )}
-                              </OBYButton>
+                                Xác nhận
+                              </AsyncButton>
                             </RadioGroup>
                           </Dialog.Panel>
                         </Transition.Child>
@@ -1116,7 +1110,7 @@ export default function OrderPage({
                     </p>
                   </div>
                 </div>
-                <OBYButton
+                <AsyncButton
                   disabled={
                     !billing?.city ||
                     !selected ||
@@ -1124,15 +1118,12 @@ export default function OrderPage({
                     paymentInformationMutation.isLoading ||
                     captureMomoMutation.isLoading
                   }
+                  isLoading={paymentInformationMutation.isLoading || captureMomoMutation.isLoading}
                   onClick={handlePayment}
-                  className='@992:mt-5 mt-3 bg-oby-primary transition-colors disabled:bg-oby-primary/40 disabled:cursor-not-allowed text-white w-full py-2.5 rounded-4'
+                  className='@992:mt-5 mt-3 text-white w-full'
                 >
-                  {paymentInformationMutation.isLoading || captureMomoMutation.isLoading ? (
-                    <ArrowPathIcon className='w-6 h-6 text-white animate-spin' />
-                  ) : (
-                    'Tiếp tục'
-                  )}
-                </OBYButton>
+                  Tiếp tục
+                </AsyncButton>
               </div>
             </div>
           </div>

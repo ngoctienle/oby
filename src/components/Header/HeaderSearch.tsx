@@ -62,13 +62,17 @@ export default function HeaderSearch() {
 
     const config = {
       ...queryConfig,
-      name: data ? (data.get('name') as string) : undefined
+      name: data && (data.get('name') as string)
     }
 
-    router.push({
-      pathname: hrefPath.find,
-      query: config
-    })
+    if (config.name) {
+      router.push({
+        pathname: hrefPath.find,
+        query: config
+      })
+
+      setIsOpen(false)
+    }
   }
 
   const filterStr = (str: string, searchStr: string) => {
