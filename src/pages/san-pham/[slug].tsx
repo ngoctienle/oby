@@ -159,7 +159,7 @@ export default function ProductDetail({ subName, productData, parentName, produc
   const meta = generateMetaSEO({
     title: productName,
     description: slicedDescription,
-    keywords: [subName, parentName, productName, 'ongbayeu.vn'],
+    keywords: [subName, parentName, productName, 'ongbayeu.com'],
     og_image: generateProductImageFromMagento(productData.custom_attributes),
     og_image_alt: productName,
     slug: hrefPath.productDetail + '/' + slug

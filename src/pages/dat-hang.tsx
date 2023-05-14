@@ -28,6 +28,7 @@ import {
 } from '@/@types/payment.type'
 
 import { FillPaymentForm, fillPaymentForm } from '@/libs/rules'
+import { generateMetaSEO } from '@/libs/seo'
 import twclsx from '@/libs/twclsx'
 
 import { formatAddress, formatCurrency, generateName, getShippingMethod, mergeArrayItems } from '@/helpers'
@@ -54,6 +55,7 @@ import Input from '@/components/Input'
 import { AsyncButton } from '@/components/UI/Button'
 import { OBYButton, OBYImage } from '@/components/UI/Element'
 import { OBYLocationIcon } from '@/components/UI/OBYIcons'
+import { OBYSeo } from '@/components/UI/OBYSeo'
 
 interface IOrderPage {
   userToken: string
@@ -436,247 +438,175 @@ export default function OrderPage({
     })
   }
 
+  const meta = generateMetaSEO({
+    title: 'Ông Bà Yêu',
+    template: 'Đặt Hàng',
+    description:
+      'Ông Bà Yêu là một cửa hàng trực tuyến chuyên cung cấp các sản phẩm tổng hợp nhằm phục vụ cho người cao tuổi cùng với dịch vụ hỗ trợ khách hàng đặc biệt, đem đến cho khách hàng một cuộc sống chất lượng nhất.',
+    keywords: [`OBY, Ông Bà Yêu, ongbayeu.com`],
+    og_image_alt: 'Ông Bà Yêu',
+    slug: '/dat-hang'
+  })
+
   return (
-    <div className='@992:pt-7.5 pt-2 min-h-[50%]'>
-      <div className='container'>
-        {/* Processing */}
-        <div className='flex items-center max-w-[426px] justify-between mx-auto relative'>
-          <div className='absolute w-[80%] h-[1px] top-[35%] left-1/2 -translate-x-1/2 -z-10 bg-oby-DFDFDF' />
-          <div className='absolute w-[40%] h-[1px] top-[35%] left-7 -z-9 bg-oby-primary' />
-          <div className='flex flex-col items-center @768:gap-1.5 gap-1 relative z-1'>
-            <div className='@768:w-[56px] w-10 flex items-center justify-center @768:h-[56px] h-10 rounded-full bg-oby-E4FBDB'>
-              <ShoppingBagIcon className='@768:w-8 @768:h-8 w-6 h-6 text-oby-green' />
-            </div>
-            <p className='@768:fs-14 fs-12 text-oby-green font-semibold'>Giỏ hàng</p>
-          </div>
-          <div className='flex flex-col items-center gap-1.5 relative z-1'>
-            <div className='@768:w-[56px] w-10 flex items-center justify-center @768:h-[56px] h-10 rounded-full bg-oby-E4FBDB'>
-              <BanknotesIcon className='@768:w-8 @768:h-8 w-6 h-6 text-oby-green' />
-            </div>
-            <p className='@768:fs-14 fs-12 text-oby-green font-semibold'>Tiến hành đặt hàng</p>
-          </div>
-          <div className='flex flex-col items-center gap-1.5 relative z-1'>
-            <div className='@768:w-[56px] w-10 flex items-center justify-center @768:h-[56px] h-10 rounded-full bg-oby-F6F7F8'>
-              <CheckIcon className='@768:w-8 @768:h-8 w-6 h-6 text-oby-9A9898' />
-            </div>
-            <p className='@768:fs-14 fs-12 text-oby-9A9898'>Hoàn thành</p>
-          </div>
-        </div>
-
-        {/* Content */}
-        <div className='@992:mt-7.5 mt-4 grid grid-cols-12 @992:gap-10 gap-5'>
-          <div className='@992:col-span-8 col-span-12'>
-            {/* Information User */}
-            <div className='border border-oby-DFDFDF rounded-2.5 bg-white p-4'>
-              <div className='flex items-center justify-between pb-3.5 border-b border-b-oby-DFDFDF mb-3.5'>
-                <p className='@992:fs-18 fs-16 font-bold text-oby-green'>Thông tin giao hàng</p>
-                <OBYButton variant='link' size='link' onClick={() => setIsOpen(true)}>
-                  <span className='@992:fs-16 fs-14'>Thay đổi</span>
-                  <ChevronRightIcon className='w-5 h-5' />
-                </OBYButton>
+    <>
+      <OBYSeo {...meta} />
+      <div className='@992:pt-7.5 pt-2 min-h-[50%]'>
+        <div className='container'>
+          {/* Processing */}
+          <div className='flex items-center max-w-[426px] justify-between mx-auto relative'>
+            <div className='absolute w-[80%] h-[1px] top-[35%] left-1/2 -translate-x-1/2 -z-10 bg-oby-DFDFDF' />
+            <div className='absolute w-[40%] h-[1px] top-[35%] left-7 -z-9 bg-oby-primary' />
+            <div className='flex flex-col items-center @768:gap-1.5 gap-1 relative z-1'>
+              <div className='@768:w-[56px] w-10 flex items-center justify-center @768:h-[56px] h-10 rounded-full bg-oby-E4FBDB'>
+                <ShoppingBagIcon className='@768:w-8 @768:h-8 w-6 h-6 text-oby-green' />
               </div>
-              {addressInformation ? (
-                <>
-                  <p className='@992:fs-16 fs-14 font-semibold flex items-center'>
-                    <OBYLocationIcon className='w-6 h-6 mr-1 text-oby-676869' />
-                    <span>{addressInformation.nameAndPhone}</span>
-                  </p>
-                  <p className='@992:fs-16 fs-14 mt-2'>{addressInformation.address}</p>
-                </>
-              ) : (
-                <p className='@992:fs-16 fs-14 text-oby-9A9898'>Vui lòng nhập thông tin giao hàng để tiếp tục</p>
-              )}
+              <p className='@768:fs-14 fs-12 text-oby-green font-semibold'>Giỏ hàng</p>
             </div>
-            <Transition show={isOpen} as={Fragment}>
-              <Dialog as='div' className='relative z-10' onClose={() => setIsOpen(false)}>
-                <Transition.Child
-                  as={Fragment}
-                  enter='ease-out duration-300'
-                  enterFrom='opacity-0'
-                  enterTo='opacity-100'
-                  leave='ease-in duration-200'
-                  leaveFrom='opacity-100'
-                  leaveTo='opacity-0'
-                >
-                  <div className='fixed inset-0 bg-black/30' />
-                </Transition.Child>
+            <div className='flex flex-col items-center gap-1.5 relative z-1'>
+              <div className='@768:w-[56px] w-10 flex items-center justify-center @768:h-[56px] h-10 rounded-full bg-oby-E4FBDB'>
+                <BanknotesIcon className='@768:w-8 @768:h-8 w-6 h-6 text-oby-green' />
+              </div>
+              <p className='@768:fs-14 fs-12 text-oby-green font-semibold'>Tiến hành đặt hàng</p>
+            </div>
+            <div className='flex flex-col items-center gap-1.5 relative z-1'>
+              <div className='@768:w-[56px] w-10 flex items-center justify-center @768:h-[56px] h-10 rounded-full bg-oby-F6F7F8'>
+                <CheckIcon className='@768:w-8 @768:h-8 w-6 h-6 text-oby-9A9898' />
+              </div>
+              <p className='@768:fs-14 fs-12 text-oby-9A9898'>Hoàn thành</p>
+            </div>
+          </div>
 
-                <div className='fixed inset-0 overflow-y-auto'>
-                  <div className='flex min-h-full items-center justify-center p-4 text-center'>
-                    <Transition.Child
-                      as={Fragment}
-                      enter='ease-out duration-300'
-                      enterFrom='opacity-0 scale-95'
-                      enterTo='opacity-100 scale-100'
-                      leave='ease-in duration-200'
-                      leaveFrom='opacity-100 scale-100'
-                      leaveTo='opacity-0 scale-95'
-                    >
-                      <Dialog.Panel className='w-full max-w-xl h-[730px] transform overflow-hidden rounded-2.5 bg-white @992:px-6 px-4 @992:py-7.5 py-5 text-left align-middle shadow-xl transition-all'>
-                        <Dialog.Title as='h3' className='@992:fs-18 fs-16 font-semibold text-center'>
-                          Thông tin giao hàng
-                        </Dialog.Title>
-                        <XMarkIcon
-                          className='w-6 h-6 text-oby-676869 absolute @992:top-7.5 top-5 @992:right-6 right-4 cursor-pointer'
-                          type='button'
-                          onClick={() => setIsOpen(false)}
-                        />
-                        <form noValidate className='@992:mt-6 mt-5 overflow-y-auto max-h-[630px]' onSubmit={onSubmit}>
-                          <p className='@992:fs-16 fs-14 text-oby-green font-semibold'>Liên hệ</p>
-                          <Controller
-                            name='fullname'
-                            control={control}
-                            defaultValue={(addressInformation && addressInformation.fullname) || undefined}
-                            render={({ field }) => (
-                              <Input
-                                type='text'
-                                placeholder='Họ và tên'
-                                className='mt-3'
-                                {...field}
-                                value={field.value}
-                                onChange={field.onChange}
-                                errorMessage={errors.fullname?.message}
-                                register={register}
-                              />
-                            )}
-                          />
-                          <Controller
-                            name='email'
-                            control={control}
-                            defaultValue={(billing && billing.email) || undefined}
-                            render={({ field }) => (
-                              <Input
-                                type='email'
-                                placeholder='Địa chỉ email'
-                                className='mt-3'
-                                {...field}
-                                value={field.value}
-                                onChange={field.onChange}
-                                errorMessage={errors.email?.message}
-                                register={register}
-                              />
-                            )}
-                          />
-                          <Controller
-                            name='phone'
-                            control={control}
-                            defaultValue={(billing && billing.telephone) || undefined}
-                            render={({ field }) => (
-                              <Input
-                                type='text'
-                                placeholder='Số điện thoại'
-                                className='mt-3'
-                                {...field}
-                                value={field.value}
-                                onChange={field.onChange}
-                                errorMessage={errors.phone?.message}
-                                register={register}
-                              />
-                            )}
-                          />
+          {/* Content */}
+          <div className='@992:mt-7.5 mt-4 grid grid-cols-12 @992:gap-10 gap-5'>
+            <div className='@992:col-span-8 col-span-12'>
+              {/* Information User */}
+              <div className='border border-oby-DFDFDF rounded-2.5 bg-white p-4'>
+                <div className='flex items-center justify-between pb-3.5 border-b border-b-oby-DFDFDF mb-3.5'>
+                  <p className='@992:fs-18 fs-16 font-bold text-oby-green'>Thông tin giao hàng</p>
+                  <OBYButton variant='link' size='link' onClick={() => setIsOpen(true)}>
+                    <span className='@992:fs-16 fs-14'>Thay đổi</span>
+                    <ChevronRightIcon className='w-5 h-5' />
+                  </OBYButton>
+                </div>
+                {addressInformation ? (
+                  <>
+                    <p className='@992:fs-16 fs-14 font-semibold flex items-center'>
+                      <OBYLocationIcon className='w-6 h-6 mr-1 text-oby-676869' />
+                      <span>{addressInformation.nameAndPhone}</span>
+                    </p>
+                    <p className='@992:fs-16 fs-14 mt-2'>{addressInformation.address}</p>
+                  </>
+                ) : (
+                  <p className='@992:fs-16 fs-14 text-oby-9A9898'>Vui lòng nhập thông tin giao hàng để tiếp tục</p>
+                )}
+              </div>
+              <Transition show={isOpen} as={Fragment}>
+                <Dialog as='div' className='relative z-10' onClose={() => setIsOpen(false)}>
+                  <Transition.Child
+                    as={Fragment}
+                    enter='ease-out duration-300'
+                    enterFrom='opacity-0'
+                    enterTo='opacity-100'
+                    leave='ease-in duration-200'
+                    leaveFrom='opacity-100'
+                    leaveTo='opacity-0'
+                  >
+                    <div className='fixed inset-0 bg-black/30' />
+                  </Transition.Child>
 
-                          <p className='@992:fs-16 fs-14 @992:mt-5 mt-4 text-oby-green font-semibold'>Địa chỉ</p>
-                          <Input
-                            name='provine'
-                            type='text'
-                            className='mt-3'
-                            classNameInput='cursor-pointer'
-                            placeholder='Tỉnh/Thành phố'
-                            defaultValue={billing?.city ? billing.city : undefined}
-                            /* value={(selectedProvine?.name && selectedProvine.name) || ''} */
-                            readOnly
-                            isRead
-                            onClick={() => setIsProvineOpen(true)}
-                            errorMessage={errors.provine?.message}
-                            register={register}
+                  <div className='fixed inset-0 overflow-y-auto'>
+                    <div className='flex min-h-full items-center justify-center p-4 text-center'>
+                      <Transition.Child
+                        as={Fragment}
+                        enter='ease-out duration-300'
+                        enterFrom='opacity-0 scale-95'
+                        enterTo='opacity-100 scale-100'
+                        leave='ease-in duration-200'
+                        leaveFrom='opacity-100 scale-100'
+                        leaveTo='opacity-0 scale-95'
+                      >
+                        <Dialog.Panel className='w-full max-w-xl h-[730px] transform overflow-hidden rounded-2.5 bg-white @992:px-6 px-4 @992:py-7.5 py-5 text-left align-middle shadow-xl transition-all'>
+                          <Dialog.Title as='h3' className='@992:fs-18 fs-16 font-semibold text-center'>
+                            Thông tin giao hàng
+                          </Dialog.Title>
+                          <XMarkIcon
+                            className='w-6 h-6 text-oby-676869 absolute @992:top-7.5 top-5 @992:right-6 right-4 cursor-pointer'
+                            type='button'
+                            onClick={() => setIsOpen(false)}
                           />
-                          {/* Modal Provine */}
-                          <Transition show={isProvineOpen} as={Fragment}>
-                            <Dialog as='div' className='relative z-[11]' onClose={() => setIsProvineOpen(false)}>
-                              <Transition.Child
-                                as={Fragment}
-                                enter='ease-out duration-300'
-                                enterFrom='opacity-0'
-                                enterTo='opacity-100'
-                                leave='ease-in duration-200'
-                                leaveFrom='opacity-100'
-                                leaveTo='opacity-0'
-                              >
-                                <div className='fixed inset-0 bg-black/30' />
-                              </Transition.Child>
+                          <form noValidate className='@992:mt-6 mt-5 overflow-y-auto max-h-[630px]' onSubmit={onSubmit}>
+                            <p className='@992:fs-16 fs-14 text-oby-green font-semibold'>Liên hệ</p>
+                            <Controller
+                              name='fullname'
+                              control={control}
+                              defaultValue={(addressInformation && addressInformation.fullname) || undefined}
+                              render={({ field }) => (
+                                <Input
+                                  type='text'
+                                  placeholder='Họ và tên'
+                                  className='mt-3'
+                                  {...field}
+                                  value={field.value}
+                                  onChange={field.onChange}
+                                  errorMessage={errors.fullname?.message}
+                                  register={register}
+                                />
+                              )}
+                            />
+                            <Controller
+                              name='email'
+                              control={control}
+                              defaultValue={(billing && billing.email) || undefined}
+                              render={({ field }) => (
+                                <Input
+                                  type='email'
+                                  placeholder='Địa chỉ email'
+                                  className='mt-3'
+                                  {...field}
+                                  value={field.value}
+                                  onChange={field.onChange}
+                                  errorMessage={errors.email?.message}
+                                  register={register}
+                                />
+                              )}
+                            />
+                            <Controller
+                              name='phone'
+                              control={control}
+                              defaultValue={(billing && billing.telephone) || undefined}
+                              render={({ field }) => (
+                                <Input
+                                  type='text'
+                                  placeholder='Số điện thoại'
+                                  className='mt-3'
+                                  {...field}
+                                  value={field.value}
+                                  onChange={field.onChange}
+                                  errorMessage={errors.phone?.message}
+                                  register={register}
+                                />
+                              )}
+                            />
 
-                              <div className='fixed inset-0 overflow-y-auto'>
-                                <div className='flex min-h-full items-center justify-center p-4 text-center'>
-                                  <Transition.Child
-                                    as={Fragment}
-                                    enter='ease-out duration-300'
-                                    enterFrom='opacity-0 scale-95'
-                                    enterTo='opacity-100 scale-100'
-                                    leave='ease-in duration-200'
-                                    leaveFrom='opacity-100 scale-100'
-                                    leaveTo='opacity-0 scale-95'
-                                  >
-                                    <Dialog.Panel className='w-[576px] relative max-w-xl h-[730px] transform overflow-hidden rounded-2.5 bg-white @992:px-6 px-4 @992:py-7.5 py-5 text-left align-middle shadow-xl transition-all'>
-                                      <Dialog.Title as='h3' className='@992:fs-18 fs-16 font-semibold text-center'>
-                                        Tỉnh/Thành phố
-                                      </Dialog.Title>
-                                      <ChevronLeftIcon
-                                        className='w-6 h-6 text-oby-676869 absolute @992:top-7.5 top-5 @992:left-6 left-4 cursor-pointer'
-                                        type='button'
-                                        onClick={() => setIsProvineOpen(false)}
-                                      />
-                                      <div className='my-6 flex flex-col items-center'>
-                                        <p>Search TODO</p>
-                                      </div>
-                                      <div className='overflow-y-scroll max-h-[550px]'>
-                                        <p className='@992:fs-14 fs-12 mb-1.5'>Tỉnh/Thành phố</p>
-                                        {filteredProvine.map((provine, index) => (
-                                          <div
-                                            className='py-2.5 border-b cursor-pointer border-b-DFDFDF flex items-center justify-between'
-                                            key={provine.codename}
-                                            tabIndex={index}
-                                            onClick={() => handleSelectProvine(provine.name, provine.code)}
-                                          >
-                                            <p
-                                              className={twclsx(
-                                                '@992:fs-16 fs-14',
-                                                selectedProvine?.name === provine.name && 'text-oby-primary'
-                                              )}
-                                            >
-                                              {provine.name}
-                                            </p>
-                                            {selectedProvine?.name === provine.name && (
-                                              <CheckIcon className='w-6 h-6 text-oby-primary' />
-                                            )}
-                                          </div>
-                                        ))}
-                                      </div>
-                                    </Dialog.Panel>
-                                  </Transition.Child>
-                                </div>
-                              </div>
-                            </Dialog>
-                          </Transition>
-                          {/* End Modal Provine */}
-                          <Input
-                            type='text'
-                            name='district'
-                            className='mt-3'
-                            classNameInput='cursor-pointer'
-                            placeholder='Quận/Huyện'
-                            defaultValue={(billing?.region && billing.region) || undefined}
-                            /* value={selectedDistrict?.name || ''} */
-                            disabled={selectedProvine?.name ? false : true}
-                            readOnly
-                            isRead
-                            onClick={() => setIsDistrictOpen(true)}
-                            errorMessage={errors.district?.message}
-                            register={register}
-                          />
-                          {/* Modal District */}
-                          {districtArr && (
-                            <Transition show={isDistrictOpen} as={Fragment}>
-                              <Dialog as='div' className='relative z-[11]' onClose={() => setIsDistrictOpen(false)}>
+                            <p className='@992:fs-16 fs-14 @992:mt-5 mt-4 text-oby-green font-semibold'>Địa chỉ</p>
+                            <Input
+                              name='provine'
+                              type='text'
+                              className='mt-3'
+                              classNameInput='cursor-pointer'
+                              placeholder='Tỉnh/Thành phố'
+                              defaultValue={billing?.city ? billing.city : undefined}
+                              /* value={(selectedProvine?.name && selectedProvine.name) || ''} */
+                              readOnly
+                              isRead
+                              onClick={() => setIsProvineOpen(true)}
+                              errorMessage={errors.provine?.message}
+                              register={register}
+                            />
+                            {/* Modal Provine */}
+                            <Transition show={isProvineOpen} as={Fragment}>
+                              <Dialog as='div' className='relative z-[11]' onClose={() => setIsProvineOpen(false)}>
                                 <Transition.Child
                                   as={Fragment}
                                   enter='ease-out duration-300'
@@ -702,34 +632,34 @@ export default function OrderPage({
                                     >
                                       <Dialog.Panel className='w-[576px] relative max-w-xl h-[730px] transform overflow-hidden rounded-2.5 bg-white @992:px-6 px-4 @992:py-7.5 py-5 text-left align-middle shadow-xl transition-all'>
                                         <Dialog.Title as='h3' className='@992:fs-18 fs-16 font-semibold text-center'>
-                                          Quận/Huyện
+                                          Tỉnh/Thành phố
                                         </Dialog.Title>
                                         <ChevronLeftIcon
                                           className='w-6 h-6 text-oby-676869 absolute @992:top-7.5 top-5 @992:left-6 left-4 cursor-pointer'
                                           type='button'
-                                          onClick={() => setIsDistrictOpen(false)}
+                                          onClick={() => setIsProvineOpen(false)}
                                         />
                                         <div className='my-6 flex flex-col items-center'>
-                                          <p className='fs-16 text-oby-676869'>Todo Input</p>
+                                          <p>Search TODO</p>
                                         </div>
                                         <div className='overflow-y-scroll max-h-[550px]'>
-                                          <p className='@992:fs-14 fs-12 mb-1.5'>Quận/Huyện</p>
-                                          {districtArr.map((district, index) => (
+                                          <p className='@992:fs-14 fs-12 mb-1.5'>Tỉnh/Thành phố</p>
+                                          {filteredProvine.map((provine, index) => (
                                             <div
                                               className='py-2.5 border-b cursor-pointer border-b-DFDFDF flex items-center justify-between'
-                                              key={district.codename}
+                                              key={provine.codename}
                                               tabIndex={index}
-                                              onClick={() => handleSelectDistrict(district.name, district.code)}
+                                              onClick={() => handleSelectProvine(provine.name, provine.code)}
                                             >
                                               <p
                                                 className={twclsx(
                                                   '@992:fs-16 fs-14',
-                                                  selectedDistrict?.name === district.name && 'text-oby-primary'
+                                                  selectedProvine?.name === provine.name && 'text-oby-primary'
                                                 )}
                                               >
-                                                {district.name}
+                                                {provine.name}
                                               </p>
-                                              {selectedDistrict?.name === district.name && (
+                                              {selectedProvine?.name === provine.name && (
                                                 <CheckIcon className='w-6 h-6 text-oby-primary' />
                                               )}
                                             </div>
@@ -741,395 +671,486 @@ export default function OrderPage({
                                 </div>
                               </Dialog>
                             </Transition>
-                          )}
-                          {/* End Modal District */}
-                          <Input
-                            type='text'
-                            name='ward'
-                            className='mt-3'
-                            classNameInput='cursor-pointer'
-                            placeholder='Phường/Xã'
-                            defaultValue={billing && billing.street.length > 0 ? billing.street[1] : undefined}
-                            /* value={selectedWard?.name || ''} */
-                            disabled={selectedDistrict?.name ? false : true}
-                            readOnly
-                            isRead
-                            onClick={() => setIsWardOpen(true)}
-                            errorMessage={errors.ward?.message}
-                            register={register}
-                          />
-                          {/* Ward Modal */}
-                          {wardArr && (
-                            <Transition show={isWardOpen} as={Fragment}>
-                              <Dialog as='div' className='relative z-[11]' onClose={() => setIsWardOpen(false)}>
-                                <Transition.Child
-                                  as={Fragment}
-                                  enter='ease-out duration-300'
-                                  enterFrom='opacity-0'
-                                  enterTo='opacity-100'
-                                  leave='ease-in duration-200'
-                                  leaveFrom='opacity-100'
-                                  leaveTo='opacity-0'
-                                >
-                                  <div className='fixed inset-0 bg-black/30' />
-                                </Transition.Child>
-
-                                <div className='fixed inset-0 overflow-y-auto'>
-                                  <div className='flex min-h-full items-center justify-center p-4 text-center'>
-                                    <Transition.Child
-                                      as={Fragment}
-                                      enter='ease-out duration-300'
-                                      enterFrom='opacity-0 scale-95'
-                                      enterTo='opacity-100 scale-100'
-                                      leave='ease-in duration-200'
-                                      leaveFrom='opacity-100 scale-100'
-                                      leaveTo='opacity-0 scale-95'
-                                    >
-                                      <Dialog.Panel className='w-[576px] relative max-w-xl h-[730px] transform overflow-hidden rounded-2.5 bg-white @992:px-6 px-4 @992:py-7.5 py-5 text-left align-middle shadow-xl transition-all'>
-                                        <Dialog.Title as='h3' className='@992:fs-18 fs-16 font-semibold text-center'>
-                                          Phường/Xã
-                                        </Dialog.Title>
-                                        <ChevronLeftIcon
-                                          className='w-6 h-6 text-oby-676869 absolute @992:top-7.5 @992:left-6 top-5 left-4 cursor-pointer'
-                                          type='button'
-                                          onClick={() => setIsWardOpen(false)}
-                                        />
-                                        <div className='my-6 flex flex-col items-center'>
-                                          <p className='fs-16 text-oby-676869'>Todo Input</p>
-                                        </div>
-                                        <div className='overflow-y-scroll max-h-[550px]'>
-                                          <p className='@992:fs-14 fs-12 mb-1.5'>Phường/Xã</p>
-                                          {wardArr.map((ward, index) => (
-                                            <div
-                                              className='py-2.5 border-b cursor-pointer border-b-DFDFDF flex items-center justify-between'
-                                              key={ward.codename}
-                                              tabIndex={index}
-                                              onClick={() => handleSelectWard(ward.name, ward.code)}
-                                            >
-                                              <p
-                                                className={twclsx(
-                                                  '@992:fs-16 fs-14',
-                                                  selectedWard?.name === ward.name && 'text-oby-primary'
-                                                )}
-                                              >
-                                                {ward.name}
-                                              </p>
-                                              {selectedWard?.code === ward.code && (
-                                                <CheckIcon className='w-6 h-6 text-oby-primary' />
-                                              )}
-                                            </div>
-                                          ))}
-                                        </div>
-                                      </Dialog.Panel>
-                                    </Transition.Child>
-                                  </div>
-                                </div>
-                              </Dialog>
-                            </Transition>
-                          )}
-                          <Input
-                            type='text'
-                            placeholder='Địa chỉ cụ thể (số nhà, tên đường,...)'
-                            name='address'
-                            className='mt-3'
-                            defaultValue={(billing && billing.street[0]) || undefined}
-                            errorMessage={errors.address?.message}
-                            register={register}
-                          />
-                          <p className='@992:fs-16 fs-14 @992:mt-5 mt-4 text-oby-green font-semibold'>
-                            Ghi chú (nếu có)
-                          </p>
-                          <Input
-                            type='text'
-                            placeholder='Ghi chú đơn hàng'
-                            name='note'
-                            className='mt-3'
-                            errorMessage={errors.note?.message}
-                            register={register}
-                          />
-                          <AsyncButton
-                            type='submit'
-                            isLoading={setBillingAddressMutation.isLoading}
-                            className='mt-6 fs-16 text-white w-full'
-                          >
-                            Xác nhận
-                          </AsyncButton>
-                        </form>
-                      </Dialog.Panel>
-                    </Transition.Child>
-                  </div>
-                </div>
-              </Dialog>
-            </Transition>
-
-            {/* Shipping Method & Fee */}
-            <div className='border border-oby-DFDFDF rounded-2.5 bg-white p-4 @992:mt-5 mt-4'>
-              <div className='flex items-center justify-between pb-3.5 border-b border-b-oby-DFDFDF mb-3.5'>
-                <p className='@992:fs-18 fs-16 font-bold text-oby-green'>Phương thức vận chuyển</p>
-                <OBYButton
-                  onClick={() => setIsMethodOpen(true)}
-                  disabled={!billing?.city && !EstimateShippingRes}
-                  variant='link'
-                  size='link'
-                >
-                  <span className='@992:fs-16 fs-14 text-oby-primary'>Thay đổi</span>
-                  <ChevronRightIcon className='text-oby-primary w-5 h-5' />
-                </OBYButton>
-                <Transition show={isMethodOpen} as={Fragment}>
-                  <Dialog as='div' className='relative z-10' onClose={() => setIsMethodOpen(false)}>
-                    <Transition.Child
-                      as={Fragment}
-                      enter='ease-out duration-300'
-                      enterFrom='opacity-0'
-                      enterTo='opacity-100'
-                      leave='ease-in duration-200'
-                      leaveFrom='opacity-100'
-                      leaveTo='opacity-0'
-                    >
-                      <div className='fixed inset-0 bg-black/30' />
-                    </Transition.Child>
-
-                    <div className='fixed inset-0 overflow-y-auto'>
-                      <div className='flex min-h-full items-center justify-center p-4 text-center'>
-                        <Transition.Child
-                          as={Fragment}
-                          enter='ease-out duration-300'
-                          enterFrom='opacity-0 scale-95'
-                          enterTo='opacity-100 scale-100'
-                          leave='ease-in duration-200'
-                          leaveFrom='opacity-100 scale-100'
-                          leaveTo='opacity-0 scale-95'
-                        >
-                          <Dialog.Panel className='w-full relative max-w-md transform overflow-hidden rounded-2.5 bg-white @992:px-6 @992:py-7.5 px-4 py-5 text-left align-middle shadow-xl transition-all'>
-                            <Dialog.Title as='h3' className='@992:fs-18 fs-16 font-semibold text-center'>
-                              Phương thức vận chuyển
-                            </Dialog.Title>
-                            <XMarkIcon
-                              className='w-6 h-6 text-oby-676869 absolute @992:top-7.5 @992:right-6 top-5 right-4 cursor-pointer'
-                              type='button'
-                              onClick={() => setIsMethodOpen(false)}
+                            {/* End Modal Provine */}
+                            <Input
+                              type='text'
+                              name='district'
+                              className='mt-3'
+                              classNameInput='cursor-pointer'
+                              placeholder='Quận/Huyện'
+                              defaultValue={(billing?.region && billing.region) || undefined}
+                              /* value={selectedDistrict?.name || ''} */
+                              disabled={selectedProvine?.name ? false : true}
+                              readOnly
+                              isRead
+                              onClick={() => setIsDistrictOpen(true)}
+                              errorMessage={errors.district?.message}
+                              register={register}
                             />
-                            <RadioGroup value={shipMethod} onChange={setShipMethod}>
-                              <div className='flex flex-col gap-3 justify-between @992:mt-6 mt-5'>
-                                {EstimateShippingRes?.data?.map((plan) => (
-                                  <RadioGroup.Option
-                                    key={plan.carrier_code}
-                                    value={plan.carrier_code}
-                                    className={({ checked }) =>
-                                      twclsx(
-                                        `rounded-4 border cursor-pointer flex items-center justify-between transition-colors py-3 @992:px-4 px-3`,
-                                        checked ? 'bg-oby-E4FBDB border-oby-green' : 'border-oby-DFDFDF bg-white'
-                                      )
-                                    }
+                            {/* Modal District */}
+                            {districtArr && (
+                              <Transition show={isDistrictOpen} as={Fragment}>
+                                <Dialog as='div' className='relative z-[11]' onClose={() => setIsDistrictOpen(false)}>
+                                  <Transition.Child
+                                    as={Fragment}
+                                    enter='ease-out duration-300'
+                                    enterFrom='opacity-0'
+                                    enterTo='opacity-100'
+                                    leave='ease-in duration-200'
+                                    leaveFrom='opacity-100'
+                                    leaveTo='opacity-0'
                                   >
-                                    {({ checked }) => {
-                                      return (
-                                        <>
-                                          <RadioGroup.Label
-                                            as='p'
-                                            className={checked ? 'text-oby-green @992:fs-16 fs-14' : '@992:fs-16 fs-14'}
-                                          >
-                                            {plan.method_title}
-                                          </RadioGroup.Label>
-                                          <RadioGroup.Description
-                                            as='p'
-                                            className={checked ? 'text-oby-green @992:fs-16 fs-14' : '@992:fs-16 fs-14'}
-                                          >
-                                            {formatCurrency(plan.amount)}
-                                          </RadioGroup.Description>
-                                        </>
-                                      )
-                                    }}
-                                  </RadioGroup.Option>
-                                ))}
-                              </div>
-                              <AsyncButton
-                                isLoading={setAddressAndBillingMutation.isLoading}
-                                disabled={!shipMethod || setAddressAndBillingMutation.isLoading}
-                                onClick={setAddressAndBilling}
-                                className='@992:mt-6 mt-5 @992:fs-16 fs-14 w-full'
-                              >
-                                Xác nhận
-                              </AsyncButton>
-                            </RadioGroup>
-                          </Dialog.Panel>
-                        </Transition.Child>
-                      </div>
-                    </div>
-                  </Dialog>
-                </Transition>
-              </div>
-              {selectedMethod ? (
-                <div className='flex items-center justify-between'>
-                  <p className='font-semibold @992:fs-16 fs-14'>{selectedMethod.name}</p>
-                  <p className='font-semibold @992:fs-16 fs-14'>{formatCurrency(selectedMethod.value as number)}</p>
-                </div>
-              ) : (
-                <p className='@992:fs-16 fs-14 text-oby-9A9898'>
-                  Vui lòng chọn Thông tin giao hàng để xem danh sách phương thức vận chuyển
-                </p>
-              )}
-            </div>
-            <div className='mt-5'>
-              {initializeData &&
-                initializeData.map((item) => (
-                  <div
-                    className='@992:p-5 py-3.5 px-4 border border-oby-DFDFDF bg-white rounded-tl-4 rounded-br-4 first:mt-0 @992:mt-4 mt-3 flex @992:gap-5 gap-3.5'
-                    key={item.item_id}
-                  >
-                    <div className='flex-shrink-0 relative w-[150px] h-[100px] bg-white rounded-tl-4 rounded-br-4 overflow-hidden'>
-                      <OBYImage
-                        src={generateProductImageFromMagento(item.custom_attributes)}
-                        alt={item.name}
-                        title={item.name}
-                        display='responsive'
-                        className='object-cover'
-                      />
-                    </div>
-                    <div className='w-full'>
-                      <h2 className='@992:fs-16 fs-14 @992:line-clamp-1 line-clamp-2'>{item.name}</h2>
-                      <div className='flex items-center gap-2.5 mt-2'>
-                        {isHaveDiscount(item.custom_attributes) ? (
-                          <>
-                            <p className='@992:fs-16 fs-14 font-semibold'>{getDiscount(item.custom_attributes)}</p>
-                            <p className='@992:fs-14 fs-12 line-through text-oby-676869'>
-                              {getCost(item.custom_attributes)}
+                                    <div className='fixed inset-0 bg-black/30' />
+                                  </Transition.Child>
+
+                                  <div className='fixed inset-0 overflow-y-auto'>
+                                    <div className='flex min-h-full items-center justify-center p-4 text-center'>
+                                      <Transition.Child
+                                        as={Fragment}
+                                        enter='ease-out duration-300'
+                                        enterFrom='opacity-0 scale-95'
+                                        enterTo='opacity-100 scale-100'
+                                        leave='ease-in duration-200'
+                                        leaveFrom='opacity-100 scale-100'
+                                        leaveTo='opacity-0 scale-95'
+                                      >
+                                        <Dialog.Panel className='w-[576px] relative max-w-xl h-[730px] transform overflow-hidden rounded-2.5 bg-white @992:px-6 px-4 @992:py-7.5 py-5 text-left align-middle shadow-xl transition-all'>
+                                          <Dialog.Title as='h3' className='@992:fs-18 fs-16 font-semibold text-center'>
+                                            Quận/Huyện
+                                          </Dialog.Title>
+                                          <ChevronLeftIcon
+                                            className='w-6 h-6 text-oby-676869 absolute @992:top-7.5 top-5 @992:left-6 left-4 cursor-pointer'
+                                            type='button'
+                                            onClick={() => setIsDistrictOpen(false)}
+                                          />
+                                          <div className='my-6 flex flex-col items-center'>
+                                            <p className='fs-16 text-oby-676869'>Todo Input</p>
+                                          </div>
+                                          <div className='overflow-y-scroll max-h-[550px]'>
+                                            <p className='@992:fs-14 fs-12 mb-1.5'>Quận/Huyện</p>
+                                            {districtArr.map((district, index) => (
+                                              <div
+                                                className='py-2.5 border-b cursor-pointer border-b-DFDFDF flex items-center justify-between'
+                                                key={district.codename}
+                                                tabIndex={index}
+                                                onClick={() => handleSelectDistrict(district.name, district.code)}
+                                              >
+                                                <p
+                                                  className={twclsx(
+                                                    '@992:fs-16 fs-14',
+                                                    selectedDistrict?.name === district.name && 'text-oby-primary'
+                                                  )}
+                                                >
+                                                  {district.name}
+                                                </p>
+                                                {selectedDistrict?.name === district.name && (
+                                                  <CheckIcon className='w-6 h-6 text-oby-primary' />
+                                                )}
+                                              </div>
+                                            ))}
+                                          </div>
+                                        </Dialog.Panel>
+                                      </Transition.Child>
+                                    </div>
+                                  </div>
+                                </Dialog>
+                              </Transition>
+                            )}
+                            {/* End Modal District */}
+                            <Input
+                              type='text'
+                              name='ward'
+                              className='mt-3'
+                              classNameInput='cursor-pointer'
+                              placeholder='Phường/Xã'
+                              defaultValue={billing && billing.street.length > 0 ? billing.street[1] : undefined}
+                              /* value={selectedWard?.name || ''} */
+                              disabled={selectedDistrict?.name ? false : true}
+                              readOnly
+                              isRead
+                              onClick={() => setIsWardOpen(true)}
+                              errorMessage={errors.ward?.message}
+                              register={register}
+                            />
+                            {/* Ward Modal */}
+                            {wardArr && (
+                              <Transition show={isWardOpen} as={Fragment}>
+                                <Dialog as='div' className='relative z-[11]' onClose={() => setIsWardOpen(false)}>
+                                  <Transition.Child
+                                    as={Fragment}
+                                    enter='ease-out duration-300'
+                                    enterFrom='opacity-0'
+                                    enterTo='opacity-100'
+                                    leave='ease-in duration-200'
+                                    leaveFrom='opacity-100'
+                                    leaveTo='opacity-0'
+                                  >
+                                    <div className='fixed inset-0 bg-black/30' />
+                                  </Transition.Child>
+
+                                  <div className='fixed inset-0 overflow-y-auto'>
+                                    <div className='flex min-h-full items-center justify-center p-4 text-center'>
+                                      <Transition.Child
+                                        as={Fragment}
+                                        enter='ease-out duration-300'
+                                        enterFrom='opacity-0 scale-95'
+                                        enterTo='opacity-100 scale-100'
+                                        leave='ease-in duration-200'
+                                        leaveFrom='opacity-100 scale-100'
+                                        leaveTo='opacity-0 scale-95'
+                                      >
+                                        <Dialog.Panel className='w-[576px] relative max-w-xl h-[730px] transform overflow-hidden rounded-2.5 bg-white @992:px-6 px-4 @992:py-7.5 py-5 text-left align-middle shadow-xl transition-all'>
+                                          <Dialog.Title as='h3' className='@992:fs-18 fs-16 font-semibold text-center'>
+                                            Phường/Xã
+                                          </Dialog.Title>
+                                          <ChevronLeftIcon
+                                            className='w-6 h-6 text-oby-676869 absolute @992:top-7.5 @992:left-6 top-5 left-4 cursor-pointer'
+                                            type='button'
+                                            onClick={() => setIsWardOpen(false)}
+                                          />
+                                          <div className='my-6 flex flex-col items-center'>
+                                            <p className='fs-16 text-oby-676869'>Todo Input</p>
+                                          </div>
+                                          <div className='overflow-y-scroll max-h-[550px]'>
+                                            <p className='@992:fs-14 fs-12 mb-1.5'>Phường/Xã</p>
+                                            {wardArr.map((ward, index) => (
+                                              <div
+                                                className='py-2.5 border-b cursor-pointer border-b-DFDFDF flex items-center justify-between'
+                                                key={ward.codename}
+                                                tabIndex={index}
+                                                onClick={() => handleSelectWard(ward.name, ward.code)}
+                                              >
+                                                <p
+                                                  className={twclsx(
+                                                    '@992:fs-16 fs-14',
+                                                    selectedWard?.name === ward.name && 'text-oby-primary'
+                                                  )}
+                                                >
+                                                  {ward.name}
+                                                </p>
+                                                {selectedWard?.code === ward.code && (
+                                                  <CheckIcon className='w-6 h-6 text-oby-primary' />
+                                                )}
+                                              </div>
+                                            ))}
+                                          </div>
+                                        </Dialog.Panel>
+                                      </Transition.Child>
+                                    </div>
+                                  </div>
+                                </Dialog>
+                              </Transition>
+                            )}
+                            <Input
+                              type='text'
+                              placeholder='Địa chỉ cụ thể (số nhà, tên đường,...)'
+                              name='address'
+                              className='mt-3'
+                              defaultValue={(billing && billing.street[0]) || undefined}
+                              errorMessage={errors.address?.message}
+                              register={register}
+                            />
+                            <p className='@992:fs-16 fs-14 @992:mt-5 mt-4 text-oby-green font-semibold'>
+                              Ghi chú (nếu có)
                             </p>
-                          </>
-                        ) : (
-                          <p className='@992:fs-16 fs-14 font-semibold'>{formatCurrency(item.price)}</p>
-                        )}
-                      </div>
-                      <div className='flex items-center justify-between mt-5'>
-                        <p className='fs-16 text-oby-primary'>x {item.qty}</p>
-                        <p className='fs-16'>
-                          Số tiền: <span className='font-semibold'>{formatCurrency(item.price * item.qty)}</span>
-                        </p>
-                      </div>
+                            <Input
+                              type='text'
+                              placeholder='Ghi chú đơn hàng'
+                              name='note'
+                              className='mt-3'
+                              errorMessage={errors.note?.message}
+                              register={register}
+                            />
+                            <AsyncButton
+                              type='submit'
+                              isLoading={setBillingAddressMutation.isLoading}
+                              className='mt-6 fs-16 text-white w-full'
+                            >
+                              Xác nhận
+                            </AsyncButton>
+                          </form>
+                        </Dialog.Panel>
+                      </Transition.Child>
                     </div>
                   </div>
-                ))}
-            </div>
-          </div>
-          <div className='@992:col-span-4 col-span-12 bg-transparent'>
-            <div className=' bg-white rounded-tl-4 rounded-br-4 bsd'>
-              <div className='@992:pt-5 pt-4 @992:pb-4 pb-3 border-b border-b-oby-DFDFDF'>
-                <div className='@992:px-6 px-4'>
-                  <p className='@992:fs-18 fs-16 mb-4 font-bold text-oby-green'>Phương thức thanh toán</p>
-                  <RadioGroup value={selected} onChange={setSelected}>
-                    <div className='flex items-center gap-4 justify-between'>
-                      {paymentMethod.map((plan) => (
-                        <RadioGroup.Option
-                          key={plan.title}
-                          value={plan.code}
-                          className={({ checked }) =>
-                            twclsx(
-                              `rounded-4 border relative h-[50px] w-1/2 cursor-pointer flex items-center justify-center transition-colors`,
-                              checked ? 'bg-oby-E4FBDB border-oby-green' : 'border-oby-DFDFDF bg-white'
-                            )
-                          }
-                        >
-                          {({ checked }) => (
-                            <>
-                              <RadioGroup.Label as='div'>
-                                {plan.code === 'cashondelivery' && (
-                                  <BanknotesIcon
-                                    className={twclsx(
-                                      '@768:w-9.5 @768:h-9.5 w-6 h-6',
-                                      checked ? 'text-oby-green' : 'text-oby-9A9898'
-                                    )}
-                                  />
-                                )}
-                                {plan.code === 'momo' && (
-                                  <OBYImage
-                                    src='/images/payment-momo.png'
-                                    width={36}
-                                    height={36}
-                                    quality={100}
-                                    alt={plan.title}
-                                    title={plan.title}
-                                  />
-                                )}
-                                {plan.code === 'vnpay' && (
-                                  <OBYImage
-                                    src='/images/payment-vnpay.png'
-                                    width={60}
-                                    height={36}
-                                    quality={100}
-                                    alt={plan.title}
-                                    title={plan.title}
-                                  />
-                                )}
-                              </RadioGroup.Label>
-                            </>
-                          )}
-                        </RadioGroup.Option>
-                      ))}
-                    </div>
-                  </RadioGroup>
+                </Dialog>
+              </Transition>
+
+              {/* Shipping Method & Fee */}
+              <div className='border border-oby-DFDFDF rounded-2.5 bg-white p-4 @992:mt-5 mt-4'>
+                <div className='flex items-center justify-between pb-3.5 border-b border-b-oby-DFDFDF mb-3.5'>
+                  <p className='@992:fs-18 fs-16 font-bold text-oby-green'>Phương thức vận chuyển</p>
+                  <OBYButton
+                    onClick={() => setIsMethodOpen(true)}
+                    disabled={!billing?.city && !EstimateShippingRes}
+                    variant='link'
+                    size='link'
+                  >
+                    <span className='@992:fs-16 fs-14 text-oby-primary'>Thay đổi</span>
+                    <ChevronRightIcon className='text-oby-primary w-5 h-5' />
+                  </OBYButton>
+                  <Transition show={isMethodOpen} as={Fragment}>
+                    <Dialog as='div' className='relative z-10' onClose={() => setIsMethodOpen(false)}>
+                      <Transition.Child
+                        as={Fragment}
+                        enter='ease-out duration-300'
+                        enterFrom='opacity-0'
+                        enterTo='opacity-100'
+                        leave='ease-in duration-200'
+                        leaveFrom='opacity-100'
+                        leaveTo='opacity-0'
+                      >
+                        <div className='fixed inset-0 bg-black/30' />
+                      </Transition.Child>
+
+                      <div className='fixed inset-0 overflow-y-auto'>
+                        <div className='flex min-h-full items-center justify-center p-4 text-center'>
+                          <Transition.Child
+                            as={Fragment}
+                            enter='ease-out duration-300'
+                            enterFrom='opacity-0 scale-95'
+                            enterTo='opacity-100 scale-100'
+                            leave='ease-in duration-200'
+                            leaveFrom='opacity-100 scale-100'
+                            leaveTo='opacity-0 scale-95'
+                          >
+                            <Dialog.Panel className='w-full relative max-w-md transform overflow-hidden rounded-2.5 bg-white @992:px-6 @992:py-7.5 px-4 py-5 text-left align-middle shadow-xl transition-all'>
+                              <Dialog.Title as='h3' className='@992:fs-18 fs-16 font-semibold text-center'>
+                                Phương thức vận chuyển
+                              </Dialog.Title>
+                              <XMarkIcon
+                                className='w-6 h-6 text-oby-676869 absolute @992:top-7.5 @992:right-6 top-5 right-4 cursor-pointer'
+                                type='button'
+                                onClick={() => setIsMethodOpen(false)}
+                              />
+                              <RadioGroup value={shipMethod} onChange={setShipMethod}>
+                                <div className='flex flex-col gap-3 justify-between @992:mt-6 mt-5'>
+                                  {EstimateShippingRes?.data?.map((plan) => (
+                                    <RadioGroup.Option
+                                      key={plan.carrier_code}
+                                      value={plan.carrier_code}
+                                      className={({ checked }) =>
+                                        twclsx(
+                                          `rounded-4 border cursor-pointer flex items-center justify-between transition-colors py-3 @992:px-4 px-3`,
+                                          checked ? 'bg-oby-E4FBDB border-oby-green' : 'border-oby-DFDFDF bg-white'
+                                        )
+                                      }
+                                    >
+                                      {({ checked }) => {
+                                        return (
+                                          <>
+                                            <RadioGroup.Label
+                                              as='p'
+                                              className={
+                                                checked ? 'text-oby-green @992:fs-16 fs-14' : '@992:fs-16 fs-14'
+                                              }
+                                            >
+                                              {plan.method_title}
+                                            </RadioGroup.Label>
+                                            <RadioGroup.Description
+                                              as='p'
+                                              className={
+                                                checked ? 'text-oby-green @992:fs-16 fs-14' : '@992:fs-16 fs-14'
+                                              }
+                                            >
+                                              {formatCurrency(plan.amount)}
+                                            </RadioGroup.Description>
+                                          </>
+                                        )
+                                      }}
+                                    </RadioGroup.Option>
+                                  ))}
+                                </div>
+                                <AsyncButton
+                                  isLoading={setAddressAndBillingMutation.isLoading}
+                                  disabled={!shipMethod || setAddressAndBillingMutation.isLoading}
+                                  onClick={setAddressAndBilling}
+                                  className='@992:mt-6 mt-5 @992:fs-16 fs-14 w-full'
+                                >
+                                  Xác nhận
+                                </AsyncButton>
+                              </RadioGroup>
+                            </Dialog.Panel>
+                          </Transition.Child>
+                        </div>
+                      </div>
+                    </Dialog>
+                  </Transition>
                 </div>
-              </div>
-              <div className='@992:mt-4 mt-3 @992:px-6 px-4 @992:pb-5 pb-4'>
-                <p className='@992:fs-18 fs-16 mb-4 font-bold text-oby-green'>Tổng giỏ hàng</p>
-                <div className='flex items-center justify-between'>
-                  <p className='@992:fs-16 fs-14'>Tạm tính ({initializeData && getTotalQuantity(initializeData)})</p>
-                  <p className='@992:fs-16 fs-14 text-end'>
-                    {initializeData && calculateTotalOriginPrice(initializeData)}
+                {selectedMethod ? (
+                  <div className='flex items-center justify-between'>
+                    <p className='font-semibold @992:fs-16 fs-14'>{selectedMethod.name}</p>
+                    <p className='font-semibold @992:fs-16 fs-14'>{formatCurrency(selectedMethod.value as number)}</p>
+                  </div>
+                ) : (
+                  <p className='@992:fs-16 fs-14 text-oby-9A9898'>
+                    Vui lòng chọn Thông tin giao hàng để xem danh sách phương thức vận chuyển
                   </p>
-                </div>
-                {initializeData && calculateTotalDiscountPrice(initializeData) && (
-                  <div className='flex items-center justify-between mt-3'>
-                    <p className='@992:fs-16 fs-14'>Giảm giá sản phẩm</p>
-                    <p className='@992:fs-16 fs-14 text-end text-oby-orange'>
-                      {calculateTotalDiscountPrice(initializeData)}
-                    </p>
-                  </div>
                 )}
-                {total && total.discount_amount !== 0 && (
-                  <div className='flex items-center justify-between mt-3'>
-                    <p className='@992:fs-16 fs-14'>Giảm giá voucher</p>
-                    <p className='@992:fs-16 fs-14 text-end text-oby-orange'>{formatCurrency(total.discount_amount)}</p>
-                  </div>
-                )}
-                {orderCalculate && (
-                  <div className='flex items-center justify-between mt-3'>
-                    <p className='@992:fs-16 fs-14'>Phí vận chuyển</p>
-                    <p className='@992:fs-16 fs-14 text-end'>{formatCurrency(orderCalculate.shipping_amount)}</p>
-                  </div>
-                )}
-                <div className='mt-3 pt-3 border-t border-t-oby-DFDFDF'>
-                  <div className='flex justify-between'>
-                    <div className='flex flex-col'>
-                      <p className='@992:fs-16 fs-14 font-semibold'>Thành tiền</p>
-                      <p className='@992:fs-14 fs-12 text-oby-9A9898'>(Đã bao gồm VAT)</p>
+              </div>
+              <div className='mt-5'>
+                {initializeData &&
+                  initializeData.map((item) => (
+                    <div
+                      className='@992:p-5 py-3.5 px-4 border border-oby-DFDFDF bg-white rounded-tl-4 rounded-br-4 first:mt-0 @992:mt-4 mt-3 flex @992:gap-5 gap-3.5'
+                      key={item.item_id}
+                    >
+                      <div className='flex-shrink-0 relative w-[150px] h-[100px] bg-white rounded-tl-4 rounded-br-4 overflow-hidden'>
+                        <OBYImage
+                          src={generateProductImageFromMagento(item.custom_attributes)}
+                          alt={item.name}
+                          title={item.name}
+                          display='responsive'
+                          className='object-cover'
+                        />
+                      </div>
+                      <div className='w-full'>
+                        <h2 className='@992:fs-16 fs-14 @992:line-clamp-1 line-clamp-2'>{item.name}</h2>
+                        <div className='flex items-center gap-2.5 mt-2'>
+                          {isHaveDiscount(item.custom_attributes) ? (
+                            <>
+                              <p className='@992:fs-16 fs-14 font-semibold'>{getDiscount(item.custom_attributes)}</p>
+                              <p className='@992:fs-14 fs-12 line-through text-oby-676869'>
+                                {getCost(item.custom_attributes)}
+                              </p>
+                            </>
+                          ) : (
+                            <p className='@992:fs-16 fs-14 font-semibold'>{formatCurrency(item.price)}</p>
+                          )}
+                        </div>
+                        <div className='flex items-center justify-between mt-5'>
+                          <p className='fs-16 text-oby-primary'>x {item.qty}</p>
+                          <p className='fs-16'>
+                            Số tiền: <span className='font-semibold'>{formatCurrency(item.price * item.qty)}</span>
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                    <p className='@992:fs-18 fs-16 font-semibold'>
-                      {!orderCalculate
-                        ? formatCurrency(total.base_subtotal_with_discount)
-                        : formatCurrency(orderCalculate.grand_total)}
-                    </p>
+                  ))}
+              </div>
+            </div>
+            <div className='@992:col-span-4 col-span-12 bg-transparent'>
+              <div className=' bg-white rounded-tl-4 rounded-br-4 bsd'>
+                <div className='@992:pt-5 pt-4 @992:pb-4 pb-3 border-b border-b-oby-DFDFDF'>
+                  <div className='@992:px-6 px-4'>
+                    <p className='@992:fs-18 fs-16 mb-4 font-bold text-oby-green'>Phương thức thanh toán</p>
+                    <RadioGroup value={selected} onChange={setSelected}>
+                      <div className='flex items-center gap-4 justify-between'>
+                        {paymentMethod.map((plan) => (
+                          <RadioGroup.Option
+                            key={plan.title}
+                            value={plan.code}
+                            className={({ checked }) =>
+                              twclsx(
+                                `rounded-4 border relative h-[50px] w-1/2 cursor-pointer flex items-center justify-center transition-colors`,
+                                checked ? 'bg-oby-E4FBDB border-oby-green' : 'border-oby-DFDFDF bg-white'
+                              )
+                            }
+                          >
+                            {({ checked }) => (
+                              <>
+                                <RadioGroup.Label as='div'>
+                                  {plan.code === 'cashondelivery' && (
+                                    <BanknotesIcon
+                                      className={twclsx(
+                                        '@768:w-9.5 @768:h-9.5 w-6 h-6',
+                                        checked ? 'text-oby-green' : 'text-oby-9A9898'
+                                      )}
+                                    />
+                                  )}
+                                  {plan.code === 'momo' && (
+                                    <OBYImage
+                                      src='/images/payment-momo.png'
+                                      width={36}
+                                      height={36}
+                                      quality={100}
+                                      alt={plan.title}
+                                      title={plan.title}
+                                    />
+                                  )}
+                                  {plan.code === 'vnpay' && (
+                                    <OBYImage
+                                      src='/images/payment-vnpay.png'
+                                      width={60}
+                                      height={36}
+                                      quality={100}
+                                      alt={plan.title}
+                                      title={plan.title}
+                                    />
+                                  )}
+                                </RadioGroup.Label>
+                              </>
+                            )}
+                          </RadioGroup.Option>
+                        ))}
+                      </div>
+                    </RadioGroup>
                   </div>
                 </div>
-                <AsyncButton
-                  disabled={
-                    !billing?.city ||
-                    !selected ||
-                    !selectedMethod ||
-                    paymentInformationMutation.isLoading ||
-                    captureMomoMutation.isLoading
-                  }
-                  isLoading={paymentInformationMutation.isLoading || captureMomoMutation.isLoading}
-                  onClick={handlePayment}
-                  className='@992:mt-5 mt-3 text-white w-full'
-                >
-                  Tiếp tục
-                </AsyncButton>
+                <div className='@992:mt-4 mt-3 @992:px-6 px-4 @992:pb-5 pb-4'>
+                  <p className='@992:fs-18 fs-16 mb-4 font-bold text-oby-green'>Tổng giỏ hàng</p>
+                  <div className='flex items-center justify-between'>
+                    <p className='@992:fs-16 fs-14'>Tạm tính ({initializeData && getTotalQuantity(initializeData)})</p>
+                    <p className='@992:fs-16 fs-14 text-end'>
+                      {initializeData && calculateTotalOriginPrice(initializeData)}
+                    </p>
+                  </div>
+                  {initializeData && calculateTotalDiscountPrice(initializeData) && (
+                    <div className='flex items-center justify-between mt-3'>
+                      <p className='@992:fs-16 fs-14'>Giảm giá sản phẩm</p>
+                      <p className='@992:fs-16 fs-14 text-end text-oby-orange'>
+                        {calculateTotalDiscountPrice(initializeData)}
+                      </p>
+                    </div>
+                  )}
+                  {total && total.discount_amount !== 0 && (
+                    <div className='flex items-center justify-between mt-3'>
+                      <p className='@992:fs-16 fs-14'>Giảm giá voucher</p>
+                      <p className='@992:fs-16 fs-14 text-end text-oby-orange'>
+                        {formatCurrency(total.discount_amount)}
+                      </p>
+                    </div>
+                  )}
+                  {orderCalculate && (
+                    <div className='flex items-center justify-between mt-3'>
+                      <p className='@992:fs-16 fs-14'>Phí vận chuyển</p>
+                      <p className='@992:fs-16 fs-14 text-end'>{formatCurrency(orderCalculate.shipping_amount)}</p>
+                    </div>
+                  )}
+                  <div className='mt-3 pt-3 border-t border-t-oby-DFDFDF'>
+                    <div className='flex justify-between'>
+                      <div className='flex flex-col'>
+                        <p className='@992:fs-16 fs-14 font-semibold'>Thành tiền</p>
+                        <p className='@992:fs-14 fs-12 text-oby-9A9898'>(Đã bao gồm VAT)</p>
+                      </div>
+                      <p className='@992:fs-18 fs-16 font-semibold'>
+                        {!orderCalculate
+                          ? formatCurrency(total.base_subtotal_with_discount)
+                          : formatCurrency(orderCalculate.grand_total)}
+                      </p>
+                    </div>
+                  </div>
+                  <AsyncButton
+                    disabled={
+                      !billing?.city ||
+                      !selected ||
+                      !selectedMethod ||
+                      paymentInformationMutation.isLoading ||
+                      captureMomoMutation.isLoading
+                    }
+                    isLoading={paymentInformationMutation.isLoading || captureMomoMutation.isLoading}
+                    onClick={handlePayment}
+                    className='@992:mt-5 mt-3 text-white w-full'
+                  >
+                    Tiếp tục
+                  </AsyncButton>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

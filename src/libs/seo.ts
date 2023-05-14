@@ -13,7 +13,7 @@ export const generateMetaSEO = (data: MetaSEO): OBYSEOProps => {
     openGraph: {
       images: [
         {
-          url: data.og_image,
+          url: data.og_image || '/images/logo-brand.png',
           alt: data.og_image_alt,
           width: 1200,
           height: 600

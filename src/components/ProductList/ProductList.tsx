@@ -3,8 +3,6 @@ import { useQuery } from '@tanstack/react-query'
 
 import { Category } from '@/@types/category.type'
 
-import { generateURLWithCategory } from '@/helpers/category'
-
 import productApi from '@/apis/magento/product.api'
 
 import { cacheTime } from '@/constants/config.constant'
@@ -45,7 +43,7 @@ export default function ProductList({ category, subcategory, categoryID }: Produ
             {subcategory &&
               subcategory.map((item) => (
                 <OBYLink
-                  href={generateURLWithCategory(category, item.name)}
+                  href={'/'}
                   title={item.name}
                   key={item.id}
                   className='@992:rounded-4 rounded-2.5 border border-oby-DFDFDF px-3 py-2.75 @992:fs-14 fs-12 whitespace-nowrap'
@@ -58,18 +56,20 @@ export default function ProductList({ category, subcategory, categoryID }: Produ
       </div>
       {/* Product List Related with Category */}
       <div className='@992:mt-6 mt-4 @992:pt-6 @992:border-t @992:border-t-oby-DFDFDF grid @992:grid-cols-4 @768:grid-cols-3 grid-cols-2 @992:gap-10 gap-5'>
-        {productData.items.map((item) => (
+        {productData.items.slice(0, 8).map((item) => (
           <div className='col-span-1' key={item.id}>
             <Product data={item} />
           </div>
         ))}
       </div>
-      <div className='flex items-center justify-center mt-10 gap-1.5'>
-        <OBYLink href='/' title='Xem tất cả sản phẩm' className='text-oby-primary @992:fs-18 fs-16'>
-          Xem tất cả
-        </OBYLink>
-        <ChevronRightIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary' />
-      </div>
+      {productData.items.length > 8 && (
+        <div className='flex items-center justify-center mt-10 gap-1.5'>
+          <OBYLink href='/' title='Xem tất cả sản phẩm' className='text-oby-primary @992:fs-18 fs-16'>
+            Xem tất cả
+          </OBYLink>
+          <ChevronRightIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary' />
+        </div>
+      )}
     </div>
   )
 }

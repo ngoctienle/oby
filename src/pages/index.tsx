@@ -70,8 +70,7 @@ export default function Home() {
     template: 'Trang Chủ',
     description:
       'Ông Bà Yêu là một cửa hàng trực tuyến chuyên cung cấp các sản phẩm tổng hợp nhằm phục vụ cho người cao tuổi cùng với dịch vụ hỗ trợ khách hàng đặc biệt, đem đến cho khách hàng một cuộc sống chất lượng nhất.',
-    keywords: [`OBY, Ông Bà Yêu, ongbayeu.vn`],
-    og_image: '123123',
+    keywords: [`OBY, Ông Bà Yêu, ongbayeu.com`],
     og_image_alt: 'Ông Bà Yêu',
     slug: '/'
   })

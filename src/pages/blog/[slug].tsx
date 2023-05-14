@@ -5,11 +5,16 @@ import { ParsedUrlQuery } from 'querystring'
 
 import { Blog } from '@/@types/blog.type'
 
-import { generateCateNameById } from '@/helpers/blog'
+import { generateMetaSEO } from '@/libs/seo'
+
+import { generateBlogImage, generateCateNameById } from '@/helpers/blog'
 
 import blogAPI from '@/apis/magento/blog.api'
 
+import { hrefPath } from '@/constants/href.constant'
+
 import Breadcrumb from '@/components/Breadcrumb'
+import { OBYSeo } from '@/components/UI/OBYSeo'
 
 interface BlogDetailProps {
   blogData: Blog
@@ -20,8 +25,17 @@ interface IParams extends ParsedUrlQuery {
 }
 
 export default function BlogDetail({ blogData, cateName }: BlogDetailProps) {
+  const meta = generateMetaSEO({
+    title: blogData.name,
+    description: blogData.short_description,
+    keywords: [blogData.name, cateName as string, 'ongbayeu.com'],
+    og_image: generateBlogImage(blogData.image as string),
+    og_image_alt: blogData.name,
+    slug: hrefPath.blog + '/' + blogData.url_key + '-' + blogData.id
+  })
   return (
     <>
+      <OBYSeo {...meta} />
       <section className='@992:pt-4 pt-3'>
         <Breadcrumb cateName={'Blog'} subCateName={cateName} productName={blogData.name} />
         <div className='container'>

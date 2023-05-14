@@ -9,7 +9,7 @@ export type MetaSEO = {
   description: string
   keywords: Array<string>
   slug: string
-  og_image: string
+  og_image?: string
   og_image_alt: string
   type?: 'website' | 'blog'
 } & OBYSEOProps
