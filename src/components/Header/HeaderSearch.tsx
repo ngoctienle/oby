@@ -2,10 +2,9 @@ import { OBYImage, OBYLink } from '../UI/Element'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import { useQuery } from '@tanstack/react-query'
 import DOMPurify from 'isomorphic-dompurify'
-import { useRouter } from 'next/router'
 import { useRef, useState } from 'react'
 
-import { useClickOutSide, useDebounce, useQueryConfig } from '@/hooks'
+import { useClickOutSide, useDebounce } from '@/hooks'
 
 import { accentsMap, formatCurrency, getDiscountPercent } from '@/helpers'
 import { generateProductImageFromMagento, getDiscount, isHaveDiscount } from '@/helpers/product'
@@ -41,8 +40,8 @@ function SearchLoading() {
 export default function HeaderSearch() {
   const ref = useRef<HTMLDivElement>(null)
   const [isOpen, setIsOpen] = useState(false)
-  const queryConfig = useQueryConfig()
-  const router = useRouter()
+  /* const queryConfig = useQueryConfig()
+  const router = useRouter() */
 
   const [searchStr, setSearchStr] = useState<string>('')
   const debounceSearchStr = useDebounce(searchStr, 650)
@@ -56,7 +55,7 @@ export default function HeaderSearch() {
     setIsOpen(true)
   }
 
-  const handleSubmitSearch = (e: React.ChangeEvent<HTMLFormElement>) => {
+  /* const handleSubmitSearch = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
     const data = new FormData(e.target)
 
@@ -73,7 +72,7 @@ export default function HeaderSearch() {
 
       setIsOpen(false)
     }
-  }
+  } */
 
   const filterStr = (str: string, searchStr: string) => {
     const regex = new RegExp(
@@ -103,7 +102,7 @@ export default function HeaderSearch() {
 
   return (
     <form
-      onSubmit={handleSubmitSearch}
+      /* onSubmit={handleSubmitSearch} */
       className='@992:relative flex items-center flex-grow border bg-white focus-within:border-oby-primary transition-colors border-oby-DFDFDF rounded-tl-5 rounded-br-5 py-2.25 @992:px-6 px-3'
     >
       <input

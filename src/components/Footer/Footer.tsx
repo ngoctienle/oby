@@ -27,7 +27,7 @@ export default function Footer({ font }: FooterProps) {
                 <OBYImage
                   display='responsive'
                   quality={100}
-                  src='/images/oby-logo.png'
+                  src='/images/logo-brand.png'
                   alt='Ông Bà Yêu'
                   title='Ông Bà Yêu'
                   className='object-cover'

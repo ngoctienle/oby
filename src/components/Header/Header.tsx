@@ -101,10 +101,12 @@ export default function Header({ font, isFocus, user, guestCartId, cartId, token
                 <OBYLink href={hrefPath.home} title='OBY Trang chủ'>
                   <OBYImage
                     display='responsive'
-                    src='/images/oby-logo.png'
+                    src='/images/logo-brand.png'
                     alt='Ông Bà Yêu Logo Brand'
                     title='Ông Bà Yêu Logo Brand'
                     className='object-cover'
+                    width={100}
+                    height={100}
                   />
                 </OBYLink>
               </OBYButton>

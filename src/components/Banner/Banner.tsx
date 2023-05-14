@@ -23,17 +23,17 @@ export default function Banner() {
         clickable: true
       }}
       modules={[EffectFade, Navigation, Pagination, Lazy]}
-      className='obyBanner !-z-10'
+      className='obyBanner'
     >
-      {Array(4)
+      {Array(2)
         .fill(0)
         .map((_, index) => (
-          <SwiperSlide key={index} className='!-z-[9]'>
-            <div className='relative w-full aspect-[16/6]'>
+          <SwiperSlide key={index}>
+            <div className='relative w-full aspect-[1920/600]'>
               <OBYImage
                 quality={100}
                 alt='img'
-                src='/images/oby-banner.png'
+                src={`/images/oby-banner-${index + 1}.webp`}
                 display='responsive'
                 style={{ objectPosition: 'center', objectFit: 'cover' }}
               />
@@ -53,17 +53,17 @@ export default function Banner() {
           clickable: true
         }}
         modules={[EffectFade, Navigation, Pagination, Lazy]}
-        className='obyBanner !-z-10'
+        className='obyBanner'
       >
-        {Array(4)
+        {Array(2)
           .fill(0)
           .map((_, index) => (
-            <SwiperSlide key={index} className='!-z-[9]'>
-              <div className='relative w-full aspect-[2/1] rounded-2.5 overflow-hidden'>
+            <SwiperSlide key={index}>
+              <div className='relative w-full aspect-[1920/600] min-h-[170px] rounded-2.5 overflow-hidden'>
                 <OBYImage
                   quality={100}
                   alt='img'
-                  src='/images/oby-banner.png'
+                  src={`/images/oby-banner-${index + 1}.webp`}
                   display='responsive'
                   style={{ objectPosition: 'center', objectFit: 'cover' }}
                 />
