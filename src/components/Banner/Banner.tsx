@@ -31,8 +31,8 @@ export default function Banner() {
           <SwiperSlide key={index}>
             <div className='relative w-full aspect-[1920/600]'>
               <OBYImage
-                quality={100}
-                alt='img'
+                priority
+                alt='Ông Bà Yêu Banner'
                 src={`/images/oby-banner-${index + 1}.webp`}
                 display='responsive'
                 style={{ objectPosition: 'center', objectFit: 'cover' }}
@@ -61,8 +61,8 @@ export default function Banner() {
             <SwiperSlide key={index}>
               <div className='relative w-full aspect-[1920/600] min-h-[170px] rounded-2.5 overflow-hidden'>
                 <OBYImage
-                  quality={100}
-                  alt='img'
+                  priority
+                  alt='Ông Bà Yêu Banner'
                   src={`/images/oby-banner-${index + 1}.webp`}
                   display='responsive'
                   style={{ objectPosition: 'center', objectFit: 'cover' }}
