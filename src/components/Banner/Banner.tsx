@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { EffectFade, Lazy, Navigation, Pagination } from 'swiper'
 import 'swiper/css'
 import 'swiper/css/effect-fade'
@@ -6,8 +7,6 @@ import 'swiper/css/pagination'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 import { useMediaQuery } from '@/hooks'
-
-import { OBYImage } from '@/components/UI/Element'
 
 export default function Banner() {
   const isMatch = useMediaQuery('(min-width:992px)')
@@ -30,12 +29,12 @@ export default function Banner() {
         .map((_, index) => (
           <SwiperSlide key={index}>
             <div className='relative w-full aspect-[1920/600]'>
-              <OBYImage
+              <Image
                 priority
-                loading='eager'
+                fill
                 alt='Ông Bà Yêu Banner'
                 src={`/images/oby-banner-${index + 1}.webp`}
-                display='responsive'
+                className='abosolute'
                 style={{ objectPosition: 'center', objectFit: 'cover' }}
               />
             </div>
@@ -61,12 +60,12 @@ export default function Banner() {
           .map((_, index) => (
             <SwiperSlide key={index}>
               <div className='relative w-full aspect-[1920/600] min-h-[170px] rounded-2.5 overflow-hidden'>
-                <OBYImage
+                <Image
                   priority
-                  loading='eager'
+                  fill
                   alt='Ông Bà Yêu Banner'
                   src={`/images/oby-banner-${index + 1}.webp`}
-                  display='responsive'
+                  className='absolute'
                   style={{ objectPosition: 'center', objectFit: 'cover' }}
                 />
               </div>
