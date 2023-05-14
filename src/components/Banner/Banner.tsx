@@ -32,6 +32,7 @@ export default function Banner() {
             <div className='relative w-full aspect-[1920/600]'>
               <OBYImage
                 priority
+                loading='eager'
                 alt='Ông Bà Yêu Banner'
                 src={`/images/oby-banner-${index + 1}.webp`}
                 display='responsive'
@@ -62,6 +63,7 @@ export default function Banner() {
               <div className='relative w-full aspect-[1920/600] min-h-[170px] rounded-2.5 overflow-hidden'>
                 <OBYImage
                   priority
+                  loading='eager'
                   alt='Ông Bà Yêu Banner'
                   src={`/images/oby-banner-${index + 1}.webp`}
                   display='responsive'
