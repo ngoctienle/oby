@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import DOMPurify from 'isomorphic-dompurify'
 import { GetServerSideProps } from 'next'
@@ -29,6 +29,7 @@ import categoryApi from '@/apis/magento/category.api'
 import productApi from '@/apis/magento/product.api'
 
 import { MAX_PRODUCT } from '@/constants/config.constant'
+import { SITE_URL } from '@/constants/domain.constant'
 import { hrefPath } from '@/constants/href.constant'
 
 import Breadcrumb from '@/components/Breadcrumb'
@@ -53,6 +54,7 @@ interface IParams extends ParsedUrlQuery {
 
 export default function ProductDetail({ subName, productData, parentName, productName, slug }: IProductDetailProps) {
   const queryClient = useQueryClient()
+
   const [guestCartId] = useGlobalState('guestCartId')
   const [token] = useGlobalState('token')
   const [cartId] = useGlobalState('cartId')
@@ -60,6 +62,9 @@ export default function ProductDetail({ subName, productData, parentName, produc
   const imgRef = useRef<HTMLImageElement>(null)
   const [buyCount, setBuyCount] = useState<number>(1)
   const [showFullDescription, setShowFullDescription] = useState<boolean>(false)
+
+  /* const [curIndexImage, setCurIndexImage] = useState([0, 5]) */
+  const [activeImage, setActiveImage] = useState('')
 
   const addToCartMutation = useMutation((body: CartRequest) => cartApi.AddToCart(guestCartId as string, body))
   const addToCartMineMutation = useMutation((body: CartRequest) => cartApi.AddToCartMine(token as string, body))
@@ -140,11 +145,11 @@ export default function ProductDetail({ subName, productData, parentName, produc
     imgRef.current?.removeAttribute('style')
   }
 
-  /*  const hoverActive = (img: string) => {
+  const hoverActive = (img: string) => {
     setActiveImage(img)
   }
 
-  const nextSlide = () => {
+  /* const nextSlide = () => {
     if (curIndexImage[1] < (productDetail as ProductType)?.images.length) {
       setCurIndexImage((prev) => [prev[0] + 1, prev[1] + 1])
     }
@@ -183,41 +188,52 @@ export default function ProductDetail({ subName, productData, parentName, produc
                 onMouseLeave={handleRemoveZoom}
               >
                 <img
-                  src={generateProductImageFromMagento(productData.custom_attributes)}
+                  src={
+                    activeImage !== ''
+                      ? `${SITE_URL}/pub/media/catalog/product/${activeImage}`
+                      : generateProductImageFromMagento(productData.custom_attributes)
+                  }
                   alt='alt'
                   className='pointer-events-none absolute w-full h-full top-0 inset-0 object-cover bg-white'
                   ref={imgRef}
                 />
               </div>
               <div className='relative mt-4 grid grid-cols-5 gap-1 md:gap-2 lg:mt-6 '>
-                <button
+                {/* <button
                   className='absolute -left-1 top-1/2 h-4 w-4 -translate-y-1/2 bg-transparent md:-left-3'
-                  /* onClick={prevSlide} */
+                  onClick={prevSlide}
                 >
                   <ChevronLeftIcon className='h-4 w-4' />
-                </button>
-                {Array(5)
-                  .fill(0)
-                  .map((_, index) => {
-                    /* const isActive = img === activeImage */
+                </button> */}
+                {productData.media_gallery_entries.map((item, index) => {
+                  const isActive = item.file === activeImage
+                  if (item.types.length === 0) {
                     return (
                       <div
                         className='z-1 relative w-full overflow-hidden rounded-tl-4 rounded-br-4 pt-[56%]'
                         key={index}
-                        /* onMouseEnter={() => hoverActive(img)} */
+                        onMouseEnter={() => hoverActive(item.file)}
                       >
-                        <Image src='/images/pd-img.png' alt='alt' fill className='pointer-events-none object-cover' />
+                        <Image
+                          src={`${SITE_URL}/pub/media/catalog/product/${item.file}`}
+                          alt='alt'
+                          fill
+                          className='pointer-events-none object-cover'
+                        />
 
-                        {/*  {isActive && <div className='absolute inset-0 rounded-8 border border-primary-FFB700'></div>} */}
+                        {isActive && (
+                          <div className='absolute inset-0 rounded-tl-4 rounded-br-4 border border-oby-primary'></div>
+                        )}
                       </div>
                     )
-                  })}
-                <button
+                  }
+                })}
+                {/* <button
                   className='absolute -right-1 top-1/2 h-4 w-4 -translate-y-1/2 bg-transparent md:-right-3'
-                  /* onClick={nextSlide} */
+                  onClick={nextSlide}
                 >
                   <ChevronRightIcon className='h-4 w-4' />
-                </button>
+                </button> */}
               </div>
             </div>
             <div className='@768:col-span-7 col-span-1'>
@@ -281,7 +297,12 @@ export default function ProductDetail({ subName, productData, parentName, produc
               ></div>
               {sanitizedDescription.length > 800 && (
                 <div className='flex items-center justify-center mt-7.5 gap-1.5'>
-                  <OBYButton onClick={toggleDescription} className='text-oby-primary @992:fs-18 fs-16'>
+                  <OBYButton
+                    variant='link'
+                    size='link'
+                    onClick={toggleDescription}
+                    className='text-oby-primary @992:fs-18 fs-16'
+                  >
                     {!showFullDescription ? 'Xem thêm' : 'Rút gọn'}
                   </OBYButton>
                   {!showFullDescription ? (
