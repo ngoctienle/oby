@@ -55,9 +55,9 @@ export default function HeaderSearch() {
     setIsOpen(true)
   }
 
-  /* const handleSubmitSearch = (e: React.ChangeEvent<HTMLFormElement>) => {
+  const handleSubmitSearch = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const data = new FormData(e.target)
+    /*  const data = new FormData(e.target)
 
     const config = {
       ...queryConfig,
@@ -71,8 +71,8 @@ export default function HeaderSearch() {
       })
 
       setIsOpen(false)
-    }
-  } */
+    } */
+  }
 
   const filterStr = (str: string, searchStr: string) => {
     const regex = new RegExp(
@@ -102,7 +102,7 @@ export default function HeaderSearch() {
 
   return (
     <form
-      /* onSubmit={handleSubmitSearch} */
+      onSubmit={handleSubmitSearch}
       className='@992:relative flex items-center flex-grow border bg-white focus-within:border-oby-primary transition-colors border-oby-DFDFDF rounded-tl-5 rounded-br-5 py-2.25 @992:px-6 px-3'
     >
       <input
