@@ -35,9 +35,13 @@ export default function TopHeader({ parentCategory, parentCategoryItem }: CateHe
             >
               <Menu.Items className='absolute z-50 left-0 mt-2 min-w-[720px] origin-top-left px-6 py-5 rounded-4 bg-white bsd focus:outline-none'>
                 <h2 className='fs-16 font-semibold mb-4'>Danh mục sản phẩm</h2>
-                <div className='grid grid-cols-3 divide-x'>
+                <div className='grid grid-cols-3'>
                   {parentCategoryItem?.map((item) => (
-                    <Menu.Item as='div' className='col-span-1 first:pl-0 first:ml-0 ml-10 pr-0 pl-10' key={item.id}>
+                    <Menu.Item
+                      as='div'
+                      className='col-span-1 nth-3n:border-r-transparent nth-[n+4]:mt-10 mr-5 pr-5 nth-3n:mr-0 nth-3n:pr-0 border-r border-r-oby-DFDFDF last:border-r-transparent'
+                      key={item.id}
+                    >
                       <div className='flex items-center gap-2 cursor-pointer'>
                         <div className='w-6 h-6 relative'>
                           <OBYImage

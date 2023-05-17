@@ -4,7 +4,7 @@ const isDev = process.env.NODE_ENV === 'development'
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['13.229.90.199', 'api-ecom.duthanhduoc.com'],
+    domains: ['13.229.90.199', '13.229.90.199undefined'],
     minimumCacheTTL: 60
   },
   compiler: {

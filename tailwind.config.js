@@ -56,7 +56,7 @@ module.exports = {
     }
   },
   plugins: [
-    plugin(function ({ addComponents }) {
+    plugin(function ({ addComponents, matchVariant }) {
       addComponents({
         '.container': {
           maxWidth: '1232px',
@@ -95,7 +95,22 @@ module.exports = {
         '.fs-28': {
           fontSize: '28px'
         }
-      })
+      }),
+        matchVariant(
+          'nth',
+          (value) => {
+            return `&:nth-child(${value})`
+          },
+          {
+            values: {
+              DEFAULT: 'n',
+              '2n': '2n',
+              '3n': '3n',
+              '4n': '4n',
+              '5n': '5n'
+            }
+          }
+        )
     }),
     require('@tailwindcss/line-clamp'),
     require('tailwind-scrollbar')({ nocompatible: true })
