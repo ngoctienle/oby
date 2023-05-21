@@ -17,7 +17,7 @@ export interface CateHeaderProps {
 export default function TopHeader({ parentCategory, parentCategoryItem }: CateHeaderProps) {
   const initializeCategory = useMemo(() => {
     return parentCategory.map((category) => {
-      const categoryItem = parentCategoryItem.find((item) => item.id === category.id)
+      const categoryItem = parentCategoryItem?.find((item) => item.id === category.id)
       const customAttributes = categoryItem?.custom_attributes || []
 
       return {
@@ -49,7 +49,7 @@ export default function TopHeader({ parentCategory, parentCategoryItem }: CateHe
                 <h2 className='fs-16 font-semibold mb-4'>Danh mục sản phẩm</h2>
                 <div className='grid grid-cols-3'>
                   {initializeCategory
-                    .filter((item) => item.is_active && item.product_count !== 0)
+                    ?.filter((item) => item.is_active && item.product_count !== 0)
                     .map((item) => (
                       <Menu.Item
                         as='div'
