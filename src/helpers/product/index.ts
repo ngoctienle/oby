@@ -19,6 +19,12 @@ export const getDiscount = (data: CustomAttribute[]) => {
     return formatCurrency(Number(item.value))
   }
 }
+export const getCateId = (data: CustomAttribute[]) => {
+  const item = data.find((obj: CustomAttribute) => obj.attribute_code === 'category_ids')
+  if (item) {
+    return item.value[0]
+  }
+}
 
 export const getCost = (data: CustomAttribute[]) => {
   const item = data.find((obj: CustomAttribute) => obj.attribute_code === 'cost')

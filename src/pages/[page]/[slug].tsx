@@ -53,7 +53,6 @@ interface IParams extends ParsedUrlQuery {
 }
 
 export default function ProductDetail({ subName, productData, parentName, productName, slug }: IProductDetailProps) {
-  console.log(productData)
   const queryClient = useQueryClient()
 
   const [guestCartId] = useGlobalState('guestCartId')

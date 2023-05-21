@@ -91,7 +91,7 @@ export default function ResultSearchPage() {
                 {productSearch && !isLoading && productSearch.data.items.length > 0
                   ? productSearch?.data.items.map((item) => (
                       <div className='col-span-4' key={item.id}>
-                        <Product data={item} />
+                        <Product data={item} cateName='' />
                       </div>
                     ))
                   : !isLoading && (
