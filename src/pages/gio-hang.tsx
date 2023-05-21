@@ -358,7 +358,7 @@ export default function CartPage() {
                       className='@992:p-5 py-3.5 px-4 relative border border-oby-DFDFDF bg-white rounded-tl-4 rounded-br-4 first:mt-0 @992:mt-5 mt-3 flex @992:gap-5 gap-3.5'
                       key={item.item_id}
                     >
-                      <div className='flex-shrink-0 relative w-[150px] h-[100px] bg-white rounded-tl-4 rounded-br-4 overflow-hidden'>
+                      <div className='flex-shrink-0 relative @768:w-[150px] @768:h-[100px] w-[95px] h-[82px] bg-white rounded-tl-4 rounded-br-4 overflow-hidden'>
                         <OBYImage
                           src={generateProductImageFromMagento(item.custom_attributes)}
                           alt={item.name}
@@ -536,7 +536,7 @@ export default function CartPage() {
                                       onSubmit={onSubmitPromotion}
                                       noValidate
                                     >
-                                      <div className='flex-grow max-w-[294px]'>
+                                      <div className='flex-grow @768:max-w-[294px] max-w-[211px]'>
                                         <Input
                                           type='text'
                                           name='coupon'
