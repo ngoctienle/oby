@@ -10,10 +10,12 @@ interface Props extends InputNumberProps {
   onTyping?: (value: number) => void
   onFocusOut?: (value: number) => void
   classNameWrapper?: string
+  isLoading?: boolean
 }
 
 export default function QuantityController({
   max,
+  isLoading,
   onIncrease,
   onDecrease,
   onTyping,
@@ -62,7 +64,7 @@ export default function QuantityController({
       <button
         className={`flex items-center justify-center h-6 w-6 disabled:cursor-not-allowed`}
         onClick={decrease}
-        disabled={localValue === 1}
+        disabled={localValue === 1 || isLoading}
       >
         <MinusIcon className={`h-5 w-5 ${localValue === 1 && 'text-oby-DFDFDF'}`} />
       </button>
@@ -78,7 +80,7 @@ export default function QuantityController({
       <button
         className='h-6 w-6 flex items-center justify-center disabled:cursor-not-allowed'
         onClick={increase}
-        disabled={localValue === max}
+        disabled={localValue === max || isLoading}
       >
         <PlusIcon className={`h-5 w-5 ${localValue === max && 'text-oby-DFDFDF'}`} />
       </button>

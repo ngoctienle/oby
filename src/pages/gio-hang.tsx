@@ -392,6 +392,7 @@ export default function CartPage() {
                               onTyping={handleTypeQuantity(item.item_id.toString())}
                               value={item.qty}
                               max={MAX_PRODUCT}
+                              isLoading={updateCartMutation.isLoading || updateMineCartMutation.isLoading}
                             />
                             <p className='fs-16 @576:block hidden'>
                               Số tiền: <span className='font-semibold'>{formatCurrency(item.price * item.qty)}</span>
