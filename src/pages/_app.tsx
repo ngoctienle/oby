@@ -6,6 +6,7 @@ import cookie from 'cookie'
 import type { AppContext, AppProps } from 'next/app'
 import App from 'next/app'
 import { Inter } from 'next/font/google'
+import Head from 'next/head'
 import Script from 'next/script'
 import NextNProgress from 'nextjs-progressbar'
 import { Fragment, useEffect, useMemo } from 'react'
@@ -70,6 +71,9 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
 
   return (
     <Fragment>
+      <Head>
+        <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' />
+      </Head>
       <QueryClientProvider client={queryClient}>
         <NextNProgress height={2} startPosition={0.3} stopDelayMs={200} showOnShallow={true} color='#4AA02C' />
         {/* <HeaderAds /> */}

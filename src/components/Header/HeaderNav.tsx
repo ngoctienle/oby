@@ -9,7 +9,7 @@ import {
   UserCircleIcon
 } from '@heroicons/react/24/outline'
 import Cookies from 'js-cookie'
-import { Fragment, useState } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 
 import { TypeUser, useGlobalState } from '@/libs/state'
 import { cn } from '@/libs/utils'
@@ -24,6 +24,17 @@ interface NavProps extends CateHeaderProps {
 
 export default function HeaderNav({ parentCategory, parentCategoryItem, userInfo }: NavProps) {
   const [open, setOpen] = useState(false)
+  const initializeCategory = useMemo(() => {
+    return parentCategory.map((category) => {
+      const categoryItem = parentCategoryItem?.find((item) => item.id === category.id)
+      const customAttributes = categoryItem?.custom_attributes || []
+
+      return {
+        ...category,
+        custom_attributes: customAttributes
+      }
+    })
+  }, [parentCategory, parentCategoryItem])
 
   const [, setUser] = useGlobalState('user')
   const [, setCartId] = useGlobalState('cartId')
@@ -41,9 +52,7 @@ export default function HeaderNav({ parentCategory, parentCategoryItem, userInfo
 
   return (
     <>
-      <OBYButton variant='ghost' className={cn('@992:hidden w-7 h-7')}>
-        <Bars3Icon type='button' onClick={() => setOpen(true)} />
-      </OBYButton>
+      <Bars3Icon type='button' className='w-6 cursor-pointer text-oby-676869 h-6' onClick={() => setOpen(true)} />
       <Transition appear show={open} as={Fragment}>
         <Dialog as='div' className='relative z-10' onClose={() => setOpen(false)}>
           <Transition.Child
@@ -70,14 +79,12 @@ export default function HeaderNav({ parentCategory, parentCategoryItem, userInfo
                 leaveTo='-translate-x-full opacity-0'
               >
                 <Dialog.Panel className='w-2/3 min-w-[275px] transform overflow-hidden bg-white p-4 text-left align-middle bsd transition-all'>
-                  <OBYButton variant='ghost' className={cn('w-6 h-6 p-0')} onClick={() => setOpen(false)}>
-                    <ChevronLeftIcon />
-                  </OBYButton>
+                  <ChevronLeftIcon className='w-6 h-6 text-oby-676869' onClick={() => setOpen(false)} />
                   {!userInfo ? (
                     <OBYButton
                       asChild
                       variant='ghost'
-                      className={cn('flex justify-start gap-1.5 border-b border-b-oby-DFDFDF')}
+                      className={cn('flex justify-start gap-1.5 !rounded-0 border-b border-b-oby-DFDFDF')}
                     >
                       <OBYLink href={hrefPath.login} title='Đăng nhập'>
                         <UserCircleIcon className='w-8 h-8 text-oby-676869' strokeWidth={1} />
@@ -152,42 +159,36 @@ export default function HeaderNav({ parentCategory, parentCategoryItem, userInfo
                   <Dialog.Title as='h3' className='fs-16 font-semibold my-3'>
                     Danh mục sản phẩm
                   </Dialog.Title>
-                  {parentCategoryItem?.map((item) => (
-                    <Dialog.Description
-                      as='div'
-                      key={item.id}
-                      className='space-y-3 mb-3 pb-3 border-b border-b-oby-DFDFDF last:mb-0 last:pb-0 last:border-b-transparent'
-                    >
-                      <div className='flex items-center gap-2 cursor-pointer'>
-                        <div className='w-6 h-6 relative'>
-                          <OBYImage
-                            src={generateCategoryImageFromMagento(item.custom_attributes)}
-                            display='responsive'
-                            alt={item.name}
-                            title={item.name}
-                            className='object-cover'
-                          />
+                  {initializeCategory
+                    ?.filter((item) => item.is_active && item.product_count !== 0)
+                    .map((item) => (
+                      <Dialog.Description
+                        as='div'
+                        key={item.id}
+                        className='space-y-3 mb-3 pb-3 border-b border-b-oby-DFDFDF last:mb-0 last:pb-0 last:border-b-transparent'
+                      >
+                        <div className='flex items-center gap-2 cursor-pointer'>
+                          <div className='w-6 h-6 relative'>
+                            <OBYImage
+                              src={generateCategoryImageFromMagento(item.custom_attributes)}
+                              display='responsive'
+                              alt={item.name}
+                              title={item.name}
+                              className='object-cover'
+                            />
+                          </div>
+                          <p className='text-oby-green whitespace-nowrap hover:text-oby-primary fs-14 font-bold transition-colors'>
+                            {item.name}
+                          </p>
                         </div>
-                        <p className='text-oby-green whitespace-nowrap hover:text-oby-primary fs-14 font-bold transition-colors'>
-                          {item.name}
-                        </p>
-                      </div>
-                      {parentCategory?.map((_item) => {
-                        if (item.id === _item.id) {
-                          const childData = _item.children_data
-                          return childData.map((__item) => (
-                            <p
-                              key={__item.id}
-                              className='fs-14 cursor-pointer hover:text-oby-primary transition-colors'
-                            >
-                              {' '}
-                              {__item.name}
-                            </p>
-                          ))
-                        }
-                      })}
-                    </Dialog.Description>
-                  ))}
+                        {item.children_data.map((__item) => (
+                          <p key={__item.id} className='fs-14 cursor-pointer hover:text-oby-primary transition-colors'>
+                            {' '}
+                            {__item.name}
+                          </p>
+                        ))}
+                      </Dialog.Description>
+                    ))}
                 </Dialog.Panel>
               </Transition.Child>
             </div>
