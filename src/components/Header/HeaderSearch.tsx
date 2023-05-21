@@ -1,5 +1,5 @@
 import { OBYImage, OBYLink } from '../UI/Element'
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
+import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useQuery } from '@tanstack/react-query'
 import DOMPurify from 'isomorphic-dompurify'
 import { useRef, useState } from 'react'
@@ -111,60 +111,67 @@ export default function HeaderSearch() {
         placeholder='Cô chú cần tìm món hàng gì'
         className='outline-none w-full placeholder:text-oby-9A9898 placeholder:fs-14 @992:placeholder:fs-16'
         onChange={handleTyping}
+        value={searchStr}
       />
-      <MagnifyingGlassIcon className='w-4.5 h-4.5' />
+      {searchStr !== '' ? (
+        <XMarkIcon className='w-4.5 h-4.5 cursor-pointer' onClick={() => setSearchStr('')} />
+      ) : (
+        <MagnifyingGlassIcon className='w-4.5 h-4.5' />
+      )}
       {debounceSearchStr !== '' && isOpen && (
         <div
           ref={ref}
-          className='absolute top-full inset-x-0 @992:mt-2 bg-white @992:py-5 py-2 @992:rounded-4 w-full bsd'
+          className='absolute top-full overflow-y-auto inset-x-0 @992:mt-2 bg-white @992:py-5 py-2 @992:rounded-4 w-full'
         >
-          {data?.data && data.data.items.length > 0
-            ? data.data.items.map((product) => (
-                <OBYLink
-                  href={`${hrefPath.productDetail}/${product.sku}`}
-                  className='@992:px-6 px-4 @992:py-4 py-3 border-b bg-white hover:bg-oby-F6F7F8 transition-colors border-b-oby-DFDFDF flex @992:gap-5 gap-4 items-center'
-                  key={product.id}
-                >
-                  <div className='relative flex-shrink-0 w-[78px] h-[52px] overflow-hidden rounded-tl-4 rounded-br-4'>
-                    <OBYImage
-                      src={generateProductImageFromMagento(product.custom_attributes)}
-                      alt={product.name}
-                      display='responsive'
-                      className='object-cover'
-                    />
-                  </div>
-                  <div className='@992:space-y-2 space-y-1.5'>
-                    <p
-                      className='@992:fs-16 fs-14 line-clamp-2'
-                      dangerouslySetInnerHTML={{
-                        __html: DOMPurify.sanitize(filterStr(product.name, debounceSearchStr))
-                      }}
-                    />
-                    <div className='flex items-center gap-2.5'>
-                      {isHaveDiscount(product.custom_attributes) ? (
-                        <>
-                          <p className='@992:fs-16 fs-14 font-semibold'>{getDiscount(product.custom_attributes)}</p>
-                          <p className='@992:fs-14 fs-12 line-through text-oby-676869'>
-                            {formatCurrency(product.price)}
-                          </p>
-                          <p className='@520:block hidden fs-12 text-oby-orange px-1 py-[1px] rounded-2 border border-oby-orange'>
-                            {getDiscountPercent(product.custom_attributes)}
-                          </p>
-                        </>
-                      ) : (
-                        <p className='fs-16 font-semibold'>{formatCurrency(product.price)}</p>
-                      )}
+          <div className='max-h-[400px]'>
+            {data?.data && data.data.items.length > 0
+              ? data.data.items.map((product) => (
+                  <OBYLink
+                    href={`${hrefPath.productDetail}/${product.sku}`}
+                    className='@992:px-6 px-4 @992:py-4 py-3 border-b bg-white hover:bg-oby-F6F7F8 transition-colors border-b-oby-DFDFDF flex @992:gap-5 gap-4 items-center'
+                    key={product.id}
+                  >
+                    <div className='relative flex-shrink-0 w-[78px] h-[52px] overflow-hidden rounded-tl-4 rounded-br-4'>
+                      <OBYImage
+                        src={generateProductImageFromMagento(product.custom_attributes)}
+                        alt={product.name}
+                        display='responsive'
+                        className='object-cover'
+                      />
                     </div>
-                  </div>
-                </OBYLink>
-              ))
-            : !isLoading && (
-                <p className='fs-16 text-center text-oby-676869'>
-                  Xin lỗi, chúng tôi không thể tìm thấy kết quả phù hợp với từ khóa{' '}
-                  <span className='font-semibold'>&quot;{debounceSearchStr}&quot;</span>
-                </p>
-              )}
-          {isLoading && <SearchLoading />}
+                    <div className='@992:space-y-2 space-y-1.5'>
+                      <p
+                        className='@992:fs-16 fs-14 line-clamp-2'
+                        dangerouslySetInnerHTML={{
+                          __html: DOMPurify.sanitize(filterStr(product.name, debounceSearchStr))
+                        }}
+                      />
+                      <div className='flex items-center gap-2.5'>
+                        {isHaveDiscount(product.custom_attributes) ? (
+                          <>
+                            <p className='@992:fs-16 fs-14 font-semibold'>{getDiscount(product.custom_attributes)}</p>
+                            <p className='@992:fs-14 fs-12 line-through text-oby-676869'>
+                              {formatCurrency(product.price)}
+                            </p>
+                            <p className='@520:block hidden fs-12 text-oby-orange px-1 py-[1px] rounded-2 border border-oby-orange'>
+                              {getDiscountPercent(product.custom_attributes)}
+                            </p>
+                          </>
+                        ) : (
+                          <p className='fs-16 font-semibold'>{formatCurrency(product.price)}</p>
+                        )}
+                      </div>
+                    </div>
+                  </OBYLink>
+                ))
+              : !isLoading && (
+                  <p className='fs-16 text-center text-oby-676869'>
+                    Xin lỗi, chúng tôi không thể tìm thấy kết quả phù hợp với từ khóa{' '}
+                    <span className='font-semibold'>&quot;{debounceSearchStr}&quot;</span>
+                  </p>
+                )}
+            {isLoading && <SearchLoading />}
+          </div>
         </div>
       )}
     </form>
