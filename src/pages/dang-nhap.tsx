@@ -2,7 +2,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
-import React from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
 
@@ -38,12 +37,9 @@ export default function Login() {
   const { query } = router
   const queryRedirect = Object.values(query)[0] ?? hrefPath.home
 
-  const [isError, setIsError] = React.useState(false)
-
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors }
   } = useForm<FormLoginSchema>({
     resolver: yupResolver(loginFormSchema)
@@ -52,14 +48,6 @@ export default function Login() {
   const loginMutation = useMutation({
     mutationFn: (body: LoginBodyRequest) => authApi.LoginAccount(body)
   })
-
-  const onFocusHandler = () => {
-    if (isError) {
-      setIsError(false)
-      setError('email', {})
-      setError('password', {})
-    }
-  }
 
   const handleSubmitLogin = handleSubmit((data) => {
     const { email, password } = data
@@ -93,14 +81,7 @@ export default function Login() {
         if (isAxiosError<ResponseError>(error)) {
           const formError = error.response?.data
           if (formError?.message === ErrorMagento.failCredentials) {
-            setIsError(true)
-            setError('email', {
-              message: ''
-            })
-            setError('password', {
-              message: 'Email hoặc Mật khẩu không hợp lệ!',
-              type: 'Server'
-            })
+            toast.error('Email hoặc Mật khẩu không hợp lệ!')
           }
         } else {
           toast.error('Có lỗi xảy ra! Vui lòng thử lại.')
@@ -136,7 +117,6 @@ export default function Login() {
               name='email'
               errorMessage={errors.email?.message}
               register={register}
-              onChange={onFocusHandler}
             />
             <Input
               type='password'
@@ -145,7 +125,6 @@ export default function Login() {
               className='@768:mt-4.5 mt-4'
               errorMessage={errors.password?.message}
               register={register}
-              onChange={onFocusHandler}
             />
             <OBYButton
               variant='link'
