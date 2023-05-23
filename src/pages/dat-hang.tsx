@@ -4,6 +4,7 @@ import {
   CheckIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  MagnifyingGlassIcon,
   ShoppingBagIcon,
   XMarkIcon
 } from '@heroicons/react/24/outline'
@@ -95,6 +96,11 @@ export default function OrderPage({
   /* const [user] = useGlobalState('user')
   const [, setCartId] = useGlobalState('cartId') */
 
+  const [searchText, setSearchText] = useState({
+    city: '',
+    district: '',
+    ward: ''
+  })
   const [billing, setBilling] = useState<IBillingAddress | null>(billingData)
 
   const [orderCalculate, setOrderCalculate] = useState<CalculateOrder>()
@@ -108,7 +114,6 @@ export default function OrderPage({
 
   const [isProvineOpen, setIsProvineOpen] = useState<boolean>(false)
   const [selectedProvine, setSelectedProvine] = useState<SelectedPlace>()
-  const [searchProvine] = useState<string>('')
 
   const [isDistrictOpen, setIsDistrictOpen] = useState<boolean>(false)
   const [districtArr, setDistrictArr] = useState<District[]>()
@@ -257,8 +262,9 @@ export default function OrderPage({
       setDistrictArr(undefined)
       setWardArr(undefined)
       setIsProvineOpen(false)
+      setSearchText({ ...searchText, city: '' })
     },
-    [clearErrors, setValue]
+    [clearErrors, searchText, setValue]
   )
   const handleSelectDistrict = useCallback(
     (name: string, code: number) => {
@@ -274,8 +280,9 @@ export default function OrderPage({
       setWardArr(undefined)
 
       setIsDistrictOpen(false)
+      setSearchText({ ...searchText, district: '' })
     },
-    [clearErrors, setValue]
+    [clearErrors, searchText, setValue]
   )
   const handleSelectWard = useCallback(
     (name: string, code: number) => {
@@ -287,22 +294,53 @@ export default function OrderPage({
       clearErrors('ward')
 
       setIsWardOpen(false)
+      setSearchText({ ...searchText, ward: '' })
     },
-    [clearErrors, setValue]
+    [clearErrors, searchText, setValue]
   )
 
   const filteredProvine = useMemo(() => {
-    const searchRegex = new RegExp(
-      `^[\\p{L}0-9\\s]*${searchProvine
-        .trim()
-        .toLowerCase()
-        .replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')}[\\p{L}0-9\\s]*$`,
-      'iu'
-    )
+    const { city } = searchText
+    // const searchRegex = new RegExp(
+    //   `^[\\p{L}0-9\\s]*${searchText
+    //     .trim()
+    //     .toLowerCase()
+    //     .replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')}[\\p{L}0-9\\s]*$`,
+    //   'iu'
+    // )
     return provines.filter((provine) => {
-      return searchRegex.test(provine.name)
+      // return searchRegex.test(provine.name)
+      if (city === '') {
+        return provine.name
+      }
+      return provine.name.toLowerCase().includes(city.toLowerCase())
     })
-  }, [provines, searchProvine])
+  }, [provines, searchText])
+
+  const filterDistrict = useMemo(() => {
+    const { district } = searchText
+    return districtArr?.filter((dis) => {
+      if (district === '') {
+        return dis.name
+      }
+      return dis.name.toLowerCase().includes(district.toLowerCase())
+    })
+  }, [districtArr, searchText])
+
+  const filterWard = useMemo(() => {
+    const { ward } = searchText
+    return wardArr?.filter((wa) => {
+      if (ward === '') {
+        return wa.name
+      }
+      return wa.name.toLowerCase().includes(ward.toLowerCase())
+    })
+  }, [wardArr, searchText])
+
+  const searchInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setSearchText({ ...searchText, [name]: value })
+  }
 
   const onSubmit = handleSubmit((data) => {
     const { address, district, provine, email, phone, fullname, ward } = data
@@ -640,7 +678,17 @@ export default function OrderPage({
                                           onClick={() => setIsProvineOpen(false)}
                                         />
                                         <div className='my-6 flex flex-col items-center'>
-                                          <p>Search TODO</p>
+                                          <div className='flex items-center flex-grow py-2.5 @768:px-4 px-3 border border-oby-DFDFDF rounded-2.5 @768:rounded-4 bg-white outline-none placeholder:fs-14 @768:placeholder:fs-16 placeholder:text-oby-9A9898 w-full h-full focus:border-oby-primary transition-colors disabled:bg-oby-F6F7F8 disabled:cursor-not-allowed @992:fs-16 fs-14'>
+                                            <MagnifyingGlassIcon className='w-4.5 h-4.5 text-oby-9A9898' />
+                                            <input
+                                              name='city'
+                                              className='outline-none w-full placeholder:text-oby-9A9898 placeholder:fs-14 @992:placeholder:fs-16 ml-3'
+                                              type='text'
+                                              placeholder='Tìm kiếm'
+                                              value={searchText.city}
+                                              onChange={searchInputHandler}
+                                            />
+                                          </div>
                                         </div>
                                         <div className='overflow-y-scroll max-h-[550px]'>
                                           <p className='@992:fs-14 fs-12 mb-1.5'>Tỉnh/Thành phố</p>
@@ -688,7 +736,7 @@ export default function OrderPage({
                               register={register}
                             />
                             {/* Modal District */}
-                            {districtArr && (
+                            {filterDistrict && (
                               <Transition show={isDistrictOpen} as={Fragment}>
                                 <Dialog as='div' className='relative z-[11]' onClose={() => setIsDistrictOpen(false)}>
                                   <Transition.Child
@@ -724,11 +772,21 @@ export default function OrderPage({
                                             onClick={() => setIsDistrictOpen(false)}
                                           />
                                           <div className='my-6 flex flex-col items-center'>
-                                            <p className='fs-16 text-oby-676869'>Todo Input</p>
+                                            <div className='flex items-center flex-grow py-2.5 @768:px-4 px-3 border border-oby-DFDFDF rounded-2.5 @768:rounded-4 bg-white outline-none placeholder:fs-14 @768:placeholder:fs-16 placeholder:text-oby-9A9898 w-full h-full focus:border-oby-primary transition-colors disabled:bg-oby-F6F7F8 disabled:cursor-not-allowed @992:fs-16 fs-14'>
+                                              <MagnifyingGlassIcon className='w-4.5 h-4.5 text-oby-9A9898' />
+                                              <input
+                                                name='district'
+                                                className='outline-none w-full placeholder:text-oby-9A9898 placeholder:fs-14 @992:placeholder:fs-16 ml-3'
+                                                type='text'
+                                                placeholder='Tìm kiếm'
+                                                value={searchText.district}
+                                                onChange={searchInputHandler}
+                                              />
+                                            </div>
                                           </div>
                                           <div className='overflow-y-scroll max-h-[550px]'>
                                             <p className='@992:fs-14 fs-12 mb-1.5'>Quận/Huyện</p>
-                                            {districtArr.map((district, index) => (
+                                            {filterDistrict.map((district, index) => (
                                               <div
                                                 className='py-2.5 border-b cursor-pointer border-b-DFDFDF flex items-center justify-between'
                                                 key={district.codename}
@@ -773,7 +831,7 @@ export default function OrderPage({
                               register={register}
                             />
                             {/* Ward Modal */}
-                            {wardArr && (
+                            {filterWard && (
                               <Transition show={isWardOpen} as={Fragment}>
                                 <Dialog as='div' className='relative z-[11]' onClose={() => setIsWardOpen(false)}>
                                   <Transition.Child
@@ -809,11 +867,21 @@ export default function OrderPage({
                                             onClick={() => setIsWardOpen(false)}
                                           />
                                           <div className='my-6 flex flex-col items-center'>
-                                            <p className='fs-16 text-oby-676869'>Todo Input</p>
+                                            <div className='flex items-center flex-grow py-2.5 @768:px-4 px-3 border border-oby-DFDFDF rounded-2.5 @768:rounded-4 bg-white outline-none placeholder:fs-14 @768:placeholder:fs-16 placeholder:text-oby-9A9898 w-full h-full focus:border-oby-primary transition-colors disabled:bg-oby-F6F7F8 disabled:cursor-not-allowed @992:fs-16 fs-14'>
+                                              <MagnifyingGlassIcon className='w-4.5 h-4.5 text-oby-9A9898' />
+                                              <input
+                                                name='ward'
+                                                className='outline-none w-full placeholder:text-oby-9A9898 placeholder:fs-14 @992:placeholder:fs-16 ml-3'
+                                                type='text'
+                                                placeholder='Tìm kiếm'
+                                                value={searchText.ward}
+                                                onChange={searchInputHandler}
+                                              />
+                                            </div>
                                           </div>
                                           <div className='overflow-y-scroll max-h-[550px]'>
                                             <p className='@992:fs-14 fs-12 mb-1.5'>Phường/Xã</p>
-                                            {wardArr.map((ward, index) => (
+                                            {filterWard.map((ward, index) => (
                                               <div
                                                 className='py-2.5 border-b cursor-pointer border-b-DFDFDF flex items-center justify-between'
                                                 key={ward.codename}
