@@ -369,35 +369,31 @@ export default function CartPage() {
                       </div>
                       <div className='w-full'>
                         <h2 className='@992:fs-16 fs-14 @992:line-clamp-1 line-clamp-2'>{item.name}</h2>
-                        <div className='@576:block flex items-center justify-between'>
-                          <div className='flex items-center flex-wrap gap-2.5 my-2'>
-                            {isHaveDiscount(item.custom_attributes) ? (
-                              <>
-                                <p className='@992:fs-16 fs-14 font-semibold'>{getDiscount(item.custom_attributes)}</p>
-                                <p className='@992:fs-14 fs-12 line-through text-oby-676869'>
-                                  {getCost(item.custom_attributes)}
-                                </p>
-                              </>
-                            ) : (
-                              <p className='@992:fs-16 fs-14 font-semibold'>{formatCurrency(item.price)}</p>
-                            )}
-                          </div>
-                          <div className='flex items-center justify-between'>
-                            <QuantityController
-                              classNameWrapper='max-w-max px-1.5 py-1.75'
-                              onIncrease={(value) =>
-                                handleQuantity(item.item_id.toString(), value, value <= MAX_PRODUCT)
-                              }
-                              onDecrease={(value) => handleQuantity(item.item_id.toString(), value, value >= 1)}
-                              onTyping={handleTypeQuantity(item.item_id.toString())}
-                              value={item.qty}
-                              max={MAX_PRODUCT}
-                              isLoading={updateCartMutation.isLoading || updateMineCartMutation.isLoading}
-                            />
-                            <p className='fs-16 @576:block hidden'>
-                              Số tiền: <span className='font-semibold'>{formatCurrency(item.price * item.qty)}</span>
-                            </p>
-                          </div>
+                        <div className='flex items-center gap-2.5 my-2'>
+                          {isHaveDiscount(item.custom_attributes) ? (
+                            <>
+                              <p className='@992:fs-16 fs-14 font-semibold'>{getDiscount(item.custom_attributes)}</p>
+                              <p className='@992:fs-14 fs-12 line-through text-oby-676869'>
+                                {getCost(item.custom_attributes)}
+                              </p>
+                            </>
+                          ) : (
+                            <p className='@992:fs-16 fs-14 font-semibold'>{formatCurrency(item.price)}</p>
+                          )}
+                        </div>
+                        <div className='flex items-center justify-between'>
+                          <QuantityController
+                            classNameWrapper='max-w-max px-1.5 py-1.75'
+                            onIncrease={(value) => handleQuantity(item.item_id.toString(), value, value <= MAX_PRODUCT)}
+                            onDecrease={(value) => handleQuantity(item.item_id.toString(), value, value >= 1)}
+                            onTyping={handleTypeQuantity(item.item_id.toString())}
+                            value={item.qty}
+                            max={MAX_PRODUCT}
+                            isLoading={updateCartMutation.isLoading || updateMineCartMutation.isLoading}
+                          />
+                          <p className='fs-16 @576:block hidden'>
+                            Số tiền: <span className='font-semibold'>{formatCurrency(item.price * item.qty)}</span>
+                          </p>
                         </div>
                       </div>
                       <OBYImage

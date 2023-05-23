@@ -1063,7 +1063,7 @@ export default function OrderPage({
                       className='@992:p-5 py-3.5 px-4 border border-oby-DFDFDF bg-white rounded-tl-4 rounded-br-4 first:mt-0 @992:mt-4 mt-3 flex @992:gap-5 gap-3.5'
                       key={item.item_id}
                     >
-                      <div className='flex-shrink-0 relative w-[150px] h-[100px] bg-white rounded-tl-4 rounded-br-4 overflow-hidden'>
+                      <div className='flex-shrink-0 relative @768:w-[150px] @768:h-[100px] w-[95px] h-[82px] bg-white rounded-tl-4 rounded-br-4 overflow-hidden'>
                         <OBYImage
                           src={generateProductImageFromMagento(item.custom_attributes)}
                           alt={item.name}
@@ -1074,23 +1074,25 @@ export default function OrderPage({
                       </div>
                       <div className='w-full'>
                         <h2 className='@992:fs-16 fs-14 @992:line-clamp-1 line-clamp-2'>{item.name}</h2>
-                        <div className='flex items-center gap-2.5 mt-2'>
-                          {isHaveDiscount(item.custom_attributes) ? (
-                            <>
-                              <p className='@992:fs-16 fs-14 font-semibold'>{getDiscount(item.custom_attributes)}</p>
-                              <p className='@992:fs-14 fs-12 line-through text-oby-676869'>
-                                {getCost(item.custom_attributes)}
-                              </p>
-                            </>
-                          ) : (
-                            <p className='@992:fs-16 fs-14 font-semibold'>{formatCurrency(item.price)}</p>
-                          )}
-                        </div>
-                        <div className='flex items-center justify-between mt-5'>
-                          <p className='fs-16 text-oby-primary'>x {item.qty}</p>
-                          <p className='fs-16'>
-                            Số tiền: <span className='font-semibold'>{formatCurrency(item.price * item.qty)}</span>
-                          </p>
+                        <div className='@520:block flex items-center justify-between mt-2'>
+                          <div className='flex @520:flex-row flex-col @520:items-center @520:gap-2.5'>
+                            {isHaveDiscount(item.custom_attributes) ? (
+                              <>
+                                <p className='@992:fs-16 fs-14 font-semibold'>{getDiscount(item.custom_attributes)}</p>
+                                <p className='@992:fs-14 fs-12 line-through text-oby-676869'>
+                                  {getCost(item.custom_attributes)}
+                                </p>
+                              </>
+                            ) : (
+                              <p className='@992:fs-16 fs-14 font-semibold'>{formatCurrency(item.price)}</p>
+                            )}
+                          </div>
+                          <div className='flex items-center justify-between @520:mt-5'>
+                            <p className='fs-16 text-oby-primary'>x {item.qty}</p>
+                            <p className='fs-16 @520:block hidden'>
+                              Số tiền: <span className='font-semibold'>{formatCurrency(item.price * item.qty)}</span>
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>
