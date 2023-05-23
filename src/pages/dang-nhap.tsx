@@ -40,7 +40,6 @@ export default function Login() {
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors }
   } = useForm<FormLoginSchema>({
     resolver: yupResolver(loginFormSchema)
@@ -82,13 +81,7 @@ export default function Login() {
         if (isAxiosError<ResponseError>(error)) {
           const formError = error.response?.data
           if (formError?.message === ErrorMagento.failCredentials) {
-            setError('email', {
-              message: ''
-            })
-            setError('password', {
-              message: 'Email hoặc Mật khẩu không hợp lệ!',
-              type: 'Server'
-            })
+            toast.error('Email hoặc Mật khẩu không hợp lệ!')
           }
         } else {
           toast.error('Có lỗi xảy ra! Vui lòng thử lại.')
