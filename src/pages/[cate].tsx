@@ -3,11 +3,14 @@ import { GetServerSideProps } from 'next'
 import { ParsedUrlQuery } from 'querystring'
 import { useMemo } from 'react'
 
+import { createSlug } from '@/helpers'
+
 import categoryApi from '@/apis/magento/category.api'
 import productApi from '@/apis/magento/product.api'
 
 import Breadcrumb from '@/components/Breadcrumb'
 import Product from '@/components/Product'
+import { OBYButton, OBYLink } from '@/components/UI/Element'
 
 interface CatePageProps {
   cateName: string
@@ -45,8 +48,12 @@ export default function CatePage({ cateName, cateId }: CatePageProps) {
                 <h3 className='fs-16 font-semibold mb-3'>Danh mục sản phẩm</h3>
                 <ul className='space-y-3'>
                   {initialCate?.children_data.map((item) => (
-                    <li key={item.id} className='fs-14 hover:text-oby-primary cursor-pointer'>
-                      {item.name}
+                    <li key={item.id} className='fs-14 '>
+                      <OBYButton asChild variant='link' size='link' className='text-oby-222324 hover:text-oby-primary'>
+                        <OBYLink href={`${createSlug(item.name)}-${item.id}`} title={item.name}>
+                          {item.name}
+                        </OBYLink>
+                      </OBYButton>
                     </li>
                   ))}
                 </ul>
