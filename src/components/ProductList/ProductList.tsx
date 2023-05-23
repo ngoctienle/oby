@@ -68,7 +68,7 @@ export default function ProductList({ category, subcategory, categoryID }: Produ
       {productData.items.length > 8 && (
         <div className='flex items-center justify-center mt-10 gap-1.5'>
           <OBYLink
-            href={`${hrefPath.catePage}/${createSlug(category)}`}
+            href={`${hrefPath.catePage}/${createSlug(category)}-${categoryID}`}
             title='Xem tất cả sản phẩm'
             className='text-oby-primary @992:fs-18 fs-16'
           >
