@@ -27,7 +27,7 @@ function removeSpecialCharacter(str: string) {
 }
 
 export function createSlug(str: string) {
-  return removeSpecialCharacter(removeAccents(str)).replace(/\s+/g, '-')
+  return removeSpecialCharacter(removeAccents(str)).trim().replace(/\s+/g, '-')
 }
 
 export function mergeArrayItems(arr1: ItemInCart[], arr2: ProductResponse) {

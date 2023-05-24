@@ -9,6 +9,7 @@ import React, { useRef, useState } from 'react'
 import { toast } from 'react-hot-toast'
 
 import { CartRequest } from '@/@types/cart.type'
+import { CustomAttribute } from '@/@types/magento.type'
 import { Product } from '@/@types/product.type'
 
 import { generateMetaSEO } from '@/libs/seo'
@@ -116,7 +117,7 @@ export default function ProductDetail({ subName, productData, parentName, produc
   }
 
   /* Handle Description Show More/Less*/
-  const description = getDescription(productData.custom_attributes)
+  const description = getDescription(productData?.custom_attributes)
   const sanitizedDescription = DOMPurify.sanitize(description as string)
   const slicedDescription = sanitizedDescription.slice(0, 800) + ' ...'
   const toggleDescription = () => {
@@ -165,7 +166,7 @@ export default function ProductDetail({ subName, productData, parentName, produc
     title: productName,
     description: slicedDescription,
     keywords: [subName, parentName, productName, 'ongbayeu.com'],
-    og_image: generateProductImageFromMagento(productData.custom_attributes),
+    og_image: generateProductImageFromMagento(productData?.custom_attributes),
     og_image_alt: productName,
     slug: hrefPath.productDetail + '/' + slug
   })
@@ -191,7 +192,7 @@ export default function ProductDetail({ subName, productData, parentName, produc
                   src={
                     activeImage !== ''
                       ? `${SITE_URL}/pub/media/catalog/product/${activeImage}`
-                      : generateProductImageFromMagento(productData.custom_attributes)
+                      : generateProductImageFromMagento(productData?.custom_attributes as CustomAttribute[])
                   }
                   alt='alt'
                   className='pointer-events-none absolute w-full h-full top-0 inset-0 object-cover bg-white'
@@ -249,12 +250,12 @@ export default function ProductDetail({ subName, productData, parentName, produc
                 </div>
               </div>
               <div className='bg-oby-F6F7F8 @768:px-5 px-4 @768:py-4 py-3.5 rounded-4 @768:max-w-max flex items-center gap-4 @768:mt-6.25 mt-5'>
-                {isHaveDiscount(productData.custom_attributes) ? (
+                {isHaveDiscount(productData?.custom_attributes) ? (
                   <>
-                    <p className='@768:fs-26 fs-18 font-semibold'>{getDiscount(productData.custom_attributes)}</p>
+                    <p className='@768:fs-26 fs-18 font-semibold'>{getDiscount(productData?.custom_attributes)}</p>
                     <p className='@768:fs-18 fs-14 line-through text-oby-676869'>{formatCurrency(productData.price)}</p>
                     <p className='@768:fs-16 fs-12 text-oby-orange px-1.5 py-0.75 rounded-lg border border-oby-orange'>
-                      {getDiscountPercent(productData.custom_attributes)}
+                      {getDiscountPercent(productData?.custom_attributes)}
                     </p>
                   </>
                 ) : (
@@ -286,7 +287,7 @@ export default function ProductDetail({ subName, productData, parentName, produc
               </div>
             </div>
           </div>
-          {getDescription(productData.custom_attributes) && (
+          {getDescription(productData?.custom_attributes) && (
             <div className='@768:pt-15 pt-6 border-t border-t-oby-primary'>
               <h2 className='@768:fs-26 fs-20 font-bold text-oby-green'>Chi tiết sản phẩm</h2>
               <div
@@ -326,7 +327,7 @@ export const getServerSideProps: GetServerSideProps<IProductDetailProps> = async
 
   try {
     const { data: productData } = await productApi.GetProductDetailBySKU(slug[1])
-    const categoryIDs = findIDsFromProduct(productData.custom_attributes) ?? []
+    const categoryIDs = findIDsFromProduct(productData?.custom_attributes) ?? []
 
     const [subCategoryRes, parentCategoryRes] = await Promise.all([
       categoryApi.GetCategoryNameById(categoryIDs[1]),
