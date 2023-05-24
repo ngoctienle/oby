@@ -21,7 +21,7 @@ export default function ProductRating({ rating }: { rating: number }) {
                 viewBox='0 0 24 24'
                 x={0}
                 y={0}
-                className='h-4 w-4 fill-oby-orange text-oby-orange'
+                className='h-6 w-6 fill-oby-orange text-oby-orange'
               >
                 <path
                   id='Stroke 1'
@@ -36,7 +36,7 @@ export default function ProductRating({ rating }: { rating: number }) {
               x={0}
               y={0}
               viewBox='0 0 24 24'
-              className='h-4 w-4 fill-current text-oby-DFDFDF'
+              className='h-6 w-6 fill-current text-oby-DFDFDF'
             >
               <path
                 id='Stroke 1'
