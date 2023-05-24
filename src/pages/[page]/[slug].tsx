@@ -168,7 +168,9 @@ export default function ProductDetail({ subName, productData, parentName, produc
     keywords: [subName, parentName, productName, 'ongbayeu.com'],
     og_image: generateProductImageFromMagento(productData?.custom_attributes),
     og_image_alt: productName,
-    slug: hrefPath.productDetail + '/' + slug
+    slug: hrefPath.productDetail + '/' + slug,
+    noindex: true,
+    nofollow: true
   })
 
   return (
@@ -326,7 +328,7 @@ export const getServerSideProps: GetServerSideProps<IProductDetailProps> = async
   const { slug } = context.params as IParams
 
   try {
-    const { data: productData } = await productApi.GetProductDetailBySKU(slug[1])
+    const { data: productData } = await productApi.GetProductDetailBySKU(slug)
     const categoryIDs = findIDsFromProduct(productData?.custom_attributes) ?? []
 
     const [subCategoryRes, parentCategoryRes] = await Promise.all([
