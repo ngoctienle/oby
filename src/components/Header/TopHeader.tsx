@@ -1,7 +1,7 @@
+import Popover from '../Popover'
 import { OBYImage, OBYLink } from '../UI/Element'
 import { OBYCategoryIcon } from '../UI/OBYIcons'
-import { Menu, Transition } from '@headlessui/react'
-import { Fragment, useMemo } from 'react'
+import { useMemo } from 'react'
 
 import { Category, ItemWithAttribute } from '@/@types/category.type'
 
@@ -31,28 +31,16 @@ export default function TopHeader({ parentCategory, parentCategoryItem }: CateHe
     <div className='bg-[#F6F7F8] py-1.5'>
       <div className='container'>
         <div className='flex items-center'>
-          <Menu as='div' className='relative text-left'>
-            <Menu.Button className='flex items-center gap-1'>
-              <OBYCategoryIcon className='w-5 h-5 text-oby-676869' />
-              <p className='fs-14'>Danh mục</p>
-            </Menu.Button>
-            <Transition
-              as={Fragment}
-              enter='transition ease-out duration-100'
-              enterFrom='transform opacity-0 scale-95'
-              enterTo='transform opacity-100 scale-100'
-              leave='transition ease-in duration-75'
-              leaveFrom='transform opacity-100 scale-100'
-              leaveTo='transform opacity-0 scale-95'
-            >
-              <Menu.Items className='absolute z-50 left-0 mt-2 min-w-[720px] origin-top-left px-6 py-5 rounded-4 bg-white bsd focus:outline-none'>
+          <Popover
+            className='flex items-center gap-1 cursor-pointer'
+            renderPopover={
+              <div className='absolute -left-24 top-0 min-w-[720px] px-6 py-5 rounded-4 bg-white bsd focus:outline-none'>
                 <h2 className='fs-16 font-semibold mb-4'>Danh mục sản phẩm</h2>
                 <div className='grid grid-cols-3'>
                   {initializeCategory
                     ?.filter((item) => item.is_active && item.product_count !== 0)
                     .map((item) => (
-                      <Menu.Item
-                        as='div'
+                      <div
                         className='col-span-1 nth-3n:border-r-transparent nth-[n+4]:mt-10 mr-5 pr-5 nth-3n:mr-0 nth-3n:pr-0 border-r border-r-oby-DFDFDF last:border-r-transparent'
                         key={item.id}
                       >
@@ -81,12 +69,16 @@ export default function TopHeader({ parentCategory, parentCategoryItem }: CateHe
                             </p>
                           ))}
                         </div>
-                      </Menu.Item>
+                      </div>
                     ))}
                 </div>
-              </Menu.Items>
-            </Transition>
-          </Menu>
+              </div>
+            }
+          >
+            <OBYCategoryIcon className='w-5 h-5 text-oby-676869' />
+            <p className='fs-14'>Danh mục</p>
+          </Popover>
+
           <div className='flex items-center gap-1 ml-15'>
             <p className='fs-14'>Mua hàng và CSKH</p>
             <OBYLink
