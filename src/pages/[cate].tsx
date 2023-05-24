@@ -64,7 +64,7 @@ export default function CatePage({ cateName, cateId }: CatePageProps) {
                 {!isLoading &&
                   productRes?.data.items.map((item) => (
                     <div className='@768:col-span-4 col-span-6' key={item.id}>
-                      <Product data={item} cateName='' />
+                      <Product data={item} cateName={cateName} />
                     </div>
                   ))}
                 {isLoading &&
