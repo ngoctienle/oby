@@ -328,7 +328,7 @@ export const getServerSideProps: GetServerSideProps<IProductDetailProps> = async
   const { slug } = context.params as IParams
 
   try {
-    const { data: productData } = await productApi.GetProductDetailBySKU(slug)
+    const { data: productData } = await productApi.GetProductDetailBySKU(slug[1])
     const categoryIDs = findIDsFromProduct(productData?.custom_attributes) ?? []
 
     const [subCategoryRes, parentCategoryRes] = await Promise.all([

@@ -10,7 +10,7 @@ import productApi from '@/apis/magento/product.api'
 import { cacheTime } from '@/constants/config.constant'
 
 import Product from '@/components/Product'
-import { OBYLink } from '@/components/UI/Element'
+import { OBYButton, OBYLink } from '@/components/UI/Element'
 
 interface ProductListProps {
   categoryID: number
@@ -34,10 +34,12 @@ export default function ProductList({ category, subcategory, categoryID }: Produ
   return (
     <div className=''>
       {/* Category Name */}
-      <div className='flex items-center @992:mb-7.5 mb-4 gap-2'>
-        <h2 className='@992:fs-26 fs-20 text-oby-green font-bold'>{category}</h2>
-        <ArrowLongRightIcon className='@992:w-7 @992:h-7 h-6 w-6 text-oby-green' />
-      </div>
+      <OBYButton variant='link' size='link' asChild>
+        <OBYLink href={`${createSlug(category)}-${categoryID}`} className='flex items-center @992:mb-7.5 mb-4 gap-2'>
+          <h2 className='@992:fs-26 fs-20 text-oby-green font-bold'>{category}</h2>
+          <ArrowLongRightIcon className='@992:w-7 @992:h-7 h-6 w-6 text-oby-green' />
+        </OBYLink>
+      </OBYButton>
       {/* List Sub-Categories */}
       <div className='overflow-x-auto scrollbar-none'>
         <div className='min-w-fit'>

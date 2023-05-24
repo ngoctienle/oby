@@ -20,6 +20,7 @@ interface ProductProps {
 }
 
 export default function Product({ data, cateName }: ProductProps) {
+  console.log(cateName)
   const [guestCartId] = useGlobalState('guestCartId')
   const [cartId] = useGlobalState('cartId')
   const [token] = useGlobalState('token')
