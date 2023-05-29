@@ -22,6 +22,9 @@ const authApi = {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRECT_TOKEN}`
       }
     })
+  },
+  ForgotPassword(email: string) {
+    return magentoAPI.put<boolean>('V1/customers/password', { email, template: 'email_reset', websiteId: 1 })
   }
 }
 

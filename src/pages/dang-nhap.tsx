@@ -132,7 +132,7 @@ export default function Login() {
               asChild
               className={cn('@768:mt-4.5 mt-4 flex ml-auto @768:fs-16 fs-14')}
             >
-              <OBYLink href={hrefPath.home} title='Quên mật khẩu?'>
+              <OBYLink href={hrefPath.forgotPw} title='Quên mật khẩu?'>
                 Quên mật khẩu?
               </OBYLink>
             </OBYButton>
@@ -142,7 +142,7 @@ export default function Login() {
             <p className='text-center @768:fs-14 fs-12 text-oby-9A9898 mt-4.5'>
               Bằng việc Tiếp tục, bạn đã chấp nhận{' '}
               <OBYButton variant='link' size='link' asChild>
-                <OBYLink href={hrefPath.home} title='Điều khoản sử dụng'>
+                <OBYLink href='/dieu-khoan-va-dieu-kien' title='Điều khoản sử dụng'>
                   điều khoản sử dụng
                 </OBYLink>
               </OBYButton>
