@@ -8,5 +8,6 @@ export const hrefPath = {
   blog: '/blog',
   resultPurchase: '/ket-qua-thanh-toan',
   find: '/ket-qua-tim-kiem',
-  catePage: '/danh-muc'
+  catePage: '/danh-muc',
+  forgotPw: '/quen-mat-khau'
 } as const

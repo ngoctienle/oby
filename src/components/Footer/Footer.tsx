@@ -66,20 +66,32 @@ export default function Footer({ font }: FooterProps) {
                 <li className='block @992:mb-3.5 whitespace-nowrap order-1 w-[150px] @768:w-auto'>
                   <OBYLink href='/ve-chung-toi'>Giới thiệu</OBYLink>
                 </li>
-                <li className='block @992:mb-3.5 whitespace-nowrap order-3 w-[150px] @768:w-auto'>Liên hệ</li>
-                <li className='block @992:mb-3.5 whitespace-nowrap order-5'>Blogs</li>
-                <li className='block @992:mb-3.5 whitespace-nowrap w-[160px] order-2'>Điều khoản và điều kiện</li>
-                <li className='block whitespace-nowrap order-4 w-[160px]'>Chính sách bảo mật</li>
+                <li className='block @992:mb-3.5 whitespace-nowrap order-3 w-[150px] @768:w-auto'>
+                  <OBYLink href='/lien-he'>Liên hệ</OBYLink>
+                </li>
+                <li className='block @992:mb-3.5 whitespace-nowrap order-5'>
+                  <OBYLink href='/blog'>Blogs</OBYLink>
+                </li>
+                <li className='block @992:mb-3.5 whitespace-nowrap w-[160px] order-2'>
+                  <OBYLink href='/dieu-khoan-va-dieu-kien'>Điều khoản và điều kiện</OBYLink>
+                </li>
+                <li className='block whitespace-nowrap order-4 w-[160px]'>
+                  <OBYLink href='/chinh-sach-bao-mat'>Chính sách bảo mật</OBYLink>
+                </li>
               </ul>
             </div>
             <div className='flex flex-col'>
               <h3 className='uppercase fs-18 mb-4 font-semibold'>CHĂM SÓC KHÁCH HÀNG</h3>
               <ul role='list' className='fs-14 @992:block flex items-center flex-wrap justify-between gap-3'>
-                <li className='@992:mb-3.5 order-1'>Trung tâm trợ giúp</li>
-                <li className='@992:mb-3.5 order-3'>Tra cứu đơn hàng</li>
-                <li className='@992:mb-3.5 order-5'>Chính sách vận chuyển</li>
-                <li className='@992:mb-3.5 order-2'>Thông tin thanh toán</li>
-                <li className='@992:mb-3.5 order-4'>Chính sách bảo hành</li>
+                {/* <li className='@992:mb-3.5 order-1'>Trung tâm trợ giúp</li>
+                <li className='@992:mb-3.5 order-3'>Tra cứu đơn hàng</li> */}
+                <li className='@992:mb-3.5 order-5'>
+                  <OBYLink href='/chinh-sach-van-chuyen'>Chính sách vận chuyển</OBYLink>
+                </li>
+                <li className='@992:mb-3.5 order-2'>
+                  <OBYLink href='/thong-tin-thanh-toan'>Thông tin thanh toánn</OBYLink>
+                </li>
+                {/* <li className='@992:mb-3.5 order-4'>Chính sách bảo hành</li> */}
                 <li className='order-6'>
                   <OBYLink href='/doi-tra-va-hoan-tien'>Đổi trả và hoàn tiền</OBYLink>
                 </li>

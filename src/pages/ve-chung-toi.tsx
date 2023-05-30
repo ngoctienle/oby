@@ -2,8 +2,6 @@ import { ChevronRightIcon } from '@heroicons/react/24/outline'
 
 import { generateMetaSEO } from '@/libs/seo'
 
-import { appInformationConfig } from '@/constants/config.constant'
-
 import Breadcrumb from '@/components/Breadcrumb'
 import { OBYImage, OBYLink } from '@/components/UI/Element'
 import { OBYSeo } from '@/components/UI/OBYSeo'
@@ -176,34 +174,6 @@ export default function AboutUsPage() {
               <div className='mt-6 relative @768:w-[686px] w-full @768:h-[360px] h-[180px] mx-auto rounded-tl-4 rounded-br-4 overflow-hidden'>
                 <OBYImage src='/images/about-8.png' alt='Về chúng tôi' display='responsive' className='object-cover' />
               </div>
-              <h3 className='font-semibold @992:fs-20 fs-16 mb-4 mt-6'>Liên hệ</h3>
-              <p className='@992:fs-16 fs-14 font-semibold mb-2.5'>CÔNG TY TNHH ÔNG BÀ YÊU</p>
-              <p className='@992:fs-16 fs-14 mb-2.5'>
-                Email:{' '}
-                <OBYLink
-                  href={`mailto:ongbayeu.corp@gmail.com`}
-                  title='Ông Bà Yêu - Email'
-                  className='text-oby-primary'
-                >
-                  ongbayeu.corp@gmail.com
-                </OBYLink>
-              </p>
-              <p className='@992:fs-16 fs-14 mb-2.5'>
-                Điện thoại:{' '}
-                <OBYLink href={`tel:0789.279.669`} title='Ông Bà Yêu - Phone' className='text-oby-primary'>
-                  0789 27 9669
-                </OBYLink>
-              </p>
-              <p className='@992:fs-16 fs-14'>
-                ĐKKD:{' '}
-                <OBYLink
-                  href={`https://www.google.com/maps/search/?api=1&query=${appInformationConfig.APP_ADDRESS_MAP}`}
-                  title='Ông Bà Yêu - Phone'
-                  className='text-oby-primary'
-                >
-                  68/7B Trần Quang Khải, P.Tân Định, Q.1, HCM
-                </OBYLink>
-              </p>
             </div>
           </div>
         </div>

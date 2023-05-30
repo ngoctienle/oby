@@ -1,11 +1,24 @@
 import { ArrowRightIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 
+import { generateMetaSEO } from '@/libs/seo'
+
 import Breadcrumb from '@/components/Breadcrumb'
 import { OBYLink } from '@/components/UI/Element'
+import { OBYSeo } from '@/components/UI/OBYSeo'
 
 export default function RefundPage() {
+  const meta = generateMetaSEO({
+    title: 'Ông Bà Yêu',
+    template: 'Đổi trả và Hoàn tiền',
+    description:
+      'Ông Bà Yêu là một cửa hàng trực tuyến chuyên cung cấp các sản phẩm tổng hợp nhằm phục vụ cho người cao tuổi cùng với dịch vụ hỗ trợ khách hàng đặc biệt, đem đến cho khách hàng một cuộc sống chất lượng nhất.',
+    keywords: [`OBY, Ông Bà Yêu, ongbayeu.com`],
+    og_image_alt: 'Ông Bà Yêu',
+    slug: '/doi-tra-va-hoan-tien'
+  })
   return (
     <>
+      <OBYSeo {...meta} />
       <section className='@992:pt-4 pt-3'>
         <Breadcrumb cateName='Đổi trả và hoàn tiền' />
         <div className='container'>
