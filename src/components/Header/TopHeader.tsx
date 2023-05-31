@@ -34,7 +34,7 @@ export default function TopHeader({ parentCategory, parentCategoryItem }: CateHe
           <Popover
             className='flex items-center gap-1 cursor-pointer'
             renderPopover={
-              <div className='absolute -left-24 top-0 min-w-[720px] px-6 py-5 rounded-4 bg-white bsd focus:outline-none'>
+              <div className='absolute -left-24 top-0 min-w-[720px] h-[244px] overflow-auto px-6 py-5 rounded-4 bg-white bsd focus:outline-none'>
                 <h2 className='fs-16 font-semibold mb-4'>Danh mục sản phẩm</h2>
                 <div className='grid grid-cols-3'>
                   {initializeCategory
