@@ -13,6 +13,9 @@
   font-size: unset;
   text-align: unset;
 }
+.swiper-slide > div {
+  flex: 1;
+}
 .swiper.obyBanner .swiper-pagination-bullet,
 .swiper.suggestProduct .swiper-pagination-bullet {
   width: 16px;
@@ -75,7 +78,7 @@
 
 @media only screen and (max-width: 991px) {
   .swiper-slide {
-    padding-bottom: 38px;
+    padding-bottom: 18px;
   }
   .swiper.obyBanner .swiper-pagination-bullet.swiper-pagination-bullet-active {
     width: 20px;
@@ -88,6 +91,12 @@
   .swiper.obyBanner .swiper-button-next,
   .swiper.obyBanner .swiper-button-prev {
     display: none;
+  }
+  .swiper.suggestProduct .swiper-horizontal > .swiper-pagination-bullets,
+  .swiper.suggestProduct .swiper-pagination-bullets.swiper-pagination-horizontal,
+  .swiper.suggestProduct .swiper-pagination-custom,
+  .swiper.suggestProduct .swiper-pagination-fraction {
+    bottom: -20px;
   }
 }
 .blog-desc ul {

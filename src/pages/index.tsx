@@ -14,9 +14,8 @@ import { cacheTime } from '@/constants/config.constant'
 import Banner from '@/components/Banner'
 import BlogList from '@/components/BlogList'
 import ProductList from '@/components/ProductList'
+import ProductSuggest from '@/components/ProductSuggest'
 import { OBYLink } from '@/components/UI/Element'
-
-/* import ProductSuggest from '@/components/ProductSuggest' */
 import {
   OBYChairIcon,
   OBYClothesIcon,
@@ -80,7 +79,7 @@ export default function Home() {
       <OBYSeo {...meta} />
       <Banner />
       <HomeLayout>
-        {/* <ProductSuggest /> */}
+        <ProductSuggest />
 
         {/* Suggest Category */}
         <h2 className='@992:fs-26 hidden @992:block fs-20 text-oby-green font-bold mb-7.5'>Mua sắm theo danh mục</h2>
@@ -116,7 +115,7 @@ export default function Home() {
             parentCategory.map((item) => {
               if (item.is_active && item.product_count !== 0) {
                 return (
-                  <TriggerScroll name={item.name} key={item.id} className='@992:pt-15 first:pt-7.5 pt-10'>
+                  <TriggerScroll name={item.name} key={item.id} className='@992:pt-15 pt-10'>
                     <ProductList categoryID={item.id} category={item.name} subcategory={item.children_data} />
                   </TriggerScroll>
                 )

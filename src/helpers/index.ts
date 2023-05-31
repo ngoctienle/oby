@@ -23,7 +23,7 @@ function removeAccents(str: string) {
     .replace(/Đ/g, 'D')
 }
 function removeSpecialCharacter(str: string) {
-  return str.replace(/[^a-zA-Z0-9 ]/g, '').toLocaleLowerCase()
+  return str?.replace(/[^a-zA-Z0-9 ]/g, '').toLocaleLowerCase()
 }
 
 export function createSlug(str: string) {

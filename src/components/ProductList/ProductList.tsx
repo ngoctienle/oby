@@ -47,7 +47,7 @@ export default function ProductList({ category, subcategory, categoryID }: Produ
             {subcategory &&
               subcategory.map((item) => (
                 <OBYLink
-                  href={'/'}
+                  href={`${createSlug(item.name)}-${item.id}`}
                   title={item.name}
                   key={item.id}
                   className='@992:rounded-4 rounded-2.5 border border-oby-DFDFDF px-3 py-2.75 @992:fs-14 fs-12 whitespace-nowrap'
