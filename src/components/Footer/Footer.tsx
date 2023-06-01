@@ -89,18 +89,23 @@ export default function Footer({ font }: FooterProps) {
                   <OBYLink href='/chinh-sach-van-chuyen'>Chính sách vận chuyển</OBYLink>
                 </li>
                 <li className='@992:mb-3.5 order-2'>
-                  <OBYLink href='/thong-tin-thanh-toan'>Thông tin thanh toánn</OBYLink>
+                  <OBYLink href='/thong-tin-thanh-toan'>Thông tin thanh toán</OBYLink>
                 </li>
                 {/* <li className='@992:mb-3.5 order-4'>Chính sách bảo hành</li> */}
-                <li className='order-6'>
+                <li className='order-6 @992:mb-3.5'>
                   <OBYLink href='/doi-tra-va-hoan-tien'>Đổi trả và hoàn tiền</OBYLink>
+                </li>
+                <li className='order-7'>
+                  <OBYLink href='/huong-dan-thanh-toan'>Hướng dẫn thanh toán</OBYLink>
                 </li>
               </ul>
             </div>
             <div className='flex flex-col gap-4'>
               <h3 className='uppercase fs-18 font-semibold'>Kết nối</h3>
               <div className='flex items-center gap-6.5'>
-                <OBYImage src='/images/oby-fb.png' alt='OBY Facebook' title='OBY Facebook' width={40} height={40} />
+                <OBYLink href='https://www.facebook.com/ongbayeu.corp'>
+                  <OBYImage src='/images/oby-fb.png' alt='OBY Facebook' title='OBY Facebook' width={40} height={40} />
+                </OBYLink>
                 <OBYImage src='/images/oby-youtube.png' alt='OBY Youtube' title='OBY Youtube' width={40} height={40} />
                 <OBYImage
                   src='/images/oby-insta.png'
