@@ -2,6 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'react-hot-toast'
 
 import { FormSchema, formSchema } from '@/libs/rules'
 import { generateMetaSEO } from '@/libs/seo'
@@ -41,6 +42,9 @@ export default function ForgotPWPage() {
       onSuccess: (data) => {
         setData(data.data)
         setEmail(email)
+      },
+      onError: () => {
+        toast.error('Email của bạn không tồn tại!')
       }
     })
   })
