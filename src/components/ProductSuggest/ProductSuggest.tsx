@@ -46,7 +46,7 @@ export default function ProductSuggest() {
         loop={true}
         spaceBetween={30}
         autoplay={{
-          delay: 3000,
+          delay: 3500,
           disableOnInteraction: false
         }}
         breakpoints={{
