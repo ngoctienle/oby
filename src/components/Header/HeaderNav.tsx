@@ -14,6 +14,7 @@ import { Fragment, useMemo, useState } from 'react'
 import { TypeUser, useGlobalState } from '@/libs/state'
 import { cn } from '@/libs/utils'
 
+import { createSlug } from '@/helpers'
 import { generateCategoryImageFromMagento } from '@/helpers/category'
 
 import { hrefPath } from '@/constants/href.constant'
@@ -177,15 +178,22 @@ export default function HeaderNav({ parentCategory, parentCategoryItem, userInfo
                               className='object-cover'
                             />
                           </div>
-                          <p className='text-oby-green whitespace-nowrap hover:text-oby-primary fs-14 font-bold transition-colors'>
+                          <OBYLink
+                            href={`${createSlug(item.name)}-${item.id}`}
+                            className='text-oby-green whitespace-nowrap hover:text-oby-primary fs-14 font-bold transition-colors'
+                          >
                             {item.name}
-                          </p>
+                          </OBYLink>
                         </div>
                         {item.children_data.map((__item) => (
-                          <p key={__item.id} className='fs-14 cursor-pointer hover:text-oby-primary transition-colors'>
+                          <OBYLink
+                            href={`${createSlug(__item.name)}-${__item.id}`}
+                            key={__item.id}
+                            className='fs-14 block cursor-pointer hover:text-oby-primary transition-colors'
+                          >
                             {' '}
                             {__item.name}
-                          </p>
+                          </OBYLink>
                         ))}
                       </Dialog.Description>
                     ))}
