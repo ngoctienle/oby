@@ -5,6 +5,7 @@ import { useMemo } from 'react'
 
 import { Category, ItemWithAttribute } from '@/@types/category.type'
 
+import { createSlug } from '@/helpers'
 import { generateCategoryImageFromMagento } from '@/helpers/category'
 
 import { appInformationConfig } from '@/constants/config.constant'
@@ -54,19 +55,23 @@ export default function TopHeader({ parentCategory, parentCategoryItem }: CateHe
                               className='object-cover'
                             />
                           </div>
-                          <p className='text-oby-green whitespace-nowrap hover:text-oby-primary fs-16 font-bold transition-colors'>
+                          <OBYLink
+                            href={`${createSlug(item.name)}-${item.id}`}
+                            className='text-oby-green whitespace-nowrap hover:text-oby-primary fs-16 font-bold transition-colors'
+                          >
                             {item.name}
-                          </p>
+                          </OBYLink>
                         </div>
                         <div className='space-y-3 mt-3'>
                           {item.children_data.map((__item) => (
-                            <p
+                            <OBYLink
+                              href={`${createSlug(__item.name)}-${__item.id}`}
                               key={__item.id}
-                              className='fs-14 cursor-pointer hover:text-oby-primary transition-colors'
+                              className='fs-14 block cursor-pointer hover:text-oby-primary transition-colors'
                             >
                               {' '}
                               {__item.name}
-                            </p>
+                            </OBYLink>
                           ))}
                         </div>
                       </div>

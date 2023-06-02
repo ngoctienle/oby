@@ -30,6 +30,12 @@ export interface CustomerMe {
   redirectUrl: string
 }
 
+export interface ResetPWRequest {
+  email: string
+  newPassword: string
+  resetToken: string
+}
+
 export interface Customer {
   id: number
   group_id: number

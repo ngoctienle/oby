@@ -1,11 +1,12 @@
-import { RegisterOptions } from 'react-hook-form'
+import { RegisterOptions, UseFormGetValues } from 'react-hook-form'
 import * as yup from 'yup'
 
 type Rules = {
-  [key in 'email' | 'password' | 'firstname' | 'lastname']?: RegisterOptions
+  [key in 'email' | 'password' | 'firstname' | 'lastname' | 'confirm_password']?: RegisterOptions
 }
 
-export const getRules = (): Rules => ({
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
   email: {
     required: {
       value: true,
@@ -38,6 +39,21 @@ export const getRules = (): Rules => ({
       message: 'Độ dài Mật khẩu phải lớn hơn hoặc bằng 5 ký tự!'
     }
   },
+  confirm_password: {
+    required: { value: true, message: 'Vui lòng nhập lại Mật khẩu của bạn!' },
+    maxLength: {
+      value: 100,
+      message: 'Độ dài phải dưới 100 ký tự!'
+    },
+    minLength: {
+      value: 8,
+      message: 'Độ dài phải từ 8 ký tự!'
+    },
+    validate:
+      typeof getValues === 'function'
+        ? (value) => value === getValues('password') || 'Vui lòng nhập chính xác Mật khẩu của bạn!'
+        : undefined
+  },
   firstname: {
     required: {
       value: true,
@@ -68,6 +84,15 @@ export const getRules = (): Rules => ({
   }
 })
 
+const handleYupConfirmPw = (refString: string) => {
+  return yup
+    .string()
+    .required('Vui lòng nhập lại Mật khẩu của bạn!')
+    .min(8, 'Độ dài phải từ 8 ký tự!')
+    .max(100, 'Độ dài phải dưới 100 ký tự!')
+    .oneOf([yup.ref(refString)], 'Vui lòng nhập chính xác Mật khẩu của bạn!')
+}
+
 export const formSchema = yup.object({
   email: yup
     .string()
@@ -84,6 +109,7 @@ export const formSchema = yup.object({
     .min(8, 'Độ dài phải từ 8 ký tự!')
     .max(100, 'Độ dài phải dưới 100 ký tự!')
     .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+~`-]).+$/, 'Mật khẩu không đủ mạnh!'),
+  confirm_password: handleYupConfirmPw('password'),
   firstname: yup
     .string()
     .required('Vui lòng nhập Tên của bạn!')
