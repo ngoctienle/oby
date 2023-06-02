@@ -157,9 +157,9 @@ export default function AboutUsPage() {
               <p className='@992:fs-16 fs-14 mb-2.5'>
                 Công ty Ông Bà Yêu hợp tác với các đối tác uy tín trong lĩnh vực y tế và chăm sóc sức khỏe để cung cấp
                 những sản phẩm và dịch vụ tốt nhất cho khách hàng của chúng tôi. Chúng tôi có lợi thế trong việc hợp tác
-                với nhiều tập đoàn đa quốc gia, cũng như việc phân phối độc quyền cho nhiều nhãn hàng Úc, Newzialnd, Mỹ,
-                Nhật, Hàn Quốc. Bên cạnh đó, Ông Bà Yêu còn hợp tác với nhiều nhà máy hàng đầu tại Nhật, Úc để nghiên
-                cứu và cho ra đời những sản phẩm tốt nhất dành cho người cao tuổi Việt Nam.
+                với nhiều tập đoàn đa quốc gia, cũng như việc phân phối cho nhiều nhãn hàng Úc, Newzialnd, Mỹ, Nhật, Hàn
+                Quốc. Bên cạnh đó, Ông Bà Yêu còn hợp tác với nhiều nhà máy hàng đầu tại Nhật, Úc để nghiên cứu và cho
+                ra đời những sản phẩm tốt nhất dành cho người cao tuổi Việt Nam.
               </p>
               <p className='@992:fs-16 fs-14 mb-2.5'>
                 Với tất cả những giá trị và lợi ích mà chúng tôi mang lại, chúng tôi tin rằng công ty TNHH Ông Bà Yêu sẽ
