@@ -69,7 +69,7 @@ export default function Footer({ font }: FooterProps) {
                 <li className='block @992:mb-3.5 whitespace-nowrap order-3 w-[150px] @768:w-auto'>
                   <OBYLink href='/lien-he'>Liên hệ</OBYLink>
                 </li>
-                <li className='block @992:mb-3.5 whitespace-nowrap order-5'>
+                <li className='block @992:mb-3.5 whitespace-nowrap w-[160px] order-5'>
                   <OBYLink href='/blog'>Blogs</OBYLink>
                 </li>
                 <li className='block @992:mb-3.5 whitespace-nowrap w-[160px] order-2'>

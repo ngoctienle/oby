@@ -11,6 +11,7 @@ import { generateBlogImage, generateCateNameById } from '@/helpers/blog'
 
 import blogAPI from '@/apis/magento/blog.api'
 
+import { SITE_URL } from '@/constants/domain.constant'
 import { hrefPath } from '@/constants/href.constant'
 
 import Breadcrumb from '@/components/Breadcrumb'
@@ -25,6 +26,11 @@ interface IParams extends ParsedUrlQuery {
 }
 
 export default function BlogDetail({ blogData, cateName }: BlogDetailProps) {
+  const replacedHtmlContent = blogData.post_content.replace(/{{media url=&quot;(.*?)&quot;}}/g, (match, p1) => {
+    const mediaUrl = `${SITE_URL}/pub/media/${p1}` // Replace with your media URL logic
+    return mediaUrl
+  })
+
   const meta = generateMetaSEO({
     title: blogData.name,
     description: blogData.short_description,
@@ -50,7 +56,7 @@ export default function BlogDetail({ blogData, cateName }: BlogDetailProps) {
           <div
             className='@992:fs-16 fs-14 space-y-2.5 blog-desc'
             dangerouslySetInnerHTML={{
-              __html: DOMPurify.sanitize(blogData.post_content)
+              __html: DOMPurify.sanitize(replacedHtmlContent)
             }}
           />
           {/* <div className='grid grid-cols-12 @992:gap-10'>
@@ -80,7 +86,7 @@ export const getServerSideProps: GetServerSideProps<BlogDetailProps> = async (co
     return {
       props: {
         blogData,
-        cateName
+        cateName: cateName
       }
     }
   } catch (error) {

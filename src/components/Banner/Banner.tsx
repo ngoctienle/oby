@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { EffectFade, Lazy, Navigation, Pagination } from 'swiper'
+import { Autoplay, EffectFade, Lazy, Navigation, Pagination } from 'swiper'
 import 'swiper/css'
 import 'swiper/css/effect-fade'
 import 'swiper/css/navigation'
@@ -21,7 +21,12 @@ export default function Banner() {
       pagination={{
         clickable: true
       }}
-      modules={[EffectFade, Navigation, Pagination, Lazy]}
+      loop={true}
+      autoplay={{
+        delay: 4000,
+        disableOnInteraction: false
+      }}
+      modules={[EffectFade, Navigation, Pagination, Lazy, Autoplay]}
       className='obyBanner'
     >
       {Array(2)
@@ -52,7 +57,12 @@ export default function Banner() {
         pagination={{
           clickable: true
         }}
-        modules={[EffectFade, Navigation, Pagination, Lazy]}
+        loop={true}
+        autoplay={{
+          delay: 4000,
+          disableOnInteraction: false
+        }}
+        modules={[EffectFade, Navigation, Pagination, Lazy, Autoplay]}
         className='obyBanner'
       >
         {Array(2)

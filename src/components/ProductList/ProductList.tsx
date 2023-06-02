@@ -3,6 +3,8 @@ import { useQuery } from '@tanstack/react-query'
 
 import { Category } from '@/@types/category.type'
 
+import { useMediaQuery } from '@/hooks'
+
 import { createSlug } from '@/helpers'
 
 import productApi from '@/apis/magento/product.api'
@@ -19,6 +21,7 @@ interface ProductListProps {
 }
 
 export default function ProductList({ category, subcategory, categoryID }: ProductListProps) {
+  const isMedium = useMediaQuery('(min-width: 768px)')
   const { data } = useQuery({
     queryKey: ['product', categoryID],
     queryFn: () => productApi.GetProductByCategoryID(categoryID),
@@ -60,11 +63,17 @@ export default function ProductList({ category, subcategory, categoryID }: Produ
       </div>
       {/* Product List Related with Category */}
       <div className='@992:mt-6 mt-4 @992:pt-6 @992:border-t @992:border-t-oby-DFDFDF grid @992:grid-cols-4 @768:grid-cols-3 grid-cols-2 @992:gap-10 gap-5'>
-        {productData.items.slice(0, 8).map((item) => (
-          <div className='col-span-1' key={item.id}>
-            <Product data={item} cateName={category} />
-          </div>
-        ))}
+        {isMedium
+          ? productData.items.slice(0, 8).map((item) => (
+              <div className='col-span-1' key={item.id}>
+                <Product data={item} cateName={category} />
+              </div>
+            ))
+          : productData.items.slice(0, 6).map((item) => (
+              <div className='col-span-1' key={item.id}>
+                <Product data={item} cateName={category} />
+              </div>
+            ))}
       </div>
       {productData.items.length > 8 && (
         <div className='flex items-center justify-center mt-10 gap-1.5'>

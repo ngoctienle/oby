@@ -98,6 +98,12 @@
   .swiper.suggestProduct .swiper-pagination-fraction {
     bottom: -20px;
   }
+  .swiper.obyBanner .swiper-horizontal > .swiper-pagination-bullets,
+  .swiper.obyBanner .swiper-pagination-bullets.swiper-pagination-horizontal,
+  .swiper.obyBanner .swiper-pagination-custom,
+  .swiper.obyBanner .swiper-pagination-fraction {
+    bottom: 0px;
+  }
 }
 .blog-desc ul {
   @apply list-disc space-y-1 pl-6;

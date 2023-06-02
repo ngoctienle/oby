@@ -42,8 +42,8 @@ export default function CatePage({ cateName, cateId }: CatePageProps) {
         <Breadcrumb cateName={cateName} />
         <div className='container'>
           <h2 className='@992:fs-26 fs-20 text-oby-green font-bold text-center'>{cateName}</h2>
-          <div className='pt-10 grid grid-cols-12 gap-10'>
-            <div className='@768:col-span-3 col-span-12 bg-transparent'>
+          <div className='pt-10 grid @768:grid-cols-12 grid-cols-1 gap-10'>
+            <div className='@768:col-span-3 col-span-1 bg-transparent'>
               <div className='bsd bg-white px-4 py-5 rounded-tl-4 rounded-br-4'>
                 <h3 className='fs-16 font-semibold mb-3'>Danh mục sản phẩm</h3>
                 <ul className='space-y-3'>
@@ -59,11 +59,11 @@ export default function CatePage({ cateName, cateId }: CatePageProps) {
                 </ul>
               </div>
             </div>
-            <div className='@768:col-span-9 col-span-12'>
-              <div className='grid grid-cols-12 gap-10'>
+            <div className='@768:col-span-9 col-span-1'>
+              <div className='grid @768:grid-cols-3 grid-cols-2 @992:gap-10 gap-5'>
                 {!isLoading &&
                   productRes?.data.items.map((item) => (
-                    <div className='@768:col-span-4 col-span-6' key={item.id}>
+                    <div className='col-span-1' key={item.id}>
                       <Product data={item} cateName={cateName} />
                     </div>
                   ))}
@@ -71,7 +71,7 @@ export default function CatePage({ cateName, cateId }: CatePageProps) {
                   Array(6)
                     .fill(0)
                     .map((_, index) => (
-                      <div className='col-span-4' key={index}>
+                      <div className='col-span-1' key={index}>
                         <div role='status' className='max-w-sm animate-pulse'>
                           <div className='flex items-center justify-center h-48 mb-4 bg-oby-primary/10 rounded'>
                             <svg

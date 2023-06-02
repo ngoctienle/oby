@@ -7,16 +7,32 @@ export const generateBlogImage = (image: string) => {
 export const generateCateNameById = (id: number) => {
   const arr = [
     {
-      id: 2,
-      name: 'Dinh dưỡng'
+      id: 5,
+      name: 'Dinh dưỡng và sức khỏe'
     },
     {
-      id: 3,
-      name: 'Đời sống'
+      id: 6,
+      name: 'Thông tin y dược'
     },
     {
-      id: 4,
-      name: 'Sức khỏe'
+      id: 7,
+      name: 'Bệnh người già'
+    },
+    {
+      id: 8,
+      name: 'Tin tức'
+    },
+    {
+      id: 9,
+      name: 'Thời trang'
+    },
+    {
+      id: 10,
+      name: 'Làm đẹp'
+    },
+    {
+      id: 11,
+      name: 'Nhịp sống xưa'
     }
   ]
   const category = arr.find((item) => item.id === id)
