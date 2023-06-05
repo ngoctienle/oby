@@ -35,7 +35,9 @@ import { hrefPath } from '@/constants/href.constant'
 
 import Breadcrumb from '@/components/Breadcrumb'
 import ProductRating from '@/components/ProductRating'
+import Progress from '@/components/Progress'
 import QuantityController from '@/components/QuantityController'
+import Review from '@/components/Review'
 import { AsyncButton, BuyNowButton } from '@/components/UI/Button'
 import { OBYButton } from '@/components/UI/Element'
 import { OBYAddCartIcon, OBYCommentIcon } from '@/components/UI/OBYIcons'
@@ -243,7 +245,7 @@ export default function ProductDetail({ subName, productData, parentName, produc
               <h1 className='font-semibold @768:fs-24 fs:18'>{productName}</h1>
               <div className='flex items-center @768:mt-5 mt-4'>
                 <div className='flex items-center gap-2'>
-                  <ProductRating rating={4.34} />
+                  <ProductRating rating={4.34} size={7} />
                   <p className='fs-14'>101 đánh giá</p>
                 </div>
                 <div className='flex items-center gap-2 @768:ml-[80px] ml-auto'>
@@ -317,6 +319,36 @@ export default function ProductDetail({ subName, productData, parentName, produc
               )}
             </div>
           )}
+          <div>
+            <h2 className='@768:fs-26 fs-20 font-bold text-oby-green'>Đánh giá sản phẩm</h2>
+            <div className='my-7.5 mx-auto max-w-[375px]'>
+              <p className='fs-48 text-oby-orange font-bold leading-[58px] text-center'>5.0</p>
+              <p className='fs-18 text-oby-676869 leading-[22px] text-center'>249 Đánh giá</p>
+              <div className='mt-5'>
+                <div className='py-1.5 flex items-center space-x-4'>
+                  <ProductRating rating={5} size={4} />
+                  <Progress value={70} />
+                </div>
+                <div className='py-1.5 flex items-center space-x-4'>
+                  <ProductRating rating={4} size={4} />
+                  <Progress value={70} />
+                </div>
+                <div className='py-1.5 flex items-center space-x-4'>
+                  <ProductRating rating={3} size={4} />
+                  <Progress value={70} />
+                </div>
+                <div className='py-1.5 flex items-center space-x-4'>
+                  <ProductRating rating={2} size={4} />
+                  <Progress value={70} />
+                </div>
+                <div className='py-1.5 flex items-center space-x-4'>
+                  <ProductRating rating={1} size={4} />
+                  <Progress value={0} />
+                </div>
+              </div>
+            </div>
+            <Review name='Theresa Webb' date='2023-06-05 09:05:56' rate={4} />
+          </div>
         </div>
       </section>
     </>

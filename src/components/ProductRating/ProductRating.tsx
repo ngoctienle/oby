@@ -1,4 +1,6 @@
-export default function ProductRating({ rating }: { rating: number }) {
+import { cn } from '@/libs/utils'
+
+export default function ProductRating({ rating, size }: { rating: number; size: number }) {
   const handleRating = (order: number) => {
     if (order <= rating) {
       return '100%'
@@ -21,7 +23,7 @@ export default function ProductRating({ rating }: { rating: number }) {
                 viewBox='0 0 24 24'
                 x={0}
                 y={0}
-                className='h-7 w-7 fill-yellow-500 text-yellow-500'
+                className={cn('fill-oby-yellow text-oby-yellow', size ? `h-${size} w-${size}` : 'h-7 w-7')}
               >
                 <path
                   id='Stroke 1'
@@ -36,7 +38,7 @@ export default function ProductRating({ rating }: { rating: number }) {
               x={0}
               y={0}
               viewBox='0 0 24 24'
-              className='h-7 w-7 fill-current text-oby-DFDFDF'
+              className={cn('fill-current text-oby-DFDFDF', size ? `h-${size} w-${size}` : 'h-7 w-7')}
             >
               <path
                 id='Stroke 1'
