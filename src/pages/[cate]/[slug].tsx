@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import DOMPurify from 'isomorphic-dompurify'
 import { GetServerSideProps } from 'next'
 import Image from 'next/image'
@@ -163,6 +163,11 @@ export default function ProductDetail({ subName, productData, parentName, produc
       setCurIndexImage((prev) => [prev[0] - 1, prev[1] - 1])
     }
   } */
+
+  const { data: reviewRes, isLoading } = useQuery({
+    queryKey: ['reviews'],
+    queryFn: () => productApi.GetAllProductReviews()
+  })
 
   const meta = generateMetaSEO({
     title: productName,
@@ -328,26 +333,36 @@ export default function ProductDetail({ subName, productData, parentName, produc
                 <div className='py-1.5 flex items-center space-x-4'>
                   <ProductRating rating={5} size={4} />
                   <Progress value={70} />
+                  <p className='text-oby-676869'>2</p>
                 </div>
                 <div className='py-1.5 flex items-center space-x-4'>
                   <ProductRating rating={4} size={4} />
                   <Progress value={70} />
+                  <p className='text-oby-676869'>2</p>
                 </div>
                 <div className='py-1.5 flex items-center space-x-4'>
                   <ProductRating rating={3} size={4} />
                   <Progress value={70} />
+                  <p className='text-oby-676869'>2</p>
                 </div>
                 <div className='py-1.5 flex items-center space-x-4'>
                   <ProductRating rating={2} size={4} />
                   <Progress value={70} />
+                  <p className='text-oby-676869'>2</p>
                 </div>
                 <div className='py-1.5 flex items-center space-x-4'>
                   <ProductRating rating={1} size={4} />
                   <Progress value={0} />
+                  <p className='text-oby-676869'>2</p>
                 </div>
               </div>
             </div>
-            <Review name='Theresa Webb' date='2023-06-05 09:05:56' rate={4} />
+            <div className='grid grid-cols-2 gap-x-7 gap-y-6'>
+              {!isLoading &&
+                reviewRes?.data.items.map(({ id, nickname, created_at, review_type, detail }) => (
+                  <Review key={id} name={nickname} date={created_at} rate={review_type} description={detail} />
+                ))}
+            </div>
           </div>
         </div>
       </section>
