@@ -1,12 +1,10 @@
-import { SearchCriteria } from './magento.type'
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface Review {
   id: number
   title: string
   detail: string
   nickname: string
-  rating: any[]
+  ratings: ReviewRating[]
   review_entity: string
   review_type: number
   review_status: number
@@ -16,8 +14,10 @@ export interface Review {
   stores: any[]
 }
 
-export interface ReviewRespone {
-  items: Review[]
-  search_criteria: SearchCriteria
-  total_count: number
+export interface ReviewRating {
+  percent: number
+  rating_id: number
+  rating_name: string
+  value: number
+  vode_id: number
 }

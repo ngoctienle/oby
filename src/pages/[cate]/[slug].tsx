@@ -167,55 +167,91 @@ export default function ProductDetail({ subName, productData, parentName, produc
 
   const { data: reviewRes, isLoading } = useQuery({
     queryKey: ['reviews'],
-    queryFn: () => productApi.GetAllProductReviews()
+    queryFn: () => productApi.GetAllProductReviews(slug)
   })
 
-  const reviews = reviewRes?.data?.items ?? []
-  const splicedReviews = [...reviews].splice(0, 4)
+  const reviews = reviewRes?.data
+  const splicedReviews = reviews?.slice(0, 4)
 
   const toggleReview = () => {
     setShowFullReview(!showFullReview)
   }
 
-  const renderReviews = () => {
-    if (reviews.length > 4 && showFullReview === false) {
-      return (
-        <div className='grid grid-cols-2 gap-x-7 gap-y-6'>
-          {splicedReviews.map(({ id, nickname, created_at, review_type, detail }) => (
-            <Review key={id} name={nickname} date={created_at} rate={review_type} description={detail} />
-          ))}
-        </div>
-      )
-    } else {
-      return (
-        <div className='grid grid-cols-2 gap-x-7 gap-y-6'>
-          {reviews.map(({ id, nickname, created_at, review_type, detail }) => (
-            <Review key={id} name={nickname} date={created_at} rate={review_type} description={detail} />
-          ))}
-        </div>
-      )
+  const percentToStart = (percent: number) => {
+    switch (percent) {
+      case 20:
+        return 1
+      case 40:
+        return 2
+      case 60:
+        return 3
+      case 80:
+        return 4
+      case 100:
+        return 5
+      default:
+        return 0
     }
   }
 
-  const renderButtonShowmoreReview = () => {
-    if (reviews.length === 0) {
-      return
-    } else {
-      if (reviews?.length > 4) {
+  const renderReviews = () => {
+    if (reviews)
+      if (reviews?.length > 4 && showFullReview === false) {
         return (
-          <div className='flex items-center justify-center mt-7.5 gap-1.5'>
-            <OBYButton variant='link' size='link' onClick={toggleReview} className='text-oby-primary @992:fs-18 fs-16'>
-              {!showFullReview ? 'Xem thêm' : 'Rút gọn'}
-            </OBYButton>
-            {!showFullReview ? (
-              <ChevronDownIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary' />
-            ) : (
-              <ChevronUpIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary' />
-            )}
+          <div className='grid grid-cols-2 gap-x-7 gap-y-6'>
+            {splicedReviews?.map((item) => (
+              <Review
+                key={item.id}
+                name={item.nickname}
+                date={item.created_at}
+                rate={percentToStart(item.ratings[0].percent)}
+                description={item.detail}
+              />
+            ))}
+          </div>
+        )
+      } else {
+        return (
+          <div className='grid grid-cols-2 gap-x-7 gap-y-6'>
+            {reviews?.map((item) => (
+              <Review
+                key={item.id}
+                name={item.nickname}
+                date={item.created_at}
+                rate={percentToStart(item.ratings[0].percent)}
+                description={item.detail}
+              />
+            ))}
           </div>
         )
       }
-    }
+  }
+
+  const renderButtonShowmoreReview = () => {
+    if (reviews)
+      if (reviews?.length === 0) {
+        return
+      } else {
+        if (reviews?.length > 4) {
+          return (
+            <div className='flex items-center justify-center mt-7.5 gap-1.5'>
+              <OBYButton
+                variant='link'
+                size='link'
+                onClick={toggleReview}
+                className='text-oby-primary @992:fs-18 fs-16'
+              >
+                {!showFullReview ? 'Xem thêm' : 'Rút gọn'}
+              </OBYButton>
+              {!showFullReview ? (
+                <ChevronDownIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary' />
+              ) : (
+                <ChevronUpIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary' />
+              )}
+            </div>
+          )
+        }
+      }
   }
 
   const meta = generateMetaSEO({

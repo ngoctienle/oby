@@ -1,7 +1,7 @@
 import magentoAPI from '@/vendors/magento.vendor'
 
 import { Product, ProductResponse } from '@/@types/product.type'
-import { ReviewRespone } from '@/@types/review.type'
+import { Review } from '@/@types/review.type'
 
 const productApi = {
   GetProductByCategoryID(id: number) {
@@ -25,8 +25,8 @@ const productApi = {
       `all/V1/products/?searchCriteria[filter_groups][0][filters][0][field]=name&searchCriteria[filter_groups][0][filters][0][value]=%${value}%&searchCriteria[filter_groups][0][filters][0][condition_type]=like`
     )
   },
-  GetAllProductReviews() {
-    return magentoAPI.get<ReviewRespone>('V1/reviews', {
+  GetAllProductReviews(sku: string) {
+    return magentoAPI.get<Review[]>(`V1/products/${sku}/reviews`, {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRECT_TOKEN}`
       }
