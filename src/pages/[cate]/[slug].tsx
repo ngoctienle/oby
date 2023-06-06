@@ -185,10 +185,11 @@ export default function ProductDetail({ subName, productData, parentName, produc
         return rating >= 4
       })
     }
+    return []
   }, [reviewRes])
 
   const calculateAverageRating = useMemo(() => {
-    if (!filteredReviews || filteredReviews?.length === 0) {
+    if (!filteredReviews || filteredReviews.length === 0) {
       return 0
     }
     const totalRating = filteredReviews.reduce((sum, review) => sum + review.ratings[0].value, 0)
@@ -206,7 +207,7 @@ export default function ProductDetail({ subName, productData, parentName, produc
       '1': { count: 0 }
     }
 
-    filteredReviews?.forEach((review) => {
+    filteredReviews.forEach((review) => {
       const ratingValue = review.ratings[0].value
 
       if (ratingStats[ratingValue]) {
@@ -214,7 +215,7 @@ export default function ProductDetail({ subName, productData, parentName, produc
       }
     })
 
-    const totalRatings = filteredReviews?.length || 0
+    const totalRatings = filteredReviews.length
 
     for (const ratingValue in ratingStats) {
       const count = ratingStats[ratingValue].count
