@@ -65,6 +65,7 @@ export default function ProductDetail({ subName, productData, parentName, produc
   const imgRef = useRef<HTMLImageElement>(null)
   const [buyCount, setBuyCount] = useState<number>(1)
   const [showFullDescription, setShowFullDescription] = useState<boolean>(false)
+  const [showFullReview, setShowFullReview] = useState<boolean>(false)
 
   /* const [curIndexImage, setCurIndexImage] = useState([0, 5]) */
   const [activeImage, setActiveImage] = useState('')
@@ -168,6 +169,54 @@ export default function ProductDetail({ subName, productData, parentName, produc
     queryKey: ['reviews'],
     queryFn: () => productApi.GetAllProductReviews()
   })
+
+  const reviews = reviewRes?.data?.items ?? []
+  const splicedReviews = [...reviews].splice(0, 4)
+
+  const toggleReview = () => {
+    setShowFullReview(!showFullReview)
+  }
+
+  const renderReviews = () => {
+    if (reviews.length > 4 && showFullReview === false) {
+      return (
+        <div className='grid grid-cols-2 gap-x-7 gap-y-6'>
+          {splicedReviews.map(({ id, nickname, created_at, review_type, detail }) => (
+            <Review key={id} name={nickname} date={created_at} rate={review_type} description={detail} />
+          ))}
+        </div>
+      )
+    } else {
+      return (
+        <div className='grid grid-cols-2 gap-x-7 gap-y-6'>
+          {reviews.map(({ id, nickname, created_at, review_type, detail }) => (
+            <Review key={id} name={nickname} date={created_at} rate={review_type} description={detail} />
+          ))}
+        </div>
+      )
+    }
+  }
+
+  const renderButtonShowmoreReview = () => {
+    if (reviews.length === 0) {
+      return
+    } else {
+      if (reviews?.length > 4) {
+        return (
+          <div className='flex items-center justify-center mt-7.5 gap-1.5'>
+            <OBYButton variant='link' size='link' onClick={toggleReview} className='text-oby-primary @992:fs-18 fs-16'>
+              {!showFullReview ? 'Xem thêm' : 'Rút gọn'}
+            </OBYButton>
+            {!showFullReview ? (
+              <ChevronDownIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary' />
+            ) : (
+              <ChevronUpIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary' />
+            )}
+          </div>
+        )
+      }
+    }
+  }
 
   const meta = generateMetaSEO({
     title: productName,
@@ -357,12 +406,8 @@ export default function ProductDetail({ subName, productData, parentName, produc
                 </div>
               </div>
             </div>
-            <div className='grid grid-cols-2 gap-x-7 gap-y-6'>
-              {!isLoading &&
-                reviewRes?.data.items.map(({ id, nickname, created_at, review_type, detail }) => (
-                  <Review key={id} name={nickname} date={created_at} rate={review_type} description={detail} />
-                ))}
-            </div>
+            {!isLoading && renderReviews()}
+            {renderButtonShowmoreReview()}
           </div>
         </div>
       </section>
