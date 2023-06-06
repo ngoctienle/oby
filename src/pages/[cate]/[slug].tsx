@@ -5,7 +5,7 @@ import DOMPurify from 'isomorphic-dompurify'
 import { GetServerSideProps } from 'next'
 import Image from 'next/image'
 import { ParsedUrlQuery } from 'querystring'
-import React, { useRef, useState } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import { toast } from 'react-hot-toast'
 
 import { CartRequest } from '@/@types/cart.type'
@@ -53,6 +53,13 @@ interface IProductDetailProps {
 
 interface IParams extends ParsedUrlQuery {
   slug: string
+}
+
+type RatingStats = {
+  [key: string]: {
+    count: number
+    percent?: number
+  }
 }
 
 export default function ProductDetail({ subName, productData, parentName, productName, slug }: IProductDetailProps) {
@@ -167,72 +174,108 @@ export default function ProductDetail({ subName, productData, parentName, produc
 
   const { data: reviewRes, isLoading } = useQuery({
     queryKey: ['reviews'],
-    queryFn: () => productApi.GetAllProductReviews(slug)
+    queryFn: () => productApi.GetAllProductReviews(slug),
+    enabled: Boolean(slug)
   })
 
-  const reviews = reviewRes?.data
-  const splicedReviews = reviews?.slice(0, 4)
+  const filteredReviews = useMemo(() => {
+    if (reviewRes) {
+      return reviewRes.data.filter((review) => {
+        const rating = review.ratings[0].value
+        return rating >= 4
+      })
+    }
+  }, [reviewRes])
+
+  const calculateAverageRating = useMemo(() => {
+    if (!filteredReviews || filteredReviews?.length === 0) {
+      return 0
+    }
+    const totalRating = filteredReviews.reduce((sum, review) => sum + review.ratings[0].value, 0)
+    const averageRating = totalRating / filteredReviews.length
+
+    return averageRating
+  }, [filteredReviews])
+
+  const calculateRatingStats = useMemo(() => {
+    const ratingStats: RatingStats = {
+      '5': { count: 0 },
+      '4': { count: 0 },
+      '3': { count: 0 },
+      '2': { count: 0 },
+      '1': { count: 0 }
+    }
+
+    filteredReviews?.forEach((review) => {
+      const ratingValue = review.ratings[0].value
+
+      if (ratingStats[ratingValue]) {
+        ratingStats[ratingValue].count++
+      }
+    })
+
+    const totalRatings = filteredReviews?.length || 0
+
+    for (const ratingValue in ratingStats) {
+      const count = ratingStats[ratingValue].count
+      const percent = (count / totalRatings) * 100
+      ratingStats[ratingValue].percent = percent
+    }
+
+    const sortedStats = Object.entries(ratingStats)
+      .sort((a, b) => Number(b[0]) - Number(a[0]))
+      .map(([ratingValue, stats]) => ({
+        ratingValue: parseInt(ratingValue),
+        ...stats
+      }))
+
+    return sortedStats
+  }, [filteredReviews])
+
+  const splicedReviews = filteredReviews?.slice(0, 4)
 
   const toggleReview = () => {
     setShowFullReview(!showFullReview)
   }
 
-  const percentToStart = (percent: number) => {
-    switch (percent) {
-      case 20:
-        return 1
-      case 40:
-        return 2
-      case 60:
-        return 3
-      case 80:
-        return 4
-      case 100:
-        return 5
-      default:
-        return 0
+  const renderReviews = () => {
+    if (filteredReviews && filteredReviews.length > 4 && showFullReview === false) {
+      return (
+        <div className='grid grid-cols-2 gap-x-7 gap-y-6'>
+          {splicedReviews?.map((item) => (
+            <Review
+              key={item.id}
+              name={item.nickname}
+              date={item.created_at}
+              rate={item.ratings[0].value}
+              description={item.detail}
+            />
+          ))}
+        </div>
+      )
+    } else {
+      return (
+        <div className='grid grid-cols-2 gap-x-7 gap-y-6'>
+          {filteredReviews?.map((item) => (
+            <Review
+              key={item.id}
+              name={item.nickname}
+              date={item.created_at}
+              rate={item.ratings[0].value}
+              description={item.detail}
+            />
+          ))}
+        </div>
+      )
     }
   }
 
-  const renderReviews = () => {
-    if (reviews)
-      if (reviews?.length > 4 && showFullReview === false) {
-        return (
-          <div className='grid grid-cols-2 gap-x-7 gap-y-6'>
-            {splicedReviews?.map((item) => (
-              <Review
-                key={item.id}
-                name={item.nickname}
-                date={item.created_at}
-                rate={percentToStart(item.ratings[0].percent)}
-                description={item.detail}
-              />
-            ))}
-          </div>
-        )
-      } else {
-        return (
-          <div className='grid grid-cols-2 gap-x-7 gap-y-6'>
-            {reviews?.map((item) => (
-              <Review
-                key={item.id}
-                name={item.nickname}
-                date={item.created_at}
-                rate={percentToStart(item.ratings[0].percent)}
-                description={item.detail}
-              />
-            ))}
-          </div>
-        )
-      }
-  }
-
   const renderButtonShowmoreReview = () => {
-    if (reviews)
-      if (reviews?.length === 0) {
+    if (filteredReviews)
+      if (filteredReviews?.length === 0) {
         return
       } else {
-        if (reviews?.length > 4) {
+        if (filteredReviews?.length > 4) {
           return (
             <div className='flex items-center justify-center mt-7.5 gap-1.5'>
               <OBYButton
@@ -412,10 +455,19 @@ export default function ProductDetail({ subName, productData, parentName, produc
           <div>
             <h2 className='@768:fs-26 fs-20 font-bold text-oby-green'>Đánh giá sản phẩm</h2>
             <div className='my-7.5 mx-auto max-w-[375px]'>
-              <p className='fs-48 text-oby-orange font-bold leading-[58px] text-center'>5.0</p>
-              <p className='fs-18 text-oby-676869 leading-[22px] text-center'>249 Đánh giá</p>
+              <p className='fs-48 text-oby-orange font-bold leading-[58px] text-center'>
+                {calculateAverageRating.toFixed(2)}
+              </p>
+              <p className='fs-18 text-oby-676869 leading-[22px] text-center'>{filteredReviews?.length} Đánh giá</p>
               <div className='mt-5'>
-                <div className='py-1.5 flex items-center space-x-4'>
+                {calculateRatingStats.map((item, index) => (
+                  <div key={index} className='py-1.5 flex items-center space-x-4'>
+                    <ProductRating rating={item.ratingValue} size={4} />
+                    <Progress value={item.percent} />
+                    <p className='text-oby-676869'>{item.count}</p>
+                  </div>
+                ))}
+                {/* <div className='py-1.5 flex items-center space-x-4'>
                   <ProductRating rating={5} size={4} />
                   <Progress value={70} />
                   <p className='text-oby-676869'>2</p>
@@ -439,7 +491,7 @@ export default function ProductDetail({ subName, productData, parentName, produc
                   <ProductRating rating={1} size={4} />
                   <Progress value={0} />
                   <p className='text-oby-676869'>2</p>
-                </div>
+                </div> */}
               </div>
             </div>
             {!isLoading && renderReviews()}
