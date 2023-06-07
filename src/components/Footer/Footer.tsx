@@ -1,11 +1,12 @@
 import { NextFont } from 'next/dist/compiled/@next/font'
 
 import twclsx from '@/libs/twclsx'
+import { cn } from '@/libs/utils'
 
 import { appInformationConfig } from '@/constants/config.constant'
 import { hrefPath } from '@/constants/href.constant'
 
-import { OBYImage, OBYLink } from '@/components/UI/Element'
+import { OBYButton, OBYImage, OBYLink } from '@/components/UI/Element'
 import { OBYEmailIcon, OBYLocationIcon, OBYPhoneIcon } from '@/components/UI/OBYIcons'
 
 interface FooterProps {
@@ -14,28 +15,23 @@ interface FooterProps {
 
 export default function Footer({ font }: FooterProps) {
   return (
-    <footer className={twclsx(`${font.className}`, '@992:h-[500px] h-[785px] relative')}>
+    <footer className={twclsx(`${font.className}`, '@992:h-[500px] @520:h-[650px] h-[750px] relative')}>
       <div className='absolute bottom-0 inset-x-0'>
         <div className='container'>
           <div className='flex @992:flex-row flex-col @992:gap-15 gap-7.5'>
             <div className='flex flex-col'>
-              <OBYLink
-                href={hrefPath.home}
-                title='Ông Bà Yêu Trang chủ'
-                className='flex items-center justify-center @992:w-[68px] @992:h-[68px] w-[64px] h-[64px] relative @992:mb-6 mb-5'
-              >
-                <OBYImage
-                  display='responsive'
-                  quality={100}
-                  src='/images/logo-brand.png'
-                  alt='Ông Bà Yêu'
-                  title='Ông Bà Yêu'
-                  className='object-cover'
-                />
-              </OBYLink>
+              <OBYButton asChild variant='ghost' className={cn('py-0 w-[115px] h-[36px] relative mb-6')}>
+                <OBYLink href={hrefPath.home} title='Trang chủ Ông Bà Yêu'>
+                  <OBYImage src='/images/logo-primary.svg' display='responsive' alt='Ông Bà Yêu' />
+                </OBYLink>
+              </OBYButton>
               <div className='flex items-center gap-3'>
                 <OBYEmailIcon className='w-6 h-6 text-oby-676869' />
-                <OBYLink href={`mailto:${appInformationConfig.APP_EMAIL}`} title='Ông Bà Yêu - Email' className='fs-14'>
+                <OBYLink
+                  href={`mailto:${appInformationConfig.APP_EMAIL}`}
+                  title='Ông Bà Yêu - Email'
+                  className='fs-14 font-bold'
+                >
                   {appInformationConfig.APP_EMAIL}
                 </OBYLink>
               </div>
@@ -44,7 +40,7 @@ export default function Footer({ font }: FooterProps) {
                 <OBYLink
                   href={`tel:${appInformationConfig.APP_PHONE}`}
                   title='Ông Bà Yêu - Số điện thoại'
-                  className='fs-14'
+                  className='fs-14 font-bold'
                 >
                   {appInformationConfig.APP_PHONE}
                 </OBYLink>
@@ -53,7 +49,7 @@ export default function Footer({ font }: FooterProps) {
                 <OBYLocationIcon className='w-6 h-6 text-oby-676869' />
                 <OBYLink
                   href={`https://www.google.com/maps/search/?api=1&query=${appInformationConfig.APP_ADDRESS_MAP}`}
-                  className='fs-14'
+                  className='fs-14 font-bold'
                   title='Ông Bà Yêu - Địa Chỉ Shop'
                 >
                   {appInformationConfig.APP_ADDRESS}

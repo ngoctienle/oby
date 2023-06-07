@@ -45,7 +45,7 @@ export default function ProductList({ category, subcategory, categoryID }: Produ
         </OBYLink>
       </OBYButton>
       {/* List Sub-Categories */}
-      <div className='overflow-x-auto scrollbar-none bg-[#BCF0AA] py-3 px-4'>
+      <div className='overflow-x-auto scrollbar-none bg-[#BCF0AA] @992:py-3 py-2.5 px-4'>
         <div className='min-w-fit'>
           <div className='flex items-center gap-3'>
             {subcategory &&
