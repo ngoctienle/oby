@@ -52,6 +52,7 @@
     "react-hook-form": "^7.43.9",
     "react-hooks-global-state": "^2.1.0",
     "react-hot-toast": "^2.4.0",
+    "react-icons": "^4.9.0",
     "react-scroll": "^1.8.9",
     "react-select": "^5.7.2",
     "sharp": "^0.32.0",

@@ -47,7 +47,7 @@ export default function Banner() {
         ))}
     </Swiper>
   ) : (
-    <div className='container'>
+    <div className='container mt-4'>
       <Swiper
         effect={'fade'}
         navigation={true}

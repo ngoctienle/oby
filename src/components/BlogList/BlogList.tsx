@@ -1,5 +1,6 @@
-import { ArrowLongRightIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
+import { ChevronRightIcon } from '@heroicons/react/24/outline'
 import { useQuery } from '@tanstack/react-query'
+import { AiFillCaretRight } from 'react-icons/ai'
 
 import { useQueryConfig } from '@/hooks'
 
@@ -29,7 +30,7 @@ export default function BlogList() {
       <OBYButton variant='link' size='link' asChild className='flex items-center @992:mb-7.5 mb-4 gap-2'>
         <OBYLink href={hrefPath.blog}>
           <h2 className='@992:fs-26 fs-20 text-oby-green font-bold'>Blogs</h2>
-          <ArrowLongRightIcon className='@992:w-7 @992:h-7 w-6 h-6 text-oby-green' />
+          <AiFillCaretRight className='w-5 h-5 text-oby-green' />
         </OBYLink>
       </OBYButton>
       <div className='grid @992:grid-cols-2 grid-cols-1 @992:gap-x-15 @992:gap-y-7.5 gap-4'>

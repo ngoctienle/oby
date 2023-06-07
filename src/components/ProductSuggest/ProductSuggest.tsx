@@ -36,7 +36,7 @@ export default function ProductSuggest() {
 
   return (
     <>
-      <h2 className='@992:fs-26 fs-20 text-oby-green font-bold mb-7.5'>Gợi ý hôm nay</h2>
+      <h2 className='@992:fs-26 fs-20 text-oby-green font-bold @992:mb-7.5 mb-4'>Gợi ý hôm nay</h2>
       <Swiper
         lazy={true}
         slidesPerView={2}
@@ -60,7 +60,7 @@ export default function ProductSuggest() {
           }
         }}
         modules={[Pagination, Lazy, EffectFade, Autoplay]}
-        className='suggestProduct @992:mb-[90px] mb-[60px]'
+        className='suggestProduct @992:mb-[60px] mb-[40px]'
       >
         {productSgRes &&
           productSgRes.data.items.map((item, index) => {

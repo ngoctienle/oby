@@ -35,11 +35,10 @@ export const AddCartButton: FC<IAddCartButton> = ({ isLoading, ...props }) => {
     <AsyncButton
       isLoading={isLoading}
       variant='outlinePrimary'
-      className={cn('@992:mt-3.5 mt-0 @992:h-11 h-10 @992:w-full w-10')}
+      className={cn('@992:h-[50px] h-10 @992:w-[50px] w-10')}
       {...props}
     >
-      <OBYAddCartIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary @992:mr-1.5 mr-0' />
-      <p className='text-oby-primary fs-16 @992:block hidden'>Thêm vào giỏ</p>
+      <OBYAddCartIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary' />
     </AsyncButton>
   )
 }

@@ -115,7 +115,7 @@ export default function Home() {
             parentCategory.map((item) => {
               if (item.is_active && item.product_count !== 0) {
                 return (
-                  <TriggerScroll name={item.name} key={item.id} className='@992:pt-15 pt-10'>
+                  <TriggerScroll name={item.name} key={item.id} className='@992:pt-10 pt-7.5'>
                     <ProductList categoryID={item.id} category={item.name} subcategory={item.children_data} />
                   </TriggerScroll>
                 )

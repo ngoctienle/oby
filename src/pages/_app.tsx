@@ -20,7 +20,7 @@ import { getGuestCartIdSSRAndCSR, getTokenSSRAndCSR } from '@/helpers/cookie'
 import cartApi from '@/apis/magento/cart.api'
 
 import Footer from '@/components/Footer'
-import Header from '@/components/Header'
+import HeaderV2 from '@/components/HeaderV2'
 import { ToTopButton } from '@/components/UI/Button'
 
 /* import { HeaderAds } from '@/components/UI/OBYAds' */
@@ -77,7 +77,7 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
       <QueryClientProvider client={queryClient}>
         <NextNProgress height={2} startPosition={0.3} stopDelayMs={200} showOnShallow={true} color='#4AA02C' />
         {/* <HeaderAds /> */}
-        <Header
+        <HeaderV2
           font={inter}
           isFocus={isAuth}
           user={pageProps.userProfile || null}
