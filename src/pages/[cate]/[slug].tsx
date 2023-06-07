@@ -242,7 +242,7 @@ export default function ProductDetail({ subName, productData, parentName, produc
   const renderReviews = () => {
     if (filteredReviews && filteredReviews.length > 4 && showFullReview === false) {
       return (
-        <div className='grid grid-cols-2 gap-x-7 gap-y-6'>
+        <div className='columns-2 gap-6 space-y-7'>
           {splicedReviews?.map((item) => (
             <Review
               key={item.id}
@@ -256,7 +256,7 @@ export default function ProductDetail({ subName, productData, parentName, produc
       )
     } else {
       return (
-        <div className='grid grid-cols-2 gap-x-7 gap-y-6'>
+        <div className='columns-2 gap-6 space-y-7'>
           {filteredReviews?.map((item) => (
             <Review
               key={item.id}

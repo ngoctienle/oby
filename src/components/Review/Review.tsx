@@ -15,7 +15,7 @@ interface ReviewProps {
 
 export default function Review({ avatar, name, date, description, rate }: ReviewProps) {
   return (
-    <div className='rounded-tl-4 rounded-br-4 border border-oby-DFDFDF p-5 bg-oby-F6F7F8 flex space-x-4'>
+    <div className='rounded-tl-4 rounded-br-4 border border-oby-DFDFDF p-5 bg-oby-F6F7F8 flex space-x-4 break-inside-avoid'>
       <div className='flex-shrink-0 rounded-full w-10 h-10 relative border border-oby-primary'>
         {avatar ? <OBYImage src={avatar} alt='name' /> : <UserCircleIcon />}
       </div>
