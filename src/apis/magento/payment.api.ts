@@ -65,6 +65,9 @@ const paymentApi = {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRECT_TOKEN}`
       }
     })
+  },
+  CreateOrderGHTK(id: string) {
+    return magentoAPI.post('V1/oby/ghtk/create-order/', { orderId: id })
   }
 }
 
