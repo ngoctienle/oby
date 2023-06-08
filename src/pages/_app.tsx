@@ -7,6 +7,7 @@ import type { AppContext, AppProps } from 'next/app'
 import App from 'next/app'
 import { Inter } from 'next/font/google'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import Script from 'next/script'
 import NextNProgress from 'nextjs-progressbar'
 import { Fragment, useEffect, useMemo } from 'react'
@@ -23,8 +24,6 @@ import Footer from '@/components/Footer'
 import HeaderV2 from '@/components/HeaderV2'
 import { ToTopButton } from '@/components/UI/Button'
 
-/* import { HeaderAds } from '@/components/UI/OBYAds' */
-
 const inter = Inter({ subsets: ['latin'] })
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -35,11 +34,12 @@ const queryClient = new QueryClient({
   }
 })
 
-function OBYApp({ Component, pageProps, router }: AppProps) {
+function OBYApp({ Component, pageProps }: AppProps) {
   const [, setGuestCartId] = useGlobalState('guestCartId')
   const [, setUser] = useGlobalState('user')
   const [, setToken] = useGlobalState('token')
   const [, setCartId] = useGlobalState('cartId')
+  const router = useRouter()
 
   useEffect(() => {
     const handleRouteChange = () => {
@@ -51,7 +51,6 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.events])
 
   useEffect(() => {
@@ -76,7 +75,6 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
       </Head>
       <QueryClientProvider client={queryClient}>
         <NextNProgress height={2} startPosition={0.3} stopDelayMs={200} showOnShallow={true} color='#4AA02C' />
-        {/* <HeaderAds /> */}
         <HeaderV2
           font={inter}
           isFocus={isAuth}
@@ -120,13 +118,12 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
   )
 }
 
-OBYApp.getInitialProps = async (appContext: AppContext) => {
+export const getStaticProps = async (appContext: AppContext) => {
   const appProps = await App.getInitialProps(appContext)
 
   let guestCartId = getGuestCartIdSSRAndCSR(appContext.ctx)
   // eslint-disable-next-line prefer-const
   let [userToken, userProfile, cartId] = getTokenSSRAndCSR(appContext.ctx)
-
   let setCookieHeader = ''
 
   if (!userToken && !guestCartId) {
@@ -167,14 +164,13 @@ OBYApp.getInitialProps = async (appContext: AppContext) => {
   appContext.ctx.res?.setHeader('Set-Cookie', setCookieHeader)
 
   return {
-    pageProps: {
+    props: {
       ...appProps.pageProps,
       guestCartId,
       userToken,
       userProfile,
       cartId
-    },
-    setCookieHeader
+    }
   }
 }
 
