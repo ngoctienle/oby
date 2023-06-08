@@ -1,13 +1,13 @@
-import { useQueries, useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Autoplay, EffectFade, Lazy, Pagination } from 'swiper'
 import 'swiper/css/effect-fade'
 import 'swiper/css/pagination'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/swiper.min.css'
 
-import { getCateId } from '@/helpers/product'
+/* import { getCateId } from '@/helpers/product'
 
-import categoryApi from '@/apis/magento/category.api'
+import categoryApi from '@/apis/magento/category.api' */
 import productApi from '@/apis/magento/product.api'
 
 import { cacheTime } from '@/constants/config.constant'
@@ -17,11 +17,11 @@ import Product from '@/components/Product'
 export default function ProductSuggest() {
   const { data: productSgRes } = useQuery({
     queryKey: ['productSg'],
-    queryFn: () => productApi.GetProductByCategoryID(82),
+    queryFn: () => productApi.GetProductByCategoryID(82, '1', '100'),
     staleTime: cacheTime.halfHours
   })
 
-  const productSgCate = useQueries({
+  /* const productSgCate = useQueries({
     queries: [
       ...(productSgRes?.data.items || []).map((item) => {
         const id = getCateId(item.custom_attributes)
@@ -32,7 +32,7 @@ export default function ProductSuggest() {
         }
       })
     ]
-  })
+  }) */
 
   return (
     <>
@@ -63,12 +63,10 @@ export default function ProductSuggest() {
         className='suggestProduct @992:mb-[60px] mb-[40px]'
       >
         {productSgRes &&
-          productSgRes.data.items.map((item, index) => {
-            const cateData = productSgCate[index].data?.data.name || ''
-            console.log(cateData)
+          productSgRes.data.items.map((item) => {
             return (
               <SwiperSlide key={item.id}>
-                <Product data={item} cateName={cateData} />
+                <Product data={item} />
               </SwiperSlide>
             )
           })}

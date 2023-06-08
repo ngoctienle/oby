@@ -8,6 +8,9 @@ export interface CustomAttribute {
 
 export interface SearchCriteria {
   filter_groups: FilterGroup[]
+  current_page: number
+  page_size: number
+  total_count: number
 }
 
 export interface FilterGroup {

@@ -6,20 +6,21 @@ import { Product as ProductType } from '@/@types/product.type'
 
 import { useGlobalState } from '@/libs/state'
 
-import { createSlug, formatCurrency, getDiscountPercent } from '@/helpers'
+import { formatCurrency, getDiscountPercent } from '@/helpers'
 import { generateProductImageFromMagento, getDiscount, isHaveDiscount } from '@/helpers/product'
 
 import cartApi from '@/apis/magento/cart.api'
+
+import { hrefPath } from '@/constants/href.constant'
 
 import { AddCartButton } from '@/components/UI/Button'
 import { OBYImage, OBYLink } from '@/components/UI/Element'
 
 interface ProductProps {
   data: ProductType
-  cateName: string
 }
 
-export default function Product({ data, cateName }: ProductProps) {
+export default function Product({ data }: ProductProps) {
   const [guestCartId] = useGlobalState('guestCartId')
   const [cartId] = useGlobalState('cartId')
   const [token] = useGlobalState('token')
@@ -69,7 +70,7 @@ export default function Product({ data, cateName }: ProductProps) {
   return (
     <div className='flex group flex-col'>
       <OBYLink
-        href={`${createSlug(cateName)}/${data.sku}`}
+        href={`${hrefPath.productDetail}/${data.sku}`}
         title={data.name}
         className='overflow-hidden relative w-full border bg-white border-oby-primary @768:pt-[56%] pt-[70%] @992:rounded-tl-4 @992:rounded-br-4 rounded-tl-2.5 rounded-br-2.5'
       >
@@ -87,7 +88,7 @@ export default function Product({ data, cateName }: ProductProps) {
         )}
       </OBYLink>
       <OBYLink
-        href={`${createSlug(cateName)}/${data.sku}`}
+        href={`${hrefPath.productDetail}/${data.sku}`}
         title={data.name}
         className='@992:h-11 h-9 fs-14 @992:fs-16 @992:leading-[140%] leading-[18.4px] @992:mt-3.5 mt-2 line-clamp-2'
       >

@@ -25,13 +25,11 @@ export default function Blog({ blog }: BlogProps) {
           className='object-cover'
         />
       </div>
-      <div className=''>
-        <div className='px-1.5 py-0.75 @992:fs-14 fs-12 border border-oby-blue leading-[130%] rounded-2 text-oby-blue max-w-max'>
+      <div className='@992:space-y-2.5 space-y-1.5'>
+        <div className='px-1.5 py-0.75 @992:fs-14 fs-12 border border-oby-green leading-[130%] rounded-2 text-oby-green max-w-max'>
           {generateCateNameById(blog.category_ids[0])}
         </div>
-        <h2 className='font-semibold @992:h-11 @768:line-clamp-2 @992:fs-16 fs-14 line-clamp-3 @992:my-2.5 my-1.5'>
-          {blog.name}
-        </h2>
+        <h2 className='font-semibold @992:h-11 @768:line-clamp-2 @992:fs-16 fs-14 line-clamp-3'>{blog.name}</h2>
         <p className='text-oby-676869 fs-14 @768:line-clamp-3 leading-[130%] hidden @768:block'>
           {blog.short_description}
         </p>

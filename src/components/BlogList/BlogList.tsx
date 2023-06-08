@@ -34,13 +34,13 @@ export default function BlogList() {
         </OBYLink>
       </OBYButton>
       <div className='grid @992:grid-cols-2 grid-cols-1 @992:gap-x-15 @992:gap-y-7.5 gap-4'>
-        {blogsData.data.slice(0, 3).map((blog) => (
+        {blogsData.data.map((blog) => (
           <div className='col-span-1' key={blog.id}>
             <Blog blog={blog} />
           </div>
         ))}
       </div>
-      {blogsData.data.length > 4 && (
+      {blogsData.data.length === 6 && (
         <div className='flex items-center justify-center mt-10 gap-1.5'>
           <OBYLink href={hrefPath.blog} className='text-oby-primary fs-18'>
             Xem tất cả

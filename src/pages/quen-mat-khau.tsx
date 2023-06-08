@@ -36,7 +36,6 @@ export default function ForgotPWPage() {
   })
 
   const handleSubmitForgot = handleSubmit((data) => {
-    console.log(data)
     const { email } = data
     forgotMutation.mutate(email, {
       onSuccess: (data) => {

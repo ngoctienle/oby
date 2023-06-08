@@ -4,7 +4,7 @@ import { AiFillCaretRight } from 'react-icons/ai'
 
 import { Category } from '@/@types/category.type'
 
-import { useMediaQuery } from '@/hooks'
+import { useMediaQuery, useQueryProductConfig } from '@/hooks'
 
 import { createSlug } from '@/helpers'
 
@@ -23,9 +23,11 @@ interface ProductListProps {
 
 export default function ProductList({ category, subcategory, categoryID }: ProductListProps) {
   const isMedium = useMediaQuery('(min-width: 768px)')
+  const queryConfig = useQueryProductConfig()
+
   const { data } = useQuery({
     queryKey: ['product', categoryID],
-    queryFn: () => productApi.GetProductByCategoryID(categoryID),
+    queryFn: () => productApi.GetProductByCategoryID(categoryID, queryConfig.page, queryConfig.limit),
     staleTime: cacheTime.halfHours
   })
 
@@ -67,16 +69,16 @@ export default function ProductList({ category, subcategory, categoryID }: Produ
         {isMedium
           ? productData.items.slice(0, 8).map((item) => (
               <div className='col-span-1' key={item.id}>
-                <Product data={item} cateName={category} />
+                <Product data={item} />
               </div>
             ))
           : productData.items.slice(0, 6).map((item) => (
               <div className='col-span-1' key={item.id}>
-                <Product data={item} cateName={category} />
+                <Product data={item} />
               </div>
             ))}
       </div>
-      {productData.items.length > 8 && (
+      {productData.items.length === 8 && (
         <div className='flex items-center justify-center mt-10 gap-1.5'>
           <OBYLink
             href={`${createSlug(category)}-${categoryID}`}

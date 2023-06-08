@@ -2,7 +2,7 @@
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import DOMPurify from 'isomorphic-dompurify'
-import { GetServerSideProps } from 'next'
+import { GetStaticPaths, GetStaticProps } from 'next'
 import Image from 'next/image'
 import { ParsedUrlQuery } from 'querystring'
 import React, { useRef, useState } from 'react'
@@ -323,8 +323,42 @@ export default function ProductDetail({ subName, productData, parentName, produc
   )
 }
 
-/* Generate Data as Server Side */
-export const getServerSideProps: GetServerSideProps<IProductDetailProps> = async (context) => {
+export const getStaticPaths: GetStaticPaths = async () => {
+  const { data } = await productApi.GetAllProducts()
+
+  const slugs = data.items.map((product) => product.sku)
+
+  const paths = slugs.map((slug) => ({ params: { slug } }))
+
+  return { paths, fallback: false }
+}
+
+export const getStaticProps: GetStaticProps<IProductDetailProps> = async (context) => {
+  const { slug } = context.params as IParams
+  try {
+    const { data: productData } = await productApi.GetProductDetailBySKU(slug)
+    const categoryIDs = findIDsFromProduct(productData.custom_attributes) ?? []
+    const [subCategoryRes, parentCategoryRes] = await Promise.all([
+      categoryApi.GetCategoryNameById(categoryIDs[1]),
+      categoryApi.GetCategoryNameById(categoryIDs[0])
+    ])
+    return {
+      props: {
+        subName: subCategoryRes.data.name,
+        parentName: parentCategoryRes.data.name,
+        productName: productData.name,
+        productData,
+        slug
+      }
+    }
+  } catch (error) {
+    return {
+      notFound: true
+    }
+  }
+}
+/*  Generate Data as Server Side */
+/* export const getServerSideProps: GetServerSideProps<IProductDetailProps> = async (context) => {
   const { slug } = context.params as IParams
 
   try {
@@ -350,4 +384,4 @@ export const getServerSideProps: GetServerSideProps<IProductDetailProps> = async
       notFound: true
     }
   }
-}
+} */
