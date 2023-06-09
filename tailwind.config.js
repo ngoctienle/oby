@@ -9,6 +9,7 @@ module.exports = {
       colors: {
         'oby-222324': '#222324',
         'oby-676869': '#676869',
+        'oby-646464': '#646464',
         'oby-9A9898': '#9A9898',
         'oby-DFDFDF': '#DFDFDF',
         'oby-F6F7F8': '#F6F7F8',
@@ -17,7 +18,8 @@ module.exports = {
         'oby-orange': '#F28825',
         'oby-red': '#E43641',
         'oby-blue': '#4FC2F8',
-        'oby-E4FBDB': '#E4FBDB'
+        'oby-E4FBDB': '#E4FBDB',
+        'oby-yellow': '#FAD749'
       },
       screens: {
         '@1544': '1544px',
@@ -95,6 +97,9 @@ module.exports = {
         },
         '.fs-28': {
           fontSize: '28px'
+        },
+        '.fs-48': {
+          fontSize: '48px'
         }
       }),
         matchVariant(

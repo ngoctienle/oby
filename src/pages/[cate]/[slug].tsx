@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import DOMPurify from 'isomorphic-dompurify'
 import { GetServerSideProps } from 'next'
 import Image from 'next/image'
 import { ParsedUrlQuery } from 'querystring'
-import React, { useRef, useState } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import { toast } from 'react-hot-toast'
 
 import { CartRequest } from '@/@types/cart.type'
@@ -35,7 +35,9 @@ import { hrefPath } from '@/constants/href.constant'
 
 import Breadcrumb from '@/components/Breadcrumb'
 import ProductRating from '@/components/ProductRating'
+import Progress from '@/components/Progress'
 import QuantityController from '@/components/QuantityController'
+import Review from '@/components/Review'
 import { AsyncButton, BuyNowButton } from '@/components/UI/Button'
 import { OBYButton } from '@/components/UI/Element'
 import { OBYAddCartIcon, OBYCommentIcon } from '@/components/UI/OBYIcons'
@@ -53,6 +55,13 @@ interface IParams extends ParsedUrlQuery {
   slug: string
 }
 
+type RatingStats = {
+  [key: string]: {
+    count: number
+    percent?: number
+  }
+}
+
 export default function ProductDetail({ subName, productData, parentName, productName, slug }: IProductDetailProps) {
   const queryClient = useQueryClient()
 
@@ -63,6 +72,7 @@ export default function ProductDetail({ subName, productData, parentName, produc
   const imgRef = useRef<HTMLImageElement>(null)
   const [buyCount, setBuyCount] = useState<number>(1)
   const [showFullDescription, setShowFullDescription] = useState<boolean>(false)
+  const [showFullReview, setShowFullReview] = useState<boolean>(false)
 
   /* const [curIndexImage, setCurIndexImage] = useState([0, 5]) */
   const [activeImage, setActiveImage] = useState('')
@@ -162,6 +172,132 @@ export default function ProductDetail({ subName, productData, parentName, produc
     }
   } */
 
+  const { data: reviewRes, isLoading } = useQuery({
+    queryKey: ['reviews'],
+    queryFn: () => productApi.GetAllProductReviews(slug),
+    enabled: Boolean(slug)
+  })
+
+  const filteredReviews = useMemo(() => {
+    if (reviewRes) {
+      return reviewRes.data.filter((review) => {
+        const rating = review.ratings[0].value
+        return rating >= 4
+      })
+    }
+    return []
+  }, [reviewRes])
+
+  const calculateAverageRating = useMemo(() => {
+    if (!filteredReviews || filteredReviews.length === 0) {
+      return 0
+    }
+    const totalRating = filteredReviews.reduce((sum, review) => sum + review.ratings[0].value, 0)
+    const averageRating = totalRating / filteredReviews.length
+
+    return averageRating
+  }, [filteredReviews])
+
+  const calculateRatingStats = useMemo(() => {
+    const ratingStats: RatingStats = {
+      '5': { count: 0 },
+      '4': { count: 0 },
+      '3': { count: 0 },
+      '2': { count: 0 },
+      '1': { count: 0 }
+    }
+
+    filteredReviews.forEach((review) => {
+      const ratingValue = review.ratings[0].value
+
+      if (ratingStats[ratingValue]) {
+        ratingStats[ratingValue].count++
+      }
+    })
+
+    const totalRatings = filteredReviews.length
+
+    for (const ratingValue in ratingStats) {
+      const count = ratingStats[ratingValue].count
+      const percent = (count / totalRatings) * 100
+      ratingStats[ratingValue].percent = percent
+    }
+
+    const sortedStats = Object.entries(ratingStats)
+      .sort((a, b) => Number(b[0]) - Number(a[0]))
+      .map(([ratingValue, stats]) => ({
+        ratingValue: parseInt(ratingValue),
+        ...stats
+      }))
+
+    return sortedStats
+  }, [filteredReviews])
+
+  const splicedReviews = filteredReviews?.slice(0, 4)
+
+  const toggleReview = () => {
+    setShowFullReview(!showFullReview)
+  }
+
+  const renderReviews = () => {
+    if (filteredReviews && filteredReviews.length > 4 && showFullReview === false) {
+      return (
+        <div className='columns-2 gap-6 space-y-7'>
+          {splicedReviews?.map((item) => (
+            <Review
+              key={item.id}
+              name={item.nickname}
+              date={item.created_at}
+              rate={item.ratings[0].value}
+              description={item.detail}
+            />
+          ))}
+        </div>
+      )
+    } else {
+      return (
+        <div className='columns-2 gap-6 space-y-7'>
+          {filteredReviews?.map((item) => (
+            <Review
+              key={item.id}
+              name={item.nickname}
+              date={item.created_at}
+              rate={item.ratings[0].value}
+              description={item.detail}
+            />
+          ))}
+        </div>
+      )
+    }
+  }
+
+  const renderButtonShowmoreReview = () => {
+    if (filteredReviews)
+      if (filteredReviews?.length === 0) {
+        return
+      } else {
+        if (filteredReviews?.length > 4) {
+          return (
+            <div className='flex items-center justify-center mt-7.5 gap-1.5'>
+              <OBYButton
+                variant='link'
+                size='link'
+                onClick={toggleReview}
+                className='text-oby-primary @992:fs-18 fs-16'
+              >
+                {!showFullReview ? 'Xem thêm' : 'Rút gọn'}
+              </OBYButton>
+              {!showFullReview ? (
+                <ChevronDownIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary' />
+              ) : (
+                <ChevronUpIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary' />
+              )}
+            </div>
+          )
+        }
+      }
+  }
+
   const meta = generateMetaSEO({
     title: productName,
     description: slicedDescription,
@@ -243,7 +379,7 @@ export default function ProductDetail({ subName, productData, parentName, produc
               <h1 className='font-semibold @768:fs-24 fs:18'>{productName}</h1>
               <div className='flex items-center @768:mt-5 mt-4'>
                 <div className='flex items-center gap-2'>
-                  <ProductRating rating={4.34} />
+                  <ProductRating rating={4.34} size={7} />
                   <p className='fs-14'>101 đánh giá</p>
                 </div>
                 <div className='flex items-center gap-2 @768:ml-[80px] ml-auto'>
@@ -317,6 +453,51 @@ export default function ProductDetail({ subName, productData, parentName, produc
               )}
             </div>
           )}
+          <div>
+            <h2 className='@768:fs-26 fs-20 font-bold text-oby-green'>Đánh giá sản phẩm</h2>
+            <div className='my-7.5 mx-auto max-w-[375px]'>
+              <p className='fs-48 text-oby-orange font-bold leading-[58px] text-center'>
+                {calculateAverageRating.toFixed(2)}
+              </p>
+              <p className='fs-18 text-oby-676869 leading-[22px] text-center'>{filteredReviews?.length} Đánh giá</p>
+              <div className='mt-5'>
+                {calculateRatingStats.map((item, index) => (
+                  <div key={index} className='py-1.5 flex items-center space-x-4'>
+                    <ProductRating rating={item.ratingValue} size={4} />
+                    <Progress value={item.percent} />
+                    <p className='text-oby-676869'>{item.count}</p>
+                  </div>
+                ))}
+                {/* <div className='py-1.5 flex items-center space-x-4'>
+                  <ProductRating rating={5} size={4} />
+                  <Progress value={70} />
+                  <p className='text-oby-676869'>2</p>
+                </div>
+                <div className='py-1.5 flex items-center space-x-4'>
+                  <ProductRating rating={4} size={4} />
+                  <Progress value={70} />
+                  <p className='text-oby-676869'>2</p>
+                </div>
+                <div className='py-1.5 flex items-center space-x-4'>
+                  <ProductRating rating={3} size={4} />
+                  <Progress value={70} />
+                  <p className='text-oby-676869'>2</p>
+                </div>
+                <div className='py-1.5 flex items-center space-x-4'>
+                  <ProductRating rating={2} size={4} />
+                  <Progress value={70} />
+                  <p className='text-oby-676869'>2</p>
+                </div>
+                <div className='py-1.5 flex items-center space-x-4'>
+                  <ProductRating rating={1} size={4} />
+                  <Progress value={0} />
+                  <p className='text-oby-676869'>2</p>
+                </div> */}
+              </div>
+            </div>
+            {!isLoading && renderReviews()}
+            {renderButtonShowmoreReview()}
+          </div>
         </div>
       </section>
     </>
