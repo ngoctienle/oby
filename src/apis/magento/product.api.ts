@@ -4,9 +4,9 @@ import { Product, ProductResponse } from '@/@types/product.type'
 import { Review } from '@/@types/review.type'
 
 const productApi = {
-  GetProductByCategoryID(id: number) {
+  GetProductByCategoryID(id: number, page?: string, pageSize?: string) {
     return magentoAPI.get<ProductResponse>(
-      `V1/products/?searchCriteria[filter_groups][0][filters][0][field]=category_id&searchCriteria[filter_groups][0][filters][0][value]=${id}&searchCriteria[filter_groups][0][filters][0][condition_type]=in`
+      `V1/products/?searchCriteria[filter_groups][0][filters][0][field]=category_id&searchCriteria[filter_groups][0][filters][0][value]=${id}&searchCriteria[filter_groups][0][filters][0][condition_type]=in&&searchCriteria[currentPage]=${page}&searchCriteria[pageSize]=${pageSize}`
     )
   },
   GetProductDetailBySKU(sku: string) {

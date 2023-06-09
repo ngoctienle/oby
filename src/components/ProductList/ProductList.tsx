@@ -1,9 +1,10 @@
-import { ArrowLongRightIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
+import { ChevronRightIcon } from '@heroicons/react/24/outline'
 import { useQuery } from '@tanstack/react-query'
+import { AiFillCaretRight } from 'react-icons/ai'
 
 import { Category } from '@/@types/category.type'
 
-import { useMediaQuery } from '@/hooks'
+import { useMediaQuery, useQueryProductConfig } from '@/hooks'
 
 import { createSlug } from '@/helpers'
 
@@ -22,10 +23,13 @@ interface ProductListProps {
 
 export default function ProductList({ category, subcategory, categoryID }: ProductListProps) {
   const isMedium = useMediaQuery('(min-width: 768px)')
+  const queryConfig = useQueryProductConfig()
+
   const { data } = useQuery({
     queryKey: ['product', categoryID],
-    queryFn: () => productApi.GetProductByCategoryID(categoryID),
-    staleTime: cacheTime.halfHours
+    queryFn: () => productApi.GetProductByCategoryID(categoryID, queryConfig.page, queryConfig.limit),
+    staleTime: cacheTime.halfHours,
+    keepPreviousData: true
   })
 
   const productData = data?.data
@@ -35,16 +39,16 @@ export default function ProductList({ category, subcategory, categoryID }: Produ
   }
 
   return (
-    <div className=''>
+    <>
       {/* Category Name */}
-      <OBYButton variant='link' size='link' asChild>
-        <OBYLink href={`${createSlug(category)}-${categoryID}`} className='flex items-center @992:mb-7.5 mb-4 gap-2'>
+      <OBYButton variant='link' size='link' asChild className='flex items-center mb-4 gap-2'>
+        <OBYLink href={`${createSlug(category)}-${categoryID}`}>
           <h2 className='@992:fs-26 fs-20 text-oby-green font-bold'>{category}</h2>
-          <ArrowLongRightIcon className='@992:w-7 @992:h-7 h-6 w-6 text-oby-green' />
+          <AiFillCaretRight className='w-5 h-5 text-oby-green' />
         </OBYLink>
       </OBYButton>
       {/* List Sub-Categories */}
-      <div className='overflow-x-auto scrollbar-none'>
+      <div className='overflow-x-auto scrollbar-none bg-[#8BD870] @992:py-3 py-2.5 px-4 rounded-4'>
         <div className='min-w-fit'>
           <div className='flex items-center gap-3'>
             {subcategory &&
@@ -53,7 +57,7 @@ export default function ProductList({ category, subcategory, categoryID }: Produ
                   href={`${createSlug(item.name)}-${item.id}`}
                   title={item.name}
                   key={item.id}
-                  className='@992:rounded-4 rounded-2.5 border border-oby-DFDFDF px-3 py-2.75 @992:fs-14 fs-12 whitespace-nowrap'
+                  className='@992:rounded-4 rounded-2.5 border border-oby-green bg-white text-oby-green px-3 py-2.5 @992:fs-14 fs-12 whitespace-nowrap'
                 >
                   {item.name}
                 </OBYLink>
@@ -62,20 +66,20 @@ export default function ProductList({ category, subcategory, categoryID }: Produ
         </div>
       </div>
       {/* Product List Related with Category */}
-      <div className='@992:mt-6 mt-4 @992:pt-6 @992:border-t @992:border-t-oby-DFDFDF grid @992:grid-cols-4 @768:grid-cols-3 grid-cols-2 @992:gap-10 gap-5'>
+      <div className='@992:mt-5 mt-4 grid @992:grid-cols-4 @768:grid-cols-3 grid-cols-2 @992:gap-10 gap-5'>
         {isMedium
           ? productData.items.slice(0, 8).map((item) => (
               <div className='col-span-1' key={item.id}>
-                <Product data={item} cateName={category} />
+                <Product data={item} />
               </div>
             ))
           : productData.items.slice(0, 6).map((item) => (
               <div className='col-span-1' key={item.id}>
-                <Product data={item} cateName={category} />
+                <Product data={item} />
               </div>
             ))}
       </div>
-      {productData.items.length > 8 && (
+      {productData.items.length === 8 && (
         <div className='flex items-center justify-center mt-10 gap-1.5'>
           <OBYLink
             href={`${createSlug(category)}-${categoryID}`}
@@ -87,6 +91,6 @@ export default function ProductList({ category, subcategory, categoryID }: Produ
           <ChevronRightIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary' />
         </div>
       )}
-    </div>
+    </>
   )
 }

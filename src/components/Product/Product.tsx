@@ -6,20 +6,21 @@ import { Product as ProductType } from '@/@types/product.type'
 
 import { useGlobalState } from '@/libs/state'
 
-import { createSlug, formatCurrency, getDiscountPercent } from '@/helpers'
+import { formatCurrency, getDiscountPercent } from '@/helpers'
 import { generateProductImageFromMagento, getDiscount, isHaveDiscount } from '@/helpers/product'
 
 import cartApi from '@/apis/magento/cart.api'
+
+import { hrefPath } from '@/constants/href.constant'
 
 import { AddCartButton } from '@/components/UI/Button'
 import { OBYImage, OBYLink } from '@/components/UI/Element'
 
 interface ProductProps {
   data: ProductType
-  cateName: string
 }
 
-export default function Product({ data, cateName }: ProductProps) {
+export default function Product({ data }: ProductProps) {
   const [guestCartId] = useGlobalState('guestCartId')
   const [cartId] = useGlobalState('cartId')
   const [token] = useGlobalState('token')
@@ -69,9 +70,9 @@ export default function Product({ data, cateName }: ProductProps) {
   return (
     <div className='flex group flex-col'>
       <OBYLink
-        href={`${createSlug(cateName)}/${data.sku}`}
+        href={`${hrefPath.productDetail}/${data.sku}`}
         title={data.name}
-        className='overflow-hidden relative w-full border bg-white border-oby-DFDFDF @768:pt-[56%] pt-[70%] @992:rounded-tl-4 @992:rounded-br-4 rounded-tl-2.5 rounded-br-2.5'
+        className='overflow-hidden relative w-full border bg-white border-oby-primary @768:pt-[56%] pt-[70%] @992:rounded-4 rounded-2.5'
       >
         <OBYImage
           src={generateProductImageFromMagento(data.custom_attributes)}
@@ -80,24 +81,27 @@ export default function Product({ data, cateName }: ProductProps) {
           display='responsive'
           className='object-cover group-hover:scale-110 transition-all'
         />
+        {isHaveDiscount(data.custom_attributes) && (
+          <p className='absolute bg-oby-red text-white px-1.5 py-0.5 top-4 fs-14 rounded-tr-2 rounded-br-2 left-0'>
+            {getDiscountPercent(data.custom_attributes)}
+          </p>
+        )}
       </OBYLink>
       <OBYLink
-        href={`${createSlug(cateName)}/${data.sku}`}
+        href={`${hrefPath.productDetail}/${data.sku}`}
         title={data.name}
         className='@992:h-11 h-9 fs-14 @992:fs-16 @992:leading-[140%] leading-[18.4px] @992:mt-3.5 mt-2 line-clamp-2'
       >
         {data.name}
       </OBYLink>
-      <div className='flex @992:flex-col justify-between mt-2'>
+      <div className='flex items-center justify-between @992:mt-1 mt-1.5'>
         {isHaveDiscount(data.custom_attributes) ? (
           <>
-            <div className='flex @992:flex-row flex-col @992:items-center items-start @992:gap-3 gap-0.75'>
-              <p className='@992:font-bold font-semibold fs-16 leading-[22.4px]'>
+            <div className='flex @992:flex-row flex-col @992:items-center items-start @992:gap-2.5 gap-0.75'>
+              <p className='@992:font-bold font-semibold fs-16 text-oby-primary'>
                 {getDiscount(data.custom_attributes)}
               </p>
-              <p className='@992:fs-14 @992:leading-[18.2px] fs-10 leading-[12.1px] text-oby-orange px-1.25 py-0.5 rounded-2 border border-oby-orange'>
-                {getDiscountPercent(data.custom_attributes)}
-              </p>
+              <p className='@992:fs-16 fs-12 text-oby-676869 line-through'>{formatCurrency(data.price)}</p>
             </div>
             <AddCartButton
               onClick={handleAddToCart}
@@ -106,7 +110,7 @@ export default function Product({ data, cateName }: ProductProps) {
           </>
         ) : (
           <>
-            <p className='font-bold'>{formatCurrency(data.price)}</p>
+            <p className='@992:font-bold font-semibold fs-16 text-oby-primary'>{formatCurrency(data.price)}</p>
             <AddCartButton
               onClick={handleAddToCart}
               isLoading={!token ? addToCartMutation.isLoading : addToCartMineMutation.isLoading}

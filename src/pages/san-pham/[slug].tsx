@@ -45,9 +45,6 @@ import { OBYSeo } from '@/components/UI/OBYSeo'
 
 interface IProductDetailProps {
   slug: string
-  subName: string
-  parentName: string
-  productName: string
   productData: Product
 }
 
@@ -62,12 +59,24 @@ type RatingStats = {
   }
 }
 
-export default function ProductDetail({ subName, productData, parentName, productName, slug }: IProductDetailProps) {
+export default function ProductDetail({ productData, slug }: IProductDetailProps) {
   const queryClient = useQueryClient()
 
   const [guestCartId] = useGlobalState('guestCartId')
   const [token] = useGlobalState('token')
   const [cartId] = useGlobalState('cartId')
+
+  const categoryIDs = useMemo(() => findIDsFromProduct(productData.custom_attributes) ?? [], [productData])
+  const { data: subCategoryRes } = useQuery({
+    queryKey: ['subCategory'],
+    queryFn: () => categoryApi.GetCategoryNameById(categoryIDs[1]),
+    keepPreviousData: true
+  })
+  const { data: parentCategoryRes } = useQuery({
+    queryKey: ['parentCategory'],
+    queryFn: () => categoryApi.GetCategoryNameById(categoryIDs[0]),
+    keepPreviousData: true
+  })
 
   const imgRef = useRef<HTMLImageElement>(null)
   const [buyCount, setBuyCount] = useState<number>(1)
@@ -299,11 +308,11 @@ export default function ProductDetail({ subName, productData, parentName, produc
   }
 
   const meta = generateMetaSEO({
-    title: productName,
+    title: productData.name,
     description: slicedDescription,
-    keywords: [subName, parentName, productName, 'ongbayeu.com'],
+    keywords: [subCategoryRes?.data.name || '', parentCategoryRes?.data.name || '', productData.name, 'ongbayeu.com'],
     og_image: generateProductImageFromMagento(productData?.custom_attributes),
-    og_image_alt: productName,
+    og_image_alt: productData.name,
     slug: hrefPath.productDetail + '/' + slug,
     noindex: true,
     nofollow: true
@@ -314,9 +323,9 @@ export default function ProductDetail({ subName, productData, parentName, produc
       <OBYSeo {...meta} />
       <section className='@992:pt-4 pt-3'>
         <Breadcrumb
-          cateName={parentName as string}
-          subCateName={subName as string}
-          productName={productName as string}
+          cateName={parentCategoryRes?.data.name || ''}
+          subCateName={subCategoryRes?.data.name || ''}
+          productName={productData.name}
         />
         <div className='container'>
           <div className='grid @768:grid-cols-12 grid-cols-1 @768:gap-10 gap-5 @768:mb-10 mb-6'>
@@ -376,7 +385,7 @@ export default function ProductDetail({ subName, productData, parentName, produc
               </div>
             </div>
             <div className='@768:col-span-7 col-span-1'>
-              <h1 className='font-semibold @768:fs-24 fs:18'>{productName}</h1>
+              <h1 className='font-semibold @768:fs-24 fs:18'>{productData.name}</h1>
               <div className='flex items-center @768:mt-5 mt-4'>
                 <div className='flex items-center gap-2'>
                   <ProductRating rating={4.34} size={7} />
@@ -504,24 +513,49 @@ export default function ProductDetail({ subName, productData, parentName, produc
   )
 }
 
-/* Generate Data as Server Side */
-export const getServerSideProps: GetServerSideProps<IProductDetailProps> = async (context) => {
-  const { slug } = context.params as IParams
+/* export const getStaticPaths: GetStaticPaths = async () => {
+  const { data } = await productApi.GetAllProducts()
 
+  const slugs = data.items.map((product) => product.sku)
+
+  const paths = slugs.map((slug) => ({ params: { slug } }))
+
+  return { paths, fallback: false }
+}
+
+export const getStaticProps: GetStaticProps<IProductDetailProps> = async (context) => {
+  const { slug } = context.params as IParams
   try {
     const { data: productData } = await productApi.GetProductDetailBySKU(slug)
-    const categoryIDs = findIDsFromProduct(productData?.custom_attributes) ?? []
-
+    const categoryIDs = findIDsFromProduct(productData.custom_attributes) ?? []
     const [subCategoryRes, parentCategoryRes] = await Promise.all([
       categoryApi.GetCategoryNameById(categoryIDs[1]),
       categoryApi.GetCategoryNameById(categoryIDs[0])
     ])
-
     return {
       props: {
         subName: subCategoryRes.data.name,
         parentName: parentCategoryRes.data.name,
         productName: productData.name,
+        productData,
+        slug
+      }
+    }
+  } catch (error) {
+    return {
+      notFound: true
+    }
+  }
+} */
+/*  Generate Data as Server Side */
+export const getServerSideProps: GetServerSideProps<IProductDetailProps> = async (context) => {
+  const { slug } = context.params as IParams
+
+  try {
+    const { data: productData } = await productApi.GetProductDetailBySKU(slug)
+
+    return {
+      props: {
         productData,
         slug
       }

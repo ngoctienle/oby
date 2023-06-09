@@ -3,12 +3,17 @@ import { GetServerSideProps } from 'next'
 import { ParsedUrlQuery } from 'querystring'
 import { useMemo } from 'react'
 
+import { useQueryProductConfig } from '@/hooks'
+
 import { createSlug } from '@/helpers'
 
 import categoryApi from '@/apis/magento/category.api'
 import productApi from '@/apis/magento/product.api'
 
+import { cacheTime } from '@/constants/config.constant'
+
 import Breadcrumb from '@/components/Breadcrumb'
+import Pagination from '@/components/Pagination'
 import Product from '@/components/Product'
 import { OBYButton, OBYLink } from '@/components/UI/Element'
 
@@ -22,14 +27,18 @@ interface IParams extends ParsedUrlQuery {
 }
 
 export default function CatePage({ cateName, cateId }: CatePageProps) {
+  const queryConfig = useQueryProductConfig()
   const { data: productRes, isLoading } = useQuery({
-    queryKey: ['products', cateId],
-    queryFn: () => productApi.GetProductByCategoryID(Number(cateId))
+    queryKey: ['products', cateId, queryConfig],
+    queryFn: () => productApi.GetProductByCategoryID(Number(cateId), queryConfig.page, (queryConfig.limit = '9')),
+    keepPreviousData: true,
+    staleTime: cacheTime.fiveMinutes
   })
-
   const { data } = useQuery({
     queryKey: ['category', cateId],
-    queryFn: () => categoryApi.GetCategoryList()
+    queryFn: () => categoryApi.GetCategoryList(),
+    keepPreviousData: true,
+    staleTime: cacheTime.fiveMinutes
   })
 
   const initialCate = useMemo(() => {
@@ -64,7 +73,7 @@ export default function CatePage({ cateName, cateId }: CatePageProps) {
                 {!isLoading &&
                   productRes?.data.items.map((item) => (
                     <div className='col-span-1' key={item.id}>
-                      <Product data={item} cateName={cateName} />
+                      <Product data={item} />
                     </div>
                   ))}
                 {isLoading &&
@@ -91,6 +100,12 @@ export default function CatePage({ cateName, cateId }: CatePageProps) {
                       </div>
                     ))}
               </div>
+              {!isLoading && productRes && productRes.data.total_count > 8 && (
+                <Pagination
+                  queryConfig={queryConfig}
+                  pageSize={Math.ceil(productRes.data.total_count / productRes.data.search_criteria.page_size)}
+                />
+              )}
             </div>
           </div>
         </div>

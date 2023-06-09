@@ -10,7 +10,7 @@ export interface IAsyncButtonProps extends OBYButtonProps {
 export const AsyncButton: FC<IAsyncButtonProps> = ({ isLoading, children, isError, ...props }) => {
   return (
     <OBYButton disabled={isLoading || isError} {...props}>
-      {isLoading && !isError ? <Loader2 className='@992:mr-2 h-5 w-5 animate-spin' /> : children}
+      {isLoading && !isError ? <Loader2 className='h-5 w-5 animate-spin' /> : children}
     </OBYButton>
   )
 }

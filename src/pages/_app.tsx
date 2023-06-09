@@ -20,7 +20,7 @@ import { getGuestCartIdSSRAndCSR, getTokenSSRAndCSR } from '@/helpers/cookie'
 import cartApi from '@/apis/magento/cart.api'
 
 import Footer from '@/components/Footer'
-import Header from '@/components/Header'
+import HeaderV2 from '@/components/HeaderV2'
 import { ToTopButton } from '@/components/UI/Button'
 
 /* import { HeaderAds } from '@/components/UI/OBYAds' */
@@ -59,6 +59,7 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
     setToken(pageProps.userToken)
     setUser(pageProps.userProfile)
     setCartId(pageProps.cartId)
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageProps.cartId, pageProps.guestCartId, pageProps.userProfile, pageProps.userToken])
 
@@ -72,12 +73,12 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
   return (
     <Fragment>
       <Head>
-        <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' />
+        <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1' />
       </Head>
       <QueryClientProvider client={queryClient}>
-        <NextNProgress height={2} startPosition={0.3} stopDelayMs={200} showOnShallow={true} color='#4AA02C' />
+        <NextNProgress height={2} startPosition={0.3} stopDelayMs={200} showOnShallow={true} color='#FFFFFF' />
         {/* <HeaderAds /> */}
-        <Header
+        <HeaderV2
           font={inter}
           isFocus={isAuth}
           user={pageProps.userProfile || null}
@@ -127,17 +128,19 @@ OBYApp.getInitialProps = async (appContext: AppContext) => {
   // eslint-disable-next-line prefer-const
   let [userToken, userProfile, cartId] = getTokenSSRAndCSR(appContext.ctx)
 
+  let setCookieHeader = ''
+
   if (!userToken && !guestCartId) {
-    guestCartId = (await cartApi.GenerateGuestCart()).data
+    const { data: generatedGuestCartId } = await cartApi.GenerateGuestCart()
+    guestCartId = generatedGuestCartId
 
     /* Serialize GuestCartId To Cookie */
     const cookieStr = cookie.serialize('guestCartId', guestCartId, {
       expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
       path: '/'
     })
-    appContext.ctx.res?.setHeader('Set-Cookie', cookieStr)
+    setCookieHeader = cookieStr
 
-    userToken = null
     userProfile = null
     cartId = null
   }
@@ -153,18 +156,16 @@ OBYApp.getInitialProps = async (appContext: AppContext) => {
           expires: new Date(0),
           path: '/'
         })
-        appContext.ctx.res?.setHeader('Set-Cookie', previousCookieStr)
+        setCookieHeader = previousCookieStr
       }
     }
     guestCartId = null
-  }
-
-  // Clear userProfile and cartId cookies if userToken is not available
-  if (!userToken && cartId && userProfile && guestCartId) {
-    appContext.ctx.res?.setHeader('Set-Cookie', '')
+  } else if (cartId && userProfile && guestCartId) {
+    setCookieHeader = '' // Clear cookies
     userProfile = null
     cartId = null
   }
+  appContext.ctx.res?.setHeader('Set-Cookie', setCookieHeader)
 
   return {
     pageProps: {
@@ -173,7 +174,8 @@ OBYApp.getInitialProps = async (appContext: AppContext) => {
       userToken,
       userProfile,
       cartId
-    }
+    },
+    setCookieHeader
   }
 }
 
