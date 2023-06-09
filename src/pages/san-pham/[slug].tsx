@@ -40,7 +40,7 @@ import QuantityController from '@/components/QuantityController'
 import Review from '@/components/Review'
 import { AsyncButton, BuyNowButton } from '@/components/UI/Button'
 import { OBYButton } from '@/components/UI/Element'
-import { OBYAddCartIcon, OBYCommentIcon } from '@/components/UI/OBYIcons'
+import { OBYAddCartIcon } from '@/components/UI/OBYIcons'
 import { OBYSeo } from '@/components/UI/OBYSeo'
 
 interface IProductDetailProps {
@@ -345,6 +345,11 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
                   className='pointer-events-none absolute w-full h-full top-0 inset-0 object-cover bg-white'
                   ref={imgRef}
                 />
+                {isHaveDiscount(productData.custom_attributes) && (
+                  <p className='absolute bg-oby-red text-white px-1.5 py-0.5 top-4 fs-14 rounded-tr-2 rounded-br-2 left-0'>
+                    {getDiscountPercent(productData.custom_attributes)}
+                  </p>
+                )}
               </div>
               <div className='relative mt-4 grid grid-cols-5 gap-1 md:gap-2 lg:mt-6 '>
                 {/* <button
@@ -386,24 +391,15 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
             </div>
             <div className='@768:col-span-7 col-span-1'>
               <h1 className='font-semibold @768:fs-24 fs:18'>{productData.name}</h1>
-              <div className='flex items-center @768:mt-5 mt-4'>
-                <div className='flex items-center gap-2'>
-                  <ProductRating rating={4.34} size={7} />
-                  <p className='fs-14'>101 đánh giá</p>
-                </div>
-                <div className='flex items-center gap-2 @768:ml-[80px] ml-auto'>
-                  <OBYCommentIcon className='@768:w-6 @768:h-6 w-5 h-5 text-oby-676869' />
-                  <p className='fs-14'>74 thảo luận</p>
-                </div>
+              <div className='flex items-center gap-2 @768:mt-5 mt-4'>
+                <ProductRating rating={4.34} size={7} />
+                <p className='fs-14'>101 đánh giá</p>
               </div>
               <div className='bg-oby-F6F7F8 @768:px-5 px-4 @768:py-4 py-3.5 rounded-4 @768:max-w-max flex items-center gap-4 @768:mt-6.25 mt-5'>
                 {isHaveDiscount(productData?.custom_attributes) ? (
                   <>
                     <p className='@768:fs-26 fs-18 font-semibold'>{getDiscount(productData?.custom_attributes)}</p>
                     <p className='@768:fs-18 fs-14 line-through text-oby-676869'>{formatCurrency(productData.price)}</p>
-                    <p className='@768:fs-16 fs-12 text-oby-orange px-1.5 py-0.75 rounded-lg border border-oby-orange'>
-                      {getDiscountPercent(productData?.custom_attributes)}
-                    </p>
                   </>
                 ) : (
                   <p className='@768:fs-26 fs-18 font-semibold'>{formatCurrency(productData.price)}</p>
@@ -477,31 +473,6 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
                     <p className='text-oby-676869'>{item.count}</p>
                   </div>
                 ))}
-                {/* <div className='py-1.5 flex items-center space-x-4'>
-                  <ProductRating rating={5} size={4} />
-                  <Progress value={70} />
-                  <p className='text-oby-676869'>2</p>
-                </div>
-                <div className='py-1.5 flex items-center space-x-4'>
-                  <ProductRating rating={4} size={4} />
-                  <Progress value={70} />
-                  <p className='text-oby-676869'>2</p>
-                </div>
-                <div className='py-1.5 flex items-center space-x-4'>
-                  <ProductRating rating={3} size={4} />
-                  <Progress value={70} />
-                  <p className='text-oby-676869'>2</p>
-                </div>
-                <div className='py-1.5 flex items-center space-x-4'>
-                  <ProductRating rating={2} size={4} />
-                  <Progress value={70} />
-                  <p className='text-oby-676869'>2</p>
-                </div>
-                <div className='py-1.5 flex items-center space-x-4'>
-                  <ProductRating rating={1} size={4} />
-                  <Progress value={0} />
-                  <p className='text-oby-676869'>2</p>
-                </div> */}
               </div>
             </div>
             {!isLoading && renderReviews()}
