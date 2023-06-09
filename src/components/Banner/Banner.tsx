@@ -27,12 +27,12 @@ export default function Banner() {
         disableOnInteraction: false
       }}
       modules={[EffectFade, Navigation, Pagination, Lazy, Autoplay]}
-      className='obyBanner'
+      className='obyBanner relative'
     >
       {Array(2)
         .fill(0)
         .map((_, index) => (
-          <SwiperSlide key={index}>
+          <SwiperSlide key={index} className='relative'>
             <div className='relative w-full aspect-[1920/600]'>
               <Image
                 priority
@@ -41,6 +41,8 @@ export default function Banner() {
                 src={`/images/oby-banner-${index + 1}.webp`}
                 className='abosolute'
                 style={{ objectPosition: 'center', objectFit: 'cover' }}
+                loader={({ src }) => src}
+                unoptimized
               />
             </div>
           </SwiperSlide>
@@ -63,12 +65,12 @@ export default function Banner() {
           disableOnInteraction: false
         }}
         modules={[EffectFade, Navigation, Pagination, Lazy, Autoplay]}
-        className='obyBanner'
+        className='obyBanner relative'
       >
         {Array(2)
           .fill(0)
           .map((_, index) => (
-            <SwiperSlide key={index}>
+            <SwiperSlide key={index} className='relative'>
               <div className='relative w-full aspect-[1920/600] min-h-[170px] rounded-2.5 overflow-hidden'>
                 <Image
                   priority
@@ -77,6 +79,8 @@ export default function Banner() {
                   src={`/images/oby-banner-${index + 1}.webp`}
                   className='absolute'
                   style={{ objectPosition: 'center', objectFit: 'cover' }}
+                  loader={({ src }) => src}
+                  unoptimized
                 />
               </div>
             </SwiperSlide>

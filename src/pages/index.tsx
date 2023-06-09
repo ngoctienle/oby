@@ -97,11 +97,11 @@ export default function Home() {
             <div className='grid grid-cols-5 @992:gap-x-7.5 gap-x-3.25 @992:gap-y-6 gap-y-4'>
               {CategoryContent.map((item) => (
                 <div
-                  className='col-span-1 py-3.5 px-4 bg-white border border-oby-DFDFDF rounded-4 flex @992:flex-row flex-col items-center @992:gap-4 gap-3'
+                  className='col-span-1 py-3.25 px-4 bg-white border border-oby-green rounded-4 flex @992:flex-row flex-col items-center @992:gap-4 gap-3'
                   key={item.title}
                 >
                   {item.icon}
-                  <p className='text-oby-676869 @992:fs-16 fs-12 @992:text-start text-center line-clamp-2'>
+                  <p className='text-oby-green @992:fs-16 fs-12 @992:text-start text-center line-clamp-2'>
                     {item.title}
                   </p>
                 </div>

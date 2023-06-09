@@ -73,10 +73,10 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
   return (
     <Fragment>
       <Head>
-        <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' />
+        <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1' />
       </Head>
       <QueryClientProvider client={queryClient}>
-        <NextNProgress height={2} startPosition={0.3} stopDelayMs={200} showOnShallow={true} color='#4AA02C' />
+        <NextNProgress height={2} startPosition={0.3} stopDelayMs={200} showOnShallow={true} color='#FFFFFF' />
         {/* <HeaderAds /> */}
         <HeaderV2
           font={inter}

@@ -10,6 +10,8 @@ import { createSlug } from '@/helpers'
 import categoryApi from '@/apis/magento/category.api'
 import productApi from '@/apis/magento/product.api'
 
+import { cacheTime } from '@/constants/config.constant'
+
 import Breadcrumb from '@/components/Breadcrumb'
 import Pagination from '@/components/Pagination'
 import Product from '@/components/Product'
@@ -28,11 +30,15 @@ export default function CatePage({ cateName, cateId }: CatePageProps) {
   const queryConfig = useQueryProductConfig()
   const { data: productRes, isLoading } = useQuery({
     queryKey: ['products', cateId, queryConfig],
-    queryFn: () => productApi.GetProductByCategoryID(Number(cateId), queryConfig.page, (queryConfig.limit = '9'))
+    queryFn: () => productApi.GetProductByCategoryID(Number(cateId), queryConfig.page, (queryConfig.limit = '9')),
+    keepPreviousData: true,
+    staleTime: cacheTime.fiveMinutes
   })
   const { data } = useQuery({
     queryKey: ['category', cateId],
-    queryFn: () => categoryApi.GetCategoryList()
+    queryFn: () => categoryApi.GetCategoryList(),
+    keepPreviousData: true,
+    staleTime: cacheTime.fiveMinutes
   })
 
   const initialCate = useMemo(() => {
