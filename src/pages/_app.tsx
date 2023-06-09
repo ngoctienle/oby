@@ -22,6 +22,7 @@ import cartApi from '@/apis/magento/cart.api'
 import Footer from '@/components/Footer'
 import HeaderV2 from '@/components/HeaderV2'
 import { ToTopButton } from '@/components/UI/Button'
+import { OBYImage, OBYLink } from '@/components/UI/Element'
 
 /* import { HeaderAds } from '@/components/UI/OBYAds' */
 
@@ -89,6 +90,20 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
         <main className={inter.className}>
           <Component {...pageProps} />
         </main>
+        <OBYLink
+          href='https://zaloapp.com/qr/p/4ele512pqcw3'
+          title='Zalo'
+          className='fixed bottom-[160px] flex items-center w-[64px] h-[64px] z-10 right-6'
+        >
+          <OBYImage src='/images/icons8-zalo.svg' display='responsive' alt='Zalo' />
+        </OBYLink>
+        <OBYLink
+          href='https://business.facebook.com/latest/inbox/all?asset_id=104621909153569&bpn_id=708710570532521&nav_ref=redirect_biz_inbox_comet_profile_plus_ap_page_inbox_message_button'
+          title='Messenger'
+          className='fixed bottom-[90px] flex items-center justify-center bg-white rounded-full w-[60px] h-[60px] z-10 right-6'
+        >
+          <OBYImage src='/images/icons8-facebook-messenger.svg' display='responsive' alt='Messenger' />
+        </OBYLink>
         <ToTopButton />
         <Footer font={inter} />
         <Toaster
