@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import DOMPurify from 'isomorphic-dompurify'
 import { GetServerSideProps } from 'next'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { ParsedUrlQuery } from 'querystring'
 import React, { useMemo, useRef, useState } from 'react'
 import { toast } from 'react-hot-toast'
@@ -61,6 +62,7 @@ type RatingStats = {
 
 export default function ProductDetail({ productData, slug }: IProductDetailProps) {
   const queryClient = useQueryClient()
+  const router = useRouter()
 
   const [guestCartId] = useGlobalState('guestCartId')
   const [token] = useGlobalState('token')
@@ -82,6 +84,10 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
   const [buyCount, setBuyCount] = useState<number>(1)
   const [showFullDescription, setShowFullDescription] = useState<boolean>(false)
   const [showFullReview, setShowFullReview] = useState<boolean>(false)
+  const [loadingButton, setLoadingButton] = useState({
+    addToCart: false,
+    buyNow: false
+  })
 
   /* const [curIndexImage, setCurIndexImage] = useState([0, 5]) */
   const [activeImage, setActiveImage] = useState('')
@@ -102,6 +108,7 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
    * Sử dụng mutate từ Tanstack Query để thực hiện action
    */
   const handleAddToCart = () => {
+    setLoadingButton({ ...loadingButton, addToCart: true })
     if (!token) {
       addToCartMutation.mutate(
         { cartItem: { sku: slug, qty: buyCount } },
@@ -111,9 +118,11 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
             queryClient.invalidateQueries({
               queryKey: ['guestCart', guestCartId]
             })
+            setLoadingButton({ ...loadingButton, addToCart: false })
           },
           onError: () => {
             toast.error('Vui lòng thử lại!')
+            setLoadingButton({ ...loadingButton, addToCart: false })
           }
         }
       )
@@ -126,9 +135,54 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
             queryClient.invalidateQueries({
               queryKey: ['cartId', cartId]
             })
+            setLoadingButton({ ...loadingButton, addToCart: false })
           },
           onError: () => {
             toast.error('Vui lòng thử lại!')
+            setLoadingButton({ ...loadingButton, addToCart: false })
+          }
+        }
+      )
+    }
+  }
+
+  const handleBuyNow = () => {
+    setLoadingButton({ ...loadingButton, buyNow: true })
+
+    if (!token) {
+      addToCartMutation.mutate(
+        { cartItem: { sku: slug, qty: buyCount } },
+        {
+          onSuccess: () => {
+            toast.success('Đã thêm sản phẩm vào Giỏ hàng!')
+            queryClient.invalidateQueries({
+              queryKey: ['guestCart', guestCartId]
+            })
+            setLoadingButton({ ...loadingButton, buyNow: false })
+            router.push(hrefPath.cartPage)
+          },
+          onError: () => {
+            toast.error('Vui lòng thử lại!')
+            setLoadingButton({ ...loadingButton, buyNow: false })
+          }
+        }
+      )
+    } else {
+      addToCartMineMutation.mutate(
+        { cartItem: { sku: slug, qty: buyCount } },
+        {
+          onSuccess: () => {
+            toast.success('Đã thêm sản phẩm vào Giỏ hàng!')
+            queryClient.invalidateQueries({
+              queryKey: ['cartId', cartId]
+            })
+            setLoadingButton({ ...loadingButton, buyNow: false })
+
+            router.push(hrefPath.cartPage)
+          },
+          onError: () => {
+            toast.error('Vui lòng thử lại!')
+            setLoadingButton({ ...loadingButton, buyNow: false })
           }
         }
       )
@@ -418,7 +472,10 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
               </div>
               <div className='mt-6 flex items-center gap-5'>
                 <AsyncButton
-                  isLoading={addToCartMutation.isLoading || addToCartMineMutation.isLoading}
+                  isLoading={
+                    (loadingButton.addToCart && addToCartMutation.isLoading) ||
+                    (loadingButton.addToCart && addToCartMineMutation.isLoading)
+                  }
                   onClick={handleAddToCart}
                   className={cn('@992:min-w-[270px] @768:min-w-[200px] w-full')}
                   variant='outlinePrimary'
@@ -426,7 +483,13 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
                   <OBYAddCartIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary @992:mr-1.5 mr-0' />
                   <p className='text-oby-primary fs-16'>Thêm vào giỏ</p>
                 </AsyncButton>
-                <BuyNowButton isLoading={false} />
+                <BuyNowButton
+                  isLoading={
+                    (loadingButton.buyNow && addToCartMutation.isLoading) ||
+                    (loadingButton.buyNow && addToCartMineMutation.isLoading)
+                  }
+                  onClick={handleBuyNow}
+                />
               </div>
             </div>
           </div>
