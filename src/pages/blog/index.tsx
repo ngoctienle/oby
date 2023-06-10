@@ -86,8 +86,8 @@ export default function BlogPage({ categories, initBlogs }: BlogPageProps) {
                 </div>
               </RadioGroup>
             </div>
-            <div className='@992:col-span-9  col-span-1'>
-              <div className='grid @992:grid-cols-3 @768:grid-cols-2 @992:gap-10 @768:gap-6'>
+            <div className='@992:col-span-9 col-span-1'>
+              <div className='grid @992:grid-cols-3 @768:grid-cols-2 @992:gap-10 gap-6'>
                 {initializedBlogs.length > 0 ? (
                   initializedBlogs.map((item) => (
                     <div className='col-span-1' key={item.id}>
