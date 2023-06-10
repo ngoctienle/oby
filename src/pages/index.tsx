@@ -14,6 +14,7 @@ import { cacheTime } from '@/constants/config.constant'
 
 import Banner from '@/components/Banner'
 import BlogList from '@/components/BlogList'
+import DynamicLoading from '@/components/DynamicLoading'
 import ProductSuggest from '@/components/ProductSuggest'
 import { OBYLink } from '@/components/UI/Element'
 import {
@@ -31,7 +32,7 @@ import {
 import { OBYSeo } from '@/components/UI/OBYSeo'
 
 const DynamicProductList = dynamic(() => import('@/components/ProductList'), {
-  loading: () => <p>Loading...</p>
+  loading: () => <DynamicLoading />
 })
 
 const CategoryContent = [
