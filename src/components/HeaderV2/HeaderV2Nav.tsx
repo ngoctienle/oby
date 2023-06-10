@@ -8,21 +8,21 @@ import {
   UserCircleIcon
 } from '@heroicons/react/24/outline'
 import Cookies from 'js-cookie'
+import dynamic from 'next/dynamic'
 import { Fragment, useMemo, useState } from 'react'
 
 import { TypeUser, useGlobalState } from '@/libs/state'
 import { cn } from '@/libs/utils'
 
-import { createSlug } from '@/helpers'
-import { generateCategoryImageFromMagento } from '@/helpers/category'
-
 import { hrefPath } from '@/constants/href.constant'
 
-import { OBYButton, OBYImage, OBYLink } from '@/components/UI/Element'
+import { OBYButton, OBYLink } from '@/components/UI/Element'
 
 interface NavProps extends HeaderV2CategoryProps {
   userInfo?: TypeUser
 }
+
+const DynamicCategoryContentNav = dynamic(() => import('./HeaderV2CategoryContentNav'))
 
 export default function HeaderV2Nav({ parentCategory, parentCategoryItem, userInfo }: NavProps) {
   const [open, setOpen] = useState(false)
@@ -161,43 +161,7 @@ export default function HeaderV2Nav({ parentCategory, parentCategoryItem, userIn
                   <Dialog.Title as='h3' className='fs-16 font-semibold my-3'>
                     Danh mục sản phẩm
                   </Dialog.Title>
-                  {initializeCategory
-                    ?.filter((item) => item.is_active && item.product_count !== 0)
-                    .map((item) => (
-                      <Dialog.Description
-                        as='div'
-                        key={item.id}
-                        className='space-y-3 mb-3 pb-3 border-b border-b-oby-DFDFDF last:mb-0 last:pb-0 last:border-b-transparent'
-                      >
-                        <div className='flex items-center gap-2 cursor-pointer'>
-                          <div className='w-6 h-6 relative'>
-                            <OBYImage
-                              src={generateCategoryImageFromMagento(item.custom_attributes)}
-                              display='responsive'
-                              alt={item.name}
-                              title={item.name}
-                              className='object-cover'
-                            />
-                          </div>
-                          <OBYLink
-                            href={`${createSlug(item.name)}-${item.id}`}
-                            className='text-oby-green whitespace-nowrap hover:text-oby-primary fs-14 font-bold transition-colors'
-                          >
-                            {item.name}
-                          </OBYLink>
-                        </div>
-                        {item.children_data.map((__item) => (
-                          <OBYLink
-                            href={`${createSlug(__item.name)}-${__item.id}`}
-                            key={__item.id}
-                            className='fs-14 block cursor-pointer hover:text-oby-primary transition-colors'
-                          >
-                            {' '}
-                            {__item.name}
-                          </OBYLink>
-                        ))}
-                      </Dialog.Description>
-                    ))}
+                  {<DynamicCategoryContentNav initializeCategory={initializeCategory} />}
                 </Dialog.Panel>
               </Transition.Child>
             </div>
