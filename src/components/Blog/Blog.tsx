@@ -17,7 +17,7 @@ export default function Blog({ blog }: BlogProps) {
       href={hrefPath.blog + '/' + blog.url_key + '-' + blog.id}
       title={blog.name}
     >
-      <div className='relative rounded-tl-4 rounded-br-4 overflow-hidden @768:w-[205px] @768:h-[140px] w-[129px] h-[88px] flex-shrink-0'>
+      <div className='relative rounded-4 border border-oby-green overflow-hidden @768:w-[205px] @768:h-[140px] w-[129px] h-[88px] flex-shrink-0'>
         <OBYImage
           display='responsive'
           src={generateBlogImage(blog.image as string)}

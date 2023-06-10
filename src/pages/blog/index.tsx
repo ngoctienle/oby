@@ -47,9 +47,13 @@ export default function BlogPage({ categories, initBlogs }: BlogPageProps) {
           <div className='grid @992:grid-cols-12 grid-cols-1  gap-10 min-h-[300px]'>
             <div className='@992:col-span-3 col-span-1'>
               <h2 className='text-oby-green fs-18 font-bold'>Danh mục Blog</h2>
-              <RadioGroup value={selectedCate} onChange={setSelectedCate}>
-                <div className='overflow-y-scroll scrollbar-none @992:bg-transparent @992:mt-0 mt-4 bg-[#BCF0AA] rounded-4  @992:p-0 py-2 px-4'>
-                  <div className='@992:space-y-3.5 space-x-2 @992:mt-4 @992:w-auto w-[992px] @992:block flex items-center'>
+              <RadioGroup
+                value={selectedCate}
+                onChange={setSelectedCate}
+                className='@992:p-0 mt-4 py-2 px-4 bg-[#BCF0AA] @992:bg-transparent rounded-4'
+              >
+                <div className='overflow-auto scrollbar-none'>
+                  <div className='@992:space-y-3.5 @992:space-x-0 space-x-2 @992:block flex items-center'>
                     {categories.map((category) => {
                       if (category.id !== 1) {
                         return (
@@ -58,7 +62,7 @@ export default function BlogPage({ categories, initBlogs }: BlogPageProps) {
                             value={category.id}
                             className={({ checked }) =>
                               `${checked ? 'bg-oby-primary' : 'bg-white'}
-                              relative flex cursor-pointer rounded-4 border border-oby-primary px-4 py-2.5 focus:outline-none`
+                                relative flex cursor-pointer rounded-4 border border-oby-primary px-4 py-2.5 focus:outline-none`
                             }
                           >
                             {({ checked }) => (
@@ -83,6 +87,7 @@ export default function BlogPage({ categories, initBlogs }: BlogPageProps) {
                       }
                     })}
                   </div>
+                  <div className='@992:w-auto w-[992px]'></div>
                 </div>
               </RadioGroup>
             </div>
@@ -96,7 +101,7 @@ export default function BlogPage({ categories, initBlogs }: BlogPageProps) {
                         href={hrefPath.blog + '/' + item.url_key + '-' + item.id}
                         title={item.name}
                       >
-                        <div className='relative rounded-tl-4 rounded-br-4 overflow-hidden w-full @768:h-[142px] h-[180px]'>
+                        <div className='relative rounded-4 border border-oby-green overflow-hidden w-full @768:h-[142px] h-[180px]'>
                           <OBYImage
                             display='responsive'
                             src={generateBlogImage(item.image as string)}
@@ -106,7 +111,7 @@ export default function BlogPage({ categories, initBlogs }: BlogPageProps) {
                         </div>
                         <div className='mt-3'>
                           <div className='flex items-center gap-2'>
-                            <div className='px-1.5 py-0.75 @992:fs-14 fs-12 border border-oby-green leading-[130%] rounded-2 text-oby-green max-w-max'>
+                            <div className='px-1.5 py-0.75 @992:fs-14 fs-12 border border-oby-green leading-[130%] rounded-2 text-oby-green line-clamp-1'>
                               {generateCateNameById(item.category_ids[0])}
                             </div>
                             <span className='fs-14 text-oby-676869'>-</span>
