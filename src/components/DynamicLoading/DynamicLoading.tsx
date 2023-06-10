@@ -5,10 +5,10 @@ import { useMediaQuery } from '@/hooks'
 export default function DynamicLoading() {
   const isMedium = useMediaQuery('(min-width:992px)')
   return (
-    <div role='status' className=' animate-pulse'>
-      <p className='w-[219px] bg-oby-primary/10' />
-      <div className='bg-oby-primary/10' />
-      <div className='grid @992:grid-cols-4 grid-cols-6 @992:gap-10 gap-5'>
+    <div role='status' className='animate-pulse space-y-3'>
+      <p className='w-[219px] h-7.5 bg-oby-primary/10 rounded-4' />
+      <div className='bg-oby-primary/10 h-10 rounded-4' />
+      <div className='grid @992:grid-cols-4 @768:grid-cols-3 grid-cols-2 @992:gap-10 gap-5'>
         {Array(isMedium ? 4 : 2)
           .fill(0)
           .map((_, index) => (
