@@ -1,6 +1,7 @@
 import HomeLayout from '@/layouts/HomeLayout'
 import { ChevronRightIcon } from '@heroicons/react/24/outline'
 import { useQuery } from '@tanstack/react-query'
+import dynamic from 'next/dynamic'
 import { Element as TriggerScroll } from 'react-scroll'
 
 import { generateMetaSEO } from '@/libs/seo'
@@ -13,7 +14,6 @@ import { cacheTime } from '@/constants/config.constant'
 
 import Banner from '@/components/Banner'
 import BlogList from '@/components/BlogList'
-import ProductList from '@/components/ProductList'
 import ProductSuggest from '@/components/ProductSuggest'
 import { OBYLink } from '@/components/UI/Element'
 import {
@@ -29,6 +29,10 @@ import {
   OBYPharmacyIcon
 } from '@/components/UI/OBYIcons'
 import { OBYSeo } from '@/components/UI/OBYSeo'
+
+const DynamicProductList = dynamic(() => import('@/components/ProductList'), {
+  loading: () => <p>Loading...</p>
+})
 
 const CategoryContent = [
   { icon: <OBYMilkIcon className='w-10 h-10 flex-shrink-0' />, title: 'Sữa dinh dưỡng' },
@@ -116,7 +120,7 @@ export default function Home() {
               if (item.is_active && item.product_count !== 0) {
                 return (
                   <TriggerScroll name={item.name} key={item.id} className='@992:pt-10 pt-7.5'>
-                    <ProductList categoryID={item.id} category={item.name} subcategory={item.children_data} />
+                    <DynamicProductList categoryID={item.id} category={item.name} subcategory={item.children_data} />
                   </TriggerScroll>
                 )
               }
