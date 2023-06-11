@@ -1,7 +1,8 @@
 import HomeLayout from '@/layouts/HomeLayout'
 import { ChevronRightIcon } from '@heroicons/react/24/outline'
 import { useQuery } from '@tanstack/react-query'
-import dynamic from 'next/dynamic'
+// import dynamic from 'next/dynamic'
+import React, { useEffect, useRef, useState } from 'react'
 import { Element as TriggerScroll } from 'react-scroll'
 
 import { generateMetaSEO } from '@/libs/seo'
@@ -14,7 +15,8 @@ import { cacheTime } from '@/constants/config.constant'
 
 import Banner from '@/components/Banner'
 import BlogList from '@/components/BlogList'
-import DynamicLoading from '@/components/DynamicLoading'
+// import DynamicLoading from '@/components/DynamicLoading'
+import ProductList from '@/components/ProductList'
 import ProductSuggest from '@/components/ProductSuggest'
 import { OBYLink } from '@/components/UI/Element'
 import {
@@ -31,9 +33,9 @@ import {
 } from '@/components/UI/OBYIcons'
 import { OBYSeo } from '@/components/UI/OBYSeo'
 
-const DynamicProductList = dynamic(() => import('@/components/ProductList'), {
-  loading: () => <DynamicLoading />
-})
+// const DynamicProductList = dynamic(() => import('@/components/ProductList'), {
+//   loading: () => <DynamicLoading />
+// })
 
 const CategoryContent = [
   { icon: <OBYMilkIcon className='w-10 h-10 flex-shrink-0' />, title: 'Sữa dinh dưỡng' },
@@ -49,6 +51,9 @@ const CategoryContent = [
 ]
 
 export default function Home() {
+  const productRef = useRef(null)
+  const [currentIndex, setCurrentIndex] = useState(1)
+
   const { data: parentCategoryRes } = useQuery({
     queryKey: ['categories'],
     queryFn: () => {
@@ -68,6 +73,35 @@ export default function Home() {
   const parentCategoryItem = useMemo(() => {
     return parentCategoryAttrRes?.data.items as ItemWithAttribute[]
   }, [parentCategoryAttrRes]) */
+
+  useEffect(() => {
+    const options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0
+    }
+    // Create the observer instance
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // Increase the currentIndex when the threshold is reached
+          setCurrentIndex((prevIndex) => prevIndex + 1)
+        }
+      })
+    }, options)
+
+    if (productRef.current) {
+      observer.observe(productRef.current)
+    }
+
+    // Cleanup the observer on component unmount
+    return () => {
+      if (productRef.current) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        observer.unobserve(productRef.current)
+      }
+    }
+  }, [])
 
   const meta = generateMetaSEO({
     title: 'Ông Bà Yêu',
@@ -115,15 +149,18 @@ export default function Home() {
           </div>
         </div>
         {/* Product List */}
-        <div id='product-list-wrap'>
+        <div id='product-list-wrap' ref={productRef}>
           {parentCategory.length > 0 &&
-            parentCategory.map((item) => {
+            parentCategory.map((item, index) => {
               if (item.is_active && item.product_count !== 0) {
-                return (
-                  <TriggerScroll name={item.name} key={item.id} className='@992:pt-10 pt-7.5'>
-                    <DynamicProductList categoryID={item.id} category={item.name} subcategory={item.children_data} />
-                  </TriggerScroll>
-                )
+                const categoryID = index <= currentIndex ? item.id : null
+
+                if (categoryID)
+                  return (
+                    <TriggerScroll name={item.name} key={item.id} className='@992:pt-10 pt-7.5'>
+                      <ProductList categoryID={categoryID} category={item.name} subcategory={item.children_data} />
+                    </TriggerScroll>
+                  )
               }
             })}
         </div>
