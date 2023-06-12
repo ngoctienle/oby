@@ -108,7 +108,10 @@ export const formSchema = yup.object({
     .required('Vui lòng nhập Mật khẩu của bạn!')
     .min(8, 'Độ dài phải từ 8 ký tự!')
     .max(100, 'Độ dài phải dưới 100 ký tự!')
-    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+~`-]).+$/, 'Mật khẩu không đủ mạnh!'),
+    .matches(
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+~`-]).+$/,
+      'Mật khẩu có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt!'
+    ),
   confirm_password: handleYupConfirmPw('password'),
   firstname: yup
     .string()
