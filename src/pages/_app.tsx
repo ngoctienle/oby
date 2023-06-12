@@ -91,14 +91,14 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
           <Component {...pageProps} />
         </main>
         <OBYLink
-          href='https://zaloapp.com/qr/p/4ele512pqcw3'
+          href='http://zalo.me/0822088079'
           title='Zalo'
           className='fixed bottom-[160px] flex items-center w-[64px] h-[64px] z-10 right-6'
         >
           <OBYImage src='/images/icons8-zalo.svg' display='responsive' alt='Zalo' />
         </OBYLink>
         <OBYLink
-          href='https://business.facebook.com/latest/inbox/all?asset_id=104621909153569&bpn_id=708710570532521&nav_ref=redirect_biz_inbox_comet_profile_plus_ap_page_inbox_message_button'
+          href='https://m.me/104621909153569'
           title='Messenger'
           className='fixed bottom-[90px] flex items-center justify-center bg-white rounded-full w-[60px] h-[60px] z-10 right-6'
         >
