@@ -47,7 +47,7 @@ export default function BlogDetail({ blogData, cateName }: BlogDetailProps) {
         <div className='container'>
           <h1 className='font-bold @992:fs-24 fs-20'>{blogData.name}</h1>
           <div className='@992:my-4 my-3.5 flex items-center gap-2'>
-            <div className='px-1.5 py-0.75 @992:fs-14 fs-12 border border-oby-blue leading-[130%] rounded-2 text-oby-blue max-w-max'>
+            <div className='px-1.5 py-0.75 @992:fs-14 fs-12 border border-oby-green leading-[130%] rounded-2 text-oby-green max-w-max'>
               {cateName}
             </div>
             <span className='fs-14 text-oby-676869'>-</span>
