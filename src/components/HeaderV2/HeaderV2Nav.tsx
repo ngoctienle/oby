@@ -54,7 +54,7 @@ export default function HeaderV2Nav({ parentCategory, parentCategoryItem, userIn
 
   return (
     <>
-      <Bars3Icon type='button' className='w-7 cursor-pointer text-white h-7' onClick={() => setOpen(true)} />
+      <Bars3Icon className='w-7 cursor-pointer text-white h-7' onClick={() => setOpen(true)} />
       <Transition appear show={open} as={Fragment}>
         <Dialog as='div' className='relative z-10' onClose={() => setOpen(false)}>
           <Transition.Child
