@@ -177,7 +177,7 @@ export const getServerSideProps: GetServerSideProps<IPaymentResult> = async (con
   }
 
   const { data } = await paymentApi.GetOrderInfo(originOrderId)
-  /* await paymentApi.CreateOrderGHTK(originOrderId) */
+  await paymentApi.CreateOrderGHTK(originOrderId)
   const addresses: Address = {
     firstname: data.billing_address.firstname,
     lastname: data.billing_address.lastname,
