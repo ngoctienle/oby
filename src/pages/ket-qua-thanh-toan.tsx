@@ -1,4 +1,5 @@
 import { BanknotesIcon, CheckIcon, ShoppingBagIcon } from '@heroicons/react/24/outline'
+import { useQuery } from '@tanstack/react-query'
 import atob from 'atob'
 import { GetServerSideProps } from 'next'
 import { useMemo } from 'react'
@@ -23,10 +24,35 @@ interface IPaymentResult {
   orderId: string
   orderInfo: IOrder
   cartId: string
+  customerId: string
 }
 
-export default function PaymentResult({ statusMessage, orderId, orderInfo, cartId }: IPaymentResult) {
+export default function PaymentResult({ statusMessage, orderId, orderInfo, cartId, customerId }: IPaymentResult) {
   const [, setCartId] = useGlobalState('cartId')
+  const addresses: Address = {
+    firstname: orderInfo.billing_address.firstname,
+    lastname: orderInfo.billing_address.lastname,
+    region: {
+      region: orderInfo.billing_address.region,
+      region_code: orderInfo.billing_address.region_code
+    },
+    country_id: orderInfo.billing_address.country_id,
+    city: orderInfo.billing_address.city,
+    street: orderInfo.billing_address.street,
+    telephone: orderInfo.billing_address.telephone,
+    postcode: orderInfo.billing_address.postcode,
+    default_shipping: true,
+    default_billing: true
+  }
+  const body: BodyUpdate = {
+    customer: {
+      addresses: [addresses]
+    }
+  }
+  useQuery({
+    queryKey: ['updateAddress', body],
+    queryFn: () => authApi.UpdateMe(Number(customerId), body)
+  })
 
   useMemo(() => {
     setCartId(cartId)
@@ -178,27 +204,6 @@ export const getServerSideProps: GetServerSideProps<IPaymentResult> = async (con
 
   const { data } = await paymentApi.GetOrderInfo(originOrderId)
   await paymentApi.CreateOrderGHTK(originOrderId)
-  const addresses: Address = {
-    firstname: data.billing_address.firstname,
-    lastname: data.billing_address.lastname,
-    region: {
-      region: data.billing_address.region,
-      region_code: data.billing_address.region_code
-    },
-    country_id: data.billing_address.country_id,
-    city: data.billing_address.city,
-    street: data.billing_address.street,
-    telephone: data.billing_address.telephone,
-    postcode: data.billing_address.postcode,
-    default_shipping: true,
-    default_billing: true
-  }
-  const body: BodyUpdate = {
-    customer: {
-      addresses: [addresses]
-    }
-  }
-  await authApi.UpdateMe(customerId, body)
 
   const { data: guestCartId } = await cartApi.GenerateGuestCart()
 
@@ -210,7 +215,8 @@ export const getServerSideProps: GetServerSideProps<IPaymentResult> = async (con
         statusMessage: resultCode && Number(resultCode) === 0 ? 'success' : 'false',
         orderId: orderInfo as string,
         orderInfo: data,
-        cartId: guestCartId
+        cartId: guestCartId,
+        customerId
       }
     }
   } else if (vnp_ResponseCode && vnp_TxnRef) {
@@ -219,7 +225,8 @@ export const getServerSideProps: GetServerSideProps<IPaymentResult> = async (con
         statusMessage: Number(vnp_ResponseCode) === 0 ? 'success' : 'false',
         orderId: `#DH${vnp_TxnRef.toString().padStart(9, '0')}`,
         orderInfo: data,
-        cartId: guestCartId
+        cartId: guestCartId,
+        customerId
       }
     }
   } else {
@@ -228,7 +235,8 @@ export const getServerSideProps: GetServerSideProps<IPaymentResult> = async (con
         statusMessage: 'pending',
         orderId: `#DH${originOrderId.toString().padStart(9, '0')}`,
         orderInfo: data,
-        cartId: guestCartId
+        cartId: guestCartId,
+        customerId
       }
     }
   }
