@@ -38,7 +38,7 @@ export default function Banner() {
                 priority
                 fill
                 alt='Ông Bà Yêu Banner'
-                src={`/images/oby-banner-${index + 1}.webp`}
+                src={`/images/oby-banner-${index + 1}.png`}
                 className='abosolute'
                 style={{ objectPosition: 'center', objectFit: 'cover' }}
                 loader={({ src }) => src}
@@ -76,7 +76,7 @@ export default function Banner() {
                   priority
                   fill
                   alt='Ông Bà Yêu Banner'
-                  src={`/images/oby-banner-${index + 1}.webp`}
+                  src={`/images/oby-banner-${index + 1}.png`}
                   className='absolute'
                   style={{ objectPosition: 'center', objectFit: 'cover' }}
                   loader={({ src }) => src}
