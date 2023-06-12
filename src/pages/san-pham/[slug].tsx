@@ -446,8 +446,8 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
             <div className='@768:col-span-7 col-span-1'>
               <h1 className='font-semibold @768:fs-24 fs:18'>{productData.name}</h1>
               <div className='flex items-center gap-2 @768:mt-5 mt-4'>
-                <ProductRating rating={4.34} size={7} />
-                <p className='fs-14'>101 đánh giá</p>
+                <ProductRating rating={Number(calculateAverageRating.toFixed(2))} size={7} />
+                <p className='fs-14'>{filteredReviews?.length} đánh giá</p>
               </div>
               <div className='bg-oby-F6F7F8 @768:px-5 px-4 @768:py-4 py-3.5 rounded-4 @768:max-w-max flex items-center gap-4 @768:mt-6.25 mt-5'>
                 {isHaveDiscount(productData?.custom_attributes) ? (
