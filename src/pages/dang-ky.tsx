@@ -22,6 +22,9 @@ import { AsyncButton } from '@/components/UI/Button'
 import { OBYButton, OBYLink } from '@/components/UI/Element'
 import { OBYSeo } from '@/components/UI/OBYSeo'
 
+type FormRegister = Pick<FormSchema, 'email' | 'password' | 'firstname' | 'lastname'>
+const registerFormSchema = formSchema.pick(['email', 'password', 'firstname', 'lastname'])
+
 export default function Signup() {
   const router = useRouter()
   const { query } = router
@@ -32,8 +35,8 @@ export default function Signup() {
     handleSubmit,
     setError,
     formState: { errors }
-  } = useForm<FormSchema>({
-    resolver: yupResolver(formSchema)
+  } = useForm<FormRegister>({
+    resolver: yupResolver(registerFormSchema)
   })
 
   const registerMutation = useMutation({
@@ -41,6 +44,7 @@ export default function Signup() {
   })
 
   const handleSubmitRegister = handleSubmit((data) => {
+    console.log(data)
     const { email, password, firstname, lastname } = data
     const body: RegisterBodyRequest = {
       customer: {
@@ -124,7 +128,7 @@ export default function Signup() {
               errorMessage={errors.password?.message}
               register={register}
             />
-            <AsyncButton type='submit' isLoading={registerMutation.isLoading} className={cn('w-full mt-7.5 fs-16')}>
+            <AsyncButton isLoading={registerMutation.isLoading} className={cn('w-full mt-7.5 fs-16')} type='submit'>
               Đăng Ký
             </AsyncButton>
             <p className='text-center @768:fs-14 fs-12 text-oby-9A9898 mt-4.5'>
