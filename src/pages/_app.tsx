@@ -5,6 +5,7 @@ import { Analytics } from '@vercel/analytics/react'
 import cookie from 'cookie'
 import type { AppContext, AppProps } from 'next/app'
 import App from 'next/app'
+import dynamic from 'next/dynamic'
 import { Inter } from 'next/font/google'
 import Head from 'next/head'
 import Script from 'next/script'
@@ -19,10 +20,11 @@ import { getGuestCartIdSSRAndCSR, getTokenSSRAndCSR } from '@/helpers/cookie'
 
 import cartApi from '@/apis/magento/cart.api'
 
-import Footer from '@/components/Footer'
 import HeaderV2 from '@/components/HeaderV2'
-import { ToTopButton } from '@/components/UI/Button'
 import { OBYImage, OBYLink } from '@/components/UI/Element'
+
+const DynamicFooter = dynamic(() => import('@/components/Footer'), { ssr: false })
+const DynamicToTopButton = dynamic(() => import('@/components/UI/Button/ToTopButton'), { ssr: false })
 
 /* import { HeaderAds } from '@/components/UI/OBYAds' */
 
@@ -104,8 +106,8 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
         >
           <OBYImage src='/images/icons8-facebook-messenger.svg' display='responsive' alt='Messenger' />
         </OBYLink>
-        <ToTopButton />
-        <Footer font={inter} />
+        <DynamicToTopButton />
+        <DynamicFooter font={inter} />
         <Toaster
           position='top-center'
           reverseOrder={true}

@@ -1,5 +1,6 @@
 import { ChevronRightIcon } from '@heroicons/react/24/outline'
 import { useQuery } from '@tanstack/react-query'
+import dynamic from 'next/dynamic'
 import { AiFillCaretRight } from 'react-icons/ai'
 
 import { Category } from '@/@types/category.type'
@@ -12,8 +13,9 @@ import productApi from '@/apis/magento/product.api'
 
 import { cacheTime } from '@/constants/config.constant'
 
-import Product from '@/components/Product'
 import { OBYButton, OBYLink } from '@/components/UI/Element'
+
+const DynamicProduct = dynamic(() => import('@/components/Product'), { ssr: false })
 
 interface ProductListProps {
   categoryID: number
@@ -70,12 +72,12 @@ export default function ProductList({ category, subcategory, categoryID }: Produ
         {isMedium
           ? productData.items.slice(0, 8).map((item) => (
               <div className='col-span-1' key={item.id}>
-                <Product data={item} />
+                <DynamicProduct data={item} />
               </div>
             ))
           : productData.items.slice(0, 6).map((item) => (
               <div className='col-span-1' key={item.id}>
-                <Product data={item} />
+                <DynamicProduct data={item} />
               </div>
             ))}
       </div>

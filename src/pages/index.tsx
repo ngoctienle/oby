@@ -13,7 +13,6 @@ import categoryApi from '@/apis/magento/category.api'
 import { cacheTime } from '@/constants/config.constant'
 
 import Banner from '@/components/Banner'
-import BlogList from '@/components/BlogList'
 import DynamicLoading from '@/components/DynamicLoading'
 import ProductSuggest from '@/components/ProductSuggest'
 import { OBYLink } from '@/components/UI/Element'
@@ -34,6 +33,7 @@ import { OBYSeo } from '@/components/UI/OBYSeo'
 const DynamicProductList = dynamic(() => import('@/components/ProductList'), {
   loading: () => <DynamicLoading />
 })
+const DynamicBlogList = dynamic(() => import('@/components/BlogList'))
 
 const CategoryContent = [
   { icon: <OBYMilkIcon className='w-10 h-10 flex-shrink-0' />, title: 'Sữa dinh dưỡng' },
@@ -128,7 +128,7 @@ export default function Home() {
             })}
         </div>
         {/* Blog List */}
-        <BlogList />
+        <DynamicBlogList />
       </HomeLayout>
     </>
   )

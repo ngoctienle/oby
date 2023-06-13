@@ -7,7 +7,7 @@ import { cn } from '@/libs/utils'
 
 import { OBYButton, OBYButtonProps } from '@/components/UI/Element'
 
-export const ToTopButton: React.FunctionComponent<OBYButtonProps> = (props) => {
+const ToTopButton: React.FunctionComponent<OBYButtonProps> = (props) => {
   const toTop = useCallback(() => window.scrollTo({ top: 0, behavior: 'smooth' }), [])
   const y = useWindowScrollY()
 
@@ -27,3 +27,5 @@ export const ToTopButton: React.FunctionComponent<OBYButtonProps> = (props) => {
     </OBYButton>
   )
 }
+
+export default ToTopButton
