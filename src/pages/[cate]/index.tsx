@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { GetServerSideProps } from 'next'
+import dynamic from 'next/dynamic'
 import { ParsedUrlQuery } from 'querystring'
 import { useMemo } from 'react'
 
@@ -12,10 +13,11 @@ import productApi from '@/apis/magento/product.api'
 
 import { cacheTime } from '@/constants/config.constant'
 
-import Breadcrumb from '@/components/Breadcrumb'
-import Pagination from '@/components/Pagination'
-import Product from '@/components/Product'
 import { OBYButton, OBYLink } from '@/components/UI/Element'
+
+const DynamicBreadcrumb = dynamic(() => import('@/components/Breadcrumb'))
+const DynamicPagination = dynamic(() => import('@/components/Pagination'))
+const DynamicProduct = dynamic(() => import('@/components/Product'))
 
 interface CatePageProps {
   cateName: string
@@ -48,7 +50,7 @@ export default function CatePage({ cateName, cateId }: CatePageProps) {
   return (
     <>
       <section className='@992:pt-4 pt-3'>
-        <Breadcrumb cateName={cateName} />
+        <DynamicBreadcrumb cateName={cateName} />
         <div className='container'>
           <h2 className='@992:fs-26 fs-20 text-oby-green font-bold text-center'>{cateName}</h2>
           <div className='pt-10 grid @768:grid-cols-12 grid-cols-1 gap-10'>
@@ -73,7 +75,7 @@ export default function CatePage({ cateName, cateId }: CatePageProps) {
                 {!isLoading &&
                   productRes?.data.items.map((item) => (
                     <div className='col-span-1' key={item.id}>
-                      <Product data={item} />
+                      <DynamicProduct data={item} />
                     </div>
                   ))}
                 {isLoading &&
@@ -101,7 +103,7 @@ export default function CatePage({ cateName, cateId }: CatePageProps) {
                     ))}
               </div>
               {!isLoading && productRes && productRes.data.total_count > 8 && (
-                <Pagination
+                <DynamicPagination
                   queryConfig={queryConfig}
                   pageSize={Math.ceil(productRes.data.total_count / productRes.data.search_criteria.page_size)}
                 />

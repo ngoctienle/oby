@@ -54,7 +54,6 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.events])
 
   useEffect(() => {

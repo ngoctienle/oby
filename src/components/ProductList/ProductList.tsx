@@ -70,7 +70,7 @@ export default function ProductList({ category, subcategory, categoryID }: Produ
       {/* Product List Related with Category */}
       <div className='@992:mt-5 mt-4 grid @992:grid-cols-4 @768:grid-cols-3 grid-cols-2 @992:gap-10 gap-5'>
         {isMedium
-          ? productData.items.slice(0, 8).map((item) => (
+          ? productData.items.map((item) => (
               <div className='col-span-1' key={item.id}>
                 <DynamicProduct data={item} />
               </div>
