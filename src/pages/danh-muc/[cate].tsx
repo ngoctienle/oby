@@ -12,6 +12,7 @@ import categoryApi from '@/apis/magento/category.api'
 import productApi from '@/apis/magento/product.api'
 
 import { cacheTime } from '@/constants/config.constant'
+import { hrefPath } from '@/constants/href.constant'
 
 import { OBYButton, OBYLink } from '@/components/UI/Element'
 
@@ -67,7 +68,7 @@ export default function CatePage({ cateName, cateId }: CatePageProps) {
                           size='link'
                           className='text-oby-222324 @992:bg-transparent bg-white hover:text-oby-green whitespace-nowrap @992:border-transparent @992:px-0 @992:py-0 px-4 py-2.5 border border-oby-primary'
                         >
-                          <OBYLink href={`${createSlug(item.name)}-${item.id}`} title={item.name}>
+                          <OBYLink href={`${hrefPath.catePage}/${createSlug(item.name)}-${item.id}`} title={item.name}>
                             {item.name}
                           </OBYLink>
                         </OBYButton>

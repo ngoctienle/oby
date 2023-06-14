@@ -8,6 +8,8 @@ import { Category } from '@/@types/category.type'
 import { createSlug } from '@/helpers'
 import { generateCategoryImageFromMagento } from '@/helpers/category'
 
+import { hrefPath } from '@/constants/href.constant'
+
 interface PropTypes {
   custom_attributes: CustomAttribute[]
   id: number
@@ -46,7 +48,7 @@ export default function HeaderV2CategoryContentNav({ initializeCategory }: Initi
                 />
               </div>
               <OBYLink
-                href={`${createSlug(item.name)}-${item.id}`}
+                href={`${hrefPath.catePage}/${createSlug(item.name)}-${item.id}`}
                 className='text-oby-green whitespace-nowrap hover:text-oby-primary fs-14 font-bold transition-colors'
               >
                 {item.name}
@@ -54,7 +56,7 @@ export default function HeaderV2CategoryContentNav({ initializeCategory }: Initi
             </div>
             {item.children_data.map((__item) => (
               <OBYLink
-                href={`${createSlug(__item.name)}-${__item.id}`}
+                href={`${hrefPath.catePage}/${createSlug(__item.name)}-${__item.id}`}
                 key={__item.id}
                 className='fs-14 block cursor-pointer hover:text-oby-primary transition-colors'
               >
