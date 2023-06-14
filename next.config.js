@@ -5,7 +5,7 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: ['api.ongbayeu.com', 'api.ongbayeu.comundefined'],
-    minimumCacheTTL: 60
+    minimumCacheTTL: 86400
   },
   compiler: {
     removeConsole: !isDev
