@@ -30,10 +30,7 @@ export default function Breadcrumb({ cateName, subCateName, productName }: Bread
           {subCateName && (
             <li className='flex items-center @768:gap-2 gap-1 text-oby-676869 last:text-oby-222324'>
               <ChevronRightIcon className='@992:w-4 @992:h-4 h-3 w-3' />
-              <OBYLink
-                href={hrefPath.home}
-                className='text-oby-676869 @992:fs-14 fs-12 @768:max-w-fit max-w-[80px] truncate'
-              >
+              <OBYLink href={hrefPath.home} className='@992:fs-14 fs-12 @768:max-w-fit max-w-[80px] truncate'>
                 {subCateName}
               </OBYLink>
             </li>

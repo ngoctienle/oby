@@ -12,6 +12,7 @@ import { createSlug } from '@/helpers'
 import productApi from '@/apis/magento/product.api'
 
 import { cacheTime } from '@/constants/config.constant'
+import { hrefPath } from '@/constants/href.constant'
 
 import { OBYButton, OBYLink } from '@/components/UI/Element'
 
@@ -44,7 +45,7 @@ export default function ProductList({ category, subcategory, categoryID }: Produ
     <>
       {/* Category Name */}
       <OBYButton variant='link' size='link' asChild className='flex items-center mb-4 gap-2'>
-        <OBYLink href={`${createSlug(category)}-${categoryID}`}>
+        <OBYLink href={`${hrefPath.catePage}/${createSlug(category)}-${categoryID}`}>
           <h2 className='@992:fs-26 fs-20 text-oby-green font-bold'>{category}</h2>
           <AiFillCaretRight className='w-5 h-5 text-oby-green' />
         </OBYLink>
@@ -56,7 +57,7 @@ export default function ProductList({ category, subcategory, categoryID }: Produ
             {subcategory &&
               subcategory.map((item) => (
                 <OBYLink
-                  href={`${createSlug(item.name)}-${item.id}`}
+                  href={`${hrefPath.catePage}/${createSlug(item.name)}-${item.id}`}
                   title={item.name}
                   key={item.id}
                   className='@992:rounded-4 rounded-2.5 border border-oby-green bg-white text-oby-green px-3 py-2.5 @992:fs-14 fs-12 whitespace-nowrap'
@@ -84,7 +85,7 @@ export default function ProductList({ category, subcategory, categoryID }: Produ
       {productData.items.length === 8 && (
         <div className='flex items-center justify-center mt-10 gap-1.5'>
           <OBYLink
-            href={`${createSlug(category)}-${categoryID}`}
+            href={`${hrefPath.catePage}/${createSlug(category)}-${categoryID}`}
             title='Xem tất cả sản phẩm'
             className='text-oby-primary @992:fs-18 fs-16'
           >

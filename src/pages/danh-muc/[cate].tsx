@@ -50,27 +50,38 @@ export default function CatePage({ cateName, cateId }: CatePageProps) {
   return (
     <>
       <section className='@992:pt-4 pt-3'>
-        <DynamicBreadcrumb cateName={cateName} />
+        <DynamicBreadcrumb cateName={'Danh mục'} subCateName={cateName} />
         <div className='container'>
           <h2 className='@992:fs-26 fs-20 text-oby-green font-bold text-center'>{cateName}</h2>
-          <div className='pt-10 grid @768:grid-cols-12 grid-cols-1 gap-10'>
-            <div className='@768:col-span-3 col-span-1 bg-transparent'>
-              <div className='bsd bg-white px-4 py-5 rounded-tl-4 rounded-br-4'>
-                <h3 className='fs-16 font-semibold mb-3'>Danh mục sản phẩm</h3>
-                <ul className='space-y-3'>
-                  {initialCate?.children_data.map((item) => (
-                    <li key={item.id} className='fs-14 '>
-                      <OBYButton asChild variant='link' size='link' className='text-oby-222324 hover:text-oby-primary'>
-                        <OBYLink href={`${createSlug(item.name)}-${item.id}`} title={item.name}>
-                          {item.name}
-                        </OBYLink>
-                      </OBYButton>
-                    </li>
-                  ))}
-                </ul>
+          <div className='@992:pt-10 pt-5 grid @992:grid-cols-12 grid-cols-1 @992:gap-10 gap-5'>
+            {initialCate && initialCate.children_data.length > 0 && (
+              <div className='@992:col-span-3 col-span-1 bg-transparent'>
+                <div className='bsd @992:bg-white bg-[#BCF0AA] @992:px-4 @992:py-5 py-2 px-4 @992:rounded-tl-4 @992:rounded-br-4 @992:rounded-0 rounded-4'>
+                  <h3 className='fs-16 font-semibold mb-3 @992:block hidden'>Danh mục sản phẩm</h3>
+                  <ul className='@992:space-y-3 space-y-0 @992:block flex @992:space-x-0 space-x-3 overflow-auto scrollbar-none'>
+                    {initialCate?.children_data.map((item) => (
+                      <li key={item.id} className='fs-14'>
+                        <OBYButton
+                          asChild
+                          variant='link'
+                          size='link'
+                          className='text-oby-222324 @992:bg-transparent bg-white hover:text-oby-green whitespace-nowrap @992:border-transparent @992:px-0 @992:py-0 px-4 py-2.5 border border-oby-primary'
+                        >
+                          <OBYLink href={`${createSlug(item.name)}-${item.id}`} title={item.name}>
+                            {item.name}
+                          </OBYLink>
+                        </OBYButton>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-            </div>
-            <div className='@768:col-span-9 col-span-1'>
+            )}
+            <div
+              className={`${
+                initialCate && initialCate.children_data.length > 0 ? '@992:col-span-9' : '@992:col-span-12'
+              } col-span-1`}
+            >
               <div className='grid @768:grid-cols-3 grid-cols-2 @992:gap-10 gap-5'>
                 {!isLoading &&
                   productRes?.data.items.map((item) => (

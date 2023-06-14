@@ -305,7 +305,7 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
   const renderReviews = () => {
     if (filteredReviews && filteredReviews.length > 4 && showFullReview === false) {
       return (
-        <div className='columns-2 gap-6 space-y-7'>
+        <div className='@992:columns-2 columns-1 gap-6 space-y-7'>
           {splicedReviews?.map((item) => (
             <Review
               key={item.id}
@@ -319,7 +319,7 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
       )
     } else {
       return (
-        <div className='columns-2 gap-6 space-y-7'>
+        <div className='@992:columns-2 columns-1 gap-6 space-y-7'>
           {filteredReviews?.map((item) => (
             <Review
               key={item.id}
@@ -521,26 +521,24 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
               )}
             </div>
           )}
-          <div>
-            <h2 className='@768:fs-26 fs-20 font-bold text-oby-green'>Đánh giá sản phẩm</h2>
-            <div className='my-7.5 mx-auto max-w-[375px]'>
-              <p className='fs-48 text-oby-orange font-bold leading-[58px] text-center'>
-                {calculateAverageRating.toFixed(2)}
-              </p>
-              <p className='fs-18 text-oby-676869 leading-[22px] text-center'>{filteredReviews?.length} Đánh giá</p>
-              <div className='mt-5'>
-                {calculateRatingStats.map((item, index) => (
-                  <div key={index} className='py-1.5 flex items-center space-x-4'>
-                    <ProductRating rating={item.ratingValue} size={4} />
-                    <Progress value={item.percent} />
-                    <p className='text-oby-676869'>{item.count}</p>
-                  </div>
-                ))}
-              </div>
+          <h2 className='@768:fs-26 fs-20 font-bold text-oby-green'>Đánh giá sản phẩm</h2>
+          <div className='@992:my-7.5 my-5 mx-auto max-w-[375px]'>
+            <p className='fs-48 text-oby-orange font-bold leading-[58px] text-center'>
+              {calculateAverageRating.toFixed(2)}
+            </p>
+            <p className='fs-18 text-oby-676869 leading-[22px] text-center'>{filteredReviews?.length} Đánh giá</p>
+            <div className='@992:mt-5 mt-3'>
+              {calculateRatingStats.map((item, index) => (
+                <div key={index} className='py-1.5 flex items-center space-x-4'>
+                  <ProductRating rating={item.ratingValue} size={4} />
+                  <Progress value={item.percent} />
+                  <p className='text-oby-676869'>{item.count}</p>
+                </div>
+              ))}
             </div>
-            {!isLoading && renderReviews()}
-            {renderButtonShowmoreReview()}
           </div>
+          {!isLoading && renderReviews()}
+          {renderButtonShowmoreReview()}
         </div>
       </section>
     </>
