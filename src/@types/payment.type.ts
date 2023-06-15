@@ -26,6 +26,7 @@ export interface IBodyShippingInformation {
 }
 
 export interface IBodyPaymentInformation {
+  email?: string
   paymentMethod: {
     method: 'momo' | 'cashondelivery' | string
   }

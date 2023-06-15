@@ -1,8 +1,9 @@
 import { BanknotesIcon, CheckIcon, ShoppingBagIcon } from '@heroicons/react/24/outline'
 import { useQuery } from '@tanstack/react-query'
 import atob from 'atob'
+import cookie from 'cookie'
 import { GetServerSideProps } from 'next'
-import { useMemo } from 'react'
+import { useEffect } from 'react'
 
 import { Address, BodyUpdate } from '@/@types/auth.type'
 import { MergeCartRequestBody } from '@/@types/cart.type'
@@ -24,11 +25,13 @@ interface IPaymentResult {
   orderId: string
   orderInfo: IOrder
   cartId: string
-  customerId: string
+  customerId: string | null
 }
 
 export default function PaymentResult({ statusMessage, orderId, orderInfo, cartId, customerId }: IPaymentResult) {
   const [, setCartId] = useGlobalState('cartId')
+  const [, setGuestCartId] = useGlobalState('guestCartId')
+
   const addresses: Address = {
     firstname: orderInfo.billing_address.firstname,
     lastname: orderInfo.billing_address.lastname,
@@ -51,12 +54,17 @@ export default function PaymentResult({ statusMessage, orderId, orderInfo, cartI
   }
   useQuery({
     queryKey: ['updateAddress', body],
-    queryFn: () => authApi.UpdateMe(Number(customerId), body)
+    queryFn: () => authApi.UpdateMe(Number(customerId), body),
+    enabled: Boolean(customerId)
   })
 
-  useMemo(() => {
-    setCartId(cartId)
-  }, [cartId, setCartId])
+  useEffect(() => {
+    if (customerId) {
+      setCartId(cartId)
+    } else {
+      setGuestCartId(cartId)
+    }
+  }, [cartId, customerId, setCartId, setGuestCartId])
 
   const meta = generateMetaSEO({
     title: 'Ông Bà Yêu',
@@ -184,30 +192,34 @@ export default function PaymentResult({ statusMessage, orderId, orderInfo, cartI
 
 export const getServerSideProps: GetServerSideProps<IPaymentResult> = async (context) => {
   const userToken = context.req.cookies.token
-  const user = context.req.cookies.user
-  const customerId = JSON.parse(user as string).id
-  let originOrderId
-
-  const bodyMerge: MergeCartRequestBody = {
-    customerId,
-    storeId: 1
-  }
-
   const { orderType, orderInfo, resultCode, extraData, vnp_ResponseCode, vnp_TxnRef } = context.query
-
+  let originOrderId
+  let customerId = null
   if (extraData) {
     originOrderId = JSON.parse(atob(extraData as string)).orderId
   }
   if (vnp_TxnRef) {
     originOrderId = vnp_TxnRef
   }
-
+  const { data: guestCartId } = await cartApi.GenerateGuestCart()
+  if (userToken) {
+    const user = context.req.cookies.user
+    customerId = JSON.parse(user as string).id
+    const bodyMerge: MergeCartRequestBody = {
+      customerId,
+      storeId: 1
+    }
+    await cartApi.MergeCart(guestCartId, userToken as string, bodyMerge)
+  } else {
+    /* Serialize GuestCartId To Cookie */
+    const cookieStr = cookie.serialize('guestCartId', guestCartId, {
+      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      path: '/'
+    })
+    context.res.setHeader('Set-Cookie', cookieStr)
+  }
   const { data } = await paymentApi.GetOrderInfo(originOrderId)
   await paymentApi.CreateOrderGHTK(originOrderId)
-
-  const { data: guestCartId } = await cartApi.GenerateGuestCart()
-
-  await cartApi.MergeCart(guestCartId, userToken as string, bodyMerge)
 
   if (orderType && orderInfo && resultCode) {
     return {

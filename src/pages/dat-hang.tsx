@@ -59,7 +59,8 @@ import { OBYLocationIcon } from '@/components/UI/OBYIcons'
 import { OBYSeo } from '@/components/UI/OBYSeo'
 
 interface IOrderPage {
-  userToken: string
+  userToken: string | null
+  guestCartId: string | null
   cartData: Cart
   listSKU: string
   paymentMethod: IPayment
@@ -90,6 +91,7 @@ export default function OrderPage({
   provines,
   userToken,
   billingData,
+  guestCartId,
   total
 }: IOrderPage) {
   const router = useRouter()
@@ -194,31 +196,48 @@ export default function OrderPage({
     queryKey: ['estimateShippingFee', billing?.city],
     queryFn: () =>
       paymentApi.EstimateShippingFeeByAddressId(userToken as string, { address: bodyEstimate as AddressBody }),
-    enabled: Boolean(billing?.city),
+    enabled: Boolean(billing?.city) && Boolean(userToken),
+    staleTime: cacheTime.fiveMinutes
+  })
+  const { data: EstimateShippingResGuest } = useQuery({
+    queryKey: ['estimateShippingFeeGuest', billing?.city],
+    queryFn: () =>
+      paymentApi.EstimateShippingGuestFeeByAddressId(guestCartId as string, { address: bodyEstimate as AddressBody }),
+    enabled: Boolean(billing?.city) && Boolean(guestCartId),
     staleTime: cacheTime.fiveMinutes
   })
 
+  /* BillingAddress Action */
   const setBillingAddressMutation = useMutation({
     mutationFn: (body: IBodyAddress) => paymentApi.SetBillingAddress(userToken as string, body)
   })
+  const setGuestBillingAddressMutation = useMutation({
+    mutationFn: (body: IBodyAddress) => paymentApi.SetGuestBillingAddress(guestCartId as string, body)
+  })
 
+  /* AddressBilling Action */
   const setAddressAndBillingMutation = useMutation({
     mutationFn: (body: IBodyShippingInformation) => paymentApi.ShippingInformation(userToken as string, body)
   })
+  const setGuestAddressAndBillingMutation = useMutation({
+    mutationFn: (body: IBodyShippingInformation) => paymentApi.GuestShippingInformation(guestCartId as string, body)
+  })
 
+  /* Payment Action */
   const paymentInformationMutation = useMutation({
     mutationFn: (body: IBodyPaymentInformation) => paymentApi.PaymentInformation(userToken as string, body)
   })
+  const guestPaymentInformationMutation = useMutation({
+    mutationFn: (body: IBodyPaymentInformation) => paymentApi.GuestPaymentInformation(guestCartId as string, body)
+  })
+
+  /* Wallet Action */
   const captureMomoMutation = useMutation({
     mutationFn: (body: ICaptureMomo) => paymentApi.CaptureMomo(body)
   })
   const captureVNPayMutation = useMutation({
     mutationFn: (body: ICaptureMomo) => paymentApi.CaptureVNPay(body)
   })
-
-  /* const guestCartIdMutation = useMutation({
-    mutationFn: () => cartApi.GenerateGuestCart()
-  }) */
 
   useEffect(() => {
     if (districtsData) {
@@ -359,13 +378,24 @@ export default function OrderPage({
       }
     }
     try {
-      setBillingAddressMutation.mutateAsync(body).then(async () => {
-        const { data: billingData } = await paymentApi.GetBillingAddress(userToken)
-        setBilling(billingData)
-        setIsOpen(false)
-        setOrderCalculate(undefined)
-        setSelectedMethod(undefined)
-      })
+      if (userToken) {
+        setBillingAddressMutation.mutateAsync(body).then(async () => {
+          const { data: billingData } = await paymentApi.GetBillingAddress(userToken)
+          setBilling(billingData)
+          setIsOpen(false)
+          setOrderCalculate(undefined)
+          setSelectedMethod(undefined)
+        })
+      }
+      if (guestCartId) {
+        setGuestBillingAddressMutation.mutateAsync(body).then(async () => {
+          const { data: billingData } = await paymentApi.GetGuestBillingAddress(guestCartId)
+          setBilling(billingData)
+          setIsOpen(false)
+          setOrderCalculate(undefined)
+          setSelectedMethod(undefined)
+        })
+      }
     } catch (error) {
       toast.error('Có lỗi xảy ra!')
     }
@@ -396,84 +426,155 @@ export default function OrderPage({
         shipping_method_code: shipMethod as string
       }
     }
+    console.log(body)
     if (shipMethod) {
-      setAddressAndBillingMutation.mutate(body, {
-        onSuccess: (data) => {
-          const totalSegments = data.data.totals.total_segments
-          const selected = getShippingMethod(totalSegments)
-          setOrderCalculate({
-            grand_total: data.data.totals.grand_total,
-            shipping_amount: data.data.totals.shipping_amount
-          })
-          setIsMethodOpen(false)
-          setSelectedMethod(selected)
-        },
-        onError: () => {
-          toast.error('Vui lòng thử lại!')
-        }
-      })
+      if (userToken) {
+        setAddressAndBillingMutation.mutate(body, {
+          onSuccess: (data) => {
+            const totalSegments = data.data.totals.total_segments
+            const selected = getShippingMethod(totalSegments)
+            setOrderCalculate({
+              grand_total: data.data.totals.grand_total,
+              shipping_amount: data.data.totals.shipping_amount
+            })
+            setIsMethodOpen(false)
+            setSelectedMethod(selected)
+          },
+          onError: () => {
+            toast.error('Vui lòng thử lại!')
+          }
+        })
+      }
+      if (guestCartId) {
+        setGuestAddressAndBillingMutation.mutate(body, {
+          onSuccess: (data) => {
+            const totalSegments = data.data.totals.total_segments
+            const selected = getShippingMethod(totalSegments)
+            setOrderCalculate({
+              grand_total: data.data.totals.grand_total,
+              shipping_amount: data.data.totals.shipping_amount
+            })
+            setIsMethodOpen(false)
+            setSelectedMethod(selected)
+          },
+          onError: () => {
+            toast.error('Vui lòng thử lại!')
+          }
+        })
+      }
     }
   }
 
   const handlePayment = () => {
-    const body: IBodyPaymentInformation = {
-      paymentMethod: {
-        method: selected as string
-      },
-      billingAddress: {
-        email: billing?.email as string,
-        firstname: billing?.firstname as string,
-        lastname: billing?.lastname as string,
-        telephone: billing?.telephone as string,
-        country_id: billing?.country_id as string,
-        city: billing?.city as string,
-        region: billing?.region as string,
-        street: billing?.street as string[],
-        postcode: billing?.postcode as string
+    if (userToken) {
+      const body: IBodyPaymentInformation = {
+        paymentMethod: {
+          method: selected as string
+        },
+        billingAddress: {
+          email: billing?.email as string,
+          firstname: billing?.firstname as string,
+          lastname: billing?.lastname as string,
+          telephone: billing?.telephone as string,
+          country_id: billing?.country_id as string,
+          city: billing?.city as string,
+          region: billing?.region as string,
+          street: billing?.street as string[],
+          postcode: billing?.postcode as string
+        }
       }
+      paymentInformationMutation.mutate(body, {
+        onSuccess: (data) => {
+          if (selected === 'momo') {
+            captureMomoMutation.mutate(
+              { orderId: data.data },
+              {
+                onSuccess: (data) => {
+                  if (data.data[0].success) {
+                    router.push(data.data[0].process3d_url as string)
+                  } else {
+                    toast.error(data.data[0].message as string)
+                  }
+                }
+              }
+            )
+          } else if (selected === 'cashondelivery') {
+            const dataID = { orderId: data.data }
+            const encodeData = Buffer.from(JSON.stringify(dataID)).toString('base64')
+
+            router.push(hrefPath.resultPurchase + `/?extraData=${encodeData}`)
+          } else if (selected === 'vnpay') {
+            captureVNPayMutation.mutate(
+              { orderId: data.data },
+              {
+                onSuccess: (data) => {
+                  if (data.data[0].success) {
+                    router.push(data.data[0].process3d_url as string)
+                  } else {
+                    toast.error(data.data[0].message as string)
+                  }
+                }
+              }
+            )
+          }
+        }
+      })
     }
-    paymentInformationMutation.mutate(body, {
-      onSuccess: (data) => {
-        /* const bodyMerge:MergeCartRequestBody = {
-          customerId: user?.id as number
-
-        }
-        const {data: guestCartId} = guestCartIdMutation.mutateAsync() */
-
-        if (selected === 'momo') {
-          captureMomoMutation.mutate(
-            { orderId: data.data },
-            {
-              onSuccess: (data) => {
-                if (data.data[0].success) {
-                  router.push(data.data[0].process3d_url as string)
-                } else {
-                  toast.error(data.data[0].message as string)
-                }
-              }
-            }
-          )
-        } else if (selected === 'cashondelivery') {
-          const dataID = { orderId: data.data }
-          const encodeData = Buffer.from(JSON.stringify(dataID)).toString('base64')
-
-          router.push(hrefPath.resultPurchase + `/?extraData=${encodeData}`)
-        } else if (selected === 'vnpay') {
-          captureVNPayMutation.mutate(
-            { orderId: data.data },
-            {
-              onSuccess: (data) => {
-                if (data.data[0].success) {
-                  router.push(data.data[0].process3d_url as string)
-                } else {
-                  toast.error(data.data[0].message as string)
-                }
-              }
-            }
-          )
+    if (guestCartId) {
+      const body: IBodyPaymentInformation = {
+        email: billing?.email as string,
+        paymentMethod: {
+          method: selected as string
+        },
+        billingAddress: {
+          email: billing?.email as string,
+          firstname: billing?.firstname as string,
+          lastname: billing?.lastname as string,
+          telephone: billing?.telephone as string,
+          country_id: billing?.country_id as string,
+          city: billing?.city as string,
+          region: billing?.region as string,
+          street: billing?.street as string[],
+          postcode: billing?.postcode as string
         }
       }
-    })
+      guestPaymentInformationMutation.mutate(body, {
+        onSuccess: (data) => {
+          if (selected === 'momo') {
+            captureMomoMutation.mutate(
+              { orderId: data.data },
+              {
+                onSuccess: (data) => {
+                  if (data.data[0].success) {
+                    router.push(data.data[0].process3d_url as string)
+                  } else {
+                    toast.error(data.data[0].message as string)
+                  }
+                }
+              }
+            )
+          } else if (selected === 'cashondelivery') {
+            const dataID = { orderId: data.data }
+            const encodeData = Buffer.from(JSON.stringify(dataID)).toString('base64')
+
+            router.push(hrefPath.resultPurchase + `/?extraData=${encodeData}`)
+          } else if (selected === 'vnpay') {
+            captureVNPayMutation.mutate(
+              { orderId: data.data },
+              {
+                onSuccess: (data) => {
+                  if (data.data[0].success) {
+                    router.push(data.data[0].process3d_url as string)
+                  } else {
+                    toast.error(data.data[0].message as string)
+                  }
+                }
+              }
+            )
+          }
+        }
+      })
+    }
   }
 
   const meta = generateMetaSEO({
@@ -931,7 +1032,9 @@ export default function OrderPage({
                             />
                             <AsyncButton
                               type='submit'
-                              isLoading={setBillingAddressMutation.isLoading}
+                              isLoading={
+                                setBillingAddressMutation.isLoading || setGuestBillingAddressMutation.isLoading
+                              }
                               className='mt-6 fs-16 text-white w-full'
                             >
                               Xác nhận
@@ -950,7 +1053,7 @@ export default function OrderPage({
                   <p className='@992:fs-18 fs-16 font-bold text-oby-green'>Phương thức vận chuyển</p>
                   <OBYButton
                     onClick={() => setIsMethodOpen(true)}
-                    disabled={!billing?.city && !EstimateShippingRes}
+                    disabled={!billing?.city && (!EstimateShippingRes || !EstimateShippingResGuest)}
                     variant='link'
                     size='link'
                   >
@@ -993,45 +1096,89 @@ export default function OrderPage({
                               />
                               <RadioGroup value={shipMethod} onChange={setShipMethod}>
                                 <div className='flex flex-col gap-3 justify-between @992:mt-6 mt-5'>
-                                  {EstimateShippingRes?.data?.map((plan) => (
-                                    <RadioGroup.Option
-                                      key={plan.carrier_code}
-                                      value={plan.carrier_code}
-                                      className={({ checked }) =>
-                                        twclsx(
-                                          `rounded-4 border cursor-pointer flex items-center justify-between transition-colors py-3 @992:px-4 px-3`,
-                                          checked ? 'bg-oby-E4FBDB border-oby-green' : 'border-oby-DFDFDF bg-white'
-                                        )
-                                      }
-                                    >
-                                      {({ checked }) => {
-                                        return (
-                                          <>
-                                            <RadioGroup.Label
-                                              as='p'
-                                              className={
-                                                checked ? 'text-oby-green @992:fs-16 fs-14' : '@992:fs-16 fs-14'
-                                              }
-                                            >
-                                              {plan.method_title}
-                                            </RadioGroup.Label>
-                                            <RadioGroup.Description
-                                              as='p'
-                                              className={
-                                                checked ? 'text-oby-green @992:fs-16 fs-14' : '@992:fs-16 fs-14'
-                                              }
-                                            >
-                                              {formatCurrency(plan.amount)}
-                                            </RadioGroup.Description>
-                                          </>
-                                        )
-                                      }}
-                                    </RadioGroup.Option>
-                                  ))}
+                                  {EstimateShippingRes &&
+                                    EstimateShippingRes.data.map((plan) => (
+                                      <RadioGroup.Option
+                                        key={plan.carrier_code}
+                                        value={plan.carrier_code}
+                                        className={({ checked }) =>
+                                          twclsx(
+                                            `rounded-4 border cursor-pointer flex items-center justify-between transition-colors py-3 @992:px-4 px-3`,
+                                            checked ? 'bg-oby-E4FBDB border-oby-green' : 'border-oby-DFDFDF bg-white'
+                                          )
+                                        }
+                                      >
+                                        {({ checked }) => {
+                                          return (
+                                            <>
+                                              <RadioGroup.Label
+                                                as='p'
+                                                className={
+                                                  checked ? 'text-oby-green @992:fs-16 fs-14' : '@992:fs-16 fs-14'
+                                                }
+                                              >
+                                                {plan.method_title}
+                                              </RadioGroup.Label>
+                                              <RadioGroup.Description
+                                                as='p'
+                                                className={
+                                                  checked ? 'text-oby-green @992:fs-16 fs-14' : '@992:fs-16 fs-14'
+                                                }
+                                              >
+                                                {formatCurrency(plan.amount)}
+                                              </RadioGroup.Description>
+                                            </>
+                                          )
+                                        }}
+                                      </RadioGroup.Option>
+                                    ))}
+                                  {EstimateShippingResGuest &&
+                                    EstimateShippingResGuest.data.map((plan) => (
+                                      <RadioGroup.Option
+                                        key={plan.carrier_code}
+                                        value={plan.carrier_code}
+                                        className={({ checked }) =>
+                                          twclsx(
+                                            `rounded-4 border cursor-pointer flex items-center justify-between transition-colors py-3 @992:px-4 px-3`,
+                                            checked ? 'bg-oby-E4FBDB border-oby-green' : 'border-oby-DFDFDF bg-white'
+                                          )
+                                        }
+                                      >
+                                        {({ checked }) => {
+                                          return (
+                                            <>
+                                              <RadioGroup.Label
+                                                as='p'
+                                                className={
+                                                  checked ? 'text-oby-green @992:fs-16 fs-14' : '@992:fs-16 fs-14'
+                                                }
+                                              >
+                                                {plan.method_title}
+                                              </RadioGroup.Label>
+                                              <RadioGroup.Description
+                                                as='p'
+                                                className={
+                                                  checked ? 'text-oby-green @992:fs-16 fs-14' : '@992:fs-16 fs-14'
+                                                }
+                                              >
+                                                {formatCurrency(plan.amount)}
+                                              </RadioGroup.Description>
+                                            </>
+                                          )
+                                        }}
+                                      </RadioGroup.Option>
+                                    ))}
                                 </div>
                                 <AsyncButton
-                                  isLoading={setAddressAndBillingMutation.isLoading}
-                                  disabled={!shipMethod || setAddressAndBillingMutation.isLoading}
+                                  isLoading={
+                                    setAddressAndBillingMutation.isLoading ||
+                                    setGuestAddressAndBillingMutation.isLoading
+                                  }
+                                  disabled={
+                                    !shipMethod ||
+                                    setAddressAndBillingMutation.isLoading ||
+                                    setGuestAddressAndBillingMutation.isLoading
+                                  }
                                   onClick={setAddressAndBilling}
                                   className='@992:mt-6 mt-5 @992:fs-16 fs-14 w-full'
                                 >
@@ -1206,9 +1353,14 @@ export default function OrderPage({
                       !selected ||
                       !selectedMethod ||
                       paymentInformationMutation.isLoading ||
+                      guestPaymentInformationMutation.isLoading ||
                       captureMomoMutation.isLoading
                     }
-                    isLoading={paymentInformationMutation.isLoading || captureMomoMutation.isLoading}
+                    isLoading={
+                      paymentInformationMutation.isLoading ||
+                      guestPaymentInformationMutation.isLoading ||
+                      captureMomoMutation.isLoading
+                    }
                     onClick={handlePayment}
                     className='@992:mt-5 mt-3 text-white w-full'
                   >
@@ -1226,45 +1378,53 @@ export default function OrderPage({
 
 export const getServerSideProps: GetServerSideProps<IOrderPage> = async (context) => {
   const userToken = context.req.cookies.token
-
-  const { data } = await cartApi.GetCart(userToken as string)
-  const listSKU = getSKUListProductAsString(data.items)
-
-  const { data: paymentMethod } = await paymentApi.GetPaymentMethod(userToken as string)
-
   const { data: provines } = await GeoAPI.GetProvine()
-  const { data: total } = await cartApi.GetCartMineTotal(userToken as string)
 
-  const { data: mine } = await authApi.FetchMe(userToken as string)
-  if (mine) {
-    const defaultAddress = mine.addresses?.find((item) => item.default_shipping === true)
-    if (defaultAddress) {
-      const billingData: IBillingAddress = {
-        email: mine.email,
-        firstname: defaultAddress.firstname,
-        lastname: defaultAddress.lastname,
-        city: defaultAddress.city,
-        region: defaultAddress.region.region,
-        region_code: defaultAddress.region.region_code,
-        region_id: defaultAddress.region_id,
-        street: defaultAddress.street,
-        country_id: defaultAddress.country_id,
-        telephone: defaultAddress.telephone,
-        postcode: defaultAddress.postcode
-      }
-      return {
-        props: {
-          cartData: data,
-          listSKU,
-          paymentMethod,
-          provines,
-          userToken: userToken as string,
-          billingData,
-          total
+  if (userToken) {
+    const { data } = await cartApi.GetCart(userToken as string)
+    const listSKU = getSKUListProductAsString(data.items)
+
+    const { data: paymentMethod } = await paymentApi.GetPaymentMethod(userToken as string)
+
+    const { data: total } = await cartApi.GetCartMineTotal(userToken as string)
+
+    const { data: mine } = await authApi.FetchMe(userToken as string)
+    if (mine) {
+      const defaultAddress = mine.addresses?.find((item) => item.default_shipping === true)
+      if (defaultAddress) {
+        const billingData: IBillingAddress = {
+          email: mine.email,
+          firstname: defaultAddress.firstname,
+          lastname: defaultAddress.lastname,
+          city: defaultAddress.city,
+          region: defaultAddress.region.region,
+          region_code: defaultAddress.region.region_code,
+          region_id: defaultAddress.region_id,
+          street: defaultAddress.street,
+          country_id: defaultAddress.country_id,
+          telephone: defaultAddress.telephone,
+          postcode: defaultAddress.postcode
+        }
+        return {
+          props: {
+            cartData: data,
+            listSKU,
+            paymentMethod,
+            provines,
+            userToken: userToken as string,
+            guestCartId: null,
+            billingData,
+            total
+          }
         }
       }
     }
   }
+  const guestCartId = context.req.cookies.guestCartId
+  const { data } = await cartApi.GetGuestCart(guestCartId as string)
+  const listSKU = getSKUListProductAsString(data.items)
+  const { data: paymentMethod } = await paymentApi.GetGuestPaymentMethod(guestCartId as string)
+  const { data: total } = await cartApi.GetCartTotals(guestCartId as string)
 
   return {
     props: {
@@ -1272,9 +1432,10 @@ export const getServerSideProps: GetServerSideProps<IOrderPage> = async (context
       listSKU,
       paymentMethod,
       provines,
-      userToken: userToken as string,
       billingData: data.billing_address,
-      total
+      total,
+      userToken: null,
+      guestCartId: guestCartId as string
     }
   }
 }

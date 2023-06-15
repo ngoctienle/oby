@@ -18,6 +18,13 @@ const paymentApi = {
       }
     })
   },
+  GetGuestPaymentMethod(guestCartId: string) {
+    return magentoAPI.get<IPayment>(`V1/guest-carts/${guestCartId}/payment-methods`, {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRECT_TOKEN}`
+      }
+    })
+  },
   GetBillingAddress(token: string) {
     return magentoAPI.get<IBillingAddress>('V1/carts/mine/billing-address', {
       headers: {
@@ -25,10 +32,20 @@ const paymentApi = {
       }
     })
   },
+  GetGuestBillingAddress(guestCartId: string) {
+    return magentoAPI.get<IBillingAddress>(`V1/guest-carts/${guestCartId}/billing-address`)
+  },
   SetBillingAddress(token: string, body: IBodyAddress) {
     return magentoAPI.post<number>('V1/carts/mine/billing-address', body, {
       headers: {
         Authorization: `Bearer ${token}`
+      }
+    })
+  },
+  SetGuestBillingAddress(guestCartId: string, body: IBodyAddress) {
+    return magentoAPI.post<number>(`V1/guest-carts/${guestCartId}/billing-address`, body, {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRECT_TOKEN}`
       }
     })
   },
@@ -39,6 +56,13 @@ const paymentApi = {
       }
     })
   },
+  EstimateShippingGuestFeeByAddressId(guestCartId: string, body: IBodyAddress) {
+    return magentoAPI.post<IShippingMethod[]>(`V1/guest-carts/${guestCartId}/estimate-shipping-methods`, body, {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRECT_TOKEN}`
+      }
+    })
+  },
   ShippingInformation(token: string, body: IBodyShippingInformation) {
     return magentoAPI.post<IShippingInformation>('V1/carts/mine/shipping-information', body, {
       headers: {
@@ -46,10 +70,24 @@ const paymentApi = {
       }
     })
   },
+  GuestShippingInformation(guestCartId: string, body: IBodyShippingInformation) {
+    return magentoAPI.post<IShippingInformation>(`V1/guest-carts/${guestCartId}/shipping-information`, body, {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRECT_TOKEN}`
+      }
+    })
+  },
   PaymentInformation(token: string, body: IBodyPaymentInformation) {
     return magentoAPI.post<number>('V1/carts/mine/payment-information', body, {
       headers: {
         Authorization: `Bearer ${token}`
+      }
+    })
+  },
+  GuestPaymentInformation(guestCartId: string, body: IBodyPaymentInformation) {
+    return magentoAPI.post<number>(`V1/guest-carts/${guestCartId}/payment-information`, body, {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRECT_TOKEN}`
       }
     })
   },

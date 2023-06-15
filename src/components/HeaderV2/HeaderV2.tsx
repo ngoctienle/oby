@@ -37,7 +37,7 @@ export default function HeaderV2({ font, isFocus, user, guestCartId, cartId, tok
   const isMatch992 = useMediaQuery('(min-width:992px)')
 
   const { data: guestData } = useQuery({
-    queryKey: ['guestCart', guestCartId || ''],
+    queryKey: ['guestCart', guestCartId],
     queryFn: () => cartApi.GetGuestCart(guestCartId || ''),
     enabled: !token,
     refetchOnWindowFocus: true,

@@ -304,11 +304,7 @@ export default function CartPage() {
   /* Next Step Order Condition */
   const handleContinue = () => {
     setIsRouting(true)
-    if (token) {
-      router.push(hrefPath.purchase)
-    } else {
-      router.push(hrefPath.login + `?cb=${router.pathname}`)
-    }
+    router.push(hrefPath.purchase)
   }
 
   const meta = generateMetaSEO({

@@ -13,9 +13,9 @@ export function middleware(request: NextRequest) {
     url.pathname = hrefPath.home
     return NextResponse.redirect(url)
   }
-  if (!tokenCookie && request.nextUrl.pathname.startsWith('/dat-hang')) {
+  /* if (!tokenCookie && request.nextUrl.pathname.startsWith('/dat-hang')) {
     const url = request.nextUrl.clone()
     url.pathname = hrefPath.login
     return NextResponse.redirect(url)
-  }
+  } */
 }
