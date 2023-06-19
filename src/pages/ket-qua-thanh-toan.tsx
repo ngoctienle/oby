@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import atob from 'atob'
 import cookie from 'cookie'
 import { GetServerSideProps } from 'next'
-import { useEffect } from 'react'
+import { useMemo } from 'react'
 
 import { Address, BodyUpdate } from '@/@types/auth.type'
 import { MergeCartRequestBody } from '@/@types/cart.type'
@@ -58,7 +58,7 @@ export default function PaymentResult({ statusMessage, orderId, orderInfo, cartI
     enabled: Boolean(customerId)
   })
 
-  useEffect(() => {
+  useMemo(() => {
     if (customerId) {
       setCartId(cartId)
     } else {
@@ -220,14 +220,14 @@ export const getServerSideProps: GetServerSideProps<IPaymentResult> = async (con
   }
   const { data } = await paymentApi.GetOrderInfo(originOrderId)
 
-  if ((resultCode && Number(resultCode) === 0) || Number(vnp_ResponseCode) === 0) {
-    await paymentApi.CreateOrderGHTK(originOrderId)
-  }
-
   if (orderType && orderInfo && resultCode) {
+    const message = Number(resultCode) === 0 ? 'success' : 'false'
+    if (message === 'success') {
+      await paymentApi.CreateOrderGHTK(originOrderId)
+    }
     return {
       props: {
-        statusMessage: resultCode && Number(resultCode) === 0 ? 'success' : 'false',
+        statusMessage: message,
         orderId: orderInfo as string,
         orderInfo: data,
         cartId: guestCartId,
@@ -235,9 +235,13 @@ export const getServerSideProps: GetServerSideProps<IPaymentResult> = async (con
       }
     }
   } else if (vnp_ResponseCode && vnp_TxnRef) {
+    const message = Number(vnp_ResponseCode) === 0 ? 'success' : 'false'
+    if (message === 'success') {
+      await paymentApi.CreateOrderGHTK(originOrderId)
+    }
     return {
       props: {
-        statusMessage: Number(vnp_ResponseCode) === 0 ? 'success' : 'false',
+        statusMessage: message,
         orderId: `#DH${vnp_TxnRef.toString().padStart(9, '0')}`,
         orderInfo: data,
         cartId: guestCartId,
@@ -245,6 +249,7 @@ export const getServerSideProps: GetServerSideProps<IPaymentResult> = async (con
       }
     }
   } else {
+    await paymentApi.CreateOrderGHTK(originOrderId)
     return {
       props: {
         statusMessage: 'pending',
