@@ -10,6 +10,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation, useQuery } from '@tanstack/react-query'
+import Cookies from 'js-cookie'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
@@ -426,7 +427,6 @@ export default function OrderPage({
         shipping_method_code: shipMethod as string
       }
     }
-    console.log(body)
     if (shipMethod) {
       if (userToken) {
         setAddressAndBillingMutation.mutate(body, {
@@ -540,6 +540,7 @@ export default function OrderPage({
       }
       guestPaymentInformationMutation.mutate(body, {
         onSuccess: (data) => {
+          Cookies.remove('guestCartId')
           if (selected === 'momo') {
             captureMomoMutation.mutate(
               { orderId: data.data },

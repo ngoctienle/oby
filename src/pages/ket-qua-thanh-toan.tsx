@@ -219,7 +219,10 @@ export const getServerSideProps: GetServerSideProps<IPaymentResult> = async (con
     context.res.setHeader('Set-Cookie', cookieStr)
   }
   const { data } = await paymentApi.GetOrderInfo(originOrderId)
-  await paymentApi.CreateOrderGHTK(originOrderId)
+
+  if ((resultCode && Number(resultCode) === 0) || Number(vnp_ResponseCode) === 0) {
+    await paymentApi.CreateOrderGHTK(originOrderId)
+  }
 
   if (orderType && orderInfo && resultCode) {
     return {
