@@ -1,5 +1,5 @@
 export * from './useScrollY'
-export * from './useQueryConfig'
+export * from './useQueryBlogConfig'
 export * from './useMediaQuery'
 export * from './useClickOutSide'
 export * from './useDebounce'

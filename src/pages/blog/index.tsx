@@ -7,6 +7,8 @@ import { useMemo, useState } from 'react'
 
 import { Blog, BlogCategory } from '@/@types/blog.type'
 
+import { generateMetaSEO } from '@/libs/seo'
+
 import { generateBlogImage, generateCateNameById } from '@/helpers/blog'
 
 import blogAPI from '@/apis/magento/blog.api'
@@ -16,6 +18,7 @@ import { hrefPath } from '@/constants/href.constant'
 
 import Breadcrumb from '@/components/Breadcrumb'
 import { OBYImage, OBYLink } from '@/components/UI/Element'
+import { OBYSeo } from '@/components/UI/OBYSeo'
 
 interface BlogPageProps {
   categories: BlogCategory[]
@@ -39,8 +42,18 @@ export default function BlogPage({ categories, initBlogs }: BlogPageProps) {
     return initBlogs
   }, [blogRes?.data, initBlogs])
 
+  const meta = generateMetaSEO({
+    title: 'Ông Bà Yêu',
+    template: 'Blogs',
+    description: 'Blogs',
+    keywords: [`OBY, Blogs, Tin tức, Ông Bà Yêu, ongbayeu.com`],
+    og_image_alt: 'Ông Bà Yêu',
+    slug: hrefPath.blog
+  })
+
   return (
     <>
+      <OBYSeo {...meta} />
       <section className='@992:pt-4 pt-3'>
         <Breadcrumb cateName={'Blog'} />
         <div className='container'>

@@ -3,7 +3,7 @@ import { BarsArrowDownIcon, BarsArrowUpIcon } from '@heroicons/react/24/outline'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 
-import { useQueryConfig } from '@/hooks'
+import { useQueryBlogConfig } from '@/hooks'
 
 import productApi from '@/apis/magento/product.api'
 
@@ -12,7 +12,7 @@ import Product from '@/components/Product'
 import { OBYImage } from '@/components/UI/Element'
 
 export default function ResultSearchPage() {
-  const queryConfig = useQueryConfig()
+  const queryConfig = useQueryBlogConfig()
 
   const [selected, setSelected] = useState()
 

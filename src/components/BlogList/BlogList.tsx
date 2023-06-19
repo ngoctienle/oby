@@ -2,7 +2,7 @@ import { ChevronRightIcon } from '@heroicons/react/24/outline'
 import { useQuery } from '@tanstack/react-query'
 import { AiFillCaretRight } from 'react-icons/ai'
 
-import { useQueryConfig } from '@/hooks'
+import { useQueryBlogConfig } from '@/hooks'
 
 import blogAPI from '@/apis/magento/blog.api'
 
@@ -13,7 +13,7 @@ import Blog from '@/components/Blog'
 import { OBYButton, OBYLink } from '@/components/UI/Element'
 
 export default function BlogList() {
-  const queryConfig = useQueryConfig()
+  const queryConfig = useQueryBlogConfig()
 
   const { data: blogsData } = useQuery({
     queryKey: ['blogs', queryConfig],
