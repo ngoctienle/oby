@@ -55,14 +55,12 @@ export default function Input({
         {restParams.type === 'password' && visible && (
           <EyeIcon
             className='absolute w-6 h-6 top-1/2 -translate-y-1/2 cursor-pointer right-3 @768:right-4'
-            type='button'
             onClick={toggleVisible}
           />
         )}
         {restParams.type === 'password' && !visible && (
           <EyeSlashIcon
             className='absolute w-6 h-6 top-1/2 -translate-y-1/2 cursor-pointer right-3 @768:right-4'
-            type='button'
             onClick={toggleVisible}
           />
         )}
