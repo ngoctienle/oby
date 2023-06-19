@@ -3,6 +3,11 @@ export interface BlogListConfig {
   limit?: number | string
   name?: string
 }
+
+export interface BlogListResponse {
+  items: Blog[]
+  last_page: number
+}
 export interface Blog {
   id: number
   name: string

@@ -1,11 +1,10 @@
 import magentoAPI from '@/vendors/magento.vendor'
 
-import { Blog, BlogCategory, BlogListConfig } from '@/@types/blog.type'
+import { Blog, BlogCategory, BlogListResponse } from '@/@types/blog.type'
 
 const blogAPI = {
-  GetList(params: BlogListConfig) {
-    return magentoAPI.get<Blog[]>(`V1/mpblog/post`, {
-      params,
+  GetList(page?: number | string, limit?: number | string) {
+    return magentoAPI.get<BlogListResponse[]>(`V1/mpblog/post?page=${page}&limit=${limit}`, {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRECT_TOKEN}`
       }
@@ -25,8 +24,8 @@ const blogAPI = {
       }
     })
   },
-  GetListByCategoryId(id: number) {
-    return magentoAPI.get<Blog[]>(`/V1/mpblog/category/post/id/${id}`, {
+  GetListByCategoryId(id: number, page?: number | string, limit?: number | string) {
+    return magentoAPI.get<BlogListResponse[]>(`/V1/mpblog/category/post/id/${id}?page=${page}&limit=${limit}`, {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRECT_TOKEN}`
       }
