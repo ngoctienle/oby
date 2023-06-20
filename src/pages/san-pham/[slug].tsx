@@ -12,6 +12,7 @@ import { toast } from 'react-hot-toast'
 import { CartRequest } from '@/@types/cart.type'
 import { CustomAttribute } from '@/@types/magento.type'
 import { Product } from '@/@types/product.type'
+import { ReviewRequestBody } from '@/@types/review.type'
 
 import { generateMetaSEO } from '@/libs/seo'
 import { useGlobalState } from '@/libs/state'
@@ -86,7 +87,8 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
   const [showFullReview, setShowFullReview] = useState<boolean>(false)
   const [loadingButton, setLoadingButton] = useState({
     addToCart: false,
-    buyNow: false
+    buyNow: false,
+    addReview: false
   })
   const [review, setReview] = useState({
     userName: '',
@@ -101,6 +103,7 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
 
   const addToCartMutation = useMutation((body: CartRequest) => cartApi.AddToCart(guestCartId as string, body))
   const addToCartMineMutation = useMutation((body: CartRequest) => cartApi.AddToCartMine(token as string, body))
+  const addReviewMutation = useMutation((body: ReviewRequestBody) => productApi.AddReview(body))
 
   /**
    * Function `handleBuyCount` được sử dụng để quản lý số lượng product được thêm vào giỏ hàng.
@@ -334,6 +337,42 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
   }
   const handleMouseLeave = () => {
     setHoverRating(0)
+  }
+
+  const handleAddReview = () => {
+    setLoadingButton({ ...loadingButton, addReview: true })
+    const body = {
+      review: {
+        title: 'title',
+        detail: review.userReview,
+        nickname: review.userName,
+        ratings: [
+          {
+            rating_name: 'Quality',
+            value: review.userRating
+          }
+        ],
+        review_entity: 'product',
+        review_status: 2,
+        entity_pk_value: productData.id
+      }
+    }
+    addReviewMutation.mutate(body, {
+      onSuccess: () => {
+        toast.success('Cảm ơn bạn đã đánh giá sản phẩm')
+        setLoadingButton({ ...loadingButton, addReview: false })
+        setReview({
+          userName: '',
+          userReview: '',
+          userRating: 0
+        })
+        setShowAddReview(false)
+      },
+      onError: () => {
+        toast.error('Vui lòng thử lại!')
+        setLoadingButton({ ...loadingButton, addReview: false })
+      }
+    })
   }
 
   const renderReviews = () => {
@@ -632,17 +671,20 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
                     ))}
                   </div>
                 </div>
-                <OBYButton
-                  variant='default'
-                  size='default'
-                  onClick={() => alert('hi')}
-                  disabled={review.userName === '' || review.userRating <= 0 ? true : false}
-                  className={`text-white fs-16 w-[115px] mt-6 ${
-                    (review.userName === '' || review.userRating <= 0) && 'bg-oby-9A9898 hover:bg-oby-9A9898'
-                  }`}
+                <AsyncButton
+                  isLoading={loadingButton.addReview && addReviewMutation.isLoading}
+                  onClick={handleAddReview}
+                  disabled={review.userReview === '' || review.userName === '' || review.userRating <= 0 ? true : false}
+                  className={cn(
+                    `w-[115px] mt-6 ${
+                      (review.userName === '' || review.userRating <= 0 || review.userReview === '') &&
+                      'bg-oby-9A9898 hover:bg-oby-9A9898'
+                    }`
+                  )}
+                  // variant='outlinePrimary'
                 >
-                  Gửi
-                </OBYButton>
+                  <p className='text-white fs-16'>Gửi</p>
+                </AsyncButton>
               </div>
             ) : (
               <div className='mt-8 flex flex-col justify-center items-center'>
