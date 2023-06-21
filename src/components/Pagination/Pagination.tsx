@@ -69,7 +69,7 @@ export default function Pagination({ queryConfig, pageSize }: Props) {
         return (
           <Link
             href={{
-              pathname: `${router.query.cate}`,
+              pathname: `${router.query.cate ? router.query.cate : router.pathname}`,
               query: querystring.stringify({
                 page: pageNumber,
                 limit: 9
@@ -94,7 +94,7 @@ export default function Pagination({ queryConfig, pageSize }: Props) {
       ) : (
         <Link
           href={{
-            pathname: `${router.query.cate}`,
+            pathname: `${router.query.cate ? router.query.cate : router.pathname}`,
             query: querystring.stringify({
               page: page - 1,
               limit: 9
@@ -111,7 +111,7 @@ export default function Pagination({ queryConfig, pageSize }: Props) {
       ) : (
         <Link
           href={{
-            pathname: `${router.query.cate}`,
+            pathname: `${router.query.cate ? router.query.cate : router.pathname}`,
             query: querystring.stringify({
               page: page + 1,
               limit: 9

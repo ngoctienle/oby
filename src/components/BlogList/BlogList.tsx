@@ -17,11 +17,11 @@ export default function BlogList() {
 
   const { data: blogsData } = useQuery({
     queryKey: ['blogs', queryConfig],
-    queryFn: () => blogAPI.GetList(queryConfig),
+    queryFn: () => blogAPI.GetList(1, 6),
     keepPreviousData: true,
     staleTime: cacheTime.halfHours
   })
-  if (!blogsData?.data || blogsData.data.length === 0) {
+  if (!blogsData?.data || blogsData.data[0].items.length === 0) {
     return null
   }
 
@@ -34,7 +34,7 @@ export default function BlogList() {
         </OBYLink>
       </OBYButton>
       <div className='grid @992:grid-cols-2 grid-cols-1 @992:gap-x-15 @992:gap-y-7.5 gap-4'>
-        {blogsData.data.map((blog) => (
+        {blogsData.data[0].items.map((blog) => (
           <div className='col-span-1' key={blog.id}>
             <Blog blog={blog} />
           </div>

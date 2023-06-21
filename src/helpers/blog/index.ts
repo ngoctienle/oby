@@ -35,7 +35,7 @@ export const generateCateNameById = (id: number) => {
       name: 'Nhịp sống xưa'
     }
   ]
-  const category = arr.find((item) => item.id === id)
+  const category = arr.find((item) => item.id === Number(id))
 
   if (category) {
     return category.name

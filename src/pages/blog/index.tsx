@@ -5,7 +5,9 @@ import dayjs from 'dayjs'
 import { GetServerSideProps } from 'next'
 import { useMemo, useState } from 'react'
 
-import { Blog, BlogCategory } from '@/@types/blog.type'
+import { BlogCategory } from '@/@types/blog.type'
+
+import { useQueryConfig } from '@/hooks'
 
 import { generateMetaSEO } from '@/libs/seo'
 
@@ -17,30 +19,37 @@ import { cacheTime } from '@/constants/config.constant'
 import { hrefPath } from '@/constants/href.constant'
 
 import Breadcrumb from '@/components/Breadcrumb'
+import Pagination from '@/components/Pagination'
 import { OBYImage, OBYLink } from '@/components/UI/Element'
 import { OBYSeo } from '@/components/UI/OBYSeo'
 
 interface BlogPageProps {
   categories: BlogCategory[]
-  initBlogs: Blog[]
 }
 
-export default function BlogPage({ categories, initBlogs }: BlogPageProps) {
+export default function BlogPage({ categories }: BlogPageProps) {
   const [selectedCate, setSelectedCate] = useState<number | null>(null)
+  const queryConfig = useQueryConfig()
+
+  const { data: blogsData } = useQuery({
+    queryKey: ['blogsRoute', queryConfig],
+    queryFn: () => blogAPI.GetList(queryConfig.page, (queryConfig.limit = '9')),
+    keepPreviousData: true,
+    staleTime: cacheTime.halfHours
+  })
 
   const { data: blogRes } = useQuery({
-    queryKey: ['blogs', selectedCate],
-    queryFn: () => blogAPI.GetListByCategoryId(selectedCate as number),
+    queryKey: ['blogs', selectedCate, queryConfig],
+    queryFn: () => blogAPI.GetListByCategoryId(selectedCate as number, queryConfig.page, (queryConfig.limit = '9')),
     enabled: !!selectedCate,
     staleTime: cacheTime.fiveMinutes
   })
 
   const initializedBlogs = useMemo(() => {
     if (blogRes?.data) {
-      return blogRes.data
-    }
-    return initBlogs
-  }, [blogRes?.data, initBlogs])
+      return blogRes.data[0]
+    } else return blogsData?.data[0]
+  }, [blogRes?.data, blogsData?.data])
 
   const meta = generateMetaSEO({
     title: 'Ông Bà Yêu',
@@ -100,14 +109,14 @@ export default function BlogPage({ categories, initBlogs }: BlogPageProps) {
                       }
                     })}
                   </div>
-                  <div className='@992:w-auto w-[992px]'></div>
+                  {/* <div className='@992:w-auto w-[992px]'></div> */}
                 </div>
               </RadioGroup>
             </div>
             <div className='@992:col-span-9 col-span-1'>
               <div className='grid @992:grid-cols-3 @768:grid-cols-2 @992:gap-10 gap-6'>
-                {initializedBlogs.length > 0 ? (
-                  initializedBlogs.map((item) => (
+                {initializedBlogs && initializedBlogs.items.length > 0 ? (
+                  initializedBlogs.items.map((item) => (
                     <div className='col-span-1' key={item.id}>
                       <OBYLink
                         className='flex flex-col'
@@ -156,6 +165,9 @@ export default function BlogPage({ categories, initBlogs }: BlogPageProps) {
                   </div>
                 )}
               </div>
+              {initializedBlogs && initializedBlogs.last_page > 1 && (
+                <Pagination queryConfig={queryConfig} pageSize={initializedBlogs.last_page} />
+              )}
             </div>
           </div>
         </div>
@@ -166,11 +178,9 @@ export default function BlogPage({ categories, initBlogs }: BlogPageProps) {
 
 export const getServerSideProps: GetServerSideProps<BlogPageProps> = async () => {
   const { data: categories } = await blogAPI.GetListCategory()
-  const { data: initBlogs } = await blogAPI.GetList({ page: 1, limit: 9 })
   return {
     props: {
-      categories,
-      initBlogs
+      categories
     }
   }
 }
