@@ -353,7 +353,7 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
           }
         ],
         review_entity: 'product',
-        review_status: 2,
+        review_status: 2, //Pending
         entity_pk_value: productData.id
       }
     }

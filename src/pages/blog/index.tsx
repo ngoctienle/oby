@@ -7,7 +7,7 @@ import { useMemo, useState } from 'react'
 
 import { BlogCategory } from '@/@types/blog.type'
 
-import { useQueryConfig } from '@/hooks'
+import { useQueryBlogConfig } from '@/hooks'
 
 import { generateMetaSEO } from '@/libs/seo'
 
@@ -29,7 +29,7 @@ interface BlogPageProps {
 
 export default function BlogPage({ categories }: BlogPageProps) {
   const [selectedCate, setSelectedCate] = useState<number | null>(null)
-  const queryConfig = useQueryConfig()
+  const queryConfig = useQueryBlogConfig()
 
   const { data: blogsData } = useQuery({
     queryKey: ['blogsRoute', queryConfig],
