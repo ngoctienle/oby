@@ -11,9 +11,9 @@ export default class CustomDocument extends Document {
         <Head>
           <meta name='theme-color' content='#18181b' />
           <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
-          <link rel='icon' href='/images/favicon.png' sizes='192x192' />
-          <link rel='shortcut icon' href='/images/shortcut.png' type='image/png' />
-          <link rel='apple-touch-icon' href='/images/appleicon.png' type='image/png' />
+          <link rel='icon' href='/images/favicon.ico' sizes='192x192' />
+          <link rel='shortcut icon' href='/images/favicon.ico' type='image/png' />
+          <link rel='apple-touch-icon' href='/images/favicon.ico' type='image/png' />
 
           {/* {process.env.NODE_ENV === 'production' && (
               <Script async defer

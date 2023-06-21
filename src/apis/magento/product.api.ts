@@ -1,7 +1,7 @@
 import magentoAPI from '@/vendors/magento.vendor'
 
 import { Product, ProductResponse } from '@/@types/product.type'
-import { Review } from '@/@types/review.type'
+import { Review, ReviewRequestBody } from '@/@types/review.type'
 
 const productApi = {
   GetProductByCategoryID(id: number, page?: string, pageSize?: string) {
@@ -27,6 +27,13 @@ const productApi = {
   },
   GetAllProductReviews(sku: string) {
     return magentoAPI.get<Review[]>(`V1/products/${sku}/reviews`, {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRECT_TOKEN}`
+      }
+    })
+  },
+  AddReview(body: ReviewRequestBody) {
+    return magentoAPI.post(`/V1/reviews/`, body, {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRECT_TOKEN}`
       }

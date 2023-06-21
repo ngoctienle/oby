@@ -12,6 +12,7 @@ import { toast } from 'react-hot-toast'
 import { CartRequest } from '@/@types/cart.type'
 import { CustomAttribute } from '@/@types/magento.type'
 import { Product } from '@/@types/product.type'
+import { ReviewRequestBody } from '@/@types/review.type'
 
 import { generateMetaSEO } from '@/libs/seo'
 import { useGlobalState } from '@/libs/state'
@@ -86,14 +87,23 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
   const [showFullReview, setShowFullReview] = useState<boolean>(false)
   const [loadingButton, setLoadingButton] = useState({
     addToCart: false,
-    buyNow: false
+    buyNow: false,
+    addReview: false
   })
+  const [review, setReview] = useState({
+    userName: '',
+    userReview: '',
+    userRating: 0
+  })
+  const [hoverRating, setHoverRating] = useState<number>(0)
+  const [showAddReview, setShowAddReview] = useState<boolean>(false)
 
   /* const [curIndexImage, setCurIndexImage] = useState([0, 5]) */
   const [activeImage, setActiveImage] = useState('')
 
   const addToCartMutation = useMutation((body: CartRequest) => cartApi.AddToCart(guestCartId as string, body))
   const addToCartMineMutation = useMutation((body: CartRequest) => cartApi.AddToCartMine(token as string, body))
+  const addReviewMutation = useMutation((body: ReviewRequestBody) => productApi.AddReview(body))
 
   /**
    * Function `handleBuyCount` được sử dụng để quản lý số lượng product được thêm vào giỏ hàng.
@@ -300,6 +310,69 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
 
   const toggleReview = () => {
     setShowFullReview(!showFullReview)
+  }
+
+  const toggleAddReview = () => {
+    setShowAddReview(!showAddReview)
+  }
+
+  const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setReview({ ...review, userName: e.target.value })
+  }
+
+  const handleChangeReview = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const input = e.target.value
+    if (input.length <= 200) {
+      setReview({ ...review, userReview: input })
+    }
+  }
+
+  const handleClick = (index: number) => {
+    setReview({ ...review, userRating: index + 1 })
+    setHoverRating(0)
+  }
+
+  const handleHover = (index: number) => {
+    setHoverRating(index + 1)
+  }
+  const handleMouseLeave = () => {
+    setHoverRating(0)
+  }
+
+  const handleAddReview = () => {
+    setLoadingButton({ ...loadingButton, addReview: true })
+    const body = {
+      review: {
+        title: 'title',
+        detail: review.userReview,
+        nickname: review.userName,
+        ratings: [
+          {
+            rating_name: 'Quality',
+            value: review.userRating
+          }
+        ],
+        review_entity: 'product',
+        review_status: 2,
+        entity_pk_value: productData.id
+      }
+    }
+    addReviewMutation.mutate(body, {
+      onSuccess: () => {
+        toast.success('Cảm ơn bạn đã đánh giá sản phẩm')
+        setLoadingButton({ ...loadingButton, addReview: false })
+        setReview({
+          userName: '',
+          userReview: '',
+          userRating: 0
+        })
+        setShowAddReview(false)
+      },
+      onError: () => {
+        toast.error('Vui lòng thử lại!')
+        setLoadingButton({ ...loadingButton, addReview: false })
+      }
+    })
   }
 
   const renderReviews = () => {
@@ -522,20 +595,110 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
             </div>
           )}
           <h2 className='@768:fs-26 fs-20 font-bold text-oby-green'>Đánh giá sản phẩm</h2>
-          <div className='@992:my-7.5 my-5 mx-auto max-w-[375px]'>
-            <p className='fs-48 text-oby-orange font-bold leading-[58px] text-center'>
-              {calculateAverageRating.toFixed(2)}
-            </p>
-            <p className='fs-18 text-oby-676869 leading-[22px] text-center'>{filteredReviews?.length} Đánh giá</p>
-            <div className='@992:mt-5 mt-3'>
-              {calculateRatingStats.map((item, index) => (
-                <div key={index} className='py-1.5 flex items-center space-x-4'>
-                  <ProductRating rating={item.ratingValue} size={4} />
-                  <Progress value={item.percent} />
-                  <p className='text-oby-676869'>{item.count}</p>
-                </div>
-              ))}
+          <div className='@992:my-7.5 my-5 mx-auto max-w-[538px]'>
+            <div className=' flex items-center flex-col @992:flex-row'>
+              <div className='@992:mr-6 mr-0'>
+                <p className='fs-48 text-oby-orange font-bold leading-[58px] text-center'>
+                  {calculateAverageRating.toFixed(2)}
+                </p>
+                <p className='fs-18 text-oby-676869 leading-[22px] text-center'>{filteredReviews?.length} Đánh giá</p>
+              </div>
+              <div className='@992:mt-5 mt-3 w-full'>
+                {calculateRatingStats.map((item, index) => (
+                  <div key={index} className='py-1.5 flex items-center space-x-4'>
+                    <ProductRating rating={item.ratingValue} size={4} />
+                    <Progress value={item.percent} />
+                    <p className='text-oby-676869'>{item.count}</p>
+                  </div>
+                ))}
+              </div>
             </div>
+
+            {showAddReview ? (
+              <div className='mt-8 flex flex-col items-center'>
+                <OBYButton
+                  variant='default'
+                  size='default'
+                  onClick={toggleAddReview}
+                  className='text-white fs-16 w-[44px] h-[44px] @992:rounded-full rounded-full py-0'
+                >
+                  X
+                </OBYButton>
+                <input
+                  type='text'
+                  placeholder='Họ và tên'
+                  className='mt-4 py-4 @768:px-4 px-3 border border-oby-DFDFDF rounded-2.5 @768:rounded-4 bg-oby-F6F7F8 outline-none placeholder:fs-14 @768:placeholder:fs-16 placeholder:text-oby-9A9898 w-full h-full focus:border-oby-primary transition-colors disabled:bg-oby-F6F7F8 disabled:cursor-not-allowed @992:fs-16 fs-14'
+                  value={review.userName}
+                  onChange={handleChangeName}
+                />
+                <div className='relative w-full'>
+                  <textarea
+                    id='message'
+                    rows={4}
+                    value={review.userReview}
+                    onChange={handleChangeReview}
+                    className='mt-6 py-4 @768:px-4 px-3 border border-oby-DFDFDF rounded-2.5 @768:rounded-4 bg-oby-F6F7F8 outline-none placeholder:fs-14 @768:placeholder:fs-16 placeholder:text-oby-9A9898 w-full h-full focus:border-oby-primary transition-colors disabled:bg-oby-F6F7F8 disabled:cursor-not-allowed @992:fs-16 fs-14'
+                    placeholder='Xin mời chia sẻ một số cảm nhận về sản phẩm'
+                  ></textarea>
+                  <span className='absolute bottom-0 right-0 z-10 mb-4 mr-4 fs-16 text-oby-9A9898'>
+                    {review.userReview.length}/200
+                  </span>
+                </div>
+                <div className='w-full mt-4 py-6 @768:px-4 px-3 border border-oby-DFDFDF rounded-2.5 @768:rounded-4 bg-oby-F6F7F8'>
+                  <p className='fs-18 text-oby-9A9898 text-center'>Bạn đánh giá bao nhiêu sao cho sản phẩm này?</p>
+                  <div className='mt-4 flex justify-center'>
+                    {[...Array(5)].map((_, index) => (
+                      <svg
+                        key={index}
+                        onClick={() => handleClick(index)}
+                        onMouseEnter={() => handleHover(index)}
+                        onMouseLeave={() => handleMouseLeave()}
+                        enableBackground='new 0 0 24 24'
+                        viewBox='0 0 24 24'
+                        x={0}
+                        y={0}
+                        className={`fill-current ${
+                          index < (hoverRating || review.userRating) ? 'text-oby-yellow' : 'text-oby-DFDFDF'
+                        } hover:fill-oby-yellow hover:text-oby-yellow h-9 w-9`}
+                      >
+                        <path
+                          id='Stroke 1'
+                          fillRule='evenodd'
+                          clipRule='evenodd'
+                          d='M13.1043 4.17701L14.9317 7.82776C15.1108 8.18616 15.4565 8.43467 15.8573 8.49218L19.9453 9.08062C20.9554 9.22644 21.3573 10.4505 20.6263 11.1519L17.6702 13.9924C17.3797 14.2718 17.2474 14.6733 17.3162 15.0676L18.0138 19.0778C18.1856 20.0698 17.1298 20.8267 16.227 20.3574L12.5732 18.4627C12.215 18.2768 11.786 18.2768 11.4268 18.4627L7.773 20.3574C6.87023 20.8267 5.81439 20.0698 5.98724 19.0778L6.68385 15.0676C6.75257 14.6733 6.62033 14.2718 6.32982 13.9924L3.37368 11.1519C2.64272 10.4505 3.04464 9.22644 4.05466 9.08062L8.14265 8.49218C8.54354 8.43467 8.89028 8.18616 9.06937 7.82776L10.8957 4.17701C11.3477 3.27433 12.6523 3.27433 13.1043 4.17701Z'
+                        />
+                      </svg>
+                    ))}
+                  </div>
+                </div>
+                <AsyncButton
+                  isLoading={loadingButton.addReview && addReviewMutation.isLoading}
+                  onClick={handleAddReview}
+                  disabled={review.userReview === '' || review.userName === '' || review.userRating <= 0 ? true : false}
+                  className={cn(
+                    `w-[115px] mt-6 ${
+                      (review.userName === '' || review.userRating <= 0 || review.userReview === '') &&
+                      'bg-oby-9A9898 hover:bg-oby-9A9898'
+                    }`
+                  )}
+                  // variant='outlinePrimary'
+                >
+                  <p className='text-white fs-16'>Gửi</p>
+                </AsyncButton>
+              </div>
+            ) : (
+              <div className='mt-8 flex flex-col justify-center items-center'>
+                <div className='fs-16 mb-3 '>Bạn đánh giá sao về sản phẩm này</div>
+                <OBYButton
+                  variant='default'
+                  size='default'
+                  onClick={toggleAddReview}
+                  className='text-white fs-16 w-[285px]'
+                >
+                  Đánh giá ngay
+                </OBYButton>
+              </div>
+            )}
           </div>
           {!isLoading && renderReviews()}
           {renderButtonShowmoreReview()}
