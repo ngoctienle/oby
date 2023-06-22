@@ -223,7 +223,7 @@ export const getServerSideProps: GetServerSideProps<IPaymentResult> = async (con
   if (orderType && orderInfo && resultCode) {
     const message = Number(resultCode) === 0 ? 'success' : 'false'
     if (message === 'success') {
-      /* await paymentApi.CreateOrderGHTK(originOrderId) */
+      await paymentApi.CreateOrderGHTK(originOrderId)
     }
     return {
       props: {
@@ -237,7 +237,7 @@ export const getServerSideProps: GetServerSideProps<IPaymentResult> = async (con
   } else if (vnp_ResponseCode && vnp_TxnRef) {
     const message = Number(vnp_ResponseCode) === 0 ? 'success' : 'false'
     if (message === 'success') {
-      /* await paymentApi.CreateOrderGHTK(originOrderId) */
+      await paymentApi.CreateOrderGHTK(originOrderId)
     }
     return {
       props: {
@@ -249,7 +249,7 @@ export const getServerSideProps: GetServerSideProps<IPaymentResult> = async (con
       }
     }
   } else {
-    /* await paymentApi.CreateOrderGHTK(originOrderId) */
+    await paymentApi.CreateOrderGHTK(originOrderId)
     return {
       props: {
         statusMessage: 'pending',
