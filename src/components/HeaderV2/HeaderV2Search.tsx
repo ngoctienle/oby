@@ -2,9 +2,9 @@ import { OBYImage, OBYLink } from '../UI/Element'
 import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useQuery } from '@tanstack/react-query'
 import DOMPurify from 'isomorphic-dompurify'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-import { useClickOutSide, useDebounce } from '@/hooks'
+import { useClickOutSide, useDebounce, useFocusInput } from '@/hooks'
 
 import { accentsMap, formatCurrency, getDiscountPercent } from '@/helpers'
 import { generateProductImageFromMagento, getDiscount, isHaveDiscount } from '@/helpers/product'
@@ -39,7 +39,10 @@ function SearchLoading() {
 
 export default function HeaderV2Search() {
   const ref = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
   const [isOpen, setIsOpen] = useState(false)
+  const registerFocus = useFocusInput()
+
   /* const queryConfig = useQueryConfig()
   const router = useRouter() */
 
@@ -49,6 +52,12 @@ export default function HeaderV2Search() {
   useClickOutSide(ref, () => {
     setIsOpen(false)
   })
+
+  useEffect(() => {
+    if (registerFocus.isFocus) {
+      inputRef.current?.focus()
+    }
+  }, [registerFocus.isFocus])
 
   const handleTyping = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchStr(e.target.value)
@@ -106,6 +115,7 @@ export default function HeaderV2Search() {
       className='@992:relative flex items-center flex-grow border bg-white border-oby-DFDFDF rounded-tl-4 rounded-br-4 h-11 @992:px-6 px-3'
     >
       <input
+        ref={inputRef}
         type='text'
         name='name'
         placeholder='Bạn tìm gì hôm nay'

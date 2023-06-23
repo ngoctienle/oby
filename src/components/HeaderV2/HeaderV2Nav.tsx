@@ -9,7 +9,9 @@ import {
 } from '@heroicons/react/24/outline'
 import Cookies from 'js-cookie'
 import dynamic from 'next/dynamic'
-import { Fragment, useMemo, useState } from 'react'
+import { Fragment, useMemo } from 'react'
+
+import { useCategorySheet } from '@/hooks'
 
 import { TypeUser, useGlobalState } from '@/libs/state'
 import { cn } from '@/libs/utils'
@@ -25,7 +27,8 @@ interface NavProps extends HeaderV2CategoryProps {
 const DynamicCategoryContentNav = dynamic(() => import('./HeaderV2CategoryContentNav'))
 
 export default function HeaderV2Nav({ parentCategory, parentCategoryItem, userInfo }: NavProps) {
-  const [open, setOpen] = useState(false)
+  const registerCategory = useCategorySheet()
+
   const initializeCategory = useMemo(() => {
     return parentCategory.map((category) => {
       const categoryItem = parentCategoryItem?.find((item) => item.id === category.id)
@@ -54,9 +57,9 @@ export default function HeaderV2Nav({ parentCategory, parentCategoryItem, userIn
 
   return (
     <>
-      <Bars3Icon className='w-7 cursor-pointer text-white h-7' onClick={() => setOpen(true)} />
-      <Transition appear show={open} as={Fragment}>
-        <Dialog as='div' className='relative z-10' onClose={() => setOpen(false)}>
+      <Bars3Icon className='w-7 cursor-pointer text-white h-7' onClick={registerCategory.onOpen} />
+      <Transition appear show={registerCategory.isOpen} as={Fragment}>
+        <Dialog as='div' className='relative z-10' onClose={registerCategory.onClose}>
           <Transition.Child
             as={Fragment}
             enter='ease-out duration-300'
@@ -81,7 +84,7 @@ export default function HeaderV2Nav({ parentCategory, parentCategoryItem, userIn
                 leaveTo='-translate-x-full opacity-0'
               >
                 <Dialog.Panel className='w-2/3 min-w-[275px] transform overflow-hidden bg-white p-4 text-left align-middle bsd transition-all'>
-                  <ChevronLeftIcon className='w-6 h-6 text-oby-676869' onClick={() => setOpen(false)} />
+                  <ChevronLeftIcon className='w-6 h-6 text-oby-676869' onClick={registerCategory.onClose} />
                   {!userInfo ? (
                     <OBYButton
                       asChild

@@ -11,7 +11,6 @@ interface BlogProps {
 }
 
 export default function Blog({ blog }: BlogProps) {
-  console.log(blog)
   return (
     <OBYLink
       className='flex @992:gap-4 gap-3'
