@@ -120,7 +120,7 @@ export default function BlogPage({ categories }: BlogPageProps) {
                     <div className='col-span-1' key={item.id}>
                       <OBYLink
                         className='flex flex-col'
-                        href={hrefPath.blog + '/' + item.url_key + '-' + item.id}
+                        href={hrefPath.blog + '/' + item.url_key + '-' + item.post_id}
                         title={item.name}
                       >
                         <div className='relative rounded-4 border border-oby-green overflow-hidden w-full @768:h-[142px] h-[180px]'>

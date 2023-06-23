@@ -8,11 +8,11 @@ import App from 'next/app'
 import dynamic from 'next/dynamic'
 import { Inter } from 'next/font/google'
 import Head from 'next/head'
-import Script from 'next/script'
 import NextNProgress from 'nextjs-progressbar'
 import { Fragment, useEffect, useMemo } from 'react'
 import { Toaster } from 'react-hot-toast'
 
+/* import { useMediaQuery } from '@/hooks' */
 import { useGlobalState } from '@/libs/state'
 import twclsx from '@/libs/twclsx'
 
@@ -39,6 +39,8 @@ const queryClient = new QueryClient({
 })
 
 function OBYApp({ Component, pageProps, router }: AppProps) {
+  /* const isMedium = useMediaQuery('(min-width:992px)') */
+
   const [, setGuestCartId] = useGlobalState('guestCartId')
   const [, setUser] = useGlobalState('user')
   const [, setToken] = useGlobalState('token')
@@ -101,14 +103,14 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
         <OBYLink
           href='http://zalo.me/0822088079'
           title='Zalo'
-          className='fixed bottom-[160px] flex items-center w-[64px] h-[64px] z-10 right-6'
+          className='fixed bottom-20 flex items-center w-[64px] h-[64px] z-10 right-6'
         >
           <OBYImage src='/images/icons8-zalo.svg' display='responsive' alt='Zalo' />
         </OBYLink>
         <OBYLink
           href='https://m.me/104621909153569'
           title='Messenger'
-          className='fixed bottom-[90px] flex items-center justify-center bg-white rounded-full w-[60px] h-[60px] z-10 right-6'
+          className='fixed bottom-5 flex items-center justify-center bg-white rounded-full w-[60px] h-[60px] z-10 right-6'
         >
           <OBYImage src='/images/icons8-facebook-messenger.svg' display='responsive' alt='Messenger' />
         </OBYLink>
@@ -124,7 +126,7 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
         />
 
         {/* TawkTo Extension */}
-        <Script id='tawk' strategy='lazyOnload'>
+        {/* <Script id='tawk' strategy='lazyOnload'>
           {`
             var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
             (function(){
@@ -136,7 +138,7 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
               s0.parentNode.insertBefore(s1,s0);
               })();
         `}
-        </Script>
+        </Script> */}
         <Analytics />
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
