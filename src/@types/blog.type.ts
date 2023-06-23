@@ -9,6 +9,7 @@ export interface BlogListResponse {
   last_page: number
 }
 export interface Blog {
+  post_id?: string
   id: number
   name: string
   short_description: string
