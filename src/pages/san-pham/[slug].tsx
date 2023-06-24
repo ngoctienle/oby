@@ -255,7 +255,7 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
     if (reviewRes) {
       return reviewRes.data.filter((review) => {
         const rating = review.ratings[0].value
-        return rating >= 4
+        return rating >= 4 && review.review_status === 1
       })
     }
     return []
@@ -265,7 +265,12 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
     if (!filteredReviews || filteredReviews.length === 0) {
       return 0
     }
-    const totalRating = filteredReviews.reduce((sum, review) => sum + review.ratings[0].value, 0)
+    const totalRating = filteredReviews.reduce((sum, review) => {
+      if (review.review_status === 1) {
+        return sum + review.ratings[0].value
+      }
+      return sum
+    }, 0)
     const averageRating = totalRating / filteredReviews.length
 
     return averageRating
@@ -281,14 +286,16 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
     }
 
     filteredReviews.forEach((review) => {
-      const ratingValue = review.ratings[0].value
+      if (review.review_status === 1) {
+        const ratingValue = review.ratings[0].value
 
-      if (ratingStats[ratingValue]) {
-        ratingStats[ratingValue].count++
+        if (ratingStats[ratingValue]) {
+          ratingStats[ratingValue].count++
+        }
       }
     })
 
-    const totalRatings = filteredReviews.length
+    const totalRatings = filteredReviews.filter((review) => review.review_status === 1).length
 
     for (const ratingValue in ratingStats) {
       const count = ratingStats[ratingValue].count
@@ -379,29 +386,35 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
     if (filteredReviews && filteredReviews.length > 4 && showFullReview === false) {
       return (
         <div className='@992:columns-2 columns-1 gap-6 space-y-7'>
-          {splicedReviews?.map((item) => (
-            <Review
-              key={item.id}
-              name={item.nickname}
-              date={item.created_at}
-              rate={item.ratings[0].value}
-              description={item.detail}
-            />
-          ))}
+          {splicedReviews?.map((item) => {
+            if (item.review_status === 1)
+              return (
+                <Review
+                  key={item.id}
+                  name={item.nickname}
+                  date={item.created_at}
+                  rate={item.ratings[0].value}
+                  description={item.detail}
+                />
+              )
+          })}
         </div>
       )
     } else {
       return (
         <div className='@992:columns-2 columns-1 gap-6 space-y-7'>
-          {filteredReviews?.map((item) => (
-            <Review
-              key={item.id}
-              name={item.nickname}
-              date={item.created_at}
-              rate={item.ratings[0].value}
-              description={item.detail}
-            />
-          ))}
+          {filteredReviews?.map((item) => {
+            if (item.review_status === 1)
+              return (
+                <Review
+                  key={item.id}
+                  name={item.nickname}
+                  date={item.created_at}
+                  rate={item.ratings[0].value}
+                  description={item.detail}
+                />
+              )
+          })}
         </div>
       )
     }
