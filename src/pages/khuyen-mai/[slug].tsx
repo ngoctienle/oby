@@ -182,10 +182,17 @@ const DetailDiscountPage: React.FC<IDetailProps> = ({ id, category }) => {
         {renderContent()}
         <div className='@992:pt-20 pt-10'>
           <h2 className='@992:text-[32px] fs-24 font-semibold mb-4 text-center'>SẢN PHẨM BÁN CHẠY</h2>
-          <p className='text-center max-w-[772px] mx-auto'>
-            Bổ sung dinh dưỡng, tăng cường sức khỏe, hỗ trợ chức năng cơ thể, phòng ngừa bệnh tật, kết hợp vitamin,
-            khoáng chất.
-          </p>
+          {Number(id) === 19 ? (
+            <p className='text-center max-w-[772px] mx-auto'>
+              Bổ sung dinh dưỡng, tăng cường sức khỏe, hỗ trợ chức năng cơ thể, phòng ngừa bệnh tật, kết hợp vitamin,
+              khoáng chất.
+            </p>
+          ) : (
+            <p className='text-center max-w-[772px] mx-auto'>
+              Tinh chất nhân sâm cao cấp đạt tiêu chuẩn, giúp bồi bổ sức khỏe, tăng năng lượng, hỗ trợ chống lão hóa và
+              tốt cho tim mạch.
+            </p>
+          )}
         </div>
         {/* Product List Related with Category */}
         <div className='@992:mt-5 mt-4 grid @992:grid-cols-4 @768:grid-cols-3 grid-cols-2 @992:gap-10 gap-5'>
