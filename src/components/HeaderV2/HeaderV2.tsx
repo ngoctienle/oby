@@ -103,7 +103,7 @@ export default function HeaderV2({ font, isFocus, user, guestCartId, cartId, tok
               <HeaderV2Search />
               <div className='flex space-x-3.5'>
                 <OBYButton asChild variant='ghost' size='ghost' className='flex flex-col items-center'>
-                  <OBYLink href={hrefPath.home} title='Ưu đãi'>
+                  <OBYLink href={hrefPath.discount} title='Ưu đãi'>
                     <div className='relative'>
                       <GiftIcon className='w-7 h-7 text-white' strokeWidth={1} />
                       <p className='absolute flex items-center justify-center -top-0.5 -right-1 w-4.5 h-4.5 fs-10 bg-oby-orange text-white rounded-full'>

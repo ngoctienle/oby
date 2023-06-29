@@ -69,8 +69,16 @@ const AppRouting = () => {
               <p className='font-medium @520:fs-12 fs-10'>Giỏ hàng</p>
             </OBYLink>
           </OBYButton>
-          <OBYButton variant={'ghost'} size={'ghost'} asChild className='flex flex-col items-center text-oby-676869'>
-            <OBYLink href={hrefPath.home}>
+          <OBYButton
+            variant={'ghost'}
+            size={'ghost'}
+            asChild
+            className={cn(
+              'flex flex-col items-center',
+              router.pathname === hrefPath.discount ? 'text-oby-primary' : 'text-oby-676869'
+            )}
+          >
+            <OBYLink href={hrefPath.discount}>
               <HiOutlineTicket size={24} />
               <p className='font-medium @520:fs-12 fs-10'>Khuyến mãi</p>
             </OBYLink>
