@@ -14,7 +14,7 @@ import productApi from '@/apis/magento/product.api'
 import { cacheTime } from '@/constants/config.constant'
 import { hrefPath } from '@/constants/href.constant'
 
-import { OBYButton, OBYLink } from '@/components/UI/Element'
+import { OBYButton, OBYImage, OBYLink } from '@/components/UI/Element'
 
 const DynamicProduct = dynamic(() => import('@/components/Product'), { ssr: false })
 
@@ -43,6 +43,32 @@ export default function ProductList({ category, subcategory, categoryID }: Produ
 
   return (
     <>
+      {categoryID === 19 && (
+        <OBYLink
+          href={`${hrefPath.discount}/giam-gia-10-cho-tat-ca-cac-san-pham-thuc-pham-chuc-nang`}
+          className='w-full block rounded-4 relative h-0 pb-[20%] overflow-hidden mb-4'
+        >
+          <OBYImage
+            src='/images/discount-thuc-pham-cn.png'
+            alt='Giảm giá Thực phẩm chức năng'
+            display='responsive'
+            className='absolute object-contain'
+          />
+        </OBYLink>
+      )}
+      {categoryID === 21 && (
+        <OBYLink
+          href={`${hrefPath.discount}/giam-gia-15-cho-tat-ca-cac-san-pham-tu-nhan-sam`}
+          className='w-full block rounded-4 relative h-0 pb-[20%] overflow-hidden mb-4'
+        >
+          <OBYImage
+            src='/images/discount-nhan-sam.png'
+            alt='Giảm giá Thực phẩm chức năng'
+            display='responsive'
+            className='absolute object-contain'
+          />
+        </OBYLink>
+      )}
       {/* Category Name */}
       <OBYButton variant='link' size='link' asChild className='flex items-center mb-4 gap-2'>
         <OBYLink href={`${hrefPath.catePage}/${createSlug(category)}-${categoryID}`}>

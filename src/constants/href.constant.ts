@@ -9,5 +9,6 @@ export const hrefPath = {
   resultPurchase: '/ket-qua-thanh-toan',
   find: '/ket-qua-tim-kiem',
   catePage: '/danh-muc',
-  forgotPw: '/quen-mat-khau'
+  forgotPw: '/quen-mat-khau',
+  discount: '/khuyen-mai'
 } as const
