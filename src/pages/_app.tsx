@@ -106,14 +106,14 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
         <OBYLink
           href='http://zalo.me/0822088079'
           title='Zalo'
-          className='fixed @992:bottom-20 bottom-[142px] flex items-center w-[64px] h-[64px] z-10 right-6'
+          className='fixed @992:bottom-20 bottom-[135px] flex items-center @992:w-[64px] w-[55px] @992:h-[64px] h-[55px] z-10 right-4'
         >
           <OBYImage src='/images/icons8-zalo.svg' display='responsive' alt='Zalo' />
         </OBYLink>
         <OBYLink
           href='https://m.me/104621909153569'
           title='Messenger'
-          className='fixed @992:bottom-5 bottom-[82px] flex items-center justify-center bg-white rounded-full w-[60px] h-[60px] z-10 right-6'
+          className='fixed @992:bottom-5 bottom-[80px] flex items-center justify-center bg-white rounded-full @992:w-[60px] w-[52px] @992:h-[60px] h-[52px] z-10 right-4'
         >
           <OBYImage src='/images/icons8-facebook-messenger.svg' display='responsive' alt='Messenger' />
         </OBYLink>
