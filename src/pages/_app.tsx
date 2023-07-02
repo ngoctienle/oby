@@ -144,17 +144,14 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
               })();
         `}
         </Script> */}
-        <Script
-          strategy='lazyOnload'
-          src={`ttps://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID}`}
-        />
+        <Script strategy='lazyOnload' src={`https://www.googletagmanager.com/gtag/js?id=G-5RMX2W4NKT`} />
         <Script id='GA' strategy='lazyOnload'>
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
           
-            gtag('config', ${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID});          
+            gtag('config', 'G-5RMX2W4NKT');          
           `}
         </Script>
         <Analytics />
