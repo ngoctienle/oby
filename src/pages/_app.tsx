@@ -8,6 +8,7 @@ import App from 'next/app'
 import dynamic from 'next/dynamic'
 import { Inter } from 'next/font/google'
 import Head from 'next/head'
+import Script from 'next/script'
 import NextNProgress from 'nextjs-progressbar'
 import { Fragment, useEffect, useMemo } from 'react'
 import { Toaster } from 'react-hot-toast'
@@ -143,6 +144,19 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
               })();
         `}
         </Script> */}
+        <Script
+          strategy='lazyOnload'
+          src={`ttps://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID}`}
+        />
+        <Script id='GA' strategy='lazyOnload'>
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+          
+            gtag('config', ${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID});          
+          `}
+        </Script>
         <Analytics />
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
