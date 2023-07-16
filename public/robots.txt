@@ -2,5 +2,3 @@ User-agent: *
 
 Allow: /
 Disallow: /api/*
-
-Sitemap: https://123tyso.com/vn/sitemap.xml
