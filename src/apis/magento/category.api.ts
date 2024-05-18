@@ -8,12 +8,7 @@ const categoryApi = {
   },
   GetAttrCategoryById(id: string) {
     return magentoAPI.get<CategoryResponse>(
-      `V1/categories/list?searchCriteria[filterGroups][0][filters][0][field]=entity_id&searchCriteria[filterGroups][0][filters][0][value]=${id}&searchCriteria[filterGroups][0][filters][0][conditionType]=in`,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRECT_TOKEN}`
-        }
-      }
+      `V1/categories/list?searchCriteria[filterGroups][0][filters][0][field]=entity_id&searchCriteria[filterGroups][0][filters][0][value]=${id}&searchCriteria[filterGroups][0][filters][0][conditionType]=in`
     )
   },
   GetCategoryNameById(id: string) {
