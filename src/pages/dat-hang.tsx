@@ -242,10 +242,10 @@ export default function OrderPage({
 
   useEffect(() => {
     if (districtsData) {
-      setDistrictArr(districtsData.data.districts)
+      setDistrictArr(districtsData)
     }
     if (wardsData) {
-      setWardArr(wardsData.data.wards)
+      setWardArr(wardsData)
     }
     if (billing?.city && billing?.region && billing?.street.length > 0) {
       if (!selectedProvine && !selectedDistrict && !selectedWard) {
@@ -1379,7 +1379,7 @@ export default function OrderPage({
 
 export const getServerSideProps: GetServerSideProps<IOrderPage> = async (context) => {
   const userToken = context.req.cookies.token
-  const { data: provines } = await GeoAPI.GetProvine()
+  const provines = await GeoAPI.GetProvine()
 
   if (userToken) {
     const { data } = await cartApi.GetCart(userToken as string)
