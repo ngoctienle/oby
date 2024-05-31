@@ -251,10 +251,12 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
     enabled: Boolean(slug)
   })
 
+  console.log(reviewRes)
+
   const filteredReviews = useMemo(() => {
     if (reviewRes) {
       return reviewRes.data.filter((review) => {
-        const rating = review.ratings[0].value
+        const rating = review.ratings[0]?.value
         return rating >= 4 && review.review_status === 1
       })
     }
@@ -267,7 +269,7 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
     }
     const totalRating = filteredReviews.reduce((sum, review) => {
       if (review.review_status === 1) {
-        return sum + review.ratings[0].value
+        return sum + review.ratings[0]?.value
       }
       return sum
     }, 0)
