@@ -1,5 +1,6 @@
+import { AGRMagnifyingGlassIcon } from '../UI/AGRIcons'
 import { OBYImage, OBYLink } from '../UI/Element'
-import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { XMarkIcon } from '@heroicons/react/24/outline'
 import { useQuery } from '@tanstack/react-query'
 import DOMPurify from 'isomorphic-dompurify'
 import { useEffect, useRef, useState } from 'react'
@@ -112,13 +113,13 @@ export default function HeaderV2Search() {
   return (
     <form
       onSubmit={handleSubmitSearch}
-      className='@992:relative flex items-center flex-grow border bg-white border-oby-DFDFDF rounded-tl-4 rounded-br-4 h-11 @992:px-6 px-3'
+      className='max-w-md @992:relative flex items-center flex-grow border bg-white border-oby-DFDFDF rounded-4 h-11 @992:px-6 px-3'
     >
       <input
         ref={inputRef}
         type='text'
         name='name'
-        placeholder='Bạn tìm gì hôm nay'
+        placeholder='Bạn tìm gì hôm nay ?'
         className='outline-none w-full placeholder:text-oby-9A9898 placeholder:fs-14 @992:placeholder:fs-16'
         onChange={handleTyping}
         value={searchStr}
@@ -126,7 +127,7 @@ export default function HeaderV2Search() {
       {searchStr !== '' ? (
         <XMarkIcon className='w-4.5 h-4.5 text-oby-676869 cursor-pointer' onClick={() => setSearchStr('')} />
       ) : (
-        <MagnifyingGlassIcon className='w-4.5 h-4.5 text-oby-676869' />
+        <AGRMagnifyingGlassIcon className='w-6 h-6 text-oby-676869' />
       )}
       {debounceSearchStr !== '' && isOpen && (
         <div

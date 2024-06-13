@@ -68,11 +68,11 @@ export default function Product({ data }: ProductProps) {
   }
 
   return (
-    <div className='flex group flex-col'>
+    <div className='flex group flex-col bg-white pb-3 rounded-2'>
       <OBYLink
         href={`${hrefPath.productDetail}/${data.sku}`}
         title={data.name}
-        className='overflow-hidden relative w-full border bg-white border-oby-primary @768:pt-[56%] pt-[70%] @992:rounded-4 rounded-2.5'
+        className='overflow-hidden relative w-full bg-white @768:pt-[56%] pt-[70%]'
       >
         <OBYImage
           src={generateProductImageFromMagento(data.custom_attributes)}
@@ -82,25 +82,35 @@ export default function Product({ data }: ProductProps) {
           className='object-cover group-hover:scale-110 transition-all'
         />
         {isHaveDiscount(data.custom_attributes) && (
-          <p className='absolute bg-oby-red text-white px-1.5 py-0.5 top-4 fs-14 rounded-tr-2 rounded-br-2 left-0'>
-            {getDiscountPercent(data.custom_attributes)}
-          </p>
+          <div className='absolute top-0 right-4'>
+            <p className='text-white fs-14 bg-oby-red w-9 h-6 py-0.5 relative text-center line-br'>
+              {getDiscountPercent(data.custom_attributes)}
+            </p>
+            <svg
+              className='absolute -bottom-3'
+              width='36'
+              height='13'
+              viewBox='0 0 36 13'
+              fill='none'
+              xmlns='http://www.w3.org/2000/svg'
+            >
+              <path d='M0 0H36V13L18.5 4.55L0 13V0Z' fill='#E43641' />
+            </svg>
+          </div>
         )}
       </OBYLink>
       <OBYLink
         href={`${hrefPath.productDetail}/${data.sku}`}
         title={data.name}
-        className='@992:h-11 h-9 fs-14 @992:fs-16 @992:leading-[140%] leading-[18.4px] @992:mt-3.5 mt-2 line-clamp-2'
+        className='px-4 @992:h-11 h-9 fs-14 @992:fs-16 @992:leading-[140%] leading-[18.4px] @992:mt-3.5 mt-2 line-clamp-2 @992:font-semibold font-normal'
       >
         {data.name}
       </OBYLink>
-      <div className='flex items-center justify-between @992:mt-1 mt-1.5'>
+      <div className='flex items-center justify-between @992:mt-1 mt-1.5 px-4'>
         {isHaveDiscount(data.custom_attributes) ? (
           <>
-            <div className='flex @992:flex-row flex-col @992:items-center items-start @992:gap-2.5 gap-0.75'>
-              <p className='@992:font-bold font-semibold fs-16 text-oby-primary'>
-                {getDiscount(data.custom_attributes)}
-              </p>
+            <div className='flex flex-col items-start gap-0.75'>
+              <p className='font-semibold fs-16 text-oby-primary'>{getDiscount(data.custom_attributes)}</p>
               <p className='@992:fs-16 fs-12 text-oby-676869 line-through'>{formatCurrency(data.price)}</p>
             </div>
             <AddCartButton
@@ -110,7 +120,7 @@ export default function Product({ data }: ProductProps) {
           </>
         ) : (
           <>
-            <p className='@992:font-bold font-semibold fs-16 text-oby-primary'>{formatCurrency(data.price)}</p>
+            <p className='font-semibold fs-16 text-oby-primary'>{formatCurrency(data.price)}</p>
             <AddCartButton
               onClick={handleAddToCart}
               isLoading={!token ? addToCartMutation.isLoading : addToCartMineMutation.isLoading}

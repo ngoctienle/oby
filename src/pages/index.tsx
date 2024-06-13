@@ -17,7 +17,7 @@ import { cacheTime } from '@/constants/config.constant'
 
 import Banner from '@/components/Banner'
 import DynamicLoading from '@/components/DynamicLoading'
-import ProductSuggest from '@/components/ProductSuggest'
+// import SaleProduct from '@/components/SaleProduct'
 import { OBYImage, OBYLink } from '@/components/UI/Element'
 import { OBYSeo } from '@/components/UI/OBYSeo'
 
@@ -89,7 +89,8 @@ export default function Home() {
       <OBYSeo {...meta} />
       <Banner />
       <HomeLayout>
-        <ProductSuggest />
+        {/* <ProductSuggest /> */}
+        {/* <SaleProduct /> */}
 
         {/* Suggest Category */}
         <h2 className='@992:fs-26 hidden @992:block fs-20 text-oby-green font-bold mb-5'>Mua sắm theo danh mục</h2>

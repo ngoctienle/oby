@@ -25,6 +25,7 @@ import cartApi from '@/apis/magento/cart.api'
 import AppRouting from '@/components/AppRouting'
 import HeaderV2 from '@/components/HeaderV2'
 import { OBYImage, OBYLink } from '@/components/UI/Element'
+import { HeaderAds } from '@/components/UI/OBYAds'
 
 const DynamicFooter = dynamic(() => import('@/components/Footer'), { ssr: false })
 const DynamicToTopButton = dynamic(() => import('@/components/UI/Button/ToTopButton'), { ssr: false })
@@ -92,7 +93,6 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
       </Head>
       <QueryClientProvider client={queryClient}>
         <NextNProgress height={2} startPosition={0.3} stopDelayMs={200} showOnShallow={true} color='#FFFFFF' />
-        {/* <HeaderAds /> */}
         <HeaderV2
           font={inter}
           isFocus={isAuth}
@@ -101,6 +101,7 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
           cartId={pageProps.cartId || null}
           token={pageProps.userToken || null}
         />
+        <HeaderAds />
         <main className={inter.className} onClick={registerFocus.outFocus}>
           <Component {...pageProps} />
         </main>
