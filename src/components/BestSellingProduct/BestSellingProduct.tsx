@@ -1,6 +1,7 @@
 import Product from '../Product'
 import GradientButton from '../UI/GradientButton'
 import { useQuery } from '@tanstack/react-query'
+import React from 'react'
 import { Autoplay, EffectFade, Lazy, Pagination } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
@@ -10,23 +11,20 @@ import productApi from '@/apis/magento/product.api'
 
 import { cacheTime } from '@/constants/config.constant'
 
-export default function SaleProduct() {
+export const BestSellingProduct = () => {
   const isMedium = useMediaQuery('(min-width:992px)')
 
-  const { data: saleProduct, isLoading } = useQuery({
-    queryKey: ['saleProduct'],
+  const { data: bestSellingProduct, isLoading } = useQuery({
+    queryKey: ['bestSellingProduct'],
     queryFn: () => productApi.GetProductByCategoryID(20, '1', '9'),
     staleTime: cacheTime.halfHours
   })
 
   return (
-    <div className='bg-[#F6F6F6]'>
-      <div className='container py-7 flex flex-col items-center'>
-        <div className='flex flex-col items-center'>
-          <h2 className='fs-14 text-oby-primary mb-1'>DANH MỤC</h2>
-          <p className='fs-26 font-bold mb-2'>KHUYẾN MÃI SỐC</p>
-          <p className='fs-14 text-black mb-2'>KẾT THÚC TRONG</p>
-        </div>
+    <div className='bg-white'>
+      <div className='container pt-8 pb-4 flex flex-col items-center'>
+        <h2 className='text-oby-primary fs-14 font-normal'>SẢN PHẨM</h2>
+        <p className='text-[#222324] fs-26 font-bold mt-2'>TOP SẢN PHẨM BÁN CHẠY</p>
         <Swiper
           lazy={true}
           slidesPerView={2}
@@ -50,10 +48,10 @@ export default function SaleProduct() {
             }
           }}
           modules={[Pagination, Lazy, EffectFade, Autoplay]}
-          className='suggestProduct @992:my-[30px] my-4 '
+          className='suggestProduct @992:my-[30px] my-4'
         >
-          {saleProduct && !isLoading ? (
-            saleProduct.data.items.map((item) => {
+          {bestSellingProduct && !isLoading ? (
+            bestSellingProduct.data.items.map((item) => {
               return (
                 <SwiperSlide key={item.id}>
                   <Product data={item} />
@@ -85,7 +83,7 @@ export default function SaleProduct() {
             </div>
           )}
         </Swiper>
-        <GradientButton url={'/'} btnText='Xem tất cả' />
+        <GradientButton url='/' btnText='XEM TẤT CẢ' />
       </div>
     </div>
   )

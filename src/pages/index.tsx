@@ -1,24 +1,25 @@
 import HomeLayout from '@/layouts/HomeLayout'
-import { ChevronRightIcon } from '@heroicons/react/24/outline'
 import { useQuery } from '@tanstack/react-query'
 import dynamic from 'next/dynamic'
 import { useMemo } from 'react'
-import { Link as ScrollHandler, Element as TriggerScroll } from 'react-scroll'
+import { Element as TriggerScroll } from 'react-scroll'
 
 import { ItemWithAttribute } from '@/@types/category.type'
 
 import { generateMetaSEO } from '@/libs/seo'
 
-import { generateCategoryImageFromMagento, getIDListCategoryAsString, getParentCategory } from '@/helpers/category'
+import { getIDListCategoryAsString, getParentCategory } from '@/helpers/category'
 
 import categoryApi from '@/apis/magento/category.api'
 
 import { cacheTime } from '@/constants/config.constant'
 
 import Banner from '@/components/Banner'
+import BestSellingProduct from '@/components/BestSellingProduct'
+import CategoriesShop from '@/components/CategoriesShop'
 import DynamicLoading from '@/components/DynamicLoading'
-// import SaleProduct from '@/components/SaleProduct'
-import { OBYImage, OBYLink } from '@/components/UI/Element'
+// import ProductSuggest from '@/components/ProductSuggest'
+import SaleProduct from '@/components/SaleProduct'
 import { OBYSeo } from '@/components/UI/OBYSeo'
 
 const DynamicProductList = dynamic(() => import('@/components/ProductList'), {
@@ -89,11 +90,15 @@ export default function Home() {
       <OBYSeo {...meta} />
       <Banner />
       <HomeLayout>
+        {/* new ui */}
+        <SaleProduct />
+        <CategoriesShop />
+        <BestSellingProduct />
         {/* <ProductSuggest /> */}
-        {/* <SaleProduct /> */}
+        {/* new ui */}
 
         {/* Suggest Category */}
-        <h2 className='@992:fs-26 hidden @992:block fs-20 text-oby-green font-bold mb-5'>Mua sắm theo danh mục</h2>
+        {/* <h2 className='@992:fs-26 hidden @992:block fs-20 text-oby-green font-bold mb-5'>Mua sắm theo danh mục</h2>
         <div className='@992:hidden flex justify-between items-center mb-5'>
           <h2 className='fs-20 text-oby-green font-bold'>Danh mục</h2>
           <div className='flex items-center justify-center gap-1.5'>
@@ -137,7 +142,7 @@ export default function Home() {
                 })}
             </div>
           </div>
-        </div>
+        </div> */}
         {/* Product List */}
         <div id='product-list-wrap'>
           {initializeCategory.length > 0 &&

@@ -68,11 +68,11 @@ export default function Product({ data }: ProductProps) {
   }
 
   return (
-    <div className='flex group flex-col bg-white pb-3 rounded-2'>
+    <div className='flex group flex-col bg-white pb-3 rounded-2 border border-[#F6F6F6]'>
       <OBYLink
         href={`${hrefPath.productDetail}/${data.sku}`}
         title={data.name}
-        className='overflow-hidden relative w-full bg-white @768:pt-[56%] pt-[70%]'
+        className='overflow-hidden relative w-full bg-white @768:pt-[56%] pt-[70%] rounded-t-2'
       >
         <OBYImage
           src={generateProductImageFromMagento(data.custom_attributes)}
