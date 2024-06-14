@@ -10,7 +10,7 @@ import { Inter } from 'next/font/google'
 import Head from 'next/head'
 import Script from 'next/script'
 import NextNProgress from 'nextjs-progressbar'
-import { Fragment, useEffect, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { Toaster } from 'react-hot-toast'
 
 import { useFocusInput, useMediaQuery } from '@/hooks'
@@ -87,7 +87,7 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
   }, [router.pathname])
 
   return (
-    <Fragment>
+    <div className='bg-[#F6F6F6]'>
       <Head>
         <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1' />
       </Head>
@@ -102,6 +102,7 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
           token={pageProps.userToken || null}
         />
         <HeaderAds />
+
         <main className={inter.className} onClick={registerFocus.outFocus}>
           <Component {...pageProps} />
         </main>
@@ -158,7 +159,7 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
         <Analytics />
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
-    </Fragment>
+    </div>
   )
 }
 

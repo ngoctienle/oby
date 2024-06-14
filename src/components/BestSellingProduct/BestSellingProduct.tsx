@@ -22,7 +22,7 @@ export const BestSellingProduct = () => {
 
   return (
     <div className='bg-white'>
-      <div className='container pt-8 pb-4 flex flex-col items-center'>
+      <div className='container pt-8 pb-4 flex flex-col @992:items-center'>
         <h2 className='text-oby-primary fs-14 font-normal'>SẢN PHẨM</h2>
         <p className='text-[#222324] fs-26 font-bold mt-2'>TOP SẢN PHẨM BÁN CHẠY</p>
         <Swiper
@@ -83,7 +83,7 @@ export const BestSellingProduct = () => {
             </div>
           )}
         </Swiper>
-        <GradientButton url='/' btnText='XEM TẤT CẢ' />
+        <GradientButton url='/' btnText='XEM TẤT CẢ' customClass='self-center' />
       </div>
     </div>
   )

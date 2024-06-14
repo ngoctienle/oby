@@ -26,7 +26,7 @@ export const CategoriesShop = () => {
     <div className='bg-white'>
       <div className='container pt-8'>
         <div className=' flex flex-row items-center gap-6'>
-          <div className='w-1/3 flex-shrink-0 py-7'>
+          <div className='@992:block @992:w-1/3 @992:flex-shrink-0 @992:py-7 hidden'>
             <p className='text-oby-primary fs-14 font-normal'>MUA SẮM THEO</p>
             <p className='text-[#222324] fs-26 font-bold'>DANH MỤC SẢN PHẨM</p>
             <div className='flex flex-row items-center gap-2 mt-4'>
@@ -54,7 +54,7 @@ export const CategoriesShop = () => {
             </div>
           </div>
         </div>
-        <div className=' flex flex-row items-center gap-6'>
+        <div className='@992:flex @992:flex-row items-center @992:gap-6 hidden'>
           <div className='w-1/3 flex-shrink-0 mt-14 relative'>
             <Image
               priority

@@ -8,7 +8,7 @@ export const HeaderAds: React.FunctionComponent = () => {
         title='ads'
         src='/images/agr-ads-header.png'
         display='responsive'
-        className='object-contain'
+        className='@992:object-none object-cover'
       />
     </div>
   )

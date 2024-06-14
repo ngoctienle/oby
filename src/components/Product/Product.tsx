@@ -18,9 +18,10 @@ import { OBYImage, OBYLink } from '@/components/UI/Element'
 
 interface ProductProps {
   data: ProductType
+  isHorizontal?: boolean
 }
 
-export default function Product({ data }: ProductProps) {
+export default function Product({ data, isHorizontal = false }: ProductProps) {
   const [guestCartId] = useGlobalState('guestCartId')
   const [cartId] = useGlobalState('cartId')
   const [token] = useGlobalState('token')
@@ -67,7 +68,44 @@ export default function Product({ data }: ProductProps) {
     return null
   }
 
-  return (
+  return isHorizontal ? (
+    <div className='border-b-[1px] border-oby-DFDFDF flex flex-row items-center gap-4 py-6'>
+      <OBYLink
+        href={`${hrefPath.productDetail}/${data.sku}`}
+        title={data.name}
+        className='w-16 h-16 relative bg-white '
+      >
+        <OBYImage
+          src={generateProductImageFromMagento(data.custom_attributes)}
+          alt={data.name}
+          title={data.name}
+          display='responsive'
+          className='object-cover rounded-2'
+        />
+      </OBYLink>
+      <div className='flex-grow flex flex-col'>
+        <OBYLink href={`${hrefPath.productDetail}/${data.sku}`} title={data.name} className='h-11 fs-16 font-semibold'>
+          {data.name}
+        </OBYLink>
+        <div className='flex flex-row items-center gap-2'>
+          {isHaveDiscount(data.custom_attributes) ? (
+            <>
+              <p className='font-bold fs-18 text-oby-primary'>{getDiscount(data.custom_attributes)}</p>
+              <p className='fs-12 text-oby-676869 line-through'>{formatCurrency(data.price)}</p>
+            </>
+          ) : (
+            <p className='font-bold fs-18 text-oby-primary'>{formatCurrency(data.price)}</p>
+          )}
+        </div>
+      </div>
+      <div className='w-12 h-9'>
+        <AddCartButton
+          onClick={handleAddToCart}
+          isLoading={!token ? addToCartMutation.isLoading : addToCartMineMutation.isLoading}
+        />
+      </div>
+    </div>
+  ) : (
     <div className='flex group flex-col bg-white pb-3 rounded-2 border border-[#F6F6F6]'>
       <OBYLink
         href={`${hrefPath.productDetail}/${data.sku}`}
@@ -110,8 +148,8 @@ export default function Product({ data }: ProductProps) {
         {isHaveDiscount(data.custom_attributes) ? (
           <>
             <div className='flex flex-col items-start gap-0.75'>
-              <p className='font-semibold fs-16 text-oby-primary'>{getDiscount(data.custom_attributes)}</p>
-              <p className='@992:fs-16 fs-12 text-oby-676869 line-through'>{formatCurrency(data.price)}</p>
+              <p className='font-bold fs-18 text-oby-primary'>{getDiscount(data.custom_attributes)}</p>
+              <p className='fs-12 text-oby-676869 line-through'>{formatCurrency(data.price)}</p>
             </div>
             <AddCartButton
               onClick={handleAddToCart}
@@ -120,7 +158,7 @@ export default function Product({ data }: ProductProps) {
           </>
         ) : (
           <>
-            <p className='font-semibold fs-16 text-oby-primary'>{formatCurrency(data.price)}</p>
+            <p className='font-bold fs-18 text-oby-primary'>{formatCurrency(data.price)}</p>
             <AddCartButton
               onClick={handleAddToCart}
               isLoading={!token ? addToCartMutation.isLoading : addToCartMineMutation.isLoading}

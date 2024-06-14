@@ -87,7 +87,7 @@ export default function HeaderV2({ font, isFocus, user, guestCartId, cartId, tok
         <div className='container h-full flex flex-row justify-between items-center'>
           <p className='text-white text-xs font-normal'>Chào mừng bạn đến với chúng tôi</p>
           <div className='flex flex-row justify-between items-center gap-6'>
-            <div className='flex flex-row justify-between items-center gap-1'>
+            <div className='hidden @992:flex flex-row justify-between items-center gap-1'>
               <MapPinIcon className='h-4 w-4 text-[#FFE500]' />
               <p className='text-white text-xs font-normal'>47 Đ. Lê Duẩn, P. Bến Nghé, Q.1, TP. HCM</p>
             </div>

@@ -15,7 +15,7 @@ interface FooterProps {
 
 export default function Footer({ font }: FooterProps) {
   return (
-    <footer className={twclsx(`${font.className}`, '@992:h-[500px] @520:h-[650px] h-[750px] relative')}>
+    <footer className={twclsx(`${font.className}`, '@992:h-[600px] @520:h-[700px] h-[800px] relative bg-white')}>
       <div className='absolute bottom-0 inset-x-0'>
         <div className='container'>
           <div className='flex @992:flex-row flex-col @992:gap-15 gap-7.5'>

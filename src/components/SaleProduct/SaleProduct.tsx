@@ -1,6 +1,7 @@
 import Product from '../Product'
 import GradientButton from '../UI/GradientButton'
 import { useQuery } from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
 import { Autoplay, EffectFade, Lazy, Pagination } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
@@ -13,11 +14,34 @@ import { cacheTime } from '@/constants/config.constant'
 export default function SaleProduct() {
   const isMedium = useMediaQuery('(min-width:992px)')
 
+  const [currentTime, setCurrentTime] = useState(new Date())
+
+  const targetTime = new Date('2024-06-16')
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentTime(new Date())
+    }, 1000)
+
+    return () => clearInterval(intervalId)
+  }, [])
+
   const { data: saleProduct, isLoading } = useQuery({
     queryKey: ['saleProduct'],
     queryFn: () => productApi.GetProductByCategoryID(20, '1', '9'),
     staleTime: cacheTime.halfHours
   })
+
+  const getRemainingTime = (): { hours: number; minutes: number; seconds: number } => {
+    const totalMs = targetTime.getTime() - currentTime.getTime()
+    const seconds = Math.floor((totalMs / 1000) % 60)
+    const minutes = Math.floor((totalMs / (1000 * 60)) % 60)
+    const hours = Math.floor(totalMs / (1000 * 60 * 60)) // Ensures maximum of 23 hours displayed
+
+    return { hours, minutes, seconds }
+  }
+
+  const { hours, minutes, seconds } = getRemainingTime()
 
   return (
     <div className='bg-[#F6F6F6]'>
@@ -26,6 +50,19 @@ export default function SaleProduct() {
           <h2 className='fs-14 text-oby-primary mb-1'>DANH MỤC</h2>
           <p className='fs-26 font-bold mb-2'>KHUYẾN MÃI SỐC</p>
           <p className='fs-14 text-black mb-2'>KẾT THÚC TRONG</p>
+          <div className='flex flex-row items-center gap-2 text-oby-primary'>
+            <div className='bg-oby-primary rounded-2 text-white w-[38px] h-[34px] flex justify-center flex-col items-center'>
+              {hours.toString().padStart(2, '0')}
+            </div>
+            :
+            <div className='bg-oby-primary rounded-2 text-white w-[38px] h-[34px] flex justify-center flex-col items-center'>
+              {minutes.toString().padStart(2, '0')}
+            </div>
+            :
+            <div className='bg-oby-primary rounded-2 text-white w-[38px] h-[34px] flex justify-center flex-col items-center'>
+              {seconds.toString().padStart(2, '0')}
+            </div>
+          </div>
         </div>
         <Swiper
           lazy={true}
