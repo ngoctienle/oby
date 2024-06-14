@@ -10,7 +10,7 @@ import { Inter } from 'next/font/google'
 import Head from 'next/head'
 import Script from 'next/script'
 import NextNProgress from 'nextjs-progressbar'
-import { Fragment, useEffect, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { Toaster } from 'react-hot-toast'
 
 import { useFocusInput, useMediaQuery } from '@/hooks'
@@ -25,6 +25,7 @@ import cartApi from '@/apis/magento/cart.api'
 import AppRouting from '@/components/AppRouting'
 import HeaderV2 from '@/components/HeaderV2'
 import { OBYImage, OBYLink } from '@/components/UI/Element'
+import { HeaderAds } from '@/components/UI/OBYAds'
 
 const DynamicFooter = dynamic(() => import('@/components/Footer'), { ssr: false })
 const DynamicToTopButton = dynamic(() => import('@/components/UI/Button/ToTopButton'), { ssr: false })
@@ -86,13 +87,12 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
   }, [router.pathname])
 
   return (
-    <Fragment>
+    <div className='bg-[#F6F6F6]'>
       <Head>
         <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1' />
       </Head>
       <QueryClientProvider client={queryClient}>
         <NextNProgress height={2} startPosition={0.3} stopDelayMs={200} showOnShallow={true} color='#FFFFFF' />
-        {/* <HeaderAds /> */}
         <HeaderV2
           font={inter}
           isFocus={isAuth}
@@ -101,6 +101,8 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
           cartId={pageProps.cartId || null}
           token={pageProps.userToken || null}
         />
+        <HeaderAds />
+
         <main className={inter.className} onClick={registerFocus.outFocus}>
           <Component {...pageProps} />
         </main>
@@ -157,7 +159,7 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
         <Analytics />
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
-    </Fragment>
+    </div>
   )
 }
 

@@ -1,12 +1,7 @@
+import { AGRCategoryIcon } from '../UI/AGRIcons'
 import { HeaderV2CategoryProps } from './HeaderV2Category'
 import { Dialog, Disclosure, Transition } from '@headlessui/react'
-import {
-  Bars3Icon,
-  ChevronDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  UserCircleIcon
-} from '@heroicons/react/24/outline'
+import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, UserCircleIcon } from '@heroicons/react/24/outline'
 import Cookies from 'js-cookie'
 import dynamic from 'next/dynamic'
 import { Fragment, useMemo } from 'react'
@@ -57,7 +52,10 @@ export default function HeaderV2Nav({ parentCategory, parentCategoryItem, userIn
 
   return (
     <>
-      <Bars3Icon className='w-7 cursor-pointer text-white h-7' onClick={registerCategory.onOpen} />
+      {/* <Bars3Icon className='w-7 cursor-pointer text-white h-7' onClick={registerCategory.onOpen} /> */}
+      <button className='w-7 h-7' onClick={registerCategory.onOpen}>
+        <AGRCategoryIcon className='w-6 h-6' stroke='#474747' />
+      </button>
       <Transition appear show={registerCategory.isOpen} as={Fragment}>
         <Dialog as='div' className='relative z-10' onClose={registerCategory.onClose}>
           <Transition.Child

@@ -1,9 +1,8 @@
+import { AGRPlusIcon, AGRShoppingBagIcon } from '../AGRIcons'
 import { AsyncButton, IAsyncButtonProps } from './AsyncButton'
 import { FC } from 'react'
 
 import { cn } from '@/libs/utils'
-
-import { OBYAddCartIcon } from '@/components/UI/OBYIcons'
 
 /* interface IAddCartButton extends OBYDefaultButton {
   isloading?: boolean
@@ -35,10 +34,11 @@ export const AddCartButton: FC<IAddCartButton> = ({ isLoading, ...props }) => {
     <AsyncButton
       isLoading={isLoading}
       variant='outlinePrimary'
-      className={cn('@992:h-[50px] h-10 @992:w-[50px] w-10')}
+      className={cn('@992:h-[50px] h-10 @992:w-[50px] w-10 bg-[#EBEBEB80] relative border-none')}
       {...props}
     >
-      <OBYAddCartIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary' />
+      <AGRShoppingBagIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary ' />
+      <AGRPlusIcon className='w-4 h-4 absolute top-3 right-2' />
     </AsyncButton>
   )
 }

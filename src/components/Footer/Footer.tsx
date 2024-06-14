@@ -15,14 +15,14 @@ interface FooterProps {
 
 export default function Footer({ font }: FooterProps) {
   return (
-    <footer className={twclsx(`${font.className}`, '@992:h-[500px] @520:h-[650px] h-[750px] relative')}>
+    <footer className={twclsx(`${font.className}`, '@992:h-[600px] @520:h-[700px] h-[800px] relative bg-white')}>
       <div className='absolute bottom-0 inset-x-0'>
         <div className='container'>
           <div className='flex @992:flex-row flex-col @992:gap-15 gap-7.5'>
             <div className='flex flex-col'>
               <OBYButton asChild variant='ghost' className={cn('py-0 w-[115px] h-[36px] relative mb-6')}>
-                <OBYLink href={hrefPath.home} title='Trang chủ Ông Bà Yêu'>
-                  <OBYImage src='/images/logo-primary.svg' display='responsive' alt='Ông Bà Yêu' />
+                <OBYLink href={hrefPath.home} title='Trang chủ AGRIAMAZING'>
+                  <OBYImage src='/images/new_logo.svg' display='responsive' alt='AGRIAMAZING' />
                 </OBYLink>
               </OBYButton>
               <div className='flex items-center gap-3'>
@@ -79,8 +79,8 @@ export default function Footer({ font }: FooterProps) {
             <div className='flex flex-col'>
               <h3 className='uppercase fs-18 mb-4 font-semibold'>CHĂM SÓC KHÁCH HÀNG</h3>
               <ul role='list' className='fs-14 @992:block flex items-center flex-wrap justify-between gap-3'>
-                {/* <li className='@992:mb-3.5 order-1'>Trung tâm trợ giúp</li>
-                <li className='@992:mb-3.5 order-3'>Tra cứu đơn hàng</li> */}
+                <li className='@992:mb-3.5 order-1'>Trung tâm trợ giúp</li>
+                <li className='@992:mb-3.5 order-3'>Tra cứu đơn hàng</li>
                 <li className='@992:mb-3.5 order-5'>
                   <OBYLink href='/chinh-sach-van-chuyen'>Chính sách vận chuyển</OBYLink>
                 </li>
@@ -131,9 +131,9 @@ export default function Footer({ font }: FooterProps) {
             </div>
           </div>
         </div>
-        <div className='border-t border-t-oby-primary @992:py-6 py-4 @992:fs-12 fs-10 text-center text-oby-676869 @992:mt-7.5 mt-6'>
+        <div className='bg-gradient-to-r from-agr-orange via-agr-mid-orange to-agr-light-orange @992:py-6 py-4 @992:fs-12 fs-10 text-center text-white @992:mt-7.5 mt-6'>
           <p className='@992:px-0 px-4'>
-            © 2023 Silverts Adaptive LLC, Chatsworth, California • VELCRO® is a registered trademark of Velcro
+            © 2024 Silverts Adaptive LLC, Chatsworth, California • VELCRO® is a registered trademark of Velcro
             Industries B.V. • Dr. Comfort® is a registered trademark of Dr Comfort.
           </p>
         </div>

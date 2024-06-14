@@ -1,29 +1,16 @@
 import HomeLayout from '@/layouts/HomeLayout'
-import { ChevronRightIcon } from '@heroicons/react/24/outline'
-import { useQuery } from '@tanstack/react-query'
 import dynamic from 'next/dynamic'
-import { useMemo } from 'react'
-import { Link as ScrollHandler, Element as TriggerScroll } from 'react-scroll'
-
-import { ItemWithAttribute } from '@/@types/category.type'
 
 import { generateMetaSEO } from '@/libs/seo'
 
-import { generateCategoryImageFromMagento, getIDListCategoryAsString, getParentCategory } from '@/helpers/category'
-
-import categoryApi from '@/apis/magento/category.api'
-
-import { cacheTime } from '@/constants/config.constant'
-
 import Banner from '@/components/Banner'
-import DynamicLoading from '@/components/DynamicLoading'
+import BestSellingProduct from '@/components/BestSellingProduct'
+import CategoriesShop from '@/components/CategoriesShop'
+import HealthProduct from '@/components/HealthProduct'
 import ProductSuggest from '@/components/ProductSuggest'
-import { OBYImage, OBYLink } from '@/components/UI/Element'
+import SaleProduct from '@/components/SaleProduct'
 import { OBYSeo } from '@/components/UI/OBYSeo'
 
-const DynamicProductList = dynamic(() => import('@/components/ProductList'), {
-  loading: () => <DynamicLoading />
-})
 const DynamicBlogList = dynamic(() => import('@/components/BlogList'))
 
 /* const CategoryContent = [
@@ -40,47 +27,12 @@ const DynamicBlogList = dynamic(() => import('@/components/BlogList'))
 ] */
 
 export default function Home() {
-  const { data: parentCategoryRes } = useQuery({
-    queryKey: ['categories'],
-    queryFn: () => {
-      return categoryApi.GetCategoryList()
-    },
-    staleTime: cacheTime.halfHours
-  })
-  const parentCategory = useMemo(() => {
-    return (parentCategoryRes && getParentCategory(parentCategoryRes.data)) || []
-  }, [parentCategoryRes])
-
-  const { data: parentCategoryAttrRes } = useQuery({
-    queryKey: ['categoryAttr'],
-    queryFn: () => categoryApi.GetAttrCategoryById(getIDListCategoryAsString(parentCategory)),
-    enabled: parentCategory.length > 0,
-    staleTime: cacheTime.halfHours
-  })
-
-  const parentCategoryItem = useMemo(() => {
-    return parentCategoryAttrRes?.data.items as ItemWithAttribute[]
-  }, [parentCategoryAttrRes])
-
-  const initializeCategory = useMemo(() => {
-    return parentCategory.map((category) => {
-      const categoryItem = parentCategoryItem?.find((item) => item.id === category.id)
-      const customAttributes = categoryItem?.custom_attributes || []
-
-      return {
-        ...category,
-        custom_attributes: customAttributes
-      }
-    })
-  }, [parentCategory, parentCategoryItem])
-
   const meta = generateMetaSEO({
-    title: 'Ông Bà Yêu',
+    title: 'AGRIAMAZING',
     template: 'Trang Chủ',
-    description:
-      'Ông Bà Yêu là một cửa hàng trực tuyến chuyên cung cấp các sản phẩm tổng hợp nhằm phục vụ cho người cao tuổi cùng với dịch vụ hỗ trợ khách hàng đặc biệt, đem đến cho khách hàng một cuộc sống chất lượng nhất.',
+    description: 'AGRIAMAZING là một cửa hàng trực tuyến chuyên cung cấp các sản phẩm tổng hợp.',
     keywords: [`OBY, Ông Bà Yêu, ongbayeu.com`],
-    og_image_alt: 'Ông Bà Yêu',
+    og_image_alt: 'AGRIAMAZING',
     slug: '/'
   })
 
@@ -89,10 +41,16 @@ export default function Home() {
       <OBYSeo {...meta} />
       <Banner />
       <HomeLayout>
+        {/* new ui */}
+        <SaleProduct />
+        <CategoriesShop />
+        <BestSellingProduct />
+        <HealthProduct />
         <ProductSuggest />
+        {/* new ui */}
 
         {/* Suggest Category */}
-        <h2 className='@992:fs-26 hidden @992:block fs-20 text-oby-green font-bold mb-5'>Mua sắm theo danh mục</h2>
+        {/* <h2 className='@992:fs-26 hidden @992:block fs-20 text-oby-green font-bold mb-5'>Mua sắm theo danh mục</h2>
         <div className='@992:hidden flex justify-between items-center mb-5'>
           <h2 className='fs-20 text-oby-green font-bold'>Danh mục</h2>
           <div className='flex items-center justify-center gap-1.5'>
@@ -136,9 +94,9 @@ export default function Home() {
                 })}
             </div>
           </div>
-        </div>
+        </div> */}
         {/* Product List */}
-        <div id='product-list-wrap'>
+        {/* <div id='product-list-wrap'>
           {initializeCategory.length > 0 &&
             initializeCategory.map((item) => {
               if (item.is_active && item.product_count !== 0) {
@@ -149,8 +107,9 @@ export default function Home() {
                 )
               }
             })}
-        </div>
+        </div> */}
         {/* Blog List */}
+        <div className='h-[1px] w-full bg-oby-DFDFDF' />
         <DynamicBlogList />
       </HomeLayout>
     </>

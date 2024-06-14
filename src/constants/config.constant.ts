@@ -13,6 +13,7 @@ export const seoConfig = {
 export const appInformationConfig = {
   APP_EMAIL: process.env.NEXT_PUBLIC_APP_CONTACT_EMAIL || 'example@email.com',
   APP_PHONE: process.env.NEXT_PUBLIC_APP_CONTACT_PHONE || '123 123 1234',
-  APP_ADDRESS: process.env.NEXT_PUBLIC_APP_CONTACT_ADDRESS || '23 Main Street, Anytown, USA',
-  APP_ADDRESS_MAP: process.env.NEXT_PUBLIC_APP_CONTACT_ADDRESS?.replace(' ', '+') || '23+Main+Street,+Anytown,+USA'
+  APP_ADDRESS: process.env.NEXT_PUBLIC_APP_CONTACT_ADDRESS || '47 Đ. Lê Duẩn, P. Bến Nghé, Q.1, TP. HCM',
+  APP_ADDRESS_MAP:
+    process.env.NEXT_PUBLIC_APP_CONTACT_ADDRESS?.replace(' ', '+') || '47+Đ.+Lê Duẩn,+P.+Bến+Nghé,+Q.1,+TP.+HCM'
 } as const

@@ -13,13 +13,16 @@ module.exports = {
         'oby-9A9898': '#9A9898',
         'oby-DFDFDF': '#DFDFDF',
         'oby-F6F7F8': '#F6F7F8',
-        'oby-primary': '#4AA02C',
+        'oby-primary': '#006838',
         'oby-green': '#2E6A20',
         'oby-orange': '#F28825',
         'oby-red': '#E43641',
         'oby-blue': '#4FC2F8',
         'oby-E4FBDB': '#E4FBDB',
-        'oby-yellow': '#FAD749'
+        'oby-yellow': '#FAD749',
+        'agr-orange': '#E54807',
+        'agr-mid-orange': '#E54807',
+        'agr-light-orange': '#FFBE00'
       },
       screens: {
         '@1544': '1544px',
@@ -67,6 +70,9 @@ module.exports = {
           marginRight: 'auto',
           paddingLeft: '16px',
           paddingRight: '16px'
+        },
+        '.fs-8': {
+          fontSize: '8px'
         },
         '.fs-10': {
           fontSize: '10px'

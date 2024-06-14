@@ -7,7 +7,7 @@ interface HomeLayoutProps {
 
 export default function HomeLayout({ children }: HomeLayoutProps) {
   return (
-    <div id='home-content' className='@992:pt-10 pt-7'>
+    <div id='home-content'>
       {/* <div className='hidden @1544:block @1544:sticky @1544:w-full @1544:top-[130px] @1544:z-[2]'>
         <div className='container' style={{ position: 'relative', zIndex: '-1' }}>
           <div className='flex'>
@@ -52,7 +52,7 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
           </div>
         </div>
       </div> */}
-      <div className='container overflow-hidden'>{children}</div>
+      <div className='overflow-hidden'>{children}</div>
     </div>
   )
 }
