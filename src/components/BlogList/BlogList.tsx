@@ -29,8 +29,8 @@ export default function BlogList() {
         <p className='text-[#222324] fs-26 font-bold'>TIN TỨC HÔM NAY</p>
 
         <div className='w-full grid @992:grid-cols-3 grid-cols-1 @992:gap-6 gap-4 my-[30px]'>
-          {blogsData.data[0].items.map((blog) => (
-            <div className='col-span-1' key={blog.id}>
+          {blogsData.data[0].items.map((blog, index) => (
+            <div className='col-span-1' key={index}>
               <Blog blog={blog} />
             </div>
           ))}

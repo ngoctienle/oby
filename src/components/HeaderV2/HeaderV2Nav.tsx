@@ -1,7 +1,7 @@
 import { AGRCategoryIcon } from '../UI/AGRIcons'
 import { HeaderV2CategoryProps } from './HeaderV2Category'
 import { Dialog, Disclosure, Transition } from '@headlessui/react'
-import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, UserCircleIcon } from '@heroicons/react/24/outline'
+import { ChevronRightIcon, UserCircleIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Cookies from 'js-cookie'
 import dynamic from 'next/dynamic'
 import { Fragment, useMemo } from 'react'
@@ -67,11 +67,15 @@ export default function HeaderV2Nav({ parentCategory, parentCategoryItem, userIn
             leaveFrom='opacity-100'
             leaveTo='opacity-0'
           >
-            <div className='fixed inset-0 bg-black bg-opacity-25' />
+            <div className='fixed inset-0 bg-black bg-opacity-60' />
           </Transition.Child>
 
           <div className='fixed inset-0 overflow-y-auto'>
             <div className='flex min-w-[1/3] min-h-full text-center'>
+              <XMarkIcon
+                className='absolute top-4 right-4 w-8 h-8 text-white z-1999'
+                onClick={registerCategory.onClose}
+              />
               <Transition.Child
                 as={Fragment}
                 enter='ease-out duration-300 transform'
@@ -81,13 +85,18 @@ export default function HeaderV2Nav({ parentCategory, parentCategoryItem, userIn
                 leaveFrom='translate-x-0 opacity-100'
                 leaveTo='-translate-x-full opacity-0'
               >
-                <Dialog.Panel className='w-2/3 min-w-[275px] transform overflow-hidden bg-white p-4 text-left align-middle bsd transition-all'>
-                  <ChevronLeftIcon className='w-6 h-6 text-oby-676869' onClick={registerCategory.onClose} />
+                <Dialog.Panel className='w-2/3 flex flex-col justify-between min-w-[275px] bg-white px-4 text-left align-middle transform overflow-hidden  bsd transition-all relative'>
+                  <div className='flex flex-col'>
+                    <Dialog.Title as='h3' className='fs-16 font-bold my-4'>
+                      Danh mục sản phẩm
+                    </Dialog.Title>
+                    {<DynamicCategoryContentNav initializeCategory={initializeCategory} />}
+                  </div>
                   {!userInfo ? (
                     <OBYButton
                       asChild
                       variant='ghost'
-                      className={cn('flex justify-start gap-1.5 !rounded-0 border-b border-b-oby-DFDFDF')}
+                      className={cn('flex self-start gap-1.5 !rounded-0 border-b border-b-oby-DFDFDF')}
                     >
                       <OBYLink href={hrefPath.login} title='Đăng nhập'>
                         <UserCircleIcon className='w-8 h-8 text-oby-676869' strokeWidth={1} />
@@ -100,13 +109,13 @@ export default function HeaderV2Nav({ parentCategory, parentCategoryItem, userIn
                         <>
                           <Disclosure.Button className='flex w-full items-center justify-between outline-none'>
                             <div className='flex items-center gap-1.5'>
-                              <UserCircleIcon className='w-8 h-8 text-oby-primary' strokeWidth={1} />
+                              <UserCircleIcon className='w-8 h-8 text-oby-676869' strokeWidth={1} />
                               <p className='fs-16'>{userInfo.firstname}</p>
                             </div>
-                            <ChevronDownIcon
+                            <ChevronRightIcon
                               className={`${
-                                open ? 'rotate-180' : 'rotate-0'
-                              } w-6 h-6 text-oby-primary transition-transform`}
+                                open ? 'rotate-90' : 'rotate-0'
+                              } w-6 h-6 text-oby-676869 transition-transform`}
                             />
                           </Disclosure.Button>
                           <Transition
@@ -159,10 +168,8 @@ export default function HeaderV2Nav({ parentCategory, parentCategoryItem, userIn
                       )}
                     </Disclosure>
                   )}
-                  <Dialog.Title as='h3' className='fs-16 font-semibold my-3'>
-                    Danh mục sản phẩm
-                  </Dialog.Title>
-                  {<DynamicCategoryContentNav initializeCategory={initializeCategory} />}
+                  {/* <div className=''>
+                  </div> */}
                 </Dialog.Panel>
               </Transition.Child>
             </div>

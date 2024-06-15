@@ -1,4 +1,5 @@
 import { OBYImage, OBYLink } from '../UI/Element'
+import { ChevronRightIcon } from '@heroicons/react/24/outline'
 import React from 'react'
 
 import { CustomAttribute } from '@/@types/auth.type'
@@ -27,8 +28,32 @@ interface InitialProps {
 
 export default function HeaderV2CategoryContent({ initializeCategory }: InitialProps) {
   return (
-    <div className='absolute -left-24 top-0 min-w-[1000px] h-[522px] overflow-auto scrollbar-none px-6 py-5 rounded-4 bg-white bsd focus:outline-none'>
-      <h2 className='fs-16 font-semibold mb-4'>Danh mục sản phẩm</h2>
+    <div className='absolute -left-[170px] top-0 min-w-[288px] max-h-[216px] flex flex-col overflow-auto scrollbar-none rounded-2 bg-white bsd focus:outline-none'>
+      {initializeCategory
+        ?.filter((item) => item.is_active && item.product_count !== 0)
+        .map((item) => (
+          <div className='flex flex-row justify-between items-center cursor-pointer p-4' key={item.id}>
+            <div className='flex flex-row items-center  gap-2'>
+              <div className='w-6 h-6 relative'>
+                <OBYImage
+                  src={generateCategoryImageFromMagento(item.custom_attributes)}
+                  display='responsive'
+                  alt={item.name}
+                  title={item.name}
+                  className='object-cover'
+                />
+              </div>
+              <OBYLink
+                href={`${hrefPath.catePage}/${createSlug(item.name)}-${item.id}`}
+                className='text-[#454545] whitespace-nowrap fs-16 font-bold'
+              >
+                {item.name}
+              </OBYLink>
+            </div>
+            <ChevronRightIcon className='w-4 h-4 text-[#8F8F9F]' />
+          </div>
+        ))}
+      {/* <h2 className='fs-16 font-semibold mb-4'>Danh mục sản phẩm</h2>
       <div className='grid grid-cols-3'>
         {initializeCategory
           ?.filter((item) => item.is_active && item.product_count !== 0)
@@ -68,7 +93,7 @@ export default function HeaderV2CategoryContent({ initializeCategory }: InitialP
               </div>
             </div>
           ))}
-      </div>
+      </div> */}
     </div>
   )
 }
