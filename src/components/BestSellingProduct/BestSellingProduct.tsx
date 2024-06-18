@@ -16,7 +16,7 @@ export const BestSellingProduct = () => {
 
   const { data: bestSellingProduct, isLoading } = useQuery({
     queryKey: ['bestSellingProduct'],
-    queryFn: () => productApi.GetProductByCategoryID(45, '1', '5'),
+    queryFn: () => productApi.GetProductByCategoryID(45, '1', '4'),
     staleTime: cacheTime.halfHours
   })
 
