@@ -39,7 +39,7 @@ export default function RefundPage() {
                 </OBYLink>
                 <OBYLink
                   href='/doi-tra-va-hoan-tien'
-                  className='bg-oby-primary flex items-center justify-between py-3 px-4.5'
+                  className='bg-gradient-to-r from-agr-orange via-agr-mid-orange to-agr-light-orange flex items-center justify-between py-3 px-4.5'
                 >
                   <p className='@768:fs-16 fs-14 text-white font-semibold'>Đổi trả và hoàn tiền</p>
                   <ChevronRightIcon className='w-6 h-6 text-white' />
