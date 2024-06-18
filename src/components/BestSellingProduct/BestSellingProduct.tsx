@@ -47,7 +47,7 @@ export const BestSellingProduct = () => {
             }
           }}
           modules={[Pagination, Lazy, EffectFade, Autoplay]}
-          className='suggestProduct @992:my-[30px] my-4'
+          className='suggestProduct @992:my-12 my-4'
         >
           {bestSellingProduct && !isLoading ? (
             bestSellingProduct.data.items.map((item) => {
