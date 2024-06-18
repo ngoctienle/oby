@@ -1,4 +1,4 @@
-import { ChevronUpIcon } from '@heroicons/react/24/outline'
+import { ArrowUpIcon } from '@heroicons/react/24/outline'
 import { useCallback } from 'react'
 
 import { useWindowScrollY } from '@/hooks'
@@ -22,7 +22,7 @@ const ToTopButton: React.FunctionComponent<OBYButtonProps> = (props) => {
         props.className
       )}
     >
-      <ChevronUpIcon className='w-6 h-6 text-oby-primary' />
+      <ArrowUpIcon className='w-6 h-6 text-oby-primary' />
       <span className='sr-only'>Back to top</span>
     </OBYButton>
   )

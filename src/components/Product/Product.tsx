@@ -69,7 +69,7 @@ export default function Product({ data, isHorizontal = false }: ProductProps) {
   }
 
   return isHorizontal ? (
-    <div className='border-b-[1px] border-oby-DFDFDF flex flex-row items-center gap-4 py-6'>
+    <div className='border-b-[1px] border-oby-DFDFDF flex flex-row items-center gap-4 py-6 '>
       <OBYLink
         href={`${hrefPath.productDetail}/${data.sku}`}
         title={data.name}

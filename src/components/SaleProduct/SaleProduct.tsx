@@ -16,7 +16,7 @@ export default function SaleProduct() {
 
   const [currentTime, setCurrentTime] = useState(new Date())
 
-  const targetTime = new Date('2024-06-16')
+  const targetTime = new Date('2024-06-19')
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -28,7 +28,7 @@ export default function SaleProduct() {
 
   const { data: saleProduct, isLoading } = useQuery({
     queryKey: ['saleProduct'],
-    queryFn: () => productApi.GetProductByCategoryID(20, '1', '9'),
+    queryFn: () => productApi.GetProductByCategoryID(37, '1', '1'),
     staleTime: cacheTime.halfHours
   })
 
@@ -77,12 +77,8 @@ export default function SaleProduct() {
             disableOnInteraction: false
           }}
           breakpoints={{
-            768: {
-              slidesPerView: 4,
-              spaceBetween: 30
-            },
             992: {
-              slidesPerView: 4,
+              slidesPerView: 5,
               spaceBetween: 40
             }
           }}

@@ -44,34 +44,28 @@ export default function HeaderV2User({ userInfo }: HeaderV2UserProps) {
         leaveFrom='transform opacity-100 scale-100'
         leaveTo='transform opacity-0 scale-95'
       >
-        <Menu.Items className='absolute z-50 right-0 mt-2 w-[250px] origin-top-right py-2.5 rounded-4 bg-white bsd focus:outline-none'>
+        <Menu.Items className='absolute z-50 right-0 mt-2 min-w-[288px] h-[220px] overflow-auto scrollbar-none flex flex-col pb-4 origin-top-right rounded-2 bg-white bsd focus:outline-none'>
           <Menu.Item>
-            <OBYButton asChild variant='ghost' className={cn('justify-between px-5 group w-full')}>
+            <OBYButton asChild variant='ghost' className={cn('justify-between px-5 my-[6px] group w-full')}>
               <OBYLink href='/'>
-                <p className='fs-16 font-semibold text-oby-676869 group-hover:text-oby-primary transition-colors'>
-                  Hồ sơ của tôi
-                </p>
-                <ChevronRightIcon className='w-6 h-6 text-oby-676869 group-hover:text-oby-primary transition-colors' />
+                <p className='fs-16 font-semibold text-oby-676869 '>Hồ sơ của tôi</p>
+                <ChevronRightIcon className='w-4 h-4 text-oby-676869' />
               </OBYLink>
             </OBYButton>
           </Menu.Item>
           <Menu.Item>
-            <OBYButton asChild variant='ghost' className={cn('justify-between px-5 group w-full')}>
+            <OBYButton asChild variant='ghost' className={cn('justify-between px-5 my-[6px] group w-full')}>
               <OBYLink href='/'>
-                <p className='fs-16 font-semibold text-oby-676869 group-hover:text-oby-primary transition-colors'>
-                  Quản lý đơn hàng
-                </p>
-                <ChevronRightIcon className='w-6 h-6 text-oby-676869 group-hover:text-oby-primary transition-colors' />
+                <p className='fs-16 font-semibold text-oby-676869 '>Quản lý đơn hàng</p>
+                <ChevronRightIcon className='w-4 h-4 text-oby-676869' />
               </OBYLink>
             </OBYButton>
           </Menu.Item>
           <Menu.Item>
-            <OBYButton asChild variant='ghost' className={cn('justify-between px-5 group w-full')}>
+            <OBYButton asChild variant='ghost' className={cn('justify-between px-5 my-[6px] group w-full')}>
               <OBYLink href='/'>
-                <p className='fs-16 font-semibold text-oby-676869 group-hover:text-oby-primary transition-colors'>
-                  Danh sách địa chỉ
-                </p>
-                <ChevronRightIcon className='w-6 h-6 text-oby-676869 group-hover:text-oby-primary transition-colors' />
+                <p className='fs-16 font-semibold text-oby-676869 '>Danh sách địa chỉ</p>
+                <ChevronRightIcon className='w-4 h-4 text-oby-676869' />
               </OBYLink>
             </OBYButton>
           </Menu.Item>
@@ -79,12 +73,10 @@ export default function HeaderV2User({ userInfo }: HeaderV2UserProps) {
             <OBYButton
               variant='ghost'
               onClick={handleLogout}
-              className='flex w-full items-center justify-between px-5 group'
+              className='flex w-full items-center justify-between px-5 my-[6px] group'
             >
-              <p className='fs-16 font-semibold text-oby-676869 group-hover:text-oby-primary transition-colors'>
-                Đăng xuất
-              </p>
-              <ChevronRightIcon className='w-6 h-6 text-oby-676869 group-hover:text-oby-primary transition-colors' />
+              <p className='fs-16 font-semibold text-oby-676869 '>Đăng xuất</p>
+              <ChevronRightIcon className='w-4 h-4 text-oby-676869' />
             </OBYButton>
           </Menu.Item>
         </Menu.Items>
