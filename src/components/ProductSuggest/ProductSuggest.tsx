@@ -1,8 +1,14 @@
+import CateTag from '../CateTag'
+import { AGRGradientLeftArrowIcon, AGRGradientRightArrowIcon } from '../UI/AGRIcons'
+import { OBYImage } from '../UI/Element'
 import GradientButton from '../UI/GradientButton'
 import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
+import { useRef } from 'react'
+import { EffectFade, Lazy, Swiper as SwiperType } from 'swiper'
 import 'swiper/css/effect-fade'
 import 'swiper/css/pagination'
+import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/swiper.min.css'
 
 import { useMediaQuery } from '@/hooks'
@@ -16,12 +22,22 @@ import { cacheTime } from '@/constants/config.constant'
 
 import Product from '@/components/Product'
 
+const DUMMY_SUB_CATE = [
+  { id: 1, name: 'Tất cả' },
+  { id: 2, name: 'Áo thun nam' },
+  { id: 3, name: 'Áo thun nữ' },
+  { id: 4, name: 'Đồ thể thao' },
+  { id: 5, name: 'Áo sơ mi' }
+]
+
 export default function ProductSuggest() {
   const isMedium = useMediaQuery('(min-width:992px)')
 
+  const swiperRef = useRef<SwiperType | null>(null)
+
   const { data: productSgRes, isLoading } = useQuery({
     queryKey: ['productSg'],
-    queryFn: () => productApi.GetProductByCategoryID(20, '1', '9'),
+    queryFn: () => productApi.GetProductByCategoryID(48, '1', '1'),
     staleTime: cacheTime.halfHours
   })
 
@@ -38,25 +54,72 @@ export default function ProductSuggest() {
     ]
   }) */
 
+  const handleClickChangeSlide = (type: string) => {
+    if (swiperRef.current) {
+      if (type === 'next') {
+        swiperRef.current.slideNext()
+      } else {
+        swiperRef.current.slidePrev()
+      }
+    }
+  }
+
   return (
     <div className='bg-white'>
       <div className='container pt-4 py-8 flex flex-col @992:items-center relative'>
         <h2 className='text-oby-primary fs-14 font-normal mb-2'>DANH MỤC</h2>
         <p className='text-[#222324] fs-26 font-bold mb-2'>GỢI Ý HÔM NAY</p>
+        <div className='flex flex-row gap-3 @992:justify-center overflow-x-auto scrollbar-none'>
+          {DUMMY_SUB_CATE.map((item) => {
+            return <CateTag key={item.id} data={item} />
+          })}
+        </div>
         <div className='h-[1px] w-full bg-oby-DFDFDF my-4' />
-        <Image
-          src={'/images/agr-ads.png'}
-          alt='ads-2'
-          width={1200}
-          height={100}
-          style={{
-            objectPosition: 'center',
-            objectFit: 'contain'
-          }}
-          loader={({ src }) => src}
-          unoptimized
-          priority
-        />
+        <div className='h-[46px] w-full relative my-4'>
+          <Swiper
+            lazy={true}
+            slidesPerView={10}
+            loop={true}
+            spaceBetween={16}
+            modules={[Lazy, EffectFade]}
+            onSwiper={(swiper) => {
+              swiperRef.current = swiper
+            }}
+            className='labelSwiper'
+          >
+            {Array(10)
+              .fill(0)
+              .map((_, index) => {
+                return (
+                  <SwiperSlide key={index}>
+                    <OBYImage src={`/images/label-${index}.svg`} display='responsive' alt={`label-${index}`} />
+                  </SwiperSlide>
+                )
+              })}
+          </Swiper>
+          <div className='absolute w-full @992:flex flex-row justify-between items-center bottom-0 top-0 hidden'>
+            <button className='w-8 h-8' onClick={() => handleClickChangeSlide('prev')}>
+              <AGRGradientLeftArrowIcon className='' />
+            </button>
+            <button className='w-8 h-8' onClick={() => handleClickChangeSlide('next')}>
+              <AGRGradientRightArrowIcon className='' />
+            </button>
+          </div>
+        </div>
+        <div className='w-full h-[100px] relative'>
+          <Image
+            src={'/images/agr-ads.png'}
+            alt='ads-2'
+            fill
+            style={{
+              objectPosition: 'center',
+              objectFit: 'contain'
+            }}
+            loader={({ src }) => src}
+            unoptimized
+            priority
+          />
+        </div>
         <div className='w-full grid @992:grid-cols-2 grid-cols-1 @992:gap-8 @992:my-[30px] my-4'>
           {productSgRes && !isLoading ? (
             productSgRes.data.items.map((item) => {

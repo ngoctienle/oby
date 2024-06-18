@@ -38,11 +38,11 @@ export const CategoriesShop = () => {
   return (
     <div className='bg-white'>
       <div className='container pt-8'>
-        <div className=' flex flex-row items-center gap-6'>
-          <div className='@992:block @992:w-1/3 @992:flex-shrink-0 @992:py-7 hidden'>
+        <div className='flex @992:flex-row flex-col gap-6'>
+          <div className='@992:block flex flex-col @992:w-1/3 flex-shrink-0'>
             <p className='text-oby-primary fs-14 font-normal'>MUA SẮM THEO</p>
             <p className='text-[#222324] fs-26 font-bold'>DANH MỤC SẢN PHẨM</p>
-            <div className='flex flex-row items-center gap-2 mt-4'>
+            <div className='@992:flex flex-row items-center gap-2 mt-4 hidden'>
               <button className='w-8 h-8' onClick={() => handleClickChangeSlide('prev')}>
                 <AGRGradientLeftArrowIcon className='' />
               </button>
@@ -69,7 +69,7 @@ export const CategoriesShop = () => {
             </div> */}
             <Swiper
               lazy={true}
-              slidesPerView={2}
+              slidesPerView={5}
               loop={true}
               spaceBetween={24}
               breakpoints={{

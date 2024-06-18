@@ -7,7 +7,7 @@ export default class CustomDocument extends Document {
 
   render(): JSX.Element {
     return (
-      <Html lang='en-US'>
+      <Html lang='en-US' suppressHydrationWarning>
         <Head>
           <meta name='theme-color' content='#18181b' />
           <meta httpEquiv='X-UA-Compatible' content='IE=edge' />

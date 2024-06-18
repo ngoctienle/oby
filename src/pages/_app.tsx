@@ -122,7 +122,13 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
         </OBYLink>
         <DynamicToTopButton />
         <DynamicFooter font={inter} />
-        {!isMedium && <AppRouting />}
+        {!isMedium && (
+          <AppRouting
+            guestCartId={pageProps.guestCartId}
+            cartId={pageProps.cartId || null}
+            token={pageProps.userToken || null}
+          />
+        )}
         <Toaster
           position='top-center'
           reverseOrder={true}
