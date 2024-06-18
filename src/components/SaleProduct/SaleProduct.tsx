@@ -28,7 +28,7 @@ export default function SaleProduct() {
 
   const { data: saleProduct, isLoading } = useQuery({
     queryKey: ['saleProduct'],
-    queryFn: () => productApi.GetProductByCategoryID(37, '1', '1'),
+    queryFn: () => productApi.GetProductByCategoryID(37, '1', '5'),
     staleTime: cacheTime.halfHours
   })
 
@@ -70,7 +70,6 @@ export default function SaleProduct() {
           pagination={{
             clickable: true
           }}
-          loop={true}
           spaceBetween={30}
           autoplay={{
             delay: 3500,
@@ -83,7 +82,7 @@ export default function SaleProduct() {
             }
           }}
           modules={[Pagination, Lazy, EffectFade, Autoplay]}
-          className='suggestProduct @992:my-[30px] my-4 '
+          className='suggestProduct @992:my-10 @992:mb-12 my-4'
         >
           {saleProduct && !isLoading ? (
             saleProduct.data.items.map((item) => {

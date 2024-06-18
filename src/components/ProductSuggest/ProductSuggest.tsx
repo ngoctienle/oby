@@ -37,7 +37,7 @@ export default function ProductSuggest() {
 
   const { data: productSgRes, isLoading } = useQuery({
     queryKey: ['productSg'],
-    queryFn: () => productApi.GetProductByCategoryID(48, '1', '1'),
+    queryFn: () => productApi.GetProductByCategoryID(48, '1', '6'),
     staleTime: cacheTime.halfHours
   })
 

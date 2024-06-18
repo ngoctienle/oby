@@ -16,7 +16,7 @@ export const BestSellingProduct = () => {
 
   const { data: bestSellingProduct, isLoading } = useQuery({
     queryKey: ['bestSellingProduct'],
-    queryFn: () => productApi.GetProductByCategoryID(45, '1', '1'),
+    queryFn: () => productApi.GetProductByCategoryID(45, '1', '5'),
     staleTime: cacheTime.halfHours
   })
 
@@ -31,7 +31,6 @@ export const BestSellingProduct = () => {
           pagination={{
             clickable: true
           }}
-          loop={true}
           spaceBetween={30}
           autoplay={{
             delay: 3500,

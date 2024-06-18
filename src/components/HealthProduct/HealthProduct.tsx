@@ -26,7 +26,7 @@ export const HealthProduct = () => {
 
   const { data: healthProduct, isLoading } = useQuery({
     queryKey: ['healthProduct'],
-    queryFn: () => productApi.GetProductByCategoryID(46, '1', '1'),
+    queryFn: () => productApi.GetProductByCategoryID(46, '1', '5'),
     staleTime: cacheTime.halfHours
   })
 
