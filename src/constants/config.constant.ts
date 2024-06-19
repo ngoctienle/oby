@@ -3,6 +3,10 @@ export const cacheTime = {
   halfHours: 30 * 60 * 100
 } as const
 
+export const customClass = {
+  COMMON_GRADIENT: 'bg-gradient-to-r from-agr-orange via-agr-mid-orange to-agr-light-orange'
+}
+
 export const MAX_PRODUCT = 10000
 
 export const seoConfig = {

@@ -2,6 +2,8 @@ import { ArrowRightIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 
 import { generateMetaSEO } from '@/libs/seo'
 
+import { customClass } from '@/constants/config.constant'
+
 import Breadcrumb from '@/components/Breadcrumb'
 import { OBYLink } from '@/components/UI/Element'
 import { OBYSeo } from '@/components/UI/OBYSeo'
@@ -39,7 +41,7 @@ export default function RefundPage() {
                 </OBYLink>
                 <OBYLink
                   href='/doi-tra-va-hoan-tien'
-                  className='bg-gradient-to-r from-agr-orange via-agr-mid-orange to-agr-light-orange flex items-center justify-between py-3 px-4.5'
+                  className={`${customClass.COMMON_GRADIENT} flex items-center justify-between py-3 px-4.5`}
                 >
                   <p className='@768:fs-16 fs-14 text-white font-semibold'>Đổi trả và hoàn tiền</p>
                   <ChevronRightIcon className='w-6 h-6 text-white' />

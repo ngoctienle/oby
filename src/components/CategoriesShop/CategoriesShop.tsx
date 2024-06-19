@@ -13,6 +13,8 @@ import { useRef } from 'react'
 import { EffectFade, Lazy, Swiper as SwiperType } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
+import { customClass } from '@/constants/config.constant'
+
 // import { Autoplay, EffectFade, Lazy, Navigation, Pagination } from 'swiper'
 // import { Swiper, SwiperSlide } from 'swiper/react'
 
@@ -52,21 +54,6 @@ export const CategoriesShop = () => {
             </div>
           </div>
           <div className='relative h-[160px]'>
-            {/* <div className='h-[160px] flex flex-row items-center gap-6'>
-              {DUMMY_CATES.map((cate) => {
-                return (
-                  <SwiperSlide key={cate.id}>
-                    <div className='h-full w-[132px] rounded-xl bg-[#FAFAFA] flex flex-col items-center py-4'>
-                      {cate.icons}
-                      <div className='h-[2px] w-15 bg-[#D9D9D94D] my-3'></div>
-                      <p className='text-center bg-gradient-to-r from-agr-orange via-agr-mid-orange to-agr-light-orange inline-block text-transparent bg-clip-text fs-16 font-normal'>
-                        {cate.name}
-                      </p>
-                    </div>
-                  </SwiperSlide>
-                )
-              })}
-            </div> */}
             <Swiper
               lazy={true}
               slidesPerView={5}
@@ -90,7 +77,9 @@ export const CategoriesShop = () => {
                     <div className='h-full w-[132px] rounded-xl bg-[#FAFAFA] flex flex-col items-center p-4'>
                       {cate.icons}
                       <div className='h-[2px] w-15 bg-[#D9D9D94D] my-3'></div>
-                      <p className='text-center bg-gradient-to-r from-agr-orange via-agr-mid-orange to-agr-light-orange inline-block text-transparent bg-clip-text fs-16 font-normal'>
+                      <p
+                        className={`text-center ${customClass.COMMON_GRADIENT} inline-block text-transparent bg-clip-text fs-16 font-normal`}
+                      >
                         {cate.name}
                       </p>
                     </div>

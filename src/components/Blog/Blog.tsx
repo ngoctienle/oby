@@ -6,6 +6,7 @@ import { useMediaQuery } from '@/hooks'
 
 import { generateBlogImage } from '@/helpers/blog'
 
+import { customClass } from '@/constants/config.constant'
 import { hrefPath } from '@/constants/href.constant'
 
 interface BlogProps {
@@ -30,7 +31,9 @@ export default function Blog({ blog }: BlogProps) {
         />
       </div>
 
-      <p className='text-center bg-gradient-to-r from-agr-orange via-agr-mid-orange to-agr-light-orange inline-block text-transparent bg-clip-text fs-12 font-normal'>
+      <p
+        className={`text-center ${customClass.COMMON_GRADIENT} inline-block text-transparent bg-clip-text fs-12 font-normal`}
+      >
         Thông tin bổ ích
       </p>
       <h2 className='text-center font-semibold fs-16 line-clamp-2'>{blog.name}</h2>
@@ -51,7 +54,7 @@ export default function Blog({ blog }: BlogProps) {
         />
       </div>
       <div className='flex flex-col gap-1'>
-        <p className='bg-gradient-to-r from-agr-orange via-agr-mid-orange to-agr-light-orange inline-block text-transparent bg-clip-text fs-12 font-normal'>
+        <p className={`${customClass.COMMON_GRADIENT} inline-block text-transparent bg-clip-text fs-12 font-normal`}>
           Thông tin bổ ích
         </p>
         <h2 className='font-semibold fs-16  line-clamp-1'>{blog.name}</h2>

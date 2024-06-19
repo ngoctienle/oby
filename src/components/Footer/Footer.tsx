@@ -3,7 +3,7 @@ import { NextFont } from 'next/dist/compiled/@next/font'
 import twclsx from '@/libs/twclsx'
 import { cn } from '@/libs/utils'
 
-import { appInformationConfig } from '@/constants/config.constant'
+import { appInformationConfig, customClass } from '@/constants/config.constant'
 import { hrefPath } from '@/constants/href.constant'
 
 import { OBYButton, OBYImage, OBYLink } from '@/components/UI/Element'
@@ -131,7 +131,9 @@ export default function Footer({ font }: FooterProps) {
             </div>
           </div>
         </div>
-        <div className='bg-gradient-to-r from-agr-orange via-agr-mid-orange to-agr-light-orange @992:py-6 py-4 @992:fs-12 fs-10 text-center text-white @992:mt-7.5 mt-6'>
+        <div
+          className={`${customClass.COMMON_GRADIENT} @992:py-6 py-4 @992:fs-12 fs-10 text-center text-white @992:mt-7.5 mt-6`}
+        >
           <p className='@992:px-0 px-4'>
             © 2024 Silverts Adaptive LLC, Chatsworth, California • VELCRO® is a registered trademark of Velcro
             Industries B.V. • Dr. Comfort® is a registered trademark of Dr Comfort.

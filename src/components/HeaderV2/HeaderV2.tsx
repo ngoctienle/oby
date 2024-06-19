@@ -21,7 +21,7 @@ import { getIDListCategoryAsString, getParentCategory } from '@/helpers/category
 import cartApi from '@/apis/magento/cart.api'
 import categoryApi from '@/apis/magento/category.api'
 
-import { cacheTime } from '@/constants/config.constant'
+import { cacheTime, customClass } from '@/constants/config.constant'
 import { hrefPath } from '@/constants/href.constant'
 
 import { OBYButton, OBYImage, OBYLink } from '@/components/UI/Element'
@@ -83,7 +83,7 @@ export default function HeaderV2({ font, isFocus, user, guestCartId, cartId, tok
 
   return (
     <header className={cn(font.className, 'sticky top-0 inset-x-0 z-10 ')}>
-      <div className='py-3 bg-gradient-to-r from-agr-orange via-agr-mid-orange to-agr-light-orange'>
+      <div className={`py-3 ${customClass.COMMON_GRADIENT}`}>
         <div className='container h-full flex flex-row justify-between items-center'>
           <p className='text-white text-xs font-normal'>Chào mừng bạn đến với chúng tôi</p>
           <div className='flex flex-row justify-between items-center gap-6'>
@@ -134,7 +134,9 @@ export default function HeaderV2({ font, isFocus, user, guestCartId, cartId, tok
                     <OBYLink href={hrefPath.discount} title='Ưu đãi'>
                       <div className='relative'>
                         <AGRPresentIcon className='w-6 h-6' />
-                        <p className='absolute flex items-center justify-center -top-0.5 -right-1 w-4.5 h-4.5 fs-10 bg-gradient-to-r from-agr-orange via-agr-mid-orange to-agr-light-orange text-white rounded-full'>
+                        <p
+                          className={`absolute flex items-center justify-center -top-0.5 -right-1 w-4.5 h-4.5 fs-10 ${customClass.COMMON_GRADIENT} text-white rounded-full`}
+                        >
                           {2}
                         </p>
                       </div>
@@ -145,7 +147,9 @@ export default function HeaderV2({ font, isFocus, user, guestCartId, cartId, tok
                       <div className='relative'>
                         <AGRShoppingBagIcon className='w-6 h-6' />
                         {cartData && (
-                          <p className='absolute flex items-center justify-center -top-0.5 -right-1 w-4.5 h-4.5 fs-10 bg-gradient-to-r from-agr-orange via-agr-mid-orange to-agr-light-orange text-white rounded-full'>
+                          <p
+                            className={`absolute flex items-center justify-center -top-0.5 -right-1 w-4.5 h-4.5 fs-10 ${customClass.COMMON_GRADIENT} text-white rounded-full`}
+                          >
                             {cartData.items_qty}
                           </p>
                         )}
