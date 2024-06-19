@@ -47,7 +47,7 @@ export default function PrivacyPage() {
                 </OBYLink>
                 <OBYLink
                   href='/chinh-sach-bao-mat'
-                  className='bg-oby-primary flex items-center justify-between py-3 px-4.5'
+                  className='bg-gradient-to-r from-agr-orange via-agr-mid-orange to-agr-light-orange flex items-center justify-between py-3 px-4.5'
                 >
                   <p className='@768:fs-16 fs-14 text-white font-semibold'>Chính sách bảo mật</p>
                   <ChevronRightIcon className='w-6 h-6 text-white' />
