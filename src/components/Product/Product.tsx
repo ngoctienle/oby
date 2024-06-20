@@ -144,7 +144,7 @@ export default function Product({ data, isHorizontal = false }: ProductProps) {
       >
         {data.name}
       </OBYLink>
-      <div className='flex items-center justify-between @992:mt-1 mt-1.5 px-4'>
+      <div className='flex items-center justify-between @992:mt-1 mt-1.5 px-4 gap-2'>
         {isHaveDiscount(data.custom_attributes) ? (
           <>
             <div className='flex flex-col items-start gap-0.75'>

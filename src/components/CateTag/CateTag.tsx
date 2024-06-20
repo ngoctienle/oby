@@ -1,15 +1,17 @@
 import { OBYLink } from '../UI/Element'
-import React from 'react'
 
-import { customClass } from '@/constants/config.constant'
+import { ItemWithAttribute } from '@/@types/category.type'
 
-export const CateTag = ({ data }: { data: { id: number; name: string } }) => {
+import { customClasses } from '@/constants/config.constant'
+import { hrefPath } from '@/constants/href.constant'
+
+export const CateTag = ({ data }: { data: ItemWithAttribute | undefined }) => {
   return (
     <OBYLink
-      href={'/'}
-      className={`border border-[#C7C7C7] rounded-full p-3 border-dashed hover:border-none hover:${customClass.COMMON_GRADIENT}`}
+      href={`${hrefPath.catePage}/${data?.custom_attributes[7]?.value}-${data?.id}`}
+      className={`border border-[#C7C7C7] rounded-full p-3 border-dashed hover:border-transparent hover:${customClasses.COMMON_GRADIENT}`}
     >
-      <p className='font-medium fs-14 whitespace-nowrap'>{data.name}</p>
+      <p className='font-medium fs-14 whitespace-nowrap'>{data?.name}</p>
     </OBYLink>
   )
 }

@@ -21,7 +21,7 @@ import { getIDListCategoryAsString, getParentCategory } from '@/helpers/category
 import cartApi from '@/apis/magento/cart.api'
 import categoryApi from '@/apis/magento/category.api'
 
-import { cacheTime, customClass } from '@/constants/config.constant'
+import { cacheTime, customClasses } from '@/constants/config.constant'
 import { hrefPath } from '@/constants/href.constant'
 
 import { OBYButton, OBYImage, OBYLink } from '@/components/UI/Element'
@@ -80,10 +80,11 @@ export default function HeaderV2({ font, isFocus, user, guestCartId, cartId, tok
   const parentCategoryItem = useMemo(() => {
     return parentCategoryAttrRes?.data.items as ItemWithAttribute[]
   }, [parentCategoryAttrRes])
+  console.log('🚀 ~ parentCategoryItem ~ parentCategoryItem:', parentCategoryItem)
 
   return (
     <header className={cn(font.className, 'sticky top-0 inset-x-0 z-10 ')}>
-      <div className={`py-3 ${customClass.COMMON_GRADIENT}`}>
+      <div className={`py-3 ${customClasses.COMMON_GRADIENT}`}>
         <div className='container h-full flex flex-row justify-between items-center'>
           <p className='text-white text-xs font-normal'>Chào mừng bạn đến với chúng tôi</p>
           <div className='flex flex-row justify-between items-center gap-6'>
@@ -135,7 +136,7 @@ export default function HeaderV2({ font, isFocus, user, guestCartId, cartId, tok
                       <div className='relative'>
                         <AGRPresentIcon className='w-6 h-6' />
                         <p
-                          className={`absolute flex items-center justify-center -top-0.5 -right-1 w-4.5 h-4.5 fs-10 ${customClass.COMMON_GRADIENT} text-white rounded-full`}
+                          className={`absolute flex items-center justify-center -top-0.5 -right-1 w-4.5 h-4.5 fs-10 ${customClasses.COMMON_GRADIENT} text-white rounded-full`}
                         >
                           {2}
                         </p>
@@ -148,7 +149,7 @@ export default function HeaderV2({ font, isFocus, user, guestCartId, cartId, tok
                         <AGRShoppingBagIcon className='w-6 h-6' />
                         {cartData && (
                           <p
-                            className={`absolute flex items-center justify-center -top-0.5 -right-1 w-4.5 h-4.5 fs-10 ${customClass.COMMON_GRADIENT} text-white rounded-full`}
+                            className={`absolute flex items-center justify-center -top-0.5 -right-1 w-4.5 h-4.5 fs-10 ${customClasses.COMMON_GRADIENT} text-white rounded-full`}
                           >
                             {cartData.items_qty}
                           </p>

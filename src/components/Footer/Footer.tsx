@@ -3,7 +3,7 @@ import { NextFont } from 'next/dist/compiled/@next/font'
 import twclsx from '@/libs/twclsx'
 import { cn } from '@/libs/utils'
 
-import { appInformationConfig, customClass } from '@/constants/config.constant'
+import { appInformationConfig, customClasses } from '@/constants/config.constant'
 import { hrefPath } from '@/constants/href.constant'
 
 import { OBYButton, OBYImage, OBYLink } from '@/components/UI/Element'
@@ -132,7 +132,7 @@ export default function Footer({ font }: FooterProps) {
           </div>
         </div>
         <div
-          className={`${customClass.COMMON_GRADIENT} @992:py-6 py-4 @992:fs-12 fs-10 text-center text-white @992:mt-7.5 mt-6`}
+          className={`${customClasses.COMMON_GRADIENT} @992:py-6 py-4 @992:fs-12 fs-10 text-center text-white @992:mt-7.5 mt-6`}
         >
           <p className='@992:px-0 px-4'>
             © 2024 Silverts Adaptive LLC, Chatsworth, California • VELCRO® is a registered trademark of Velcro

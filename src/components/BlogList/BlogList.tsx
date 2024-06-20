@@ -36,7 +36,9 @@ export default function BlogList() {
           ))}
         </div>
 
-        <GradientButton url='/' btnText='XEM TẤT CẢ' />
+        <div className='w-[194px]'>
+          <GradientButton url='/' btnText='XEM TẤT CẢ' customClass='self-center' />
+        </div>
       </div>
     </div>
     // <div className='@992:pt-15 pt-10'>

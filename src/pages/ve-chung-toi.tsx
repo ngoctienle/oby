@@ -2,7 +2,7 @@ import { ChevronRightIcon } from '@heroicons/react/24/outline'
 
 import { generateMetaSEO } from '@/libs/seo'
 
-import { customClass } from '@/constants/config.constant'
+import { customClasses } from '@/constants/config.constant'
 
 import Breadcrumb from '@/components/Breadcrumb'
 import { OBYImage, OBYLink } from '@/components/UI/Element'
@@ -29,7 +29,7 @@ export default function AboutUsPage() {
               <div className='@768:py-3 py-2.5 rounded-2 bg-white max-h-fit bsd'>
                 <OBYLink
                   href='/ve-chung-toi'
-                  className={`${customClass.COMMON_GRADIENT} flex items-center justify-between py-3 px-4.5`}
+                  className={`${customClasses.COMMON_GRADIENT} flex items-center justify-between py-3 px-4.5`}
                 >
                   <p className='@768:fs-16 fs-14 text-white font-semibold'>Về chúng tôi</p>
                   <ChevronRightIcon className='w-6 h-6 text-white' />
@@ -114,7 +114,7 @@ export default function AboutUsPage() {
                 không chỉ cung cấp những sản phẩm chất lượng cao, mà còn góp phần thúc đẩy sự phát triển bền vững của
                 nông nghiệp và làng nghề thủ công truyền thống.
               </p>
-              <div className='my-4 w-[899px] h-[340px] relative rounded-2 p-3'>
+              <div className='my-4  @768:h-[340px] h-[180px] w-full  relative rounded-2 p-3'>
                 <OBYImage
                   src='/images/agr-about-4.png'
                   alt='Về chúng tôi'
@@ -200,9 +200,9 @@ export default function AboutUsPage() {
                 <li>Tranh thêu, tranh vẽ tay</li>
                 <li>Đồ nội thất và trang trí từ gỗ, tre, nứa</li>
               </ul>
-              <div className='my-6 flex flex-row gap-6'>
+              <div className='my-6 flex @768:flex-row flex-col-reverse gap-6'>
                 <div className='col-span-6 flex flex-col max-w-[411px]'>
-                  <div className='relative w-full h-[416px]'>
+                  <div className='relative w-full @992:h-[416px] h-[239px]'>
                     <OBYImage
                       src='/images/agr-about-9.png'
                       alt='Về chúng tôi'
@@ -227,7 +227,7 @@ export default function AboutUsPage() {
                   </ul>
                 </div>
                 <div className='col-span-6 flex flex-col gap-6'>
-                  <div className='relative w-[452px] h-[196px]'>
+                  <div className='relative @992:w-[452px] w-full @992:h-[196px] h-[239px]'>
                     <OBYImage
                       src='/images/agr-about-10.png'
                       alt='Về chúng tôi'
@@ -235,7 +235,7 @@ export default function AboutUsPage() {
                       className='object-cover rounded-2'
                     />
                   </div>
-                  <div className='relative w-[452px] h-[196px]'>
+                  <div className='relative @992:w-[452px] w-full @992:h-[196px] h-[239px]'>
                     <OBYImage
                       src='/images/agr-about-11.png'
                       alt='Về chúng tôi'
@@ -243,7 +243,7 @@ export default function AboutUsPage() {
                       className='object-cover rounded-2'
                     />
                   </div>
-                  <div className='relative w-[452px] h-[239px]'>
+                  <div className='relative @992:w-[452px] w-full h-[239px]'>
                     <OBYImage
                       src='/images/agr-about-12.png'
                       alt='Về chúng tôi'

@@ -13,7 +13,7 @@ import { useRef } from 'react'
 import { EffectFade, Lazy, Swiper as SwiperType } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
-import { customClass } from '@/constants/config.constant'
+import { customClasses } from '@/constants/config.constant'
 
 // import { Autoplay, EffectFade, Lazy, Navigation, Pagination } from 'swiper'
 // import { Swiper, SwiperSlide } from 'swiper/react'
@@ -78,7 +78,7 @@ export const CategoriesShop = () => {
                       {cate.icons}
                       <div className='h-[2px] w-15 bg-[#D9D9D94D] my-3'></div>
                       <p
-                        className={`text-center ${customClass.COMMON_GRADIENT} inline-block text-transparent bg-clip-text fs-16 font-normal`}
+                        className={`text-center ${customClasses.COMMON_GRADIENT} inline-block text-transparent bg-clip-text fs-16 font-normal`}
                       >
                         {cate.name}
                       </p>
@@ -101,7 +101,7 @@ export const CategoriesShop = () => {
               loader={({ src }) => src}
               unoptimized
             />
-            <div className='absolute bottom-6 right-4'>
+            <div className='absolute bottom-6 right-4 w-[180px]'>
               <GradientButton btnText='XEM NGAY' url='/' isBorder={false} />
             </div>
           </div>
@@ -116,7 +116,7 @@ export const CategoriesShop = () => {
               loader={({ src }) => src}
               unoptimized
             />
-            <div className='absolute bottom-6 left-32'>
+            <div className='absolute bottom-6 left-32 w-[180px]'>
               <GradientButton btnText='XEM NGAY' url='/' isBorder={false} />
             </div>
           </div>
