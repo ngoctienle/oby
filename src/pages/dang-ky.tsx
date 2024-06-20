@@ -89,9 +89,9 @@ export default function Signup() {
   return (
     <>
       <OBYSeo {...meta} />
-      <div className='pt-6 @992:pt-10'>
+      <div className='pt-6 @992:pt-10 bg-white'>
         <div className='container'>
-          <h2 className='fs-20 @992:fs-26 text-center font-bold text-oby-green'>Đăng ký</h2>
+          <h2 className='fs-20 @992:fs-26 text-center font-bold text-black'>Đăng ký</h2>
           <form
             noValidate
             onSubmit={handleSubmitRegister}
@@ -128,8 +128,13 @@ export default function Signup() {
               errorMessage={errors.password?.message}
               register={register}
             />
-            <AsyncButton isLoading={registerMutation.isLoading} className={cn('w-full mt-7.5 fs-16')} type='submit'>
-              Đăng Ký
+            <AsyncButton
+              isGradient
+              isLoading={registerMutation.isLoading}
+              className={cn('w-full mt-7.5 fs-16')}
+              type='submit'
+            >
+              ĐĂNG KÝ
             </AsyncButton>
             <p className='text-center @768:fs-14 fs-12 text-oby-9A9898 mt-4.5'>
               Bằng việc Tiếp tục, bạn đã chấp nhận{' '}

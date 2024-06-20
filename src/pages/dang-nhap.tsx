@@ -103,9 +103,9 @@ export default function Login() {
   return (
     <>
       <OBYSeo {...meta} />
-      <div className='pt-6 @992:pt-10'>
+      <div className='pt-6 @992:pt-10 bg-white'>
         <div className='container'>
-          <h2 className='fs-20 @992:fs-26 text-center font-bold text-oby-green'>Đăng nhập</h2>
+          <h2 className='fs-20 @992:fs-26 text-center font-bold text-black'>Đăng nhập</h2>
           <form
             noValidate
             onSubmit={handleSubmitLogin}
@@ -136,8 +136,13 @@ export default function Login() {
                 Quên mật khẩu?
               </OBYLink>
             </OBYButton>
-            <AsyncButton type='submit' isLoading={loginMutation.isLoading} className={cn('w-full fs-16 mt-6')}>
-              Đăng nhập
+            <AsyncButton
+              isGradient
+              type='submit'
+              isLoading={loginMutation.isLoading}
+              className={cn('w-full fs-16 mt-6')}
+            >
+              ĐĂNG NHẬP
             </AsyncButton>
             <p className='text-center @768:fs-14 fs-12 text-oby-9A9898 mt-4.5'>
               Bằng việc Tiếp tục, bạn đã chấp nhận{' '}

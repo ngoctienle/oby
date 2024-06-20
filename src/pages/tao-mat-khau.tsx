@@ -85,9 +85,9 @@ export default function ResetPwPage({ id, token, isValid: isValidServer }: Reset
   return (
     <>
       <OBYSeo {...meta} />
-      <div className='pt-6 @992:pt-10'>
+      <div className='pt-6 @992:pt-10 bg-white'>
         <div className='container'>
-          <h2 className='fs-20 @992:fs-26 text-center font-bold text-oby-green'>Nhập mật khẩu mới</h2>
+          <h2 className='fs-20 @992:fs-26 text-center font-bold text-black'>Nhập mật khẩu mới</h2>
           <p className='text-center mt-4 text-oby-9A9898'>Vui lòng nhập mật khẩu mới của bạn</p>
           <form noValidate onSubmit={handleSubmitResetPW} className='mt-7.5 @768:max-w-[500px] mx-auto pb-15'>
             {!isValid && (
@@ -111,12 +111,13 @@ export default function ResetPwPage({ id, token, isValid: isValidServer }: Reset
               register={register}
             />
             <AsyncButton
+              isGradient
               type='submit'
               isLoading={resetMutation.isLoading}
               isError={!isValid}
               className={cn('w-full fs-16 mt-6')}
             >
-              Xác nhận
+              XÁC NHẬN
             </AsyncButton>
           </form>
         </div>
