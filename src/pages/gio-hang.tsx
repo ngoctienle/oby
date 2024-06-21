@@ -3,7 +3,6 @@ import { ArrowPathIcon, BanknotesIcon, CheckIcon, ShoppingBagIcon, XMarkIcon } f
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation, useQueries, useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
-import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/router'
 import { Fragment, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -320,30 +319,30 @@ export default function CartPage() {
   return (
     <>
       <OBYSeo {...meta} />
-      <div className='@992:pt-7.5 pt-2 min-h-[50%]'>
+      <div className='@992:py-7.5 py-2 min-h-[50%] bg-white'>
         <div className='container'>
           {!initializeData || initializeData.length === 0 ? (
             <NoProduct />
           ) : (
             <>
-              <div className='flex items-center max-w-[426px] justify-between mx-auto relative'>
+              <div className='flex flex-col max-w-[426px] mx-auto relative gap-[6px]'>
                 <div className='absolute w-[80%] h-[1px] top-[35%] left-1/2 -translate-x-1/2 -z-10 bg-oby-DFDFDF' />
-                <div className='flex flex-col items-center @768:gap-1.5 gap-1'>
+                <div className='flex justify-center items-center'>
                   <div className='@768:w-[56px] w-10 flex items-center justify-center @768:h-[56px] h-10 rounded-full bg-oby-E4FBDB'>
                     <ShoppingBagIcon className='@768:w-8 @768:h-8 w-6 h-6 text-oby-green' />
                   </div>
-                  <p className='@768:fs-14 fs-12 text-oby-green font-semibold'>Giỏ hàng</p>
-                </div>
-                <div className='flex flex-col items-center gap-1.5'>
+                  <div className='h-[2px] bg-oby-DFDFDF w-[151px]'></div>
                   <div className='@768:w-[56px] w-10 flex items-center justify-center @768:h-[56px] h-10 rounded-full bg-oby-F6F7F8'>
                     <BanknotesIcon className='@768:w-8 @768:h-8 w-6 h-6 text-oby-9A9898' />
                   </div>
-                  <p className='@768:fs-14 fs-12 text-oby-9A9898'>Tiến hành đặt hàng</p>
-                </div>
-                <div className='flex flex-col items-center gap-1.5'>
+                  <div className='h-[2px] bg-oby-DFDFDF w-[151px]'></div>
                   <div className='@768:w-[56px] w-10 flex items-center justify-center @768:h-[56px] h-10 rounded-full bg-oby-F6F7F8'>
                     <CheckIcon className='@768:w-8 @768:h-8 w-6 h-6 text-oby-9A9898' />
                   </div>
+                </div>
+                <div className='flex justify-between items-center'>
+                  <p className='@768:fs-14 fs-12 text-oby-green font-semibold'>Giỏ hàng</p>
+                  <p className='@768:fs-14 fs-12 text-oby-9A9898'>Tiến hành đặt hàng</p>
                   <p className='@768:fs-14 fs-12 text-oby-9A9898'>Hoàn thành</p>
                 </div>
               </div>
@@ -351,10 +350,10 @@ export default function CartPage() {
                 <div className='@992:col-span-8 col-span-12'>
                   {initializeData.map((item) => (
                     <div
-                      className='@992:p-5 py-3.5 px-4 relative border border-oby-DFDFDF bg-white rounded-tl-4 rounded-br-4 first:mt-0 @992:mt-5 mt-3 flex @992:gap-5 gap-3.5'
+                      className='@992:p-5 py-3.5 px-4 relative border border-oby-DFDFDF bg-white rounded-2 first:mt-0 @992:mt-5 mt-3 flex @992:gap-5 gap-3.5'
                       key={item.item_id}
                     >
-                      <div className='flex-shrink-0 relative @768:w-[150px] @768:h-[100px] w-[95px] h-[82px] bg-white rounded-tl-4 rounded-br-4 overflow-hidden'>
+                      <div className='flex-shrink-0 relative @768:w-[150px] @768:h-[100px] w-[95px] h-[82px] bg-white rounded-2 overflow-hidden'>
                         <OBYImage
                           src={generateProductImageFromMagento(item.custom_attributes)}
                           alt={item.name}
@@ -467,7 +466,7 @@ export default function CartPage() {
                   {/* End Delete Modal */}
                 </div>
                 <div className='@992:col-span-4 col-span-12 bg-transparent'>
-                  <div className=' bg-white rounded-tl-4 rounded-br-4 bsd'>
+                  <div className=' bg-white rounded-2 bsd'>
                     <div className='@992:pt-5 pt-4 @992:pb-4 pb-3 border-b border-b-oby-DFDFDF'>
                       <div className='flex items-center gap-7.5 @992:px-6 px-4'>
                         <p className='@992:fs-16 fs-14 font-semibold'>Mã giảm giá</p>
@@ -631,9 +630,18 @@ export default function CartPage() {
                           </p>
                         </div>
                       </div>
-                      <OBYButton className='@992:mt-5 mt-3 w-full' onClick={handleContinue} disabled={isRouting}>
+                      {/* <OBYButton className='@992:mt-5 mt-3 w-full' onClick={handleContinue} disabled={isRouting}>
                         {isRouting ? <Loader2 className='w-5 h-5 animate-spin' /> : <>Tiếp tục</>}
-                      </OBYButton>
+                      </OBYButton> */}
+                      <AsyncButton
+                        isGradient
+                        isLoading={isRouting}
+                        onClick={handleContinue}
+                        disabled={isRouting}
+                        className='@992:mt-5 mt-3 w-full'
+                      >
+                        TIẾP TỤC
+                      </AsyncButton>
                     </div>
                   </div>
                 </div>
