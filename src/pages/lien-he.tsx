@@ -36,19 +36,19 @@ export default function ContactPage() {
                   href={`https://www.google.com/maps/search/?api=1&query=${appInformationConfig.APP_ADDRESS_MAP}`}
                   title='AGRIAMAZING - Phone'
                 >
-                  68/7B Trần Quang Khải, P.Tân Định, Q.1, HCM
+                  Toà B Masteri Centre Point Đ. D1, Long Bình, Thủ Đức, Thành phố Hồ Chí Minh
                 </OBYLink>
               </li>
               <li className='flex items-center space-x-3'>
                 <OBYPhoneIcon className='w-6 h-6 text-oby-676869' />
                 <OBYLink href={`tel:0789.279.669`} title='AGRIAMAZING - Phone'>
-                  0789 27 9669
+                  090 3122611
                 </OBYLink>
               </li>
               <li className='flex items-center space-x-3'>
                 <OBYEmailIcon className='w-6 h-6 text-oby-676869' />
-                <OBYLink href={`mailto:ongbayeu.corp@gmail.com`} title='AGRIAMAZING - Email'>
-                  ongbayeu.corp@gmail.com
+                <OBYLink href={`mailto:admin@amazingsbuy.com`} title='AGRIAMAZING - Email'>
+                  admin@amazingsbuy.com
                 </OBYLink>
               </li>
             </ul>

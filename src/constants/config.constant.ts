@@ -15,9 +15,12 @@ export const seoConfig = {
 } as const
 
 export const appInformationConfig = {
-  APP_EMAIL: process.env.NEXT_PUBLIC_APP_CONTACT_EMAIL || 'example@email.com',
-  APP_PHONE: process.env.NEXT_PUBLIC_APP_CONTACT_PHONE || '123 123 1234',
-  APP_ADDRESS: process.env.NEXT_PUBLIC_APP_CONTACT_ADDRESS || '47 Đ. Lê Duẩn, P. Bến Nghé, Q.1, TP. HCM',
+  APP_EMAIL: process.env.NEXT_PUBLIC_APP_CONTACT_EMAIL || 'admin@amazingsbuy.com',
+  APP_PHONE: process.env.NEXT_PUBLIC_APP_CONTACT_PHONE || ' 090 3122611',
+  APP_ADDRESS:
+    process.env.NEXT_PUBLIC_APP_CONTACT_ADDRESS ||
+    'Toà B Masteri Centre Point Đ. D1, Long Bình, Thủ Đức, Thành phố Hồ Chí Minh',
   APP_ADDRESS_MAP:
-    process.env.NEXT_PUBLIC_APP_CONTACT_ADDRESS?.replace(' ', '+') || '47+Đ.+Lê Duẩn,+P.+Bến+Nghé,+Q.1,+TP.+HCM'
+    process.env.NEXT_PUBLIC_APP_CONTACT_ADDRESS?.replace(' ', '+') ||
+    'Toà+B+Masteri+Centre+Point+Đ.+D1,+Long+Bình,+Thủ+Đức,+Thành+phố+Hồ+Chí+Minh'
 } as const
