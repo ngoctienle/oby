@@ -37,7 +37,7 @@ export default function Banner() {
   //             <Image
   //               priority
   //               fill
-  //               alt='Ông Bà Yêu Banner'
+  //               alt='AGRIAMAZING Banner'
   //               src={`/images/oby-banner-${index + 1}.webp`}
   //               className='abosolute'
   //               style={{ objectPosition: 'center', objectFit: 'cover' }}
@@ -75,7 +75,7 @@ export default function Banner() {
   //               <Image
   //                 priority
   //                 fill
-  //                 alt='Ông Bà Yêu Banner'
+  //                 alt='AGRIAMAZING Banner'
   //                 src={`/images/oby-banner-${index + 1}.webp`}
   //                 className='absolute'
   //                 style={{ objectPosition: 'center', objectFit: 'cover' }}

@@ -52,11 +52,11 @@ export default function BlogPage({ categories }: BlogPageProps) {
   }, [blogRes?.data, blogsData?.data])
 
   const meta = generateMetaSEO({
-    title: 'Ông Bà Yêu',
+    title: 'AGRIAMAZING',
     template: 'Blogs',
     description: 'Blogs',
-    keywords: [`OBY, Blogs, Tin tức, Ông Bà Yêu, ongbayeu.com`],
-    og_image_alt: 'Ông Bà Yêu',
+    keywords: [`OBY, Blogs, Tin tức, AGRIAMAZING, ongbayeu.com`],
+    og_image_alt: 'AGRIAMAZING',
     slug: hrefPath.blog
   })
 

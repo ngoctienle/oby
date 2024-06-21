@@ -102,8 +102,8 @@ export default function Header({ font, isFocus, user, guestCartId, cartId, token
                   <OBYImage
                     display='responsive'
                     src='/images/logo-brand.png'
-                    alt='Ông Bà Yêu Logo Brand'
-                    title='Ông Bà Yêu Logo Brand'
+                    alt='AGRIAMAZING Logo Brand'
+                    title='AGRIAMAZING Logo Brand'
                     className='object-cover'
                     width={100}
                     height={100}

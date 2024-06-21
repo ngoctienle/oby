@@ -29,7 +29,7 @@ export default function Footer({ font }: FooterProps) {
                 <OBYEmailIcon className='w-6 h-6 text-oby-676869' />
                 <OBYLink
                   href={`mailto:${appInformationConfig.APP_EMAIL}`}
-                  title='Ông Bà Yêu - Email'
+                  title='AGRIAMAZING - Email'
                   className='fs-14 font-bold'
                 >
                   {appInformationConfig.APP_EMAIL}
@@ -39,7 +39,7 @@ export default function Footer({ font }: FooterProps) {
                 <OBYPhoneIcon className='w-6 h-6 text-oby-676869' />
                 <OBYLink
                   href={`tel:${appInformationConfig.APP_PHONE}`}
-                  title='Ông Bà Yêu - Số điện thoại'
+                  title='AGRIAMAZING - Số điện thoại'
                   className='fs-14 font-bold'
                 >
                   {appInformationConfig.APP_PHONE}
@@ -50,7 +50,7 @@ export default function Footer({ font }: FooterProps) {
                 <OBYLink
                   href={`https://www.google.com/maps/search/?api=1&query=${appInformationConfig.APP_ADDRESS_MAP}`}
                   className='fs-14 font-bold'
-                  title='Ông Bà Yêu - Địa Chỉ Shop'
+                  title='AGRIAMAZING - Địa Chỉ Shop'
                 >
                   {appInformationConfig.APP_ADDRESS}
                 </OBYLink>

@@ -10,12 +10,12 @@ import { OBYSeo } from '@/components/UI/OBYSeo'
 
 export default function PaymentPage() {
   const meta = generateMetaSEO({
-    title: 'Ông Bà Yêu',
+    title: 'AGRIAMAZING',
     template: 'Thông Tin Thanh Toán',
     description:
-      'Ông Bà Yêu là một cửa hàng trực tuyến chuyên cung cấp các sản phẩm tổng hợp nhằm phục vụ cho người cao tuổi cùng với dịch vụ hỗ trợ khách hàng đặc biệt, đem đến cho khách hàng một cuộc sống chất lượng nhất.',
-    keywords: [`OBY, Ông Bà Yêu, ongbayeu.com`],
-    og_image_alt: 'Ông Bà Yêu',
+      'AGRIAMAZING là một cửa hàng trực tuyến chuyên cung cấp các sản phẩm tổng hợp nhằm phục vụ cho người cao tuổi cùng với dịch vụ hỗ trợ khách hàng đặc biệt, đem đến cho khách hàng một cuộc sống chất lượng nhất.',
+    keywords: [`OBY, AGRIAMAZING, ongbayeu.com`],
+    og_image_alt: 'AGRIAMAZING',
     slug: '/thong-tin-thanh-toan'
   })
   return (
@@ -60,7 +60,7 @@ export default function PaymentPage() {
               <h2 className='font-bold text-oby-green @992:fs-26 fs-20'>Thông tin thanh toán</h2>
               <p className='@992:fs-16 fs-14'>
                 Hiện nay{' '}
-                <OBYLink href='/' title='Ông Bà Yêu' className='text-oby-primary @992:fs-16 fs-14'>
+                <OBYLink href='/' title='AGRIAMAZING' className='text-oby-primary @992:fs-16 fs-14'>
                   https://ongbayeu.com/
                 </OBYLink>{' '}
                 chấp nhận thanh toán qua 4 hình thức:

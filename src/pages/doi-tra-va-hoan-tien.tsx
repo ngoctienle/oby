@@ -10,12 +10,12 @@ import { OBYSeo } from '@/components/UI/OBYSeo'
 
 export default function RefundPage() {
   const meta = generateMetaSEO({
-    title: 'Ông Bà Yêu',
+    title: 'AGRIAMAZING',
     template: 'Đổi trả và Hoàn tiền',
     description:
-      'Ông Bà Yêu là một cửa hàng trực tuyến chuyên cung cấp các sản phẩm tổng hợp nhằm phục vụ cho người cao tuổi cùng với dịch vụ hỗ trợ khách hàng đặc biệt, đem đến cho khách hàng một cuộc sống chất lượng nhất.',
-    keywords: [`OBY, Ông Bà Yêu, ongbayeu.com`],
-    og_image_alt: 'Ông Bà Yêu',
+      'AGRIAMAZING là một cửa hàng trực tuyến chuyên cung cấp các sản phẩm tổng hợp nhằm phục vụ cho người cao tuổi cùng với dịch vụ hỗ trợ khách hàng đặc biệt, đem đến cho khách hàng một cuộc sống chất lượng nhất.',
+    keywords: [`OBY, AGRIAMAZING, ongbayeu.com`],
+    og_image_alt: 'AGRIAMAZING',
     slug: '/doi-tra-va-hoan-tien'
   })
   return (
@@ -60,19 +60,19 @@ export default function RefundPage() {
               <h2 className='font-bold text-oby-green @992:fs-26 fs-20 mb-5'>Chính sách đổi trả hàng</h2>
               <h3 className='font-semibold @992:fs-20 fs-16 mb-4'>1. Điều khoản và điều kiện trả hàng</h3>
               <ul className='list-disc pl-6 @992:fs-16 fs-14 space-y-2.5'>
-                <li>Thời hạn đổi các mặt hàng đã mua tại Ông Bà Yêu là 15 ngày kể từ ngày xuất hàng.</li>
+                <li>Thời hạn đổi các mặt hàng đã mua tại AGRIAMAZING là 15 ngày kể từ ngày xuất hàng.</li>
                 <li>
                   Hàng được đổi phải đảm bảo còn mới 100% chưa được sử dụng, còn nguyên nhãn mác, nguyên hộp, phụ kiện,
-                  phiếu bảo hành và quà tặng kèm theo (nếu có). Ông Bà Yêu không đổi hàng đã sử dụng hoặc đã kích hoạt
+                  phiếu bảo hành và quà tặng kèm theo (nếu có). AGRIAMAZING không đổi hàng đã sử dụng hoặc đã kích hoạt
                   bảo hành.
                 </li>
                 <li>Tổng giá trị các mặt hàng muốn đổi phải có giá trị tương đương với mặt hàng trả lại.</li>
                 <li>
-                  Nếu sản phẩm có lỗi, quý khách cần thông báo cho Ông Bà Yêu trong vòng 15 ngày kể từ ngày xuất bán.
+                  Nếu sản phẩm có lỗi, quý khách cần thông báo cho AGRIAMAZING trong vòng 15 ngày kể từ ngày xuất bán.
                 </li>
                 <li>
-                  Ông Bà Yêu cam kết sẽ nhanh chóng thay thế sản phẩm ngay tức thì cho khách hàng. Nếu như sản phẩm đó
-                  không còn hàng Ông Bà Yêu sẽ hoàn lại tiền mà không có đòi hỏi nào trong trường hợp này.
+                  AGRIAMAZING cam kết sẽ nhanh chóng thay thế sản phẩm ngay tức thì cho khách hàng. Nếu như sản phẩm đó
+                  không còn hàng AGRIAMAZING sẽ hoàn lại tiền mà không có đòi hỏi nào trong trường hợp này.
                 </li>
               </ul>
               <p className='@992:fs-16 fs-14 my-2.5'>
@@ -81,7 +81,7 @@ export default function RefundPage() {
               <p className='@992:fs-16 fs-14'>
                 Vui lòng chắc chắn rằng sản phẩm Khách hàng yêu cầu đổi/trả thỏa mãn điều kiện đổi trả sản phẩm như trên
                 của{' '}
-                <OBYLink href='/' title='Ông Bà Yêu' className='text-oby-primary'>
+                <OBYLink href='/' title='AGRIAMAZING' className='text-oby-primary'>
                   ongbayeu.com
                 </OBYLink>
               </p>
@@ -89,14 +89,14 @@ export default function RefundPage() {
               <ul className='@992:fs-16 fs-14 space-y-2.5'>
                 <li>
                   <span className='font-semibold text-oby-green'>Bước 1:</span> Khách hàng liên hệ cửa hàng hoặc SĐT:{' '}
-                  <OBYLink href={`tel:0789.279.669`} title='Ông Bà Yêu - Số điện thoại' className='text-oby-primary'>
+                  <OBYLink href={`tel:0789.279.669`} title='AGRIAMAZING - Số điện thoại' className='text-oby-primary'>
                     0789.279.669
                   </OBYLink>{' '}
                   hoặc email:{' '}
-                  <OBYLink href={`mailto:cskh@ongbayeu.com`} title='Ông Bà Yêu - Email' className='text-oby-primary'>
+                  <OBYLink href={`mailto:cskh@ongbayeu.com`} title='AGRIAMAZING - Email' className='text-oby-primary'>
                     cskh@ongbayeu.com
                   </OBYLink>{' '}
-                  để yêu cầu việc đổi/trả sản phẩm, Ông Bà Yêu sẽ hướng dẫn bạn cách đổi/trả sản phẩm. Nếu quá trình
+                  để yêu cầu việc đổi/trả sản phẩm, AGRIAMAZING sẽ hướng dẫn bạn cách đổi/trả sản phẩm. Nếu quá trình
                   đổi/trả sản phẩm của khách hợp lệ.
                 </li>
                 <li>
@@ -105,11 +105,11 @@ export default function RefundPage() {
                   sản phẩm mua online.
                 </li>
                 <li>
-                  <span className='font-semibold text-oby-green'>Bước 3:</span> Ông Bà Yêu nhận sản phẩm và kiểm tra sản
-                  phẩm.
+                  <span className='font-semibold text-oby-green'>Bước 3:</span> AGRIAMAZING nhận sản phẩm và kiểm tra
+                  sản phẩm.
                 </li>
                 <li>
-                  <span className='font-semibold text-oby-green'>Bước 4:</span> Ông Bà Yêu chuyển sản phẩm đến Nhà Cung
+                  <span className='font-semibold text-oby-green'>Bước 4:</span> AGRIAMAZING chuyển sản phẩm đến Nhà Cung
                   Cấp để tiến hàng đổi/trả.
                 </li>
                 <li>
@@ -120,12 +120,12 @@ export default function RefundPage() {
               <h3 className='font-semibold @992:fs-20 fs-16 mb-4 mt-6'>3. Các bước thực hiện đổi/trả sản phẩm</h3>
               <ul className='@992:fs-16 fs-14 space-y-2.5'>
                 <li>
-                  <span className='font-semibold text-oby-green'>Bước 1:</span> Đăng ký. Liên hệ với Ông Bà Yêu qua{' '}
-                  <OBYLink href={`tel:0789.279.669`} title='Ông Bà Yêu - Số điện thoại' className='text-oby-primary'>
+                  <span className='font-semibold text-oby-green'>Bước 1:</span> Đăng ký. Liên hệ với AGRIAMAZING qua{' '}
+                  <OBYLink href={`tel:0789.279.669`} title='AGRIAMAZING - Số điện thoại' className='text-oby-primary'>
                     0789.279.669
                   </OBYLink>{' '}
                   hoặc gửi mail{' '}
-                  <OBYLink href={`mailto:cskh@ongbayeu.com`} title='Ông Bà Yêu - Email' className='text-oby-primary'>
+                  <OBYLink href={`mailto:cskh@ongbayeu.com`} title='AGRIAMAZING - Email' className='text-oby-primary'>
                     cskh@ongbayeu.com
                   </OBYLink>{' '}
                   và cung cấp thông tin chi tiết về sản phẩm lỗi gồm:
@@ -144,8 +144,8 @@ export default function RefundPage() {
                   <span className='font-semibold text-oby-green'>Bước 3:</span> Đóng gói và mang sản phẩm đến Bưu Điện.
                 </li>
                 <li>
-                  <span className='font-semibold text-oby-green'>Bước 4:</span> Gửi sản phẩm về Ông Bà Yêu . Quý khách
-                  vui lòng gửi sản phẩm qua đường Bưu Điện về Ông Bà Yêu trong vòng 03 (ba) ngày làm việc kể từ khi
+                  <span className='font-semibold text-oby-green'>Bước 4:</span> Gửi sản phẩm về AGRIAMAZING . Quý khách
+                  vui lòng gửi sản phẩm qua đường Bưu Điện về AGRIAMAZING trong vòng 03 (ba) ngày làm việc kể từ khi
                   thông báo với bộ phận chăm sóc khách hàng và gửi kèm:
                   <ul className='@992:fs-16 fs-14 space-y-1.5 pl-6 list-disc mt-2.5'>
                     <li>Hóa đơn bán hàng hoặc đính kèm giấy ghi chú có mã đơn hàng</li>
@@ -167,19 +167,19 @@ export default function RefundPage() {
                   sản phẩm bị hư hỏng.
                 </li>
                 <li>
-                  Liên hệ Ông Bà Yêu:{' '}
-                  <OBYLink href={`tel:0789.279.669`} title='Ông Bà Yêu - Số điện thoại' className='text-oby-primary'>
+                  Liên hệ AGRIAMAZING:{' '}
+                  <OBYLink href={`tel:0789.279.669`} title='AGRIAMAZING - Số điện thoại' className='text-oby-primary'>
                     0789.279.669
                   </OBYLink>{' '}
-                  (8h - 23h) khi có bất cứ khó khăn xảy ra trong quá trình chuyển sản phẩm. Gửi hàng về Ông Bà Yêu theo
+                  (8h - 23h) khi có bất cứ khó khăn xảy ra trong quá trình chuyển sản phẩm. Gửi hàng về AGRIAMAZING theo
                   địa chỉ nhân viên chăm sóc khách hàng đã cung cấp.
                 </li>
               </ul>
               <p className='@992:fs-16 fs-14'>
                 <span className='font-semibold'>Lưu ý:</span> Khách hàng vui lòng chỉ gửi sản phẩm qua đường bưu điện và
-                chịu trách nhiệm về trạng thái nguyên vẹn của sản phẩm khi gửi về Ông Bà Yêu .Sau khi nhận được sản phẩm
-                Khách hàng gửi về Ông Bà Yêu sẽ phản hồi và cập nhật thông tin trên từng giai đoạn xử lý đến Khách hàng
-                qua số điện thoại hoặc email.
+                chịu trách nhiệm về trạng thái nguyên vẹn của sản phẩm khi gửi về AGRIAMAZING .Sau khi nhận được sản
+                phẩm Khách hàng gửi về AGRIAMAZING sẽ phản hồi và cập nhật thông tin trên từng giai đoạn xử lý đến Khách
+                hàng qua số điện thoại hoặc email.
               </p>
               <h3 className='font-semibold @992:fs-20 fs-16 mb-4 mt-6'>
                 5. Một số lưu ý khi gửi sản phẩm đến bưu điện
@@ -189,21 +189,21 @@ export default function RefundPage() {
               </h4>
               <p className='@992:fs-16 fs-14'>
                 <ArrowRightIcon className='w-5 h-5 inline-block mr-1.5' />
-                Thời hạn đổi các mặt hàng bán tại Ông Bà Yêu là 15 ngày kể từ ngày xuất hàng. Hàng được đổi phải đảm bảo
-                còn mới 100% chưa được sử dụng và còn nguyên nhãn mác. Ông Bà Yêu không cho phép các trường hợp đổi hàng
-                đã sử dụng.
+                Thời hạn đổi các mặt hàng bán tại AGRIAMAZING là 15 ngày kể từ ngày xuất hàng. Hàng được đổi phải đảm
+                bảo còn mới 100% chưa được sử dụng và còn nguyên nhãn mác. AGRIAMAZING không cho phép các trường hợp đổi
+                hàng đã sử dụng.
               </p>
               <h4 className='font-semibold @992:fs-16 fs-14 text-oby-green mb-2 mt-4'>
                 Tôi đã đặt hàng, giờ muốn hủy đơn hàng phải làm sao?
               </h4>
               <p className='@992:fs-16 fs-14'>
                 <ArrowRightIcon className='w-5 h-5 inline-block mr-1.5' />
-                Quý khách vui lòng thông báo đến Ông Bà Yêu qua số{' '}
-                <OBYLink href={`tel:0789.279.669`} title='Ông Bà Yêu - Số điện thoại' className='text-oby-primary'>
+                Quý khách vui lòng thông báo đến AGRIAMAZING qua số{' '}
+                <OBYLink href={`tel:0789.279.669`} title='AGRIAMAZING - Số điện thoại' className='text-oby-primary'>
                   0789.279.669
                 </OBYLink>
-                , chúng tôi sẽ hủy đơn hàng cho quý khách. Hoặc quý khách đăng nhập vào website Ông Bà Yêu để tự hủy đơn
-                hàng nếu đặt hàng từ website.
+                , chúng tôi sẽ hủy đơn hàng cho quý khách. Hoặc quý khách đăng nhập vào website AGRIAMAZING để tự hủy
+                đơn hàng nếu đặt hàng từ website.
               </p>
               <h4 className='font-semibold @992:fs-16 fs-14 text-oby-green mb-2 mt-4'>
                 Tôi có được trả hàng nếu tôi không hài lòng với sản phẩm tôi nhận được?
@@ -212,20 +212,20 @@ export default function RefundPage() {
                 <ArrowRightIcon className='w-5 h-5 flex-shrink-0' />
                 <ul className='list-disc pl-6 @992:fs-16 fs-14 space-y-1.5'>
                   <li>
-                    Nếu sản phẩm có lỗi kỹ thuật, quý khách cần thông báo cho Ông Bà Yêu được biết qua số{' '}
-                    <OBYLink href={`tel:0789.279.669`} title='Ông Bà Yêu - Số điện thoại' className='text-oby-primary'>
+                    Nếu sản phẩm có lỗi kỹ thuật, quý khách cần thông báo cho AGRIAMAZING được biết qua số{' '}
+                    <OBYLink href={`tel:0789.279.669`} title='AGRIAMAZING - Số điện thoại' className='text-oby-primary'>
                       0789.279.669
                     </OBYLink>
                     , email:{' '}
-                    <OBYLink href={`mailto:cskh@ongbayeu.com`} title='Ông Bà Yêu - Email' className='text-oby-primary'>
+                    <OBYLink href={`mailto:cskh@ongbayeu.com`} title='AGRIAMAZING - Email' className='text-oby-primary'>
                       cskh@ongbayeu.com
                     </OBYLink>{' '}
                     hoặc chat với nhân viên bán hàng trên website{' '}
-                    <OBYLink href={`/`} title='Ông Bà Yêu - Email' className='text-oby-primary'>
+                    <OBYLink href={`/`} title='AGRIAMAZING - Email' className='text-oby-primary'>
                       https://ongbayeu.com
                     </OBYLink>{' '}
-                    hoặc Fanpage Ông Bà Yêu trong vòng 15 ngày kể từ ngày xuất bán. Ông Bà Yêu cam kết hoàn lại tiền mà
-                    không có đòi hỏi nào trong trường hợp này.
+                    hoặc Fanpage AGRIAMAZING trong vòng 15 ngày kể từ ngày xuất bán. AGRIAMAZING cam kết hoàn lại tiền
+                    mà không có đòi hỏi nào trong trường hợp này.
                   </li>
                   <li>
                     Hàng hóa phải được trả lại y nguyên như ban đầu khi chúng được nhận. Xin vui lòng liên hệ với phòng

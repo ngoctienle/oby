@@ -10,12 +10,12 @@ import { OBYSeo } from '@/components/UI/OBYSeo'
 
 export default function PrivacyPage() {
   const meta = generateMetaSEO({
-    title: 'Ông Bà Yêu',
+    title: 'AGRIAMAZING',
     template: 'Chính Sách Bảo Mật',
     description:
-      'Ông Bà Yêu là một cửa hàng trực tuyến chuyên cung cấp các sản phẩm tổng hợp nhằm phục vụ cho người cao tuổi cùng với dịch vụ hỗ trợ khách hàng đặc biệt, đem đến cho khách hàng một cuộc sống chất lượng nhất.',
-    keywords: [`OBY, Ông Bà Yêu, ongbayeu.com`],
-    og_image_alt: 'Ông Bà Yêu',
+      'AGRIAMAZING là một cửa hàng trực tuyến chuyên cung cấp các sản phẩm tổng hợp nhằm phục vụ cho người cao tuổi cùng với dịch vụ hỗ trợ khách hàng đặc biệt, đem đến cho khách hàng một cuộc sống chất lượng nhất.',
+    keywords: [`OBY, AGRIAMAZING, ongbayeu.com`],
+    og_image_alt: 'AGRIAMAZING',
     slug: '/chinh-sach-bao-mat'
   })
   return (
@@ -59,69 +59,69 @@ export default function PrivacyPage() {
             <div className='@992:col-span-9 @992:order-2 order-1 col-span-12 space-y-5'>
               <h2 className='font-bold text-oby-green @992:fs-26 fs-20'>Chính sách bảo mật</h2>
               <p className='@992:fs-16 fs-14'>
-                Chính sách bảo mật này công bố cách thức mà Công ty TNHH Ông Bà Yêu (Sau đây gọi tắt là “Ông Bà Yêu”
+                Chính sách bảo mật này công bố cách thức mà Công ty TNHH AGRIAMAZING (Sau đây gọi tắt là “AGRIAMAZING”
                 hoặc “Chúng tôi”) thu thập, lưu trữ và xử lý thông tin hoặc dữ liệu cá nhân (“Thông tin cá nhân”) của
                 các khách hàng của mình trong độ tuổi trung niên và cao tuổi thông qua website{' '}
-                <OBYLink href='/' title='Ông Bà Yêu' className='text-oby-primary @992:fs-16 fs-14'>
+                <OBYLink href='/' title='AGRIAMAZING' className='text-oby-primary @992:fs-16 fs-14'>
                   https://ongbayeu.com/
                 </OBYLink>{' '}
-                và Ứng dụng Ông Bà Yêu trên thiết bị di động (Sau đây gọi tắt là &quot;App Ông Bà Yêu&quot;)
+                và Ứng dụng AGRIAMAZING trên thiết bị di động (Sau đây gọi tắt là &quot;App AGRIAMAZING&quot;)
               </p>
               <p className='@992:fs-16 fs-14'>
                 Chúng tôi cam kết sẽ bảo mật các Thông tin cá nhân của khách hàng, sẽ nỗ lực hết sức và sử dụng các biện
                 pháp thích hợp để các thông tin mà khách hàng cung cấp cho chúng tôi trong quá trình sử dụng website &
-                ứng dụng này được bảo mật và bảo vệ khỏi sự truy cập trái phép. Tuy nhiên, Ông Bà Yêu không đảm bảo ngăn
-                chặn được tất cả các truy cập trái phép. Công ty TNHH Ông Bà Yêu không ủy quyền cho bên thứ ba thực hiện
-                việc thu thập, lưu trữ thông tin cá nhân của người tiêu dùng trong độ tuổi trung niên và cao tuổi. Trong
-                trường hợp truy cập trái phép nằm ngoài khả năng kiểm soát của chúng tôi, Ông Bà Yêu sẽ không chịu trách
-                nhiệm dưới bất kỳ hình thức nào đối với bất kỳ khiếu nại, tranh chấp hoặc thiệt hại nào phát sinh từ
-                hoặc liên quan đến truy cập trái phép đó.
+                ứng dụng này được bảo mật và bảo vệ khỏi sự truy cập trái phép. Tuy nhiên, AGRIAMAZING không đảm bảo
+                ngăn chặn được tất cả các truy cập trái phép. Công ty TNHH AGRIAMAZING không ủy quyền cho bên thứ ba
+                thực hiện việc thu thập, lưu trữ thông tin cá nhân của người tiêu dùng trong độ tuổi trung niên và cao
+                tuổi. Trong trường hợp truy cập trái phép nằm ngoài khả năng kiểm soát của chúng tôi, AGRIAMAZING sẽ
+                không chịu trách nhiệm dưới bất kỳ hình thức nào đối với bất kỳ khiếu nại, tranh chấp hoặc thiệt hại nào
+                phát sinh từ hoặc liên quan đến truy cập trái phép đó.
               </p>
               <p className='@992:fs-16 fs-14'>
                 Để hiểu rõ hơn về chính sách trong công tác thu thập, lưu trữ và sử dụng thông tin cá nhân của người sử
-                dụng website & app Ông Bà Yêu, vui lòng đọc các chính sách bảo mật dưới đây:
+                dụng website & app AGRIAMAZING, vui lòng đọc các chính sách bảo mật dưới đây:
               </p>
               <h3 className='@992:fs-20 font-semibold'>1. Mục đích và phạm vi thu thập</h3>
               <p className='@992:fs-16 fs-14'>
-                Việc thu thập dữ liệu chủ yếu trên website ongbayeu.com & App Ông Bà Yêu bao gồm: số điện thoại, tên
+                Việc thu thập dữ liệu chủ yếu trên website ongbayeu.com & App AGRIAMAZING bao gồm: số điện thoại, tên
                 đăng nhập, mật khẩu đăng nhập, địa chỉ khách hàng, hình ảnh và thư điện tử (nếu có). Đây là các thông
-                tin mà Ông Bà Yêu cần khách hàng cung cấp bắt buộc khi đăng ký sử dụng dịch vụ và Ông Bà Yêu sử dụng
-                nhằm liên hệ xác nhận khi khách hàng đăng ký sử dụng dịch vụ trên ongbayeu.com & App Ông Bà Yêu, đảm bảo
-                quyền lợi cho khách hàng. Bên cạnh đó, chúng tôi cũng thu thập thông tin về số lần viếng thăm, bao gồm
-                số trang bạn xem, số links (liên kết) bạn click và những thông tin khác liên quan đến việc kết nối đến
-                site của Ông Bà Yêu & App Ông Bà Yêu. Chúng tôi cũng thu thập các thông tin mà trình duyệt Web (Browser)
-                bạn sử dụng mỗi khi truy cập vào{' '}
-                <OBYLink href='/' title='Ông Bà Yêu' className='text-oby-primary @992:fs-16 fs-14'>
+                tin mà AGRIAMAZING cần khách hàng cung cấp bắt buộc khi đăng ký sử dụng dịch vụ và AGRIAMAZING sử dụng
+                nhằm liên hệ xác nhận khi khách hàng đăng ký sử dụng dịch vụ trên ongbayeu.com & App AGRIAMAZING, đảm
+                bảo quyền lợi cho khách hàng. Bên cạnh đó, chúng tôi cũng thu thập thông tin về số lần viếng thăm, bao
+                gồm số trang bạn xem, số links (liên kết) bạn click và những thông tin khác liên quan đến việc kết nối
+                đến site của AGRIAMAZING & App AGRIAMAZING. Chúng tôi cũng thu thập các thông tin mà trình duyệt Web
+                (Browser) bạn sử dụng mỗi khi truy cập vào{' '}
+                <OBYLink href='/' title='AGRIAMAZING' className='text-oby-primary @992:fs-16 fs-14'>
                   https://ongbayeu.com/
                 </OBYLink>{' '}
-                & App Ông Bà Yêu, bao gồm: địa chỉ IP, loại Browser, ngôn ngữ sử dụng, thời gian và những địa chỉ mà
+                & App AGRIAMAZING, bao gồm: địa chỉ IP, loại Browser, ngôn ngữ sử dụng, thời gian và những địa chỉ mà
                 Browser truy xuất đến nhằm nâng cao chất lượng phục vụ khách hàng.
               </p>
               <p className='@992:fs-16 fs-14'>
                 Các khách hàng sẽ tự chịu trách nhiệm về bảo mật và lưu giữ mọi hoạt động sử dụng dịch vụ dưới tên đăng
                 ký, mật khẩu và hộp thư điện tử của mình. Ngoài ra, khách hàng có trách nhiệm thông báo kịp thời cho{' '}
-                <OBYLink href='/' title='Ông Bà Yêu' className='text-oby-primary @992:fs-16 fs-14'>
+                <OBYLink href='/' title='AGRIAMAZING' className='text-oby-primary @992:fs-16 fs-14'>
                   https://ongbayeu.com/
                 </OBYLink>{' '}
-                & App Ông Bà Yêu về những hành vi sử dụng trái phép, lạm dụng, vi phạm bảo mật, lưu giữ tên đăng ký và
+                & App AGRIAMAZING về những hành vi sử dụng trái phép, lạm dụng, vi phạm bảo mật, lưu giữ tên đăng ký và
                 mật khẩu của bên thứ ba để có biện pháp giải quyết phù hợp.
               </p>
               <h3 className='@992:fs-20 font-semibold'>2. Phạm vi sử dụng thông tin</h3>
               <p className='@992:fs-16 fs-14'>
                 Website{' '}
-                <OBYLink href='/' title='Ông Bà Yêu' className='text-oby-primary @992:fs-16 fs-14'>
+                <OBYLink href='/' title='AGRIAMAZING' className='text-oby-primary @992:fs-16 fs-14'>
                   https://ongbayeu.com/
                 </OBYLink>{' '}
-                & App Ông Bà Yêu sử dụng thông tin khách hàng cung cấp để:
+                & App AGRIAMAZING sử dụng thông tin khách hàng cung cấp để:
               </p>
               <ul className='pl-5 list-disc @992:fs-16 fs-14'>
                 <li>Cung cấp các dịch vụ đến khách hàng trong độ tuổi trung niên và cao tuổi.</li>
                 <li>
                   Gửi các thông báo về các hoạt động trao đổi thông tin giữa khách hàng và website{' '}
-                  <OBYLink href='/' title='Ông Bà Yêu' className='text-oby-primary @992:fs-16 fs-14'>
+                  <OBYLink href='/' title='AGRIAMAZING' className='text-oby-primary @992:fs-16 fs-14'>
                     https://ongbayeu.com/
                   </OBYLink>{' '}
-                  cũng như App Ông Bà Yêu.
+                  cũng như App AGRIAMAZING.
                 </li>
                 <li>
                   Ngăn ngừa các hoạt động phá hủy tài khoản người dùng của khách hàng hoặc các hoạt động giả mạo khách
@@ -142,7 +142,7 @@ export default function PrivacyPage() {
               </p>
               <h3 className='@992:fs-20 font-semibold'>3. Thời gian lưu trữ thông tin</h3>
               <p className='@992:fs-16 fs-14'>
-                Ông Bà Yêu sẽ lưu trữ thông tin khách hàng trong độ tuổi trung niên và cao tuổi cho đến khi khách hàng
+                AGRIAMAZING sẽ lưu trữ thông tin khách hàng trong độ tuổi trung niên và cao tuổi cho đến khi khách hàng
                 yêu cầu xoá thông tin hoặc theo yêu cầu của pháp luật hiện hành.
               </p>
               <h3 className='@992:fs-20 font-semibold'>4. Chia sẻ thông tin</h3>
@@ -177,7 +177,7 @@ export default function PrivacyPage() {
                 lòng liên hệ với chúng tôi thông qua địa chỉ email:{' '}
                 <OBYLink
                   href={`mailto:support@ongbayeu.com`}
-                  title='Ông Bà Yêu - Email'
+                  title='AGRIAMAZING - Email'
                   className='text-oby-primary @992:fs-16 fs-14'
                 >
                   support@ongbayeu.com
@@ -189,10 +189,10 @@ export default function PrivacyPage() {
                 Chúng tôi có thể thay đổi chính sách bảo mật nàyđể phản ánh các thay đổi trong quy trình hoạt động của
                 chúng tôi hoặc để tuân thủ các quy định pháp luật mới. Chúng tôi sẽ thông báo cho khách hàng về bất kỳ
                 thay đổi nào của chính sách bảo mật này bằng cách đăng thông báo trên website{' '}
-                <OBYLink href='/' title='Ông Bà Yêu' className='text-oby-primary @992:fs-16 fs-14'>
+                <OBYLink href='/' title='AGRIAMAZING' className='text-oby-primary @992:fs-16 fs-14'>
                   https://ongbayeu.com/
                 </OBYLink>{' '}
-                và trong App Ông Bà Yêu. Chúng tôi khuyến khích khách hàng đánh giá lại chính sách bảo mật này thường
+                và trong App AGRIAMAZING. Chúng tôi khuyến khích khách hàng đánh giá lại chính sách bảo mật này thường
                 xuyên để hiểu rõ hơn về cách chúng tôi thu thập, sử dụng và bảo vệ thông tin cá nhân của khách hàng.
               </p>
               <h3 className='@992:fs-20 font-semibold'>8. Liên hệ</h3>
@@ -201,7 +201,7 @@ export default function PrivacyPage() {
                 thể liên hệ với chúng tôi qua địa chỉ email:{' '}
                 <OBYLink
                   href={`mailto:ongbayeu.corp@gmail.com`}
-                  title='Ông Bà Yêu - Email'
+                  title='AGRIAMAZING - Email'
                   className='text-oby-primary @992:fs-16 fs-14'
                 >
                   ongbayeu.corp@gmail.com
