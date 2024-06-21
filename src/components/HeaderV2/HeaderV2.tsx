@@ -80,7 +80,6 @@ export default function HeaderV2({ font, isFocus, user, guestCartId, cartId, tok
   const parentCategoryItem = useMemo(() => {
     return parentCategoryAttrRes?.data.items as ItemWithAttribute[]
   }, [parentCategoryAttrRes])
-  console.log('🚀 ~ parentCategoryItem ~ parentCategoryItem:', parentCategoryItem)
 
   return (
     <header className={cn(font.className, 'sticky top-0 inset-x-0 z-10 ')}>
@@ -90,7 +89,9 @@ export default function HeaderV2({ font, isFocus, user, guestCartId, cartId, tok
           <div className='flex flex-row justify-between items-center gap-6'>
             <div className='hidden @992:flex flex-row justify-between items-center gap-1'>
               <MapPinIcon className='h-4 w-4 text-[#FFE500]' />
-              <p className='text-white text-xs font-normal'>47 Đ. Lê Duẩn, P. Bến Nghé, Q.1, TP. HCM</p>
+              <p className='text-white text-xs font-normal'>
+                Toà B Masteri Centre Point Đ. D1, Long Bình, Thủ Đức, Thành phố Hồ Chí Minh
+              </p>
             </div>
             <div className='flex flex-row justify-between items-center gap-1'>
               <ClockIcon className='h-4 w-4 text-[#FFE500]' />

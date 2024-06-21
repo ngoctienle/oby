@@ -106,7 +106,7 @@ export default function Product({ data, isHorizontal = false }: ProductProps) {
       </div>
     </div>
   ) : (
-    <div className='flex group flex-col bg-white pb-3 rounded-2 border border-[#F6F6F6]'>
+    <div className='flex group flex-col bg-white pb-3 rounded-2 border border-[#F6F6F6] @992:w-full w-[191px]'>
       <OBYLink
         href={`${hrefPath.productDetail}/${data.sku}`}
         title={data.name}

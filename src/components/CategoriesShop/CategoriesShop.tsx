@@ -89,7 +89,7 @@ export const CategoriesShop = () => {
             </Swiper>
           </div>
         </div>
-        <div className='@992:flex @992:flex-row items-center @992:gap-6 hidden'>
+        {/* <div className='@992:flex @992:flex-row items-center @992:gap-6 hidden'>
           <div className='w-1/3 flex-shrink-0 mt-14 relative'>
             <Image
               priority
@@ -117,6 +117,35 @@ export const CategoriesShop = () => {
               unoptimized
             />
             <div className='absolute bottom-6 left-32 w-[180px]'>
+              <GradientButton btnText='XEM NGAY' url='/' isBorder={false} />
+            </div>
+          </div>
+        </div> */}
+
+        <div className='@992:grid hidden grid-cols-3 gap-6'>
+          <div className='col-span-1 w-full h-[270px] relative rounded-4 overflow-hidden mt-[76px]'>
+            <Image
+              priority
+              alt='Agriamazing Banner'
+              src={`/images/agr-banner-4.png`}
+              fill
+              style={{ objectPosition: 'center', objectFit: 'cover' }}
+              loader={({ src }) => src}
+            />
+            <div className='absolute bottom-6 right-4 w-[180px]'>
+              <GradientButton btnText='XEM NGAY' url='/' isBorder={false} />
+            </div>
+          </div>
+          <div className='col-span-2 w-full  h-[290px] relative rounded-4 overflow-hidden mt-14'>
+            <Image
+              priority
+              alt='Agriamazing Banner'
+              src={`/images/agr-banner-5.png`}
+              fill
+              style={{ objectPosition: 'bottom', objectFit: 'cover' }}
+              loader={({ src }) => src}
+            />
+            <div className='absolute bottom-6 left-40 w-[180px]'>
               <GradientButton btnText='XEM NGAY' url='/' isBorder={false} />
             </div>
           </div>

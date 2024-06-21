@@ -67,8 +67,8 @@ export default function ProductSuggest() {
               return <CateTag key={index} data={item.data?.data} />
             })}
         </div>
-        <div className='h-[1px] w-full bg-oby-DFDFDF my-4' />
-        <div className='h-[46px] w-full relative my-4'>
+        <div className='h-[1px] w-full bg-oby-DFDFDF mt-4' />
+        <div className='h-[46px] w-full relative mt-4'>
           <Swiper
             lazy={true}
             slidesPerView={10}
@@ -99,17 +99,16 @@ export default function ProductSuggest() {
             </button>
           </div>
         </div>
-        <div className='w-full h-[100px] relative'>
+        <div className='w-full h-[100px] relative mt-4 @992:mt-8'>
           <Image
             src={'/images/agr-ads.png'}
             alt='ads-2'
             fill
             style={{
-              objectPosition: 'center',
-              objectFit: 'contain'
+              objectPosition: 'left',
+              objectFit: isMedium ? 'contain' : 'cover'
             }}
             loader={({ src }) => src}
-            unoptimized
             priority
           />
         </div>

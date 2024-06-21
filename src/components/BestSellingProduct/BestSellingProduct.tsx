@@ -27,7 +27,7 @@ export const BestSellingProduct = () => {
         <Swiper
           lazy={true}
           slidesPerView={2}
-          spaceBetween={30}
+          spaceBetween={16}
           breakpoints={{
             768: {
               slidesPerView: 3,
