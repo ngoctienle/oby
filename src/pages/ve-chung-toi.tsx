@@ -57,7 +57,7 @@ export default function AboutUsPage() {
               </div>
             </div>
             <div className='@992:col-span-9 @992:order-2 order-1 col-span-12'>
-              <h2 className='font-bold text-oby-green @992:fs-26 fs-20 mb-5'>Về chúng tôi</h2>
+              <h2 className='font-bold text-oby-primary @992:fs-26 fs-20 mb-5'>Về chúng tôi</h2>
               <h3 className='font-semibold @992:fs-20 fs-16 mb-4'>🌱 Giới Thiệu Về Agriamazing 🌱</h3>
               <p className='@992:fs-16 fs-14'>
                 Chào mừng bạn đến với Agriamazing! Chúng tôi là một doanh nghiệp tiên phong trong lĩnh vực cung cấp nông

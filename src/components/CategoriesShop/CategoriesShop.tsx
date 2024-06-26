@@ -1,32 +1,60 @@
-import {
-  AGRCherryCategory,
-  AGRFisrtAidKitCategory,
-  AGRFoodDeliveryCategory,
-  AGRGradientLeftArrowIcon,
-  AGRGradientRightArrowIcon,
-  AGRHarvestCategory,
-  AGRPromotionCategory
-} from '../UI/AGRIcons'
+import { AGRGradientLeftArrowIcon, AGRGradientRightArrowIcon } from '../UI/AGRIcons'
+import { OBYImage, OBYLink } from '../UI/Element'
 import GradientButton from '../UI/GradientButton'
+import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
-import { useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import { EffectFade, Lazy, Swiper as SwiperType } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
-import { customClasses } from '@/constants/config.constant'
+import { ItemWithAttribute } from '@/@types/category.type'
+
+import { createSlug } from '@/helpers'
+import { generateCategoryImageFromMagento, getIDListCategoryAsString, getParentCategory } from '@/helpers/category'
+
+import categoryApi from '@/apis/magento/category.api'
+
+import { cacheTime, customClasses } from '@/constants/config.constant'
+import { hrefPath } from '@/constants/href.constant'
 
 // import { Autoplay, EffectFade, Lazy, Navigation, Pagination } from 'swiper'
 // import { Swiper, SwiperSlide } from 'swiper/react'
 
 export const CategoriesShop = () => {
   const swiperRef = useRef<SwiperType | null>(null)
-  const DUMMY_CATES = [
-    { id: 1, icons: <AGRPromotionCategory className='w-[52px] h-[52px]' />, name: 'KHUYẾN MÃI SỐC' },
-    { id: 2, icons: <AGRFisrtAidKitCategory className='w-[52px] h-[52px]' />, name: 'SỨC KHỎE' },
-    { id: 3, icons: <AGRHarvestCategory className='w-[52px] h-[52px]' />, name: 'NÔNG SẢN SẠCH' },
-    { id: 4, icons: <AGRCherryCategory className='w-[52px] h-[52px]' />, name: 'THỰC PHẨM TƯƠI' },
-    { id: 5, icons: <AGRFoodDeliveryCategory className='w-[52px] h-[52px]' />, name: 'THỰC PHẨM ĐÓNG GÓI' }
-  ]
+
+  const { data: parentCategoryRes } = useQuery({
+    queryKey: ['categories'],
+    queryFn: () => {
+      return categoryApi.GetCategoryList()
+    },
+    staleTime: cacheTime.halfHours
+  })
+  const parentCategory = (parentCategoryRes && getParentCategory(parentCategoryRes.data)) || []
+
+  const { data: parentCategoryAttrRes } = useQuery({
+    queryKey: ['categoryAttr'],
+    queryFn: () => categoryApi.GetAttrCategoryById(getIDListCategoryAsString(parentCategory)),
+    enabled: parentCategory.length > 0,
+    staleTime: cacheTime.halfHours
+  })
+
+  const parentCategoryItem = useMemo(() => {
+    return parentCategoryAttrRes?.data.items as ItemWithAttribute[]
+  }, [parentCategoryAttrRes])
+
+  const initializeCategory = useMemo(() => {
+    return parentCategory.map((category) => {
+      const categoryItem = parentCategoryItem?.find((item) => item.id === category.id)
+      const customAttributes = categoryItem?.custom_attributes || []
+
+      return {
+        ...category,
+        custom_attributes: customAttributes
+      }
+    })
+  }, [parentCategory, parentCategoryItem])
+
   const handleClickChangeSlide = (type: string) => {
     if (swiperRef.current) {
       if (type === 'next') {
@@ -71,18 +99,29 @@ export const CategoriesShop = () => {
               modules={[Lazy, EffectFade]}
               className='categories @992:my-[30px] my-4'
             >
-              {DUMMY_CATES.map((cate) => {
+              {initializeCategory.map((item) => {
                 return (
-                  <SwiperSlide key={cate.id}>
-                    <div className='h-full w-[132px] rounded-xl bg-[#FAFAFA] flex flex-col items-center p-4'>
-                      {cate.icons}
+                  <SwiperSlide key={item.id}>
+                    <OBYLink
+                      href={`${hrefPath.catePage}/${createSlug(item.name)}-${item.id}`}
+                      className='h-full w-[132px] rounded-xl bg-[#FAFAFA] flex flex-col items-center p-4'
+                    >
+                      <div className='w-[52px] h-[52px] relative rounded-2 overflow-hidden'>
+                        <OBYImage
+                          src={generateCategoryImageFromMagento(item.custom_attributes)}
+                          display='responsive'
+                          alt={item.name}
+                          title={item.name}
+                          className='object-cover'
+                        />
+                      </div>
                       <div className='h-[2px] w-15 bg-[#D9D9D94D] my-3'></div>
                       <p
                         className={`text-center ${customClasses.COMMON_GRADIENT} inline-block text-transparent bg-clip-text fs-16 font-normal`}
                       >
-                        {cate.name}
+                        {item.name}
                       </p>
-                    </div>
+                    </OBYLink>
                   </SwiperSlide>
                 )
               })}

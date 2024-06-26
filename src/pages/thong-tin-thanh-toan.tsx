@@ -21,7 +21,7 @@ export default function PaymentPage() {
   return (
     <>
       <OBYSeo {...meta} />
-      <section className='@992:pt-4 pt-3'>
+      <section className='@992:pt-4 pt-3 min-h-[932px] bg-white'>
         <Breadcrumb cateName='Thông tin thanh toán' />
         <div className='container'>
           <div className='grid grid-cols-12 @992:gap-10 gap-6'>
@@ -57,17 +57,15 @@ export default function PaymentPage() {
               </div>
             </div>
             <div className='@992:col-span-9 @992:order-2 order-1 col-span-12 space-y-5'>
-              <h2 className='font-bold text-oby-green @992:fs-26 fs-20'>Thông tin thanh toán</h2>
+              <h2 className='font-bold text-oby-primary @992:fs-26 fs-20'>Thông tin thanh toán</h2>
               <p className='@992:fs-16 fs-14'>
-                Hiện nay{' '}
-                <OBYLink href='/' title='AGRIAMAZING' className='text-oby-primary @992:fs-16 fs-14'>
+                Hiện nay agriamazing.com chấp nhận thanh toán qua 4 hình thức:
+                {/* <OBYLink href='/' title='AGRIAMAZING' className='text-oby-primary @992:fs-16 fs-14'>
                   https://ongbayeu.com/
-                </OBYLink>{' '}
-                chấp nhận thanh toán qua 4 hình thức:
+                </OBYLink>{' '} */}
               </p>
               <ul className='pl-5 list-disc @992:fs-16 fs-14'>
                 <li>VNPay</li>
-                <li>Momo</li>
                 <li>
                   Chuyển khoản ngân hàng. Khi thanh toán qua chuyển khoản ngân hàng, khách hàng vui lòng ghi rõ trong
                   nội dung chuyển khoản số hóa đơn hoặc tên sản phẩm để thuận tiện cho chúng tôi kiểm tra và đối soát

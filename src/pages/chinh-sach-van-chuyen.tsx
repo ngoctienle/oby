@@ -21,7 +21,7 @@ export default function DeliverPage() {
   return (
     <>
       <OBYSeo {...meta} />
-      <section className='@992:pt-4 pt-3'>
+      <section className='@992:pt-4 pt-3 bg-white'>
         <Breadcrumb cateName='Chính sách vận chuyển' />
         <div className='container'>
           <div className='grid grid-cols-12 @992:gap-10 gap-6'>
@@ -57,16 +57,13 @@ export default function DeliverPage() {
               </div>
             </div>
             <div className='@992:col-span-9 @992:order-2 order-1 col-span-12 space-y-5'>
-              <h2 className='font-bold text-oby-green @992:fs-26 fs-20'>Chính sách vận chuyển</h2>
+              <h2 className='font-bold text-oby-primary @992:fs-26 fs-20'>Chính sách vận chuyển</h2>
               <h3 className='@992:fs-20 font-semibold'>1. Phí giao hàng và Phạm vi giao hàng:</h3>
-              <ul className='list-disc pl-5 spacy-y-2'>
-                <li>Chúng tôi hỗ trợ phí vận chuyển cho tất cả các các đơn hàng trong và ngoài TP HCM.</li>
-                <li>
-                  Hiện nay, chúng tôi chỉ có thể chuyển hàng đến các địa chỉ trong đất nước Việt Nam, Chúng tôi không
-                  chuyển hàng đến hộp thư công cộng, các địa chỉ quốc tế và một số huyện, đảo mà bưu điện Việt Nam không
-                  chấp nhận vận chuyển.
-                </li>
-              </ul>
+              <p className='@992:fs-16 fs-14'>
+                Hiện nay, chúng tôi chỉ có thể chuyển hàng đến các địa chỉ trong đất nước Việt Nam, Chúng tôi không
+                chuyển hàng đến hộp thư công cộng, các địa chỉ quốc tế và một số huyện, đảo mà bưu điện Việt Nam không
+                chấp nhận vận chuyển.
+              </p>
               <h3 className='@992:fs-20 font-semibold'>2. Thay đổi địa chỉ nhận hàng:</h3>
               <p className='@992:fs-16 fs-14'>
                 Trong trường hợp khách hàng muốn thay đổi địa chỉ nhận sản phẩm thì khách hàng phải gọi điện thông báo

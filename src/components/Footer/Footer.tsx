@@ -87,13 +87,13 @@ export default function Footer({ font }: FooterProps) {
                 <li className='@992:mb-3.5 order-2'>
                   <OBYLink href='/thong-tin-thanh-toan'>Thông tin thanh toán</OBYLink>
                 </li>
-                {/* <li className='@992:mb-3.5 order-4'>Chính sách bảo hành</li> */}
+                <li className='@992:mb-3.5 order-4'>Chính sách bảo hành</li>
                 <li className='order-6 @992:mb-3.5'>
                   <OBYLink href='/doi-tra-va-hoan-tien'>Đổi trả và hoàn tiền</OBYLink>
                 </li>
-                <li className='order-7'>
+                {/* <li className='order-7'>
                   <OBYLink href='/huong-dan-thanh-toan'>Hướng dẫn thanh toán</OBYLink>
-                </li>
+                </li> */}
               </ul>
             </div>
             <div className='flex flex-col gap-4'>
