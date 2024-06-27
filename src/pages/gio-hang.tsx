@@ -37,7 +37,7 @@ import { hrefPath } from '@/constants/href.constant'
 import Input from '@/components/Input'
 import NoProduct from '@/components/NoProduct'
 import QuantityController from '@/components/QuantityController'
-import { AsyncButton } from '@/components/UI/Button'
+import { AsyncButton, GradientButton } from '@/components/UI/Button'
 import { OBYButton, OBYImage } from '@/components/UI/Element'
 import { OBYSeo } from '@/components/UI/OBYSeo'
 
@@ -325,24 +325,24 @@ export default function CartPage() {
             <NoProduct />
           ) : (
             <>
-              <div className='flex flex-col max-w-[426px] mx-auto relative gap-[6px]'>
-                <div className='absolute w-[80%] h-[1px] top-[35%] left-1/2 -translate-x-1/2 -z-10 bg-oby-DFDFDF' />
-                <div className='flex justify-center items-center'>
+              <div className='flex items-center max-w-[426px] justify-between mx-auto relative'>
+                <div className='absolute w-[80%] h-[1px] top-[35%] left-1/2 -translate-x-1/2 -z-9 bg-oby-DFDFDF' />
+                <div className='flex flex-col items-center @768:gap-1.5 gap-1 relative z-1'>
                   <div className='@768:w-[56px] w-10 flex items-center justify-center @768:h-[56px] h-10 rounded-full bg-oby-E4FBDB'>
                     <ShoppingBagIcon className='@768:w-8 @768:h-8 w-6 h-6 text-oby-green' />
                   </div>
-                  <div className='h-[2px] bg-oby-DFDFDF w-[151px]'></div>
+                  <p className='@768:fs-14 fs-12 text-oby-green font-semibold'>Giỏ hàng</p>
+                </div>
+                <div className='flex flex-col items-center gap-1.5 relative z-1'>
                   <div className='@768:w-[56px] w-10 flex items-center justify-center @768:h-[56px] h-10 rounded-full bg-oby-F6F7F8'>
                     <BanknotesIcon className='@768:w-8 @768:h-8 w-6 h-6 text-oby-9A9898' />
                   </div>
-                  <div className='h-[2px] bg-oby-DFDFDF w-[151px]'></div>
+                  <p className='@768:fs-14 fs-12 text-oby-9A9898'>Tiến hành đặt hàng</p>
+                </div>
+                <div className='flex flex-col items-center gap-1.5 relative z-1'>
                   <div className='@768:w-[56px] w-10 flex items-center justify-center @768:h-[56px] h-10 rounded-full bg-oby-F6F7F8'>
                     <CheckIcon className='@768:w-8 @768:h-8 w-6 h-6 text-oby-9A9898' />
                   </div>
-                </div>
-                <div className='flex justify-between items-center'>
-                  <p className='@768:fs-14 fs-12 text-oby-green font-semibold'>Giỏ hàng</p>
-                  <p className='@768:fs-14 fs-12 text-oby-9A9898'>Tiến hành đặt hàng</p>
                   <p className='@768:fs-14 fs-12 text-oby-9A9898'>Hoàn thành</p>
                 </div>
               </div>
@@ -438,9 +438,16 @@ export default function CartPage() {
                               </div>
 
                               <div className='flex items-center gap-3'>
-                                <OBYButton type='button' className='fs-16 w-full' onClick={() => handleCloseModal()}>
+                                {/* <OBYButton type='button' className='fs-16 w-full' onClick={() => handleCloseModal()}>
                                   Hủy bỏ
-                                </OBYButton>
+                                </OBYButton> */}
+                                <GradientButton
+                                  gradientType='full'
+                                  onClick={() => handleCloseModal()}
+                                  className='w-full pl-4'
+                                >
+                                  HỦY BỎ
+                                </GradientButton>
                                 <AsyncButton
                                   variant='outline'
                                   type='button'
@@ -509,7 +516,7 @@ export default function CartPage() {
                                   leaveFrom='opacity-100 scale-100'
                                   leaveTo='opacity-0 scale-95'
                                 >
-                                  <Dialog.Panel className='w-full relative max-w-md transform overflow-hidden rounded-2.5 bg-white px-6 py-7.5 text-left align-middle shadow-xl transition-all'>
+                                  <Dialog.Panel className='w-full relative max-w-xl transform overflow-hidden rounded-2.5 bg-white px-6 py-7.5 text-left align-middle shadow-xl transition-all'>
                                     <Dialog.Title as='h3' className='fs-18 font-semibold text-center'>
                                       Chọn mã giảm giá
                                     </Dialog.Title>
@@ -527,7 +534,7 @@ export default function CartPage() {
                                       onSubmit={onSubmitPromotion}
                                       noValidate
                                     >
-                                      <div className='flex-grow @768:max-w-[294px] max-w-[211px]'>
+                                      <div className='flex-grow @768:min-w-[402px] min-w-[211px]'>
                                         <Input
                                           type='text'
                                           name='coupon'
@@ -538,10 +545,12 @@ export default function CartPage() {
                                         />
                                       </div>
                                       <AsyncButton
+                                        isGradient
+                                        showIcon={false}
                                         type='submit'
                                         isLoading={applyGuestMutation.isLoading || applyMineMutation.isLoading}
                                         disabled={!couponList || couponList.length === 0}
-                                        className='flex-grow max-h-[42px]'
+                                        className='flex-grow max-h-[42px] justify-center pl-0'
                                       >
                                         Áp dụng
                                       </AsyncButton>

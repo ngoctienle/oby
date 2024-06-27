@@ -11,14 +11,23 @@ export interface IAsyncButtonProps extends OBYButtonProps {
   isLoading: boolean
   isError?: boolean
   isGradient?: boolean
+  showIcon?: boolean
 }
 
-export const AsyncButton: FC<IAsyncButtonProps> = ({ isLoading, children, isError, isGradient, ...props }) => {
+export const AsyncButton: FC<IAsyncButtonProps> = ({
+  isLoading,
+  children,
+  isError,
+  isGradient,
+  showIcon = true,
+  ...props
+}) => {
   return isGradient ? (
     <button
-      disabled={isLoading || isError}
+      onClick={props.onClick}
+      disabled={isLoading || isError || props.disabled}
       className={cn(
-        `${customClasses.COMMON_GRADIENT} ${props.className} rounded-full p-[1px] w-full flex flex-row justify-between items-center h-12 px-1 disabled:opacity-50 disabled:cursor-not-allowed`
+        `${customClasses.COMMON_GRADIENT} rounded-full p-[1px] w-full flex flex-row justify-between items-center h-12 px-1 disabled:opacity-50 disabled:cursor-not-allowed pl-8 ${props.className}`
       )}
     >
       {isLoading && !isError ? (
@@ -27,8 +36,8 @@ export const AsyncButton: FC<IAsyncButtonProps> = ({ isLoading, children, isErro
         </div>
       ) : (
         <>
-          <p className='text-white ml-8'>{children}</p>
-          <ArrowRightCircleIcon className='w-8 h-8' color='white' />
+          <p className='text-white '>{children}</p>
+          {showIcon && <ArrowRightCircleIcon className='w-8 h-8' color='white' />}
         </>
       )}
     </button>

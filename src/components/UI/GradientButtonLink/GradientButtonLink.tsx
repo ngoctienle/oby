@@ -4,7 +4,7 @@ import React from 'react'
 
 import { customClasses } from '@/constants/config.constant'
 
-type GradientButtonProps = {
+type GradientButtonLinkProps = {
   url: string
   isBorder?: boolean
   btnText: string
@@ -12,16 +12,16 @@ type GradientButtonProps = {
   isContainIcon?: boolean
 }
 
-export default function GradientButton({
+export default function GradientButtonLink({
   url,
   isBorder = true,
   isContainIcon = true,
   btnText,
   customClass
-}: GradientButtonProps) {
+}: GradientButtonLinkProps) {
   return isBorder ? (
     <div
-      className={`${customClass} ${customClasses.COMMON_GRADIENT} rounded-full p-[1px] w-full flex flex-col items-center h-12`}
+      className={`${customClasses.COMMON_GRADIENT} rounded-full p-[1px] w-full flex flex-col items-center h-12 ${customClass}`}
     >
       <div className='flex items-center rounded-full bg-white h-12 w-full p-1'>
         <OBYLink

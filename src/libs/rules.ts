@@ -166,21 +166,7 @@ export const formSchema = yup.object({
     .required('Vui lòng nhập Họ của bạn!')
     .trim()
     .min(2, 'Độ dài không hợp lệ!')
-    .max(100, 'Độ dài không hợp lệ!'),
-  fullname: yup
-    .string()
-    .required('Vui lòng nhập Họ và Tên của bạn!')
-    .trim()
-    .min(2, 'Độ dài không hợp lệ!')
-    .max(100, 'Độ dài không hợp lệ!'),
-  phone: yup
-    .string()
-    .required('Vui lòng nhập số điện thoại của bạn!')
-    .matches(
-      /^(?:(?:\+?84|0)(?:\s|\-|\.)?)?\(?([1|2|3|5|7|8|9]{2})\)?(?:\s|\-|\.)?([4|6|8]{1})([0-9]{7})$/,
-      'Số điện thoại không hợp lệ!'
-    ),
-  remark: yup.string()
+    .max(100, 'Độ dài không hợp lệ!')
 })
 
 export type FormSchema = yup.InferType<typeof formSchema>
@@ -230,3 +216,31 @@ export const anotherForm = yup.object({
 })
 
 export type AnotherForm = yup.InferType<typeof anotherForm>
+
+export const contactForm = yup.object({
+  fullname: yup
+    .string()
+    .required('Vui lòng nhập Họ và tên của bạn!')
+    .min(2, 'Độ dài không hợp lệ!')
+    .matches(
+      /^[^\d`~!@#$%^&*()+=|\\\[\]{};':"<>?,./_]+(\s+[^\d`~!@#$%^&*()+=|\\\[\]{};':"<>?,./_]+){1,}$/u,
+      'Vui lòng nhập đầy đủ Họ và tên!'
+    )
+    .max(160, 'Độ dài không hợp lệ!'),
+  email: yup
+    .string()
+    .required('Vui lòng nhập Email của bạn!')
+    .matches(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      'Email không đúng định dạng!'
+    )
+    .min(5, 'Độ dài phải từ 5 ký tự!')
+    .max(100, 'Độ dài phải dưới 100 ký tự!'),
+  phone: yup
+    .string()
+    .required('Vui lòng nhập số điện thoại của bạn!')
+    .matches(/^\+?[0-9]{10,12}$/, 'Số điện thoại không hợp lệ!'),
+  remark: yup.string()
+})
+
+export type ContactForm = yup.InferType<typeof contactForm>

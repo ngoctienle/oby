@@ -1,7 +1,7 @@
 import CateTag from '../CateTag'
 import { AGRGradientLeftArrowIcon, AGRGradientRightArrowIcon } from '../UI/AGRIcons'
 import { OBYImage } from '../UI/Element'
-import GradientButton from '../UI/GradientButton'
+import GradientButtonLink from '../UI/GradientButtonLink'
 import { useQueries, useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import { useRef } from 'react'
@@ -143,7 +143,7 @@ export default function ProductSuggest() {
           )}
         </div>
         <div className='w-[194px] self-center'>
-          <GradientButton url='/' btnText='XEM TẤT CẢ' />
+          <GradientButtonLink url='/' btnText='XEM TẤT CẢ' />
         </div>
         {/* <Swiper
         lazy={true}

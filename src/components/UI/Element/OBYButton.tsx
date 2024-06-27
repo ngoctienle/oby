@@ -5,7 +5,7 @@ import { forwardRef } from 'react'
 import { cn } from '@/libs/utils'
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center active:scale-95 @992:rounded-4 rounded-2.5 transition-all focus-visible:outline-none disabled:opacity-50 disabled:cursor-not-allowed',
+  'inline-flex items-center justify-center active:scale-95 rounded-full transition-all focus-visible:outline-none disabled:opacity-50 disabled:cursor-not-allowed',
   {
     variants: {
       variant: {

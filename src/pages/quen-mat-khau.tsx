@@ -15,7 +15,7 @@ import { hrefPath } from '@/constants/href.constant'
 import Input from '@/components/Input'
 import { AsyncButton } from '@/components/UI/Button'
 import { OBYImage } from '@/components/UI/Element'
-import GradientButton from '@/components/UI/GradientButton'
+import GradientButtonLink from '@/components/UI/GradientButtonLink'
 import { OBYSeo } from '@/components/UI/OBYSeo'
 
 type ForgotSchema = Pick<FormSchema, 'email'>
@@ -94,7 +94,7 @@ export default function ForgotPWPage() {
                 Link tạo mật khẩu mới của bạn vừa được gửi đến email <span className='text-oby-primary'>{email}</span>
               </p>
               <p className='@992:fs-16 fs-14 text-center'>Vui lòng kiểm tra lại hộp thư đến hoặc hộp thư spam.</p>
-              <GradientButton
+              <GradientButtonLink
                 isContainIcon={false}
                 btnText='ĐÓNG'
                 isBorder

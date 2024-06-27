@@ -1,5 +1,5 @@
 import Product from '../Product'
-import GradientButton from '../UI/GradientButton'
+import GradientButtonLink from '../UI/GradientButtonLink'
 import { useQuery } from '@tanstack/react-query'
 import { EffectFade, Lazy } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -75,7 +75,7 @@ export const BestSellingProduct = () => {
           )}
         </Swiper>
         <div className='w-[194px] self-center'>
-          <GradientButton url='/' btnText='XEM TẤT CẢ' />
+          <GradientButtonLink url='/' btnText='XEM TẤT CẢ' />
         </div>
       </div>
     </div>

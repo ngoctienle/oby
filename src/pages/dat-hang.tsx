@@ -3,7 +3,6 @@ import {
   BanknotesIcon,
   CheckIcon,
   ChevronLeftIcon,
-  ChevronRightIcon,
   MagnifyingGlassIcon,
   ShoppingBagIcon,
   XMarkIcon
@@ -54,8 +53,8 @@ import { cacheTime } from '@/constants/config.constant'
 import { hrefPath } from '@/constants/href.constant'
 
 import Input from '@/components/Input'
-import { AsyncButton } from '@/components/UI/Button'
-import { OBYButton, OBYImage } from '@/components/UI/Element'
+import { AsyncButton, GradientButton } from '@/components/UI/Button'
+import { OBYImage } from '@/components/UI/Element'
 import { OBYLocationIcon } from '@/components/UI/OBYIcons'
 import { OBYSeo } from '@/components/UI/OBYSeo'
 
@@ -375,7 +374,7 @@ export default function OrderPage({
         city: provine,
         street: [address, ward],
         region: district,
-        postcode: 'OBYCode'
+        postcode: 'AMZCode'
       }
     }
     try {
@@ -591,12 +590,12 @@ export default function OrderPage({
   return (
     <>
       <OBYSeo {...meta} />
-      <div className='@992:pt-7.5 pt-2 min-h-[50%]'>
+      <div className='@992:pt-7.5 pt-2 min-h-[50%] bg-white'>
         <div className='container'>
           {/* Processing */}
           <div className='flex items-center max-w-[426px] justify-between mx-auto relative'>
-            <div className='absolute w-[80%] h-[1px] top-[35%] left-1/2 -translate-x-1/2 -z-10 bg-oby-DFDFDF' />
-            <div className='absolute w-[40%] h-[1px] top-[35%] left-7 -z-9 bg-oby-primary' />
+            <div className='absolute w-[80%] h-[1px] top-[35%] left-1/2 -translate-x-1/2 -z-9 bg-oby-DFDFDF' />
+            <div className='absolute w-[40%] h-[1px] top-[35%] left-7 -z-9 bg-[#4AA02C]' />
             <div className='flex flex-col items-center @768:gap-1.5 gap-1 relative z-1'>
               <div className='@768:w-[56px] w-10 flex items-center justify-center @768:h-[56px] h-10 rounded-full bg-oby-E4FBDB'>
                 <ShoppingBagIcon className='@768:w-8 @768:h-8 w-6 h-6 text-oby-green' />
@@ -624,10 +623,13 @@ export default function OrderPage({
               <div className='border border-oby-DFDFDF rounded-2.5 bg-white p-4'>
                 <div className='flex items-center justify-between pb-3.5 border-b border-b-oby-DFDFDF mb-3.5'>
                   <p className='@992:fs-18 fs-16 font-bold text-oby-green'>Thông tin giao hàng</p>
-                  <OBYButton variant='link' size='link' onClick={() => setIsOpen(true)}>
+                  {/* <OBYButton variant='link' size='link' onClick={() => setIsOpen(true)}>
                     <span className='@992:fs-16 fs-14'>Thay đổi</span>
                     <ChevronRightIcon className='w-5 h-5' />
-                  </OBYButton>
+                  </OBYButton> */}
+                  <GradientButton gradientType='border' onClick={() => setIsOpen(true)} className='w-[132px]'>
+                    THAY ĐỔI
+                  </GradientButton>
                 </div>
                 {addressInformation ? (
                   <>
@@ -666,7 +668,7 @@ export default function OrderPage({
                         leaveFrom='opacity-100 scale-100'
                         leaveTo='opacity-0 scale-95'
                       >
-                        <Dialog.Panel className='w-full max-w-xl h-[730px] transform overflow-hidden rounded-2.5 bg-white @992:px-6 px-4 @992:py-7.5 py-5 text-left align-middle shadow-xl transition-all'>
+                        <Dialog.Panel className='w-full max-w-xl h-[730px] transform overflow-hidden rounded-4 bg-white @992:px-6 px-4 @992:py-7.5 py-5 text-left align-middle shadow-xl transition-all'>
                           <Dialog.Title as='h3' className='@992:fs-18 fs-16 font-semibold text-center'>
                             Thông tin giao hàng
                           </Dialog.Title>
@@ -676,7 +678,7 @@ export default function OrderPage({
                             onClick={() => setIsOpen(false)}
                           />
                           <form noValidate className='@992:mt-6 mt-5 overflow-y-auto max-h-[630px]' onSubmit={onSubmit}>
-                            <p className='@992:fs-16 fs-14 text-oby-green font-semibold'>Liên hệ</p>
+                            <p className='@992:fs-16 fs-14 text-oby-primary font-semibold'>Liên hệ</p>
                             <Controller
                               name='fullname'
                               control={control}
@@ -729,7 +731,7 @@ export default function OrderPage({
                               )}
                             />
 
-                            <p className='@992:fs-16 fs-14 @992:mt-5 mt-4 text-oby-green font-semibold'>Địa chỉ</p>
+                            <p className='@992:fs-16 fs-14 @992:mt-5 mt-4 text-oby-primary font-semibold'>Địa chỉ</p>
                             <Input
                               name='provine'
                               type='text'
@@ -1020,7 +1022,7 @@ export default function OrderPage({
                               errorMessage={errors.address?.message}
                               register={register}
                             />
-                            <p className='@992:fs-16 fs-14 @992:mt-5 mt-4 text-oby-green font-semibold'>
+                            <p className='@992:fs-16 fs-14 @992:mt-5 mt-4 text-oby-primary font-semibold'>
                               Ghi chú (nếu có)
                             </p>
                             <Input
@@ -1032,13 +1034,15 @@ export default function OrderPage({
                               register={register}
                             />
                             <AsyncButton
+                              isGradient
+                              showIcon={false}
                               type='submit'
                               isLoading={
                                 setBillingAddressMutation.isLoading || setGuestBillingAddressMutation.isLoading
                               }
-                              className='mt-6 fs-16 text-white w-full'
+                              className='mt-6 fs-16 text-white w-full justify-center'
                             >
-                              Xác nhận
+                              XÁC NHẬN
                             </AsyncButton>
                           </form>
                         </Dialog.Panel>
@@ -1052,7 +1056,7 @@ export default function OrderPage({
               <div className='border border-oby-DFDFDF rounded-2.5 bg-white p-4 @992:mt-5 mt-4'>
                 <div className='flex items-center justify-between pb-3.5 border-b border-b-oby-DFDFDF mb-3.5'>
                   <p className='@992:fs-18 fs-16 font-bold text-oby-green'>Phương thức vận chuyển</p>
-                  <OBYButton
+                  {/* <OBYButton
                     onClick={() => setIsMethodOpen(true)}
                     disabled={!billing?.city && (!EstimateShippingRes || !EstimateShippingResGuest)}
                     variant='link'
@@ -1060,7 +1064,15 @@ export default function OrderPage({
                   >
                     <span className='@992:fs-16 fs-14 text-oby-primary'>Thay đổi</span>
                     <ChevronRightIcon className='text-oby-primary w-5 h-5' />
-                  </OBYButton>
+                  </OBYButton> */}
+                  <GradientButton
+                    gradientType='border'
+                    disabled={!billing?.city && (!EstimateShippingRes || !EstimateShippingResGuest)}
+                    onClick={() => setIsMethodOpen(true)}
+                    className='w-[132px]'
+                  >
+                    THAY ĐỔI
+                  </GradientButton>
                   <Transition show={isMethodOpen} as={Fragment}>
                     <Dialog as='div' className='relative z-10' onClose={() => setIsMethodOpen(false)}>
                       <Transition.Child
@@ -1171,6 +1183,8 @@ export default function OrderPage({
                                     ))}
                                 </div>
                                 <AsyncButton
+                                  showIcon={false}
+                                  isGradient
                                   isLoading={
                                     setAddressAndBillingMutation.isLoading ||
                                     setGuestAddressAndBillingMutation.isLoading
@@ -1181,9 +1195,9 @@ export default function OrderPage({
                                     setGuestAddressAndBillingMutation.isLoading
                                   }
                                   onClick={setAddressAndBilling}
-                                  className='@992:mt-6 mt-5 @992:fs-16 fs-14 w-full'
+                                  className='@992:mt-6 mt-5 @992:fs-16 fs-14 w-full justify-center'
                                 >
-                                  Xác nhận
+                                  XÁC NHẬN
                                 </AsyncButton>
                               </RadioGroup>
                             </Dialog.Panel>
@@ -1208,7 +1222,7 @@ export default function OrderPage({
                 {initializeData &&
                   initializeData.map((item) => (
                     <div
-                      className='@992:p-5 py-3.5 px-4 border border-oby-DFDFDF bg-white rounded-tl-4 rounded-br-4 first:mt-0 @992:mt-4 mt-3 flex @992:gap-5 gap-3.5'
+                      className='@992:p-5 py-3.5 px-4 border border-oby-DFDFDF bg-white rounded-4 first:mt-0 @992:mt-4 mt-3 flex @992:gap-5 gap-3.5'
                       key={item.item_id}
                     >
                       <div className='flex-shrink-0 relative @768:w-[150px] @768:h-[100px] w-[95px] h-[82px] bg-white rounded-tl-4 rounded-br-4 overflow-hidden'>
@@ -1248,7 +1262,7 @@ export default function OrderPage({
               </div>
             </div>
             <div className='@992:col-span-4 col-span-12 bg-transparent'>
-              <div className=' bg-white rounded-tl-4 rounded-br-4 bsd'>
+              <div className=' bg-white rounded-4 bsd'>
                 <div className='@992:pt-5 pt-4 @992:pb-4 pb-3 border-b border-b-oby-DFDFDF'>
                   <div className='@992:px-6 px-4'>
                     <p className='@992:fs-18 fs-16 mb-4 font-bold text-oby-green'>Phương thức thanh toán</p>
@@ -1268,7 +1282,7 @@ export default function OrderPage({
                             {({ checked }) => (
                               <>
                                 <RadioGroup.Label as='div'>
-                                  {plan.code === 'cashondelivery' && (
+                                  {plan.code === 'checkmo' && (
                                     <BanknotesIcon
                                       className={twclsx(
                                         '@768:w-9.5 @768:h-9.5 w-6 h-6',
@@ -1348,7 +1362,7 @@ export default function OrderPage({
                       </p>
                     </div>
                   </div>
-                  <AsyncButton
+                  {/* <AsyncButton
                     disabled={
                       !billing?.city ||
                       !selected ||
@@ -1366,6 +1380,26 @@ export default function OrderPage({
                     className='@992:mt-5 mt-3 text-white w-full'
                   >
                     Tiếp tục
+                  </AsyncButton> */}
+                  <AsyncButton
+                    isGradient
+                    disabled={
+                      !billing?.city ||
+                      !selected ||
+                      !selectedMethod ||
+                      paymentInformationMutation.isLoading ||
+                      guestPaymentInformationMutation.isLoading ||
+                      captureMomoMutation.isLoading
+                    }
+                    isLoading={
+                      paymentInformationMutation.isLoading ||
+                      guestPaymentInformationMutation.isLoading ||
+                      captureMomoMutation.isLoading
+                    }
+                    onClick={handlePayment}
+                    className='@992:mt-5 mt-3 text-white w-full'
+                  >
+                    TIẾP TỤC
                   </AsyncButton>
                 </div>
               </div>

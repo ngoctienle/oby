@@ -2,7 +2,7 @@ import CateTag from '../CateTag'
 import Product from '../Product'
 import { AGRGradientLeftArrowIcon, AGRGradientRightArrowIcon } from '../UI/AGRIcons'
 import { OBYImage } from '../UI/Element'
-import GradientButton from '../UI/GradientButton'
+import GradientButtonLink from '../UI/GradientButtonLink'
 import { useQueries, useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import { useRef } from 'react'
@@ -100,7 +100,7 @@ export const HealthProduct = () => {
               loader={({ src }) => src}
             />
             <div className='absolute bottom-6 left-10 w-[180px]'>
-              <GradientButton btnText='XEM NGAY' url='/' isBorder={false} />
+              <GradientButtonLink btnText='XEM NGAY' url='/' isBorder={false} />
             </div>
           </div>
           <div className='@992:col-span-3 col-span-4'>

@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 
-import { FormSchema, formSchema } from '@/libs/rules'
+import { ContactForm, contactForm } from '@/libs/rules'
 import { generateMetaSEO } from '@/libs/seo'
 import { cn } from '@/libs/utils'
 
@@ -14,8 +14,8 @@ import { OBYImage, OBYLink } from '@/components/UI/Element'
 import { OBYEmailIcon, OBYLocationIcon, OBYPhoneIcon } from '@/components/UI/OBYIcons'
 import { OBYSeo } from '@/components/UI/OBYSeo'
 
-type FormContact = Pick<FormSchema, 'email' | 'fullname' | 'phone' | 'remark'>
-const contactFormSchema = formSchema.pick(['email', 'fullname', 'phone', 'remark'])
+type FormContact = Pick<ContactForm, 'email' | 'fullname' | 'phone' | 'remark'>
+const contactFormSchema = contactForm.pick(['email', 'fullname', 'phone', 'remark'])
 
 export default function ContactPage() {
   const meta = generateMetaSEO({

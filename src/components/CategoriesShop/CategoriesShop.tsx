@@ -1,6 +1,6 @@
 import { AGRGradientLeftArrowIcon, AGRGradientRightArrowIcon } from '../UI/AGRIcons'
 import { OBYImage, OBYLink } from '../UI/Element'
-import GradientButton from '../UI/GradientButton'
+import GradientButtonLink from '../UI/GradientButtonLink'
 import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import { useMemo, useRef } from 'react'
@@ -141,7 +141,7 @@ export const CategoriesShop = () => {
               unoptimized
             />
             <div className='absolute bottom-6 right-4 w-[180px]'>
-              <GradientButton btnText='XEM NGAY' url='/' isBorder={false} />
+              <GradientButtonLink btnText='XEM NGAY' url='/' isBorder={false} />
             </div>
           </div>
           <div className='flex-grow mt-1 relative'>
@@ -156,7 +156,7 @@ export const CategoriesShop = () => {
               unoptimized
             />
             <div className='absolute bottom-6 left-32 w-[180px]'>
-              <GradientButton btnText='XEM NGAY' url='/' isBorder={false} />
+              <GradientButtonLink btnText='XEM NGAY' url='/' isBorder={false} />
             </div>
           </div>
         </div> */}
@@ -172,7 +172,7 @@ export const CategoriesShop = () => {
               loader={({ src }) => src}
             />
             <div className='absolute bottom-6 right-4 w-[180px]'>
-              <GradientButton btnText='XEM NGAY' url='/' isBorder={false} />
+              <GradientButtonLink btnText='XEM NGAY' url='/' isBorder={false} />
             </div>
           </div>
           <div className='col-span-2 w-full  h-[290px] relative rounded-4 overflow-hidden mt-14'>
@@ -185,7 +185,7 @@ export const CategoriesShop = () => {
               loader={({ src }) => src}
             />
             <div className='absolute bottom-6 left-40 w-[180px]'>
-              <GradientButton btnText='XEM NGAY' url='/' isBorder={false} />
+              <GradientButtonLink btnText='XEM NGAY' url='/' isBorder={false} />
             </div>
           </div>
         </div>
