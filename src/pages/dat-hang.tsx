@@ -1282,7 +1282,7 @@ export default function OrderPage({
                             {({ checked }) => (
                               <>
                                 <RadioGroup.Label as='div'>
-                                  {plan.code === 'checkmo' && (
+                                  {plan.code === 'cashondelivery' && (
                                     <BanknotesIcon
                                       className={twclsx(
                                         '@768:w-9.5 @768:h-9.5 w-6 h-6',
