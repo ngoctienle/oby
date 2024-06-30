@@ -40,9 +40,8 @@ import ProductRating from '@/components/ProductRating'
 import Progress from '@/components/Progress'
 import QuantityController from '@/components/QuantityController'
 import Review from '@/components/Review'
-import { AsyncButton, BuyNowButton } from '@/components/UI/Button'
+import { AsyncButton, BuyNowButton, GradientButton } from '@/components/UI/Button'
 import { OBYButton } from '@/components/UI/Element'
-import { OBYAddCartIcon } from '@/components/UI/OBYIcons'
 import { OBYSeo } from '@/components/UI/OBYSeo'
 
 interface IProductDetailProps {
@@ -250,8 +249,6 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
     queryFn: () => productApi.GetAllProductReviews(slug),
     enabled: Boolean(slug)
   })
-
-  console.log(reviewRes)
 
   const filteredReviews = useMemo(() => {
     if (reviewRes) {
@@ -463,7 +460,7 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
   return (
     <>
       <OBYSeo {...meta} />
-      <section className='@992:pt-4 pt-3'>
+      <section className='@992:pt-4 pt-3 pb-6 bg-white'>
         <Breadcrumb
           cateName={parentCategoryRes?.data.name || ''}
           subCateName={subCategoryRes?.data.name || ''}
@@ -473,7 +470,7 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
           <div className='grid @768:grid-cols-12 grid-cols-1 @768:gap-10 gap-5 @768:mb-10 mb-6'>
             <div className='@768:col-span-5 col-span-1'>
               <div
-                className='relative w-full pt-[56%] cursor-zoom-in overflow-hidden rounded-tl-4 rounded-br-4'
+                className='relative w-full pt-[56%] cursor-zoom-in overflow-hidden rounded-4'
                 onMouseMove={handleZoom}
                 onMouseLeave={handleRemoveZoom}
               >
@@ -488,12 +485,24 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
                   ref={imgRef}
                 />
                 {isHaveDiscount(productData.custom_attributes) && (
-                  <p className='absolute bg-oby-red text-white px-1.5 py-0.5 top-4 fs-14 rounded-tr-2 rounded-br-2 left-0'>
-                    {getDiscountPercent(productData.custom_attributes)}
-                  </p>
+                  <div className='absolute top-0 right-4'>
+                    <p className='text-white fs-14 bg-oby-red w-9 h-6 py-0.5 relative text-center line-br'>
+                      {getDiscountPercent(productData.custom_attributes)}
+                    </p>
+                    <svg
+                      className='absolute -bottom-3'
+                      width='36'
+                      height='13'
+                      viewBox='0 0 36 13'
+                      fill='none'
+                      xmlns='http://www.w3.org/2000/svg'
+                    >
+                      <path d='M0 0H36V13L18.5 4.55L0 13V0Z' fill='#E43641' />
+                    </svg>
+                  </div>
                 )}
               </div>
-              <div className='relative mt-4 grid grid-cols-5 gap-1 md:gap-2 lg:mt-6 '>
+              <div className='relative mt-4 grid grid-cols-4 gap-1 md:gap-2 lg:mt-6 '>
                 {/* <button
                   className='absolute -left-1 top-1/2 h-4 w-4 -translate-y-1/2 bg-transparent md:-left-3'
                   onClick={prevSlide}
@@ -505,7 +514,7 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
                   if (item.types.length === 0) {
                     return (
                       <div
-                        className='z-1 relative w-full overflow-hidden rounded-tl-4 rounded-br-4 pt-[56%]'
+                        className='z-1 relative w-full overflow-hidden rounded-4 pt-[56%]'
                         key={index}
                         onMouseEnter={() => hoverActive(item.file)}
                       >
@@ -517,7 +526,7 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
                         />
 
                         {isActive && (
-                          <div className='absolute inset-0 rounded-tl-4 rounded-br-4 border border-oby-primary'></div>
+                          <div className='absolute inset-0 rounded-4 border-oby-orange border-[1.5px]'></div>
                         )}
                       </div>
                     )
@@ -540,15 +549,17 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
               <div className='bg-oby-F6F7F8 @768:px-5 px-4 @768:py-4 py-3.5 rounded-4 @768:max-w-max flex items-center gap-4 @768:mt-6.25 mt-5'>
                 {isHaveDiscount(productData?.custom_attributes) ? (
                   <>
-                    <p className='@768:fs-26 fs-18 font-semibold'>{getDiscount(productData?.custom_attributes)}</p>
+                    <p className='@768:fs-26 fs-18 font-bold text-oby-primary'>
+                      {getDiscount(productData?.custom_attributes)}
+                    </p>
                     <p className='@768:fs-18 fs-14 line-through text-oby-676869'>{formatCurrency(productData.price)}</p>
                   </>
                 ) : (
-                  <p className='@768:fs-26 fs-18 font-semibold'>{formatCurrency(productData.price)}</p>
+                  <p className='@768:fs-26 fs-18 font-bold text-oby-primary'>{formatCurrency(productData.price)}</p>
                 )}
               </div>
               <div className='flex max-w-max items-center gap-4 @768:mt-6 mt-5'>
-                <p className='uppercase font-semibold fs-14'>mua</p>
+                <p className='uppercase font-semibold fs-14'>Số lượng</p>
                 <QuantityController
                   classNameWrapper='max-w-max px-4 py-2.75'
                   onDecrease={handleBuyCount}
@@ -559,7 +570,9 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
                 />
               </div>
               <div className='mt-6 flex items-center gap-5'>
-                <AsyncButton
+                <GradientButton
+                  gradientType='border'
+                  showIcon={false}
                   isLoading={
                     (loadingButton.addToCart && addToCartMutation.isLoading) ||
                     (loadingButton.addToCart && addToCartMineMutation.isLoading)
@@ -568,9 +581,8 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
                   className={cn('@992:min-w-[270px] @768:min-w-[200px] w-full')}
                   variant='outlinePrimary'
                 >
-                  <OBYAddCartIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary @992:mr-1.5 mr-0' />
-                  <p className='text-oby-primary fs-16'>Thêm vào giỏ</p>
-                </AsyncButton>
+                  THÊM VÀO GIỎ HÀNG
+                </GradientButton>
                 <BuyNowButton
                   isLoading={
                     (loadingButton.buyNow && addToCartMutation.isLoading) ||

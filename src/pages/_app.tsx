@@ -6,7 +6,7 @@ import cookie from 'cookie'
 import type { AppContext, AppProps } from 'next/app'
 import App from 'next/app'
 import dynamic from 'next/dynamic'
-import { Inter } from 'next/font/google'
+import { Source_Serif_Pro } from 'next/font/google'
 import Head from 'next/head'
 import Script from 'next/script'
 import NextNProgress from 'nextjs-progressbar'
@@ -32,7 +32,7 @@ const DynamicToTopButton = dynamic(() => import('@/components/UI/Button/ToTopBut
 
 /* import { HeaderAds } from '@/components/UI/OBYAds' */
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Source_Serif_Pro({ weight: ['200', '300', '400', '600', '700', '900'], subsets: ['latin'] })
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

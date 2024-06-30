@@ -91,21 +91,21 @@ export default function Login() {
   })
 
   const meta = generateMetaSEO({
-    title: 'Ông Bà Yêu',
+    title: 'AGRIAMAZING',
     template: 'Đăng Nhập',
     description:
-      'Ông Bà Yêu là một cửa hàng trực tuyến chuyên cung cấp các sản phẩm tổng hợp nhằm phục vụ cho người cao tuổi cùng với dịch vụ hỗ trợ khách hàng đặc biệt, đem đến cho khách hàng một cuộc sống chất lượng nhất.',
-    keywords: [`OBY, Ông Bà Yêu, ongbayeu.com`],
-    og_image_alt: 'Ông Bà Yêu',
+      'AGRIAMAZING là một cửa hàng trực tuyến chuyên cung cấp các sản phẩm tổng hợp nhằm phục vụ cho người cao tuổi cùng với dịch vụ hỗ trợ khách hàng đặc biệt, đem đến cho khách hàng một cuộc sống chất lượng nhất.',
+    keywords: [`OBY, AGRIAMAZING, ongbayeu.com`],
+    og_image_alt: 'AGRIAMAZING',
     slug: '/dang-nhap'
   })
 
   return (
     <>
       <OBYSeo {...meta} />
-      <div className='pt-6 @992:pt-10'>
+      <div className='pt-6 @992:pt-10 bg-white'>
         <div className='container'>
-          <h2 className='fs-20 @992:fs-26 text-center font-bold text-oby-green'>Đăng nhập</h2>
+          <h2 className='fs-20 @992:fs-26 text-center font-bold text-black'>Đăng nhập</h2>
           <form
             noValidate
             onSubmit={handleSubmitLogin}
@@ -136,8 +136,13 @@ export default function Login() {
                 Quên mật khẩu?
               </OBYLink>
             </OBYButton>
-            <AsyncButton type='submit' isLoading={loginMutation.isLoading} className={cn('w-full fs-16 mt-6')}>
-              Đăng nhập
+            <AsyncButton
+              isGradient
+              type='submit'
+              isLoading={loginMutation.isLoading}
+              className={cn('w-full fs-16 mt-6')}
+            >
+              ĐĂNG NHẬP
             </AsyncButton>
             <p className='text-center @768:fs-14 fs-12 text-oby-9A9898 mt-4.5'>
               Bằng việc Tiếp tục, bạn đã chấp nhận{' '}

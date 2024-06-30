@@ -67,23 +67,23 @@ export default function PaymentResult({ statusMessage, orderId, orderInfo, cartI
   }, [cartId, customerId, setCartId, setGuestCartId])
 
   const meta = generateMetaSEO({
-    title: 'Ông Bà Yêu',
+    title: 'AGRIAMAZING',
     template: 'Kết Quả Thanh Toán',
     description:
-      'Ông Bà Yêu là một cửa hàng trực tuyến chuyên cung cấp các sản phẩm tổng hợp nhằm phục vụ cho người cao tuổi cùng với dịch vụ hỗ trợ khách hàng đặc biệt, đem đến cho khách hàng một cuộc sống chất lượng nhất.',
-    keywords: [`OBY, Ông Bà Yêu, ongbayeu.com`],
-    og_image_alt: 'Ông Bà Yêu',
+      'AGRIAMAZING là một cửa hàng trực tuyến chuyên cung cấp các sản phẩm tổng hợp nhằm phục vụ cho người cao tuổi cùng với dịch vụ hỗ trợ khách hàng đặc biệt, đem đến cho khách hàng một cuộc sống chất lượng nhất.',
+    keywords: [`OBY, AGRIAMAZING, ongbayeu.com`],
+    og_image_alt: 'AGRIAMAZING',
     slug: '/ket-qua-thanh-toan'
   })
   return (
     <>
       <OBYSeo {...meta} />
-      <div className='@992:pt-7.5 pt-2 min-h-[50%]'>
+      <div className='@992:pt-7.5 pt-2 min-h-[50%] pb-6 bg-white'>
         <div className='container'>
           {/* Processing */}
           <div className='flex items-center max-w-[426px] justify-between mx-auto relative'>
-            <div className='absolute w-[80%] h-[1px] top-[35%] left-1/2 -translate-x-1/2 -z-10 bg-oby-DFDFDF' />
-            <div className='absolute w-[80%] h-[1px] top-[35%] left-7 -z-9 bg-oby-primary' />
+            <div className='absolute w-[80%] h-[1px] top-[35%] left-1/2 -translate-x-1/2 -z-9 bg-oby-DFDFDF' />
+            <div className='absolute w-[80%] h-[1px] top-[35%] left-7 -z-9 bg-[#4AA02C]' />
             <div className='flex flex-col items-center @768:gap-1.5 gap-1 relative z-1'>
               <div className='@768:w-[56px] w-10 flex items-center justify-center @768:h-[56px] h-10 rounded-full bg-oby-E4FBDB'>
                 <ShoppingBagIcon className='@768:w-8 @768:h-8 w-6 h-6 text-oby-green' />

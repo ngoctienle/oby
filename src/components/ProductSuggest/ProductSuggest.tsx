@@ -1,58 +1,66 @@
 import CateTag from '../CateTag'
 import { AGRGradientLeftArrowIcon, AGRGradientRightArrowIcon } from '../UI/AGRIcons'
 import { OBYImage } from '../UI/Element'
-import GradientButton from '../UI/GradientButton'
-import { useQuery } from '@tanstack/react-query'
+import GradientButtonLink from '../UI/GradientButtonLink'
+import { useQueries, useQuery } from '@tanstack/react-query'
+import { AxiosResponse } from 'axios'
 import Image from 'next/image'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { EffectFade, Lazy, Swiper as SwiperType } from 'swiper'
 import 'swiper/css/effect-fade'
 import 'swiper/css/pagination'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/swiper.min.css'
 
+import { ProductResponse } from '@/@types/product.type'
+
 import { useMediaQuery } from '@/hooks'
 
-/* import { getCateId } from '@/helpers/product'
+import { getCateId } from '@/helpers/product'
 
-import categoryApi from '@/apis/magento/category.api' */
+import categoryApi from '@/apis/magento/category.api'
 import productApi from '@/apis/magento/product.api'
 
 import { cacheTime } from '@/constants/config.constant'
 
 import Product from '@/components/Product'
 
-const DUMMY_SUB_CATE = [
-  { id: 1, name: 'Tất cả' },
-  { id: 2, name: 'Áo thun nam' },
-  { id: 3, name: 'Áo thun nữ' },
-  { id: 4, name: 'Đồ thể thao' },
-  { id: 5, name: 'Áo sơ mi' }
-]
-
 export default function ProductSuggest() {
   const isMedium = useMediaQuery('(min-width:992px)')
 
   const swiperRef = useRef<SwiperType | null>(null)
 
-  const { data: productSgRes, isLoading } = useQuery({
-    queryKey: ['productSg'],
-    queryFn: () => productApi.GetProductByCategoryID(48, '1', '6'),
-    staleTime: cacheTime.halfHours
+  const [categoryID, setCategoryID] = useState<number>(48)
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [allProduct, setAllProduct] = useState<AxiosResponse<ProductResponse, any> | null>(null)
+
+  const {
+    data: productSgRes,
+    isLoading,
+    refetch
+  } = useQuery({
+    queryKey: ['productSg', categoryID],
+    queryFn: () => productApi.GetProductByCategoryID(categoryID, '1', '0'),
+    staleTime: cacheTime.halfHours,
+    onSuccess: (res) => {
+      if (categoryID !== 48) return
+      setAllProduct(res)
+    }
   })
 
-  /* const productSgCate = useQueries({
+  const productSgCate = useQueries({
     queries: [
-      ...(productSgRes?.data.items || []).map((item) => {
+      ...(allProduct?.data.items || []).map((item) => {
         const id = getCateId(item.custom_attributes)
         return {
           queryKey: ['productSgCate', id],
           queryFn: () => categoryApi.GetCategoryNameById(id as string),
-          enabled: Boolean(productSgRes)
+          enabled: false
         }
       })
     ]
-  }) */
+  })
 
   const handleClickChangeSlide = (type: string) => {
     if (swiperRef.current) {
@@ -64,18 +72,25 @@ export default function ProductSuggest() {
     }
   }
 
+  const onClickTag = (newId: number | undefined) => {
+    if (!newId) return
+    setCategoryID(newId)
+    refetch({ queryKey: ['productSg', newId] })
+  }
+
   return (
     <div className='bg-white'>
       <div className='container pt-4 py-8 flex flex-col @992:items-center relative'>
         <h2 className='text-oby-primary fs-14 font-normal mb-2'>DANH MỤC</h2>
         <p className='text-[#222324] fs-26 font-bold mb-2'>GỢI Ý HÔM NAY</p>
-        <div className='flex flex-row gap-3 @992:justify-center overflow-x-auto scrollbar-none'>
-          {DUMMY_SUB_CATE.map((item) => {
-            return <CateTag key={item.id} data={item} />
-          })}
+        <div className='@992:w-[800px] w-full flex flex-row gap-3 overflow-x-scroll scrollbar-none'>
+          {productSgCate &&
+            productSgCate.map((item, index) => {
+              return <CateTag key={index} data={item.data?.data} onClickTag={onClickTag} />
+            })}
         </div>
-        <div className='h-[1px] w-full bg-oby-DFDFDF my-4' />
-        <div className='h-[46px] w-full relative my-4'>
+        <div className='h-[1px] w-full bg-oby-DFDFDF mt-4' />
+        <div className='h-[46px] w-full relative mt-4'>
           <Swiper
             lazy={true}
             slidesPerView={10}
@@ -106,17 +121,16 @@ export default function ProductSuggest() {
             </button>
           </div>
         </div>
-        <div className='w-full h-[100px] relative'>
+        <div className='w-full h-[100px] relative mt-4 @992:mt-8'>
           <Image
             src={'/images/agr-ads.png'}
             alt='ads-2'
             fill
             style={{
-              objectPosition: 'center',
-              objectFit: 'contain'
+              objectPosition: 'left',
+              objectFit: isMedium ? 'contain' : 'cover'
             }}
             loader={({ src }) => src}
-            unoptimized
             priority
           />
         </div>
@@ -150,7 +164,9 @@ export default function ProductSuggest() {
             </>
           )}
         </div>
-        <GradientButton url='/' btnText='XEM TẤT CẢ' customClass='self-center' />
+        <div className='w-[194px] self-center'>
+          <GradientButtonLink url='/' btnText='XEM TẤT CẢ' />
+        </div>
         {/* <Swiper
         lazy={true}
         slidesPerView={2}

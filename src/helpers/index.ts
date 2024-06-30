@@ -3,7 +3,7 @@ import { CustomAttribute, IBillingAddress, TotalSegment } from '@/@types/magento
 import { ProductResponse } from '@/@types/product.type'
 
 export function formatCurrency(currency: number) {
-  return new Intl.NumberFormat('de-DE').format(currency) + '₫'
+  return new Intl.NumberFormat('de-DE').format(currency) + 'VND'
 }
 export function getDiscountPercent(data: CustomAttribute[]) {
   const originalPrice = data.find((obj: CustomAttribute) => obj.attribute_code === 'cost')

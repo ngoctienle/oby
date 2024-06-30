@@ -2,7 +2,15 @@ import { RegisterOptions, UseFormGetValues } from 'react-hook-form'
 import * as yup from 'yup'
 
 type Rules = {
-  [key in 'email' | 'password' | 'firstname' | 'lastname' | 'confirm_password']?: RegisterOptions
+  [key in
+    | 'email'
+    | 'password'
+    | 'firstname'
+    | 'lastname'
+    | 'confirm_password'
+    | 'fullname'
+    | 'phone'
+    | 'remark']?: RegisterOptions
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -80,6 +88,40 @@ export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
     minLength: {
       value: 3,
       message: 'Độ dài Họ và Tên lót phải lớn hơn hoặc bằng 3 ký tự!'
+    }
+  },
+  phone: {
+    required: {
+      value: true,
+      message: 'Vui lòng nhập số điện thoại của bạn!'
+    },
+    pattern: {
+      value: /^(?:(?:\+?84|0)(?:\s|\-|\.)?)?\(?([1|2|3|5|7|8|9]{2})\)?(?:\s|\-|\.)?([4|6|8|9]{1})([0-9]{7})$/,
+      message: 'Số điện thoại không hợp lệ!'
+    }
+  },
+  fullname: {
+    required: {
+      value: true,
+      message: 'Vui lòng nhập Họ và Tên của bạn!'
+    },
+    maxLength: {
+      value: 100,
+      message: 'Độ dài Họ và Tên vượt quá 100 ký tự!'
+    },
+    minLength: {
+      value: 3,
+      message: 'Độ dài Họ và Tên phải lớn hơn hoặc bằng 3 ký tự!'
+    }
+  },
+  remark: {
+    required: {
+      value: true,
+      message: 'Vui lòng nhập Ghi chú của bạn!'
+    },
+    maxLength: {
+      value: 300,
+      message: 'Độ dài Ghi chú vượt quá 300 ký tự!'
     }
   }
 })
@@ -174,3 +216,31 @@ export const anotherForm = yup.object({
 })
 
 export type AnotherForm = yup.InferType<typeof anotherForm>
+
+export const contactForm = yup.object({
+  fullname: yup
+    .string()
+    .required('Vui lòng nhập Họ và tên của bạn!')
+    .min(2, 'Độ dài không hợp lệ!')
+    .matches(
+      /^[^\d`~!@#$%^&*()+=|\\\[\]{};':"<>?,./_]+(\s+[^\d`~!@#$%^&*()+=|\\\[\]{};':"<>?,./_]+){1,}$/u,
+      'Vui lòng nhập đầy đủ Họ và tên!'
+    )
+    .max(160, 'Độ dài không hợp lệ!'),
+  email: yup
+    .string()
+    .required('Vui lòng nhập Email của bạn!')
+    .matches(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      'Email không đúng định dạng!'
+    )
+    .min(5, 'Độ dài phải từ 5 ký tự!')
+    .max(100, 'Độ dài phải dưới 100 ký tự!'),
+  phone: yup
+    .string()
+    .required('Vui lòng nhập số điện thoại của bạn!')
+    .matches(/^\+?[0-9]{10,12}$/, 'Số điện thoại không hợp lệ!'),
+  remark: yup.string()
+})
+
+export type ContactForm = yup.InferType<typeof contactForm>

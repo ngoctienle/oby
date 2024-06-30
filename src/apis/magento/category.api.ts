@@ -1,6 +1,6 @@
 import magentoAPI from '@/vendors/magento.vendor'
 
-import { Category, CategoryResponse } from '@/@types/category.type'
+import { Category, CategoryResponse, ItemWithAttribute } from '@/@types/category.type'
 
 const categoryApi = {
   GetCategoryList() {
@@ -12,7 +12,7 @@ const categoryApi = {
     )
   },
   GetCategoryNameById(id: string) {
-    return magentoAPI.get<Category>(`V1/categories/${id}`)
+    return magentoAPI.get<ItemWithAttribute>(`V1/categories/${id}`)
   }
 }
 

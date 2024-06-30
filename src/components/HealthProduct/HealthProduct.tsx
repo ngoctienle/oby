@@ -2,32 +2,55 @@ import CateTag from '../CateTag'
 import Product from '../Product'
 import { AGRGradientLeftArrowIcon, AGRGradientRightArrowIcon } from '../UI/AGRIcons'
 import { OBYImage } from '../UI/Element'
-import GradientButton from '../UI/GradientButton'
-import { useQuery } from '@tanstack/react-query'
+import GradientButtonLink from '../UI/GradientButtonLink'
+import { useQueries, useQuery } from '@tanstack/react-query'
+import { AxiosResponse } from 'axios'
 import Image from 'next/image'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { EffectFade, Lazy, Swiper as SwiperType } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
+import { ProductResponse } from '@/@types/product.type'
+
+import { getCateId } from '@/helpers/product'
+
+import categoryApi from '@/apis/magento/category.api'
 import productApi from '@/apis/magento/product.api'
 
 import { cacheTime } from '@/constants/config.constant'
 
-const DUMMY_SUB_CATE = [
-  { id: 1, name: 'Sữa dinh dưỡng' },
-  { id: 2, name: 'Thức uống dinh dưỡng' },
-  { id: 3, name: 'Ngũ cốc & hạt' },
-  { id: 4, name: 'Thực phẩm bổ sung' },
-  { id: 5, name: 'Vitamin & thực phẩm chức năng' }
-]
-
 export const HealthProduct = () => {
   const swiperRef = useRef<SwiperType | null>(null)
+  const [categoryID, setCategoryID] = useState<number>(46)
 
-  const { data: healthProduct, isLoading } = useQuery({
-    queryKey: ['healthProduct'],
-    queryFn: () => productApi.GetProductByCategoryID(46, '1', '5'),
-    staleTime: cacheTime.halfHours
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [allProduct, setAllProduct] = useState<AxiosResponse<ProductResponse, any> | null>(null)
+
+  const {
+    data: healthProduct,
+    isLoading,
+    refetch
+  } = useQuery({
+    queryKey: ['healthProduct', categoryID],
+    queryFn: () => productApi.GetProductByCategoryID(categoryID, '1', '0'),
+    staleTime: cacheTime.halfHours,
+    onSuccess: (res) => {
+      if (categoryID !== 46) return
+      setAllProduct(res)
+    }
+  })
+
+  const productHealthCate = useQueries({
+    queries: [
+      ...(allProduct?.data.items || []).map((item) => {
+        const id = getCateId(item.custom_attributes)
+        return {
+          queryKey: ['productHealthCateCate', id],
+          queryFn: () => categoryApi.GetCategoryNameById(id as string),
+          enabled: false
+        }
+      })
+    ]
   })
 
   const handleClickChangeSlide = (type: string) => {
@@ -39,18 +62,25 @@ export const HealthProduct = () => {
       }
     }
   }
+
+  const onClickTag = (newId: number | undefined) => {
+    if (!newId) return
+    setCategoryID(newId)
+    refetch({ queryKey: ['healthProduct', newId] })
+  }
+
   return (
     <div className='bg-[#F6F6F6]'>
-      <div className='container py-4 flex flex-col'>
+      <div className='container py-4 flex flex-col @992:items-center'>
         <h2 className='text-oby-primary fs-14 font-normal mb-2 @992:text-center'>DANH MỤC</h2>
         <p className='text-[#222324] fs-26 font-bold mb-2 @992:text-center'>SỨC KHỎE</p>
-        <div className='flex flex-row gap-3 @992:justify-center overflow-x-auto scrollbar-none'>
-          {DUMMY_SUB_CATE.map((item) => {
-            return <CateTag key={item.id} data={item} />
+        <div className='@992:w-[800px] w-full flex flex-row gap-3 overflow-x-auto scrollbar-none'>
+          {productHealthCate.map((item, index) => {
+            return <CateTag key={index} data={item.data?.data} onClickTag={onClickTag} />
           })}
         </div>
-        <div className='h-[1px] w-full bg-white my-4' />
-        <div className='h-[46px] w-full relative my-4'>
+        <div className='h-[1px] w-full bg-white mt-4' />
+        <div className='h-[46px] w-full relative mt-4'>
           <Swiper
             lazy={true}
             slidesPerView={10}
@@ -81,29 +111,102 @@ export const HealthProduct = () => {
             </button>
           </div>
         </div>
-        <div className='flex flex-row justify-start gap-6 mt-11'>
-          <div className='w-1/4 @992:flex flex-shrink-0 relative hidden h-[580px] rounded-2'>
+        <div className='grid grid-cols-4 gap-6 @992:mt-15 mt-4 w-full @992:min-h-[580px]'>
+          <div className='col-span-1 @992:block hidden relative rounded-2'>
             <Image
               priority
               alt='Agriamazing Banner'
               src={`/images/agr-banner-6.png`}
               fill
-              style={{ objectPosition: 'center', objectFit: 'contain' }}
+              style={{ objectPosition: 'left', objectFit: 'contain' }}
               loader={({ src }) => src}
-              unoptimized
             />
-            <div className='absolute bottom-6 left-8'>
-              <GradientButton btnText='XEM NGAY' url='/' isBorder={false} />
+            <div className='absolute bottom-6 left-10 w-[180px]'>
+              <GradientButtonLink btnText='XEM NGAY' url='/' isBorder={false} />
             </div>
           </div>
-          <div className='flex-grow overflow-hidden max-h-[590px]'>
-            <div className='grid grid-cols-3 gap-4'>
-              {healthProduct &&
-                !isLoading &&
-                healthProduct.data.items.map((item) => {
-                  return <Product data={item} key={item.id} />
-                })}
+          <div className='@992:col-span-3 col-span-4'>
+            {/* <div className='grid @992:grid-cols-3 grid-cols-2 @992:gap-6 gap-4 overflow-x-auto scrollbar-none'> */}
+            <div className='grid @992:grid-cols-3 grid-flow-col grid-rows-2 @992:gap-6 gap-4 overflow-x-auto scrollbar-none'>
+              {healthProduct && !isLoading ? (
+                healthProduct.data.items.slice(0, 6).map((item) => (
+                  <div key={item.id} className='@992:col-span-1 row-span-1 flex'>
+                    <Product data={item} />
+                  </div>
+                ))
+              ) : (
+                <>
+                  {Array(6)
+                    .fill(0)
+                    .map((_, index) => (
+                      <div key={index}>
+                        <div className='flex items-center justify-center h-48 mb-4 bg-oby-primary/10 rounded'>
+                          <svg
+                            className='w-12 h-12 text-oby-primary/20'
+                            xmlns='http://www.w3.org/2000/svg'
+                            aria-hidden='true'
+                            fill='currentColor'
+                            viewBox='0 0 640 512'
+                          >
+                            <path d='M480 80C480 35.82 515.8 0 560 0C604.2 0 640 35.82 640 80C640 124.2 604.2 160 560 160C515.8 160 480 124.2 480 80zM0 456.1C0 445.6 2.964 435.3 8.551 426.4L225.3 81.01C231.9 70.42 243.5 64 256 64C268.5 64 280.1 70.42 286.8 81.01L412.7 281.7L460.9 202.7C464.1 196.1 472.2 192 480 192C487.8 192 495 196.1 499.1 202.7L631.1 419.1C636.9 428.6 640 439.7 640 450.9C640 484.6 612.6 512 578.9 512H55.91C25.03 512 .0006 486.1 .0006 456.1L0 456.1z' />
+                          </svg>
+                        </div>
+                        <div className='h-2.5 bg-oby-primary/10 rounded-full w-48 mb-4' />
+                        <div className='h-2 bg-oby-primary/10 rounded-full mb-2.5' />
+                        <span className='sr-only'>Loading...</span>
+                      </div>
+                    ))}
+                </>
+              )}
             </div>
+            {/* <Swiper
+              lazy={true}
+              slidesPerView={2}
+              grid={{ rows: 2, fill: 'row' }}
+              spaceBetween={30}
+              breakpoints={{
+                992: {
+                  slidesPerView: 3,
+                  spaceBetween: 30,
+                  grid: { rows: 2, fill: 'row' }
+                }
+              }}
+              modules={[Lazy, EffectFade, Grid]}
+              className='suggestProduct'
+            >
+              {healthProduct && !isLoading ? (
+                healthProduct.data.items.map((item) => {
+                  return (
+                    <SwiperSlide key={item.id}>
+                      <Product data={item} />
+                    </SwiperSlide>
+                  )
+                })
+              ) : (
+                <div className='grid @992:grid-cols-3 grid-cols-2 gap-[30px]'>
+                  {Array(6)
+                    .fill(0)
+                    .map((_, index) => (
+                      <div className='col-span-1' key={index}>
+                        <div className='flex items-center justify-center h-48 mb-4 bg-oby-primary/10 rounded'>
+                          <svg
+                            className='w-12 h-12 text-oby-primary/20'
+                            xmlns='http://www.w3.org/2000/svg'
+                            aria-hidden='true'
+                            fill='currentColor'
+                            viewBox='0 0 640 512'
+                          >
+                            <path d='M480 80C480 35.82 515.8 0 560 0C604.2 0 640 35.82 640 80C640 124.2 604.2 160 560 160C515.8 160 480 124.2 480 80zM0 456.1C0 445.6 2.964 435.3 8.551 426.4L225.3 81.01C231.9 70.42 243.5 64 256 64C268.5 64 280.1 70.42 286.8 81.01L412.7 281.7L460.9 202.7C464.1 196.1 472.2 192 480 192C487.8 192 495 196.1 499.1 202.7L631.1 419.1C636.9 428.6 640 439.7 640 450.9C640 484.6 612.6 512 578.9 512H55.91C25.03 512 .0006 486.1 .0006 456.1L0 456.1z' />
+                          </svg>
+                        </div>
+                        <div className='h-2.5 bg-oby-primary/10 rounded-full w-48 mb-4' />
+                        <div className='h-2 bg-oby-primary/10 rounded-full mb-2.5' />
+                        <span className='sr-only'>Loading...</span>
+                      </div>
+                    ))}
+                </div>
+              )}
+            </Swiper> */}
           </div>
         </div>
       </div>

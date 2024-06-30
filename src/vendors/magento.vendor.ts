@@ -1,5 +1,7 @@
 import axios, { type AxiosInstance } from 'axios'
 
+// import Cookies from 'js-cookie'
+
 class MagentoVendor {
   instance: AxiosInstance
   private accessToken: string
@@ -13,6 +15,10 @@ class MagentoVendor {
 
     this.instance.interceptors.request.use(
       (config) => {
+        // if (Cookies.get('token') && config.headers) {
+        //   config.headers.Authorization = `Bearer ${Cookies.get('token')}`
+        //   return config
+        // }
         // add any authorization header or other request interceptors
         if (this.accessToken && config.headers) {
           config.headers.Authorization = `Bearer ${this.accessToken}`

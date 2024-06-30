@@ -71,7 +71,7 @@ const DetailDiscountPage: React.FC<IDetailProps> = ({ id, category }) => {
               <Image
                 priority
                 fill
-                alt='Ông Bà Yêu Banner'
+                alt='AGRIAMAZING Banner'
                 src={`/images/discount-banner-${id}.png`}
                 className='abosolute'
                 style={{ objectPosition: 'center', objectFit: 'cover' }}
@@ -107,7 +107,7 @@ const DetailDiscountPage: React.FC<IDetailProps> = ({ id, category }) => {
                 <Image
                   priority
                   fill
-                  alt='Ông Bà Yêu Banner'
+                  alt='AGRIAMAZING Banner'
                   src={`/images/discount-banner-${id}.png`}
                   className='absolute'
                   style={{ objectPosition: 'center', objectFit: 'cover' }}

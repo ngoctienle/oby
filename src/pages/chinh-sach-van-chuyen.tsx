@@ -2,24 +2,26 @@ import { ChevronRightIcon } from '@heroicons/react/24/outline'
 
 import { generateMetaSEO } from '@/libs/seo'
 
+import { customClasses } from '@/constants/config.constant'
+
 import Breadcrumb from '@/components/Breadcrumb'
 import { OBYLink } from '@/components/UI/Element'
 import { OBYSeo } from '@/components/UI/OBYSeo'
 
 export default function DeliverPage() {
   const meta = generateMetaSEO({
-    title: 'Ông Bà Yêu',
+    title: 'AGRIAMAZING',
     template: 'Chính Sách Vận Chuyển',
     description:
-      'Ông Bà Yêu là một cửa hàng trực tuyến chuyên cung cấp các sản phẩm tổng hợp nhằm phục vụ cho người cao tuổi cùng với dịch vụ hỗ trợ khách hàng đặc biệt, đem đến cho khách hàng một cuộc sống chất lượng nhất.',
-    keywords: [`OBY, Ông Bà Yêu, ongbayeu.com`],
-    og_image_alt: 'Ông Bà Yêu',
+      'AGRIAMAZING là một cửa hàng trực tuyến chuyên cung cấp các sản phẩm tổng hợp nhằm phục vụ cho người cao tuổi cùng với dịch vụ hỗ trợ khách hàng đặc biệt, đem đến cho khách hàng một cuộc sống chất lượng nhất.',
+    keywords: [`OBY, AGRIAMAZING, ongbayeu.com`],
+    og_image_alt: 'AGRIAMAZING',
     slug: '/chinh-sach-van-chuyen'
   })
   return (
     <>
       <OBYSeo {...meta} />
-      <section className='@992:pt-4 pt-3'>
+      <section className='@992:pt-4 pt-3 bg-white'>
         <Breadcrumb cateName='Chính sách vận chuyển' />
         <div className='container'>
           <div className='grid grid-cols-12 @992:gap-10 gap-6'>
@@ -31,7 +33,7 @@ export default function DeliverPage() {
                 </OBYLink>
                 <OBYLink
                   href='/chinh-sach-van-chuyen'
-                  className='bg-gradient-to-r from-agr-orange via-agr-mid-orange to-agr-light-orange flex items-center justify-between py-3 px-4.5'
+                  className={`${customClasses.COMMON_GRADIENT} flex items-center justify-between py-3 px-4.5`}
                 >
                   <p className='@768:fs-16 fs-14 text-white font-semibold'>Chính sách vận chuyển</p>
                   <ChevronRightIcon className='w-6 h-6 text-white' />
@@ -55,16 +57,13 @@ export default function DeliverPage() {
               </div>
             </div>
             <div className='@992:col-span-9 @992:order-2 order-1 col-span-12 space-y-5'>
-              <h2 className='font-bold text-oby-green @992:fs-26 fs-20'>Chính sách vận chuyển</h2>
+              <h2 className='font-bold text-oby-primary @992:fs-26 fs-20'>Chính sách vận chuyển</h2>
               <h3 className='@992:fs-20 font-semibold'>1. Phí giao hàng và Phạm vi giao hàng:</h3>
-              <ul className='list-disc pl-5 spacy-y-2'>
-                <li>Chúng tôi hỗ trợ phí vận chuyển cho tất cả các các đơn hàng trong và ngoài TP HCM.</li>
-                <li>
-                  Hiện nay, chúng tôi chỉ có thể chuyển hàng đến các địa chỉ trong đất nước Việt Nam, Chúng tôi không
-                  chuyển hàng đến hộp thư công cộng, các địa chỉ quốc tế và một số huyện, đảo mà bưu điện Việt Nam không
-                  chấp nhận vận chuyển.
-                </li>
-              </ul>
+              <p className='@992:fs-16 fs-14'>
+                Hiện nay, chúng tôi chỉ có thể chuyển hàng đến các địa chỉ trong đất nước Việt Nam, Chúng tôi không
+                chuyển hàng đến hộp thư công cộng, các địa chỉ quốc tế và một số huyện, đảo mà bưu điện Việt Nam không
+                chấp nhận vận chuyển.
+              </p>
               <h3 className='@992:fs-20 font-semibold'>2. Thay đổi địa chỉ nhận hàng:</h3>
               <p className='@992:fs-16 fs-14'>
                 Trong trường hợp khách hàng muốn thay đổi địa chỉ nhận sản phẩm thì khách hàng phải gọi điện thông báo

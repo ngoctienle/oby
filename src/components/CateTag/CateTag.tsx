@@ -1,13 +1,18 @@
-import { OBYLink } from '../UI/Element'
-import React from 'react'
+import { ItemWithAttribute } from '@/@types/category.type'
 
-export const CateTag = ({ data }: { data: { id: number; name: string } }) => {
+export const CateTag = ({
+  data,
+  onClickTag
+}: {
+  data: ItemWithAttribute | undefined
+  onClickTag: (newId: number | undefined) => void
+}) => {
   return (
-    <OBYLink
-      href={'/'}
-      className='border border-[#C7C7C7] rounded-full p-3 border-dashed hover:border-none hover:bg-gradient-to-r from-agr-orange via-agr-mid-orange to-agr-light-orange'
+    <button
+      onClick={() => onClickTag(data?.id)}
+      className={`border border-[#C7C7C7] rounded-full p-3 border-dashed hover:border-transparent hover:bg-gradient-to-r from-agr-orange via-agr-mid-orange to-agr-light-orange`}
     >
-      <p className='font-medium fs-14 whitespace-nowrap'>{data.name}</p>
-    </OBYLink>
+      <p className='font-medium fs-14 whitespace-nowrap'>{data?.name}</p>
+    </button>
   )
 }

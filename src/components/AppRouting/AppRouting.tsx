@@ -10,7 +10,7 @@ import { useCategorySheet, useFocusInput } from '@/hooks'
 
 import cartApi from '@/apis/magento/cart.api'
 
-import { cacheTime } from '@/constants/config.constant'
+import { cacheTime, customClasses } from '@/constants/config.constant'
 import { hrefPath } from '@/constants/href.constant'
 
 interface AppRoutingProps {
@@ -60,7 +60,7 @@ const AppRouting = ({ guestCartId, cartId, token }: AppRoutingProps) => {
               <p
                 className={`font-medium @520:fs-12 fs-10 ${
                   router.pathname === hrefPath.home
-                    ? 'bg-gradient-to-r from-agr-orange via-agr-mid-orange to-agr-light-orange inline-block text-transparent bg-clip-text'
+                    ? `${customClasses.COMMON_GRADIENT} inline-block text-transparent bg-clip-text`
                     : 'text-oby-676869'
                 }`}
               >
@@ -81,7 +81,7 @@ const AppRouting = ({ guestCartId, cartId, token }: AppRoutingProps) => {
             <p
               className={`font-medium @520:fs-12 fs-10 ${
                 registerFocus.isFocus
-                  ? 'bg-gradient-to-r from-agr-orange via-agr-mid-orange to-agr-light-orange inline-block text-transparent bg-clip-text'
+                  ? `${customClasses.COMMON_GRADIENT} inline-block text-transparent bg-clip-text`
                   : 'text-oby-676869'
               }`}
             >
@@ -102,7 +102,7 @@ const AppRouting = ({ guestCartId, cartId, token }: AppRoutingProps) => {
             <p
               className={`font-medium @520:fs-12 fs-10 ${
                 registerCategory.isOpen
-                  ? 'bg-gradient-to-r from-agr-orange via-agr-mid-orange to-agr-light-orange inline-block text-transparent bg-clip-text'
+                  ? `${customClasses.COMMON_GRADIENT} inline-block text-transparent bg-clip-text`
                   : 'text-oby-676869'
               }`}
             >
@@ -116,7 +116,7 @@ const AppRouting = ({ guestCartId, cartId, token }: AppRoutingProps) => {
                   className={`w-6 h-6 ${router.pathname === hrefPath.cartPage ? 'text-agr-orange' : 'text-oby-676869'}`}
                 />
                 {cartData && (
-                  <p className='absolute flex items-center justify-center -top-0.5 -right-1 w-4.5 h-4.5 fs-10 bg-gradient-to-r from-agr-orange via-agr-mid-orange to-agr-light-orange text-white rounded-full'>
+                  <p className='absolute flex items-center justify-center -top-0.5 -right-1 w-4.5 h-4.5 fs-10 ${customClasses.COMMON_GRADIENT} text-white rounded-full'>
                     {cartData.items_qty}
                   </p>
                 )}
@@ -124,7 +124,7 @@ const AppRouting = ({ guestCartId, cartId, token }: AppRoutingProps) => {
               <p
                 className={`font-medium @520:fs-12 fs-10 ${
                   router.pathname === hrefPath.cartPage
-                    ? 'bg-gradient-to-r from-agr-orange via-agr-mid-orange to-agr-light-orange inline-block text-transparent bg-clip-text'
+                    ? `${customClasses.COMMON_GRADIENT} inline-block text-transparent bg-clip-text`
                     : 'text-oby-676869'
                 }`}
               >
@@ -141,7 +141,7 @@ const AppRouting = ({ guestCartId, cartId, token }: AppRoutingProps) => {
               <p
                 className={`font-medium @520:fs-12 fs-10 ${
                   router.pathname === hrefPath.discount
-                    ? 'bg-gradient-to-r from-agr-orange via-agr-mid-orange to-agr-light-orange inline-block text-transparent bg-clip-text'
+                    ? `${customClasses.COMMON_GRADIENT} inline-block text-transparent bg-clip-text`
                     : 'text-oby-676869'
                 }`}
               >

@@ -1,4 +1,4 @@
-import GradientButton from '../UI/GradientButton'
+import GradientButtonLink from '../UI/GradientButtonLink'
 import { useQuery } from '@tanstack/react-query'
 
 import { useQueryBlogConfig } from '@/hooks'
@@ -36,7 +36,9 @@ export default function BlogList() {
           ))}
         </div>
 
-        <GradientButton url='/' btnText='XEM TẤT CẢ' />
+        <div className='w-[194px]'>
+          <GradientButtonLink url='/' btnText='XEM TẤT CẢ' customClass='self-center' />
+        </div>
       </div>
     </div>
     // <div className='@992:pt-15 pt-10'>

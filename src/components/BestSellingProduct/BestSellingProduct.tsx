@@ -1,8 +1,7 @@
 import Product from '../Product'
-import GradientButton from '../UI/GradientButton'
+import GradientButtonLink from '../UI/GradientButtonLink'
 import { useQuery } from '@tanstack/react-query'
-import React from 'react'
-import { Autoplay, EffectFade, Lazy, Pagination } from 'swiper'
+import { EffectFade, Lazy } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 import { useMediaQuery } from '@/hooks'
@@ -28,29 +27,25 @@ export const BestSellingProduct = () => {
         <Swiper
           lazy={true}
           slidesPerView={2}
+          spaceBetween={16}
           pagination={{
             clickable: true
           }}
-          spaceBetween={30}
-          autoplay={{
-            delay: 3500,
-            disableOnInteraction: false
-          }}
           breakpoints={{
             768: {
-              slidesPerView: 4,
+              slidesPerView: 3,
               spaceBetween: 30
             },
-            992: {
+            1024: {
               slidesPerView: 4,
-              spaceBetween: 40
+              spaceBetween: 30
             }
           }}
-          modules={[Pagination, Lazy, EffectFade, Autoplay]}
-          className='suggestProduct @992:my-12 my-4'
+          modules={[Lazy, EffectFade]}
+          className='suggestProduct @992:my-[30px] my-4'
         >
           {bestSellingProduct && !isLoading ? (
-            bestSellingProduct.data.items.map((item) => {
+            bestSellingProduct.data.items.slice(0, 4).map((item) => {
               return (
                 <SwiperSlide key={item.id}>
                   <Product data={item} />
@@ -82,7 +77,9 @@ export const BestSellingProduct = () => {
             </div>
           )}
         </Swiper>
-        <GradientButton url='/' btnText='XEM TẤT CẢ' customClass='self-center' />
+        <div className='w-[194px] self-center'>
+          <GradientButtonLink url='/' btnText='XEM TẤT CẢ' />
+        </div>
       </div>
     </div>
   )

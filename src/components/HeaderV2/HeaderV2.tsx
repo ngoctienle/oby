@@ -21,7 +21,7 @@ import { getIDListCategoryAsString, getParentCategory } from '@/helpers/category
 import cartApi from '@/apis/magento/cart.api'
 import categoryApi from '@/apis/magento/category.api'
 
-import { cacheTime } from '@/constants/config.constant'
+import { cacheTime, customClasses } from '@/constants/config.constant'
 import { hrefPath } from '@/constants/href.constant'
 
 import { OBYButton, OBYImage, OBYLink } from '@/components/UI/Element'
@@ -83,13 +83,15 @@ export default function HeaderV2({ font, isFocus, user, guestCartId, cartId, tok
 
   return (
     <header className={cn(font.className, 'sticky top-0 inset-x-0 z-10 ')}>
-      <div className='py-3 bg-gradient-to-r from-agr-orange via-agr-mid-orange to-agr-light-orange'>
+      <div className={`py-3 ${customClasses.COMMON_GRADIENT}`}>
         <div className='container h-full flex flex-row justify-between items-center'>
           <p className='text-white text-xs font-normal'>Chào mừng bạn đến với chúng tôi</p>
           <div className='flex flex-row justify-between items-center gap-6'>
             <div className='hidden @992:flex flex-row justify-between items-center gap-1'>
               <MapPinIcon className='h-4 w-4 text-[#FFE500]' />
-              <p className='text-white text-xs font-normal'>47 Đ. Lê Duẩn, P. Bến Nghé, Q.1, TP. HCM</p>
+              <p className='text-white text-xs font-normal'>
+                Toà B Masteri Centre Point Đ. D1, Long Bình, Thủ Đức, Thành phố Hồ Chí Minh
+              </p>
             </div>
             <div className='flex flex-row justify-between items-center gap-1'>
               <ClockIcon className='h-4 w-4 text-[#FFE500]' />
@@ -134,7 +136,9 @@ export default function HeaderV2({ font, isFocus, user, guestCartId, cartId, tok
                     <OBYLink href={hrefPath.discount} title='Ưu đãi'>
                       <div className='relative'>
                         <AGRPresentIcon className='w-6 h-6' />
-                        <p className='absolute flex items-center justify-center -top-0.5 -right-1 w-4.5 h-4.5 fs-10 bg-gradient-to-r from-agr-orange via-agr-mid-orange to-agr-light-orange text-white rounded-full'>
+                        <p
+                          className={`absolute flex items-center justify-center -top-0.5 -right-1 w-4.5 h-4.5 fs-10 ${customClasses.COMMON_GRADIENT} text-white rounded-full`}
+                        >
                           {2}
                         </p>
                       </div>
@@ -145,7 +149,9 @@ export default function HeaderV2({ font, isFocus, user, guestCartId, cartId, tok
                       <div className='relative'>
                         <AGRShoppingBagIcon className='w-6 h-6' />
                         {cartData && (
-                          <p className='absolute flex items-center justify-center -top-0.5 -right-1 w-4.5 h-4.5 fs-10 bg-gradient-to-r from-agr-orange via-agr-mid-orange to-agr-light-orange text-white rounded-full'>
+                          <p
+                            className={`absolute flex items-center justify-center -top-0.5 -right-1 w-4.5 h-4.5 fs-10 ${customClasses.COMMON_GRADIENT} text-white rounded-full`}
+                          >
                             {cartData.items_qty}
                           </p>
                         )}
