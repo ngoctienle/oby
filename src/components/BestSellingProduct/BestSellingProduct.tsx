@@ -15,7 +15,7 @@ export const BestSellingProduct = () => {
 
   const { data: bestSellingProduct, isLoading } = useQuery({
     queryKey: ['bestSellingProduct'],
-    queryFn: () => productApi.GetProductByCategoryID(45, '1', '0'),
+    queryFn: () => productApi.GetProductByCategoryID(45, '1', '4'),
     staleTime: cacheTime.halfHours
   })
 
@@ -28,6 +28,9 @@ export const BestSellingProduct = () => {
           lazy={true}
           slidesPerView={2}
           spaceBetween={16}
+          pagination={{
+            clickable: true
+          }}
           breakpoints={{
             768: {
               slidesPerView: 3,

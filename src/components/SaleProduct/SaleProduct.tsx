@@ -28,7 +28,7 @@ export default function SaleProduct() {
 
   const { data: saleProduct, isLoading } = useQuery({
     queryKey: ['saleProduct'],
-    queryFn: () => productApi.GetProductByCategoryID(37, '1', '0'),
+    queryFn: () => productApi.GetProductByCategoryID(37, '1', '5'),
     staleTime: cacheTime.halfHours
   })
 
@@ -103,6 +103,13 @@ export default function SaleProduct() {
           lazy={true}
           slidesPerView={2}
           spaceBetween={16}
+          pagination={{
+            clickable: true
+          }}
+          autoplay={{
+            delay: 3500,
+            disableOnInteraction: false
+          }}
           breakpoints={{
             768: {
               slidesPerView: 3,

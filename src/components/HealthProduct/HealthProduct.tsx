@@ -21,7 +21,6 @@ import { cacheTime } from '@/constants/config.constant'
 
 export const HealthProduct = () => {
   const swiperRef = useRef<SwiperType | null>(null)
-
   const [categoryID, setCategoryID] = useState<number>(46)
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
