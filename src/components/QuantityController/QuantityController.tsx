@@ -71,7 +71,7 @@ export default function QuantityController({
       <InputNumber
         className='flex w-[50px] flex-shrink-0 items-center overflow-hidden '
         classNameError='hidden'
-        classNameInput='px-2 w-full h-full border-none bg-transparent text-center outline-none fs-18 text-oby-primary'
+        classNameInput='px-2 w-full h-full border-none bg-transparent text-center outline-none fs-18 text-oby-orange'
         onChange={handleChange}
         onBlur={handleBlur}
         value={value || localValue}

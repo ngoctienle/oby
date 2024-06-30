@@ -4,10 +4,13 @@ import { AGRGradientLeftArrowIcon, AGRGradientRightArrowIcon } from '../UI/AGRIc
 import { OBYImage } from '../UI/Element'
 import GradientButtonLink from '../UI/GradientButtonLink'
 import { useQueries, useQuery } from '@tanstack/react-query'
+import { AxiosResponse } from 'axios'
 import Image from 'next/image'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { EffectFade, Lazy, Swiper as SwiperType } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
+
+import { ProductResponse } from '@/@types/product.type'
 
 import { getCateId } from '@/helpers/product'
 
@@ -19,20 +22,33 @@ import { cacheTime } from '@/constants/config.constant'
 export const HealthProduct = () => {
   const swiperRef = useRef<SwiperType | null>(null)
 
-  const { data: healthProduct, isLoading } = useQuery({
-    queryKey: ['healthProduct'],
-    queryFn: () => productApi.GetProductByCategoryID(46, '1', '0'),
-    staleTime: cacheTime.halfHours
+  const [categoryID, setCategoryID] = useState<number>(46)
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [allProduct, setAllProduct] = useState<AxiosResponse<ProductResponse, any> | null>(null)
+
+  const {
+    data: healthProduct,
+    isLoading,
+    refetch
+  } = useQuery({
+    queryKey: ['healthProduct', categoryID],
+    queryFn: () => productApi.GetProductByCategoryID(categoryID, '1', '0'),
+    staleTime: cacheTime.halfHours,
+    onSuccess: (res) => {
+      if (categoryID !== 46) return
+      setAllProduct(res)
+    }
   })
 
   const productHealthCate = useQueries({
     queries: [
-      ...(healthProduct?.data.items || []).map((item) => {
+      ...(allProduct?.data.items || []).map((item) => {
         const id = getCateId(item.custom_attributes)
         return {
           queryKey: ['productHealthCateCate', id],
           queryFn: () => categoryApi.GetCategoryNameById(id as string),
-          enabled: Boolean(healthProduct)
+          enabled: false
         }
       })
     ]
@@ -47,6 +63,13 @@ export const HealthProduct = () => {
       }
     }
   }
+
+  const onClickTag = (newId: number | undefined) => {
+    if (!newId) return
+    setCategoryID(newId)
+    refetch({ queryKey: ['healthProduct', newId] })
+  }
+
   return (
     <div className='bg-[#F6F6F6]'>
       <div className='container py-4 flex flex-col @992:items-center'>
@@ -54,7 +77,7 @@ export const HealthProduct = () => {
         <p className='text-[#222324] fs-26 font-bold mb-2 @992:text-center'>SỨC KHỎE</p>
         <div className='@992:w-[800px] w-full flex flex-row gap-3 overflow-x-auto scrollbar-none'>
           {productHealthCate.map((item, index) => {
-            return <CateTag key={index} data={item.data?.data} />
+            return <CateTag key={index} data={item.data?.data} onClickTag={onClickTag} />
           })}
         </div>
         <div className='h-[1px] w-full bg-white mt-4' />
@@ -89,7 +112,7 @@ export const HealthProduct = () => {
             </button>
           </div>
         </div>
-        <div className='grid grid-cols-4 gap-6 @992:mt-15 mt-4 w-full'>
+        <div className='grid grid-cols-4 gap-6 @992:mt-15 mt-4 w-full @992:min-h-[580px]'>
           <div className='col-span-1 @992:block hidden relative rounded-2'>
             <Image
               priority
@@ -104,10 +127,11 @@ export const HealthProduct = () => {
             </div>
           </div>
           <div className='@992:col-span-3 col-span-4'>
-            <div className='grid grid-rows-2 grid-flow-col @992:gap-6 gap-4 overflow-x-auto scrollbar-none'>
+            {/* <div className='grid @992:grid-cols-3 grid-cols-2 @992:gap-6 gap-4 overflow-x-auto scrollbar-none'> */}
+            <div className='grid @992:grid-cols-3 grid-flow-col grid-rows-2 @992:gap-6 gap-4 overflow-x-auto scrollbar-none'>
               {healthProduct && !isLoading ? (
                 healthProduct.data.items.slice(0, 6).map((item) => (
-                  <div key={item.id} className='row-span-1 flex'>
+                  <div key={item.id} className='@992:col-span-1 row-span-1 flex'>
                     <Product data={item} />
                   </div>
                 ))

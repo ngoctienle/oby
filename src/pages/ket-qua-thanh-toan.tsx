@@ -78,7 +78,7 @@ export default function PaymentResult({ statusMessage, orderId, orderInfo, cartI
   return (
     <>
       <OBYSeo {...meta} />
-      <div className='@992:pt-7.5 pt-2 min-h-[50%]'>
+      <div className='@992:pt-7.5 pt-2 min-h-[50%] pb-6 bg-white'>
         <div className='container'>
           {/* Processing */}
           <div className='flex items-center max-w-[426px] justify-between mx-auto relative'>

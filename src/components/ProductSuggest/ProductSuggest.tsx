@@ -3,13 +3,16 @@ import { AGRGradientLeftArrowIcon, AGRGradientRightArrowIcon } from '../UI/AGRIc
 import { OBYImage } from '../UI/Element'
 import GradientButtonLink from '../UI/GradientButtonLink'
 import { useQueries, useQuery } from '@tanstack/react-query'
+import { AxiosResponse } from 'axios'
 import Image from 'next/image'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { EffectFade, Lazy, Swiper as SwiperType } from 'swiper'
 import 'swiper/css/effect-fade'
 import 'swiper/css/pagination'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/swiper.min.css'
+
+import { ProductResponse } from '@/@types/product.type'
 
 import { useMediaQuery } from '@/hooks'
 
@@ -27,20 +30,33 @@ export default function ProductSuggest() {
 
   const swiperRef = useRef<SwiperType | null>(null)
 
-  const { data: productSgRes, isLoading } = useQuery({
-    queryKey: ['productSg'],
-    queryFn: () => productApi.GetProductByCategoryID(48, '1', '0'),
-    staleTime: cacheTime.halfHours
+  const [categoryID, setCategoryID] = useState<number>(48)
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [allProduct, setAllProduct] = useState<AxiosResponse<ProductResponse, any> | null>(null)
+
+  const {
+    data: productSgRes,
+    isLoading,
+    refetch
+  } = useQuery({
+    queryKey: ['productSg', categoryID],
+    queryFn: () => productApi.GetProductByCategoryID(categoryID, '1', '0'),
+    staleTime: cacheTime.halfHours,
+    onSuccess: (res) => {
+      if (categoryID !== 48) return
+      setAllProduct(res)
+    }
   })
 
   const productSgCate = useQueries({
     queries: [
-      ...(productSgRes?.data.items || []).map((item) => {
+      ...(allProduct?.data.items || []).map((item) => {
         const id = getCateId(item.custom_attributes)
         return {
           queryKey: ['productSgCate', id],
           queryFn: () => categoryApi.GetCategoryNameById(id as string),
-          enabled: Boolean(productSgRes)
+          enabled: false
         }
       })
     ]
@@ -56,6 +72,12 @@ export default function ProductSuggest() {
     }
   }
 
+  const onClickTag = (newId: number | undefined) => {
+    if (!newId) return
+    setCategoryID(newId)
+    refetch({ queryKey: ['productSg', newId] })
+  }
+
   return (
     <div className='bg-white'>
       <div className='container pt-4 py-8 flex flex-col @992:items-center relative'>
@@ -64,7 +86,7 @@ export default function ProductSuggest() {
         <div className='@992:w-[800px] w-full flex flex-row gap-3 overflow-x-scroll scrollbar-none'>
           {productSgCate &&
             productSgCate.map((item, index) => {
-              return <CateTag key={index} data={item.data?.data} />
+              return <CateTag key={index} data={item.data?.data} onClickTag={onClickTag} />
             })}
         </div>
         <div className='h-[1px] w-full bg-oby-DFDFDF mt-4' />

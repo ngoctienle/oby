@@ -30,6 +30,7 @@ export const CategoriesShop = () => {
     },
     staleTime: cacheTime.halfHours
   })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const parentCategory = (parentCategoryRes && getParentCategory(parentCategoryRes.data)) || []
 
   const { data: parentCategoryAttrRes } = useQuery({
