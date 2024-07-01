@@ -39,6 +39,7 @@ export const HealthProduct = () => {
       setAllProduct(res)
     }
   })
+  console.log(allProduct)
 
   const productHealthCate = useQueries({
     queries: [
@@ -47,7 +48,7 @@ export const HealthProduct = () => {
         return {
           queryKey: ['productHealthCateCate', id],
           queryFn: () => categoryApi.GetCategoryNameById(id as string),
-          enabled: false
+          enabled: true
         }
       })
     ]

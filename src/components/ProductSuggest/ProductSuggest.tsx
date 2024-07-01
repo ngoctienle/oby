@@ -56,7 +56,7 @@ export default function ProductSuggest() {
         return {
           queryKey: ['productSgCate', id],
           queryFn: () => categoryApi.GetCategoryNameById(id as string),
-          enabled: false
+          enabled: true
         }
       })
     ]
