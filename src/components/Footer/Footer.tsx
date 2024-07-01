@@ -99,7 +99,7 @@ export default function Footer({ font }: FooterProps) {
             <div className='flex flex-col gap-4'>
               <h3 className='uppercase fs-18 font-semibold'>Kết nối</h3>
               <div className='flex items-center gap-6.5'>
-                <OBYLink href='https://www.facebook.com/ongbayeu.corp'>
+                <OBYLink href='https://www.facebook.com/Agriamazingcom/'>
                   <OBYImage src='/images/oby-fb.png' alt='OBY Facebook' title='OBY Facebook' width={40} height={40} />
                 </OBYLink>
                 <OBYImage src='/images/oby-youtube.png' alt='OBY Youtube' title='OBY Youtube' width={40} height={40} />
@@ -133,12 +133,7 @@ export default function Footer({ font }: FooterProps) {
         </div>
         <div
           className={`${customClasses.COMMON_GRADIENT} @992:py-6 py-4 @992:fs-12 fs-10 text-center text-white @992:mt-7.5 mt-6`}
-        >
-          <p className='@992:px-0 px-4'>
-            © 2024 Silverts Adaptive LLC, Chatsworth, California • VELCRO® is a registered trademark of Velcro
-            Industries B.V. • Dr. Comfort® is a registered trademark of Dr Comfort.
-          </p>
-        </div>
+        ></div>
       </div>
     </footer>
   )
