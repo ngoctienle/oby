@@ -621,9 +621,10 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
               )}
             </div>
           )}
-          <h2 className='@768:fs-26 fs-20 font-bold text-oby-green'>Đánh giá sản phẩm</h2>
+          <h2 className='text-oby-primary fs-14 font-normal mb-2 @992:text-center'>CHUYÊN MỤC</h2>
+          <p className='text-[#222324] fs-26 font-bold mb-2 @992:text-center'>ĐÁNH GIÁ SẢN PHẨM</p>
           <div className='@992:my-7.5 my-5 mx-auto max-w-[538px]'>
-            <div className=' flex items-center flex-col @992:flex-row'>
+            <div className=' flex items-center flex-col'>
               <div className='@992:mr-6 mr-0'>
                 <p className='fs-48 text-oby-orange font-bold leading-[58px] text-center'>
                   {calculateAverageRating.toFixed(2)}
