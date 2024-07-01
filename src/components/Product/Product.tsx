@@ -69,7 +69,7 @@ export default function Product({ data, isHorizontal = false }: ProductProps) {
   }
 
   return isHorizontal ? (
-    <div className='border-b-[1px] border-oby-DFDFDF flex flex-row items-center gap-4 py-6 '>
+    <div className='border-b-[1px] border-oby-DFDFDF flex flex-row items-center gap-4 py-6'>
       <OBYLink
         href={`${hrefPath.productDetail}/${data.sku}`}
         title={data.name}
@@ -106,11 +106,11 @@ export default function Product({ data, isHorizontal = false }: ProductProps) {
       </div>
     </div>
   ) : (
-    <div className='flex group flex-col bg-white pb-3 rounded-2 border border-[#F6F6F6] @992:w-full w-[191px]'>
+    <div className='flex group flex-col bg-white pb-3 rounded-2 border border-[#F6F6F6] @992:w-full w-[191px] min-h-[294px]'>
       <OBYLink
         href={`${hrefPath.productDetail}/${data.sku}`}
         title={data.name}
-        className='overflow-hidden relative w-full bg-white @768:pt-[56%] pt-[70%] rounded-t-2'
+        className='overflow-hidden relative w-full bg-white @768:pt-[56%] pt-[70%] rounded-t-2 h-[180px]'
       >
         <OBYImage
           src={generateProductImageFromMagento(data.custom_attributes)}
