@@ -59,25 +59,25 @@ export default function PrivacyPage() {
             <div className='@992:col-span-9 @992:order-2 order-1 col-span-12 space-y-5'>
               <h2 className='font-bold text-oby-primary @992:fs-26 fs-20'>Chính sách bảo mật</h2>
               <p className='@992:fs-16 fs-14'>
-                Chính sách bảo mật này công bố cách thức mà Công ty TNHH AgriAmazing (sau đây gọi tắt là “AgriAmazing”
+                Chính sách bảo mật này công bố cách thức mà Công ty TNHH Agriamazing (sau đây gọi tắt là “Agriamazing”
                 hoặc “Chúng tôi”) thu thập, lưu trữ và xử lý thông tin hoặc dữ liệu cá nhân (“Thông tin cá nhân”) của
                 khách hàng thông qua website{' '}
                 <OBYLink href='/' title='AGRIAMAZING' className='@992:fs-16 fs-14 underline'>
                   https://agriamazing.com/
                 </OBYLink>{' '}
-                và Ứng dụng AgriAmazing trên thiết bị di động (Sau đây gọi tắt là &quot;App AgriAmazing&quot;)
+                và Ứng dụng Agriamazing trên thiết bị di động (Sau đây gọi tắt là &quot;App Agriamazing&quot;)
                 <br />
                 Chúng tôi cam kết sẽ bảo mật các Thông tin cá nhân của khách hàng, sẽ nỗ lực hết sức và sử dụng các biện
                 pháp thích hợp để các thông tin mà khách hàng cung cấp cho chúng tôi trong quá trình sử dụng website &
-                ứng dụng này được bảo mật và bảo vệ khỏi sự truy cập trái phép. Tuy nhiên, AgriAmazing không đảm bảo
-                ngăn chặn được tất cả các truy cập trái phép. Công ty TNHH AgriAmazing không ủy quyền cho bên thứ ba
+                ứng dụng này được bảo mật và bảo vệ khỏi sự truy cập trái phép. Tuy nhiên, Agriamazing không đảm bảo
+                ngăn chặn được tất cả các truy cập trái phép. Công ty TNHH Agriamazing không ủy quyền cho bên thứ ba
                 thực hiện việc thu thập, lưu trữ thông tin cá nhân của người tiêu dùng. Trong trường hợp truy cập trái
-                phép nằm ngoài khả năng kiểm soát của chúng tôi, AgriAmazing sẽ không chịu trách nhiệm dưới bất kỳ hình
+                phép nằm ngoài khả năng kiểm soát của chúng tôi, Agriamazing sẽ không chịu trách nhiệm dưới bất kỳ hình
                 thức nào đối với bất kỳ khiếu nại, tranh chấp hoặc thiệt hại nào phát sinh từ hoặc liên quan đến truy
                 cập trái phép đó.
                 <br />
                 Để hiểu rõ hơn về chính sách trong công tác thu thập, lưu trữ và sử dụng thông tin cá nhân của người sử
-                dụng website & app AgriAmazing, vui lòng đọc các chính sách bảo mật dưới đây:
+                dụng website & app Agriamazing, vui lòng đọc các chính sách bảo mật dưới đây:
               </p>
               {/* <p className='@992:fs-16 fs-14'>
                 Chúng tôi cam kết sẽ bảo mật các Thông tin cá nhân của khách hàng, sẽ nỗ lực hết sức và sử dụng các biện
@@ -99,21 +99,21 @@ export default function PrivacyPage() {
                 <OBYLink href='/' title='AGRIAMAZING' className='@992:fs-16 fs-14 underline'>
                   https://agriamazing.com/
                 </OBYLink>{' '}
-                App AgriAmazing bao gồm: số điện thoại, tên đăng nhập, mật khẩu đăng nhập, địa chỉ khách hàng, hình ảnh
-                và thư điện tử (nếu có). Đây là các thông tin mà AgriAmazing cần khách hàng cung cấp bắt buộc khi đăng
-                ký sử dụng dịch vụ và AgriAmazing sử dụng nhằm liên hệ xác nhận khi khách hàng đăng ký sử dụng dịch vụ
+                App Agriamazing bao gồm: số điện thoại, tên đăng nhập, mật khẩu đăng nhập, địa chỉ khách hàng, hình ảnh
+                và thư điện tử (nếu có). Đây là các thông tin mà Agriamazing cần khách hàng cung cấp bắt buộc khi đăng
+                ký sử dụng dịch vụ và Agriamazing sử dụng nhằm liên hệ xác nhận khi khách hàng đăng ký sử dụng dịch vụ
                 trên{' '}
                 <OBYLink href='/' title='AGRIAMAZING' className='@992:fs-16 fs-14 underline'>
                   https://agriamazing.com/
                 </OBYLink>{' '}
-                & App AgriAmazing, đảm bảo quyền lợi cho khách hàng. Bên cạnh đó, chúng tôi cũng thu thập thông tin về
+                & App Agriamazing, đảm bảo quyền lợi cho khách hàng. Bên cạnh đó, chúng tôi cũng thu thập thông tin về
                 số lần viếng thăm, bao gồm số trang bạn xem, số liên kết bạn nhấp và những thông tin khác liên quan đến
-                việc kết nối đến site của AgriAmazing & App AgriAmazing. Chúng tôi cũng thu thập các thông tin mà trình
+                việc kết nối đến site của Agriamazing & App Agriamazing. Chúng tôi cũng thu thập các thông tin mà trình
                 duyệt web (Browser) bạn sử dụng mỗi khi truy cập vào{' '}
                 <OBYLink href='/' title='AGRIAMAZING' className='@992:fs-16 fs-14 underline'>
                   https://agriamazing.com/
                 </OBYLink>{' '}
-                & App AgriAmazing, bao gồm: địa chỉ IP, loại Browser, ngôn ngữ sử dụng, thời gian và những địa chỉ mà
+                & App Agriamazing, bao gồm: địa chỉ IP, loại Browser, ngôn ngữ sử dụng, thời gian và những địa chỉ mà
                 Browser truy xuất đến nhằm nâng cao chất lượng phục vụ khách hàng.
                 <br />
                 Khách hàng sẽ tự chịu trách nhiệm về bảo mật và lưu giữ mọi hoạt động sử dụng dịch vụ dưới tên đăng ký,
@@ -121,7 +121,7 @@ export default function PrivacyPage() {
                 <OBYLink href='/' title='AGRIAMAZING' className='@992:fs-16 fs-14 underline'>
                   https://agriamazing.com/
                 </OBYLink>{' '}
-                & App AgriAmazing về những hành vi sử dụng trái phép, lạm dụng, vi phạm bảo mật, lưu giữ tên đăng ký và
+                & App Agriamazing về những hành vi sử dụng trái phép, lạm dụng, vi phạm bảo mật, lưu giữ tên đăng ký và
                 mật khẩu của bên thứ ba để có biện pháp giải quyết phù hợp.
               </p>
               <h3 className='@992:fs-20 font-semibold'>2. Phạm vi sử dụng thông tin</h3>
@@ -130,7 +130,7 @@ export default function PrivacyPage() {
                 <OBYLink href='/' title='AGRIAMAZING' className='@992:fs-16 fs-14 underline'>
                   https://agriamazing.com/
                 </OBYLink>{' '}
-                & App AgriAmazing sử dụng thông tin khách hàng cung cấp để:
+                & App Agriamazing sử dụng thông tin khách hàng cung cấp để:
               </p>
               <ul className='pl-5 list-disc @992:fs-16 fs-14'>
                 <li>Cung cấp các dịch vụ đến khách hàng</li>
@@ -139,7 +139,7 @@ export default function PrivacyPage() {
                   <OBYLink href='/' title='AGRIAMAZING' className='@992:fs-16 fs-14 underline'>
                     https://agriamazing.com/
                   </OBYLink>{' '}
-                  cũng như App AgriAmazing.
+                  cũng như App Agriamazing.
                 </li>
                 <li>
                   Ngăn ngừa các hoạt động phá hủy tài khoản người dùng của khách hàng hoặc các hoạt động giả mạo khách
@@ -160,7 +160,7 @@ export default function PrivacyPage() {
               </p>
               <h3 className='@992:fs-20 font-semibold'>3. Thời gian lưu trữ thông tin</h3>
               <p className='@992:fs-16 fs-14'>
-                AgriAmazing sẽ lưu trữ thông tin khách hàng cho đến khi khách hàng yêu cầu xoá thông tin hoặc theo yêu
+                Agriamazing sẽ lưu trữ thông tin khách hàng cho đến khi khách hàng yêu cầu xoá thông tin hoặc theo yêu
                 cầu của pháp luật hiện hành.
               </p>
               <h3 className='@992:fs-20 font-semibold'>4. Chia sẻ thông tin</h3>
@@ -209,7 +209,7 @@ export default function PrivacyPage() {
                 <OBYLink href='/' title='AGRIAMAZING' className='@992:fs-16 fs-14 underline'>
                   https://agriamazing.com/
                 </OBYLink>{' '}
-                và trong App AgriAmazing. Chúng tôi khuyến khích khách hàng đánh giá lại chính sách bảo mật này thường
+                và trong App Agriamazing. Chúng tôi khuyến khích khách hàng đánh giá lại chính sách bảo mật này thường
                 xuyên để hiểu rõ hơn về cách chúng tôi thu thập, sử dụng và bảo vệ thông tin cá nhân của khách hàng.
               </p>
               <h3 className='@992:fs-20 font-semibold'>8. Liên hệ</h3>

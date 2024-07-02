@@ -254,7 +254,7 @@ export default function ConditionPage() {
                 lượng và thoả đáng. Nếu không thể giải quyết, tranh chấp sẽ được đưa ra tòa án có thẩm quyền giải quyết
                 theo quy định của pháp luật Việt Nam. Chúng tôi mong rằng quý khách sẽ đọc kỹ và hiểu rõ các Điều khoản
                 và Điều kiện này. Nếu có bất kỳ câu hỏi hoặc thắc mắc nào, xin vui lòng liên hệ với chúng tôi qua địa
-                chỉ email admin@amazingsbuy.com hoặc số điện thoại 0903 122 611. Chúng tôi sẽ cố gắng giải đáp trong
+                chỉ email admin@amazingsbuy.com hoặc số điện thoại 0906 907 199. Chúng tôi sẽ cố gắng giải đáp trong
                 thời gian sớm nhất có thể.
                 <br />
                 Xin cảm ơn quý khách đã sử dụng dịch vụ của Agriamazing!

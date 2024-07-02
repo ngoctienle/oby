@@ -63,8 +63,8 @@ export default function ContactPage() {
               </li>
               <li className='flex items-center space-x-3'>
                 <OBYPhoneIcon className='w-6 h-6 text-oby-676869' />
-                <OBYLink href={`tel:0789.279.669`} title='AGRIAMAZING - Phone'>
-                  090 3122611
+                <OBYLink href={`tel:0906907199`} title='AGRIAMAZING - Phone'>
+                  0906 907 199
                 </OBYLink>
               </li>
               <li className='flex items-center space-x-3'>
