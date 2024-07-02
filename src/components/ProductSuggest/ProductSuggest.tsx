@@ -136,12 +136,12 @@ export default function ProductSuggest() {
         </div>
         <div className='w-full grid @992:grid-cols-2 grid-cols-1 @992:gap-8 @992:my-[30px] my-4'>
           {productSgRes && !isLoading ? (
-            productSgRes.data.items.map((item) => {
+            productSgRes.data.items.slice(0, isMedium ? 8 : 14).map((item) => {
               return <Product data={item} key={item.id} isHorizontal />
             })
           ) : (
             <>
-              {Array(isMedium ? 4 : 2)
+              {Array(isMedium ? 8 : 14)
                 .fill(0)
                 .map((_, index) => (
                   <div className='col-span-1' key={index}>
