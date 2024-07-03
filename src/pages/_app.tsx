@@ -107,7 +107,7 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
           <Component {...pageProps} />
         </main>
         <OBYLink
-          href='https://zalo.me/2357491152067049706'
+          href='https://zalo.me/1564381976227342876'
           title='Zalo'
           className='fixed @992:bottom-20 bottom-[135px] flex items-center @992:w-[64px] w-[55px] @992:h-[64px] h-[55px] z-10 right-4'
         >
