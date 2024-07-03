@@ -16,7 +16,7 @@ export const seoConfig = {
 
 export const appInformationConfig = {
   APP_EMAIL: process.env.NEXT_PUBLIC_APP_CONTACT_EMAIL || 'admin@amazingsbuy.com',
-  APP_PHONE: process.env.NEXT_PUBLIC_APP_CONTACT_PHONE || ' 090 3122611',
+  APP_PHONE: process.env.NEXT_PUBLIC_APP_CONTACT_PHONE || ' 0906 907 199',
   APP_ADDRESS:
     process.env.NEXT_PUBLIC_APP_CONTACT_ADDRESS ||
     'Toà B Masteri Centre Point Đ. D1, Long Bình, Thủ Đức, Thành phố Hồ Chí Minh',
