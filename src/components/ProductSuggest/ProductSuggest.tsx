@@ -22,6 +22,7 @@ import categoryApi from '@/apis/magento/category.api'
 import productApi from '@/apis/magento/product.api'
 
 import { cacheTime } from '@/constants/config.constant'
+import { hrefPath } from '@/constants/href.constant'
 
 import Product from '@/components/Product'
 
@@ -165,7 +166,7 @@ export default function ProductSuggest() {
           )}
         </div>
         <div className='w-[194px] self-center'>
-          <GradientButtonLink url='/' btnText='XEM TẤT CẢ' />
+          <GradientButtonLink url={`${hrefPath.catePage}/goi-y-hom-nay-48`} btnText='XEM TẤT CẢ' />
         </div>
         {/* <Swiper
         lazy={true}

@@ -311,7 +311,7 @@ export default function CartPage() {
     template: 'Giỏ Hàng',
     description:
       'AGRIAMAZING là một cửa hàng trực tuyến chuyên cung cấp các sản phẩm tổng hợp nhằm phục vụ cho người cao tuổi cùng với dịch vụ hỗ trợ khách hàng đặc biệt, đem đến cho khách hàng một cuộc sống chất lượng nhất.',
-    keywords: [`OBY, AGRIAMAZING, ongbayeu.com`],
+    keywords: [`OBY, AGRIAMAZING, agriamazing.com`],
     og_image_alt: 'AGRIAMAZING',
     slug: '/gio-hang'
   })
@@ -319,7 +319,7 @@ export default function CartPage() {
   return (
     <>
       <OBYSeo {...meta} />
-      <div className='@992:py-7.5 py-2 min-h-[50%] bg-white'>
+      <div className='@992:py-7.5 py-2 min-h-[50%] pb-6 bg-white'>
         <div className='container'>
           {!initializeData || initializeData.length === 0 ? (
             <NoProduct />

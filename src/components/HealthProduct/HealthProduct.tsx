@@ -39,7 +39,6 @@ export const HealthProduct = () => {
       setAllProduct(res)
     }
   })
-  console.log(allProduct)
 
   const productHealthCate = useQueries({
     queries: [

@@ -10,6 +10,7 @@ import { useMediaQuery } from '@/hooks'
 import productApi from '@/apis/magento/product.api'
 
 import { cacheTime } from '@/constants/config.constant'
+import { hrefPath } from '@/constants/href.constant'
 
 export default function SaleProduct() {
   const isMedium = useMediaQuery('(min-width:992px)')
@@ -157,7 +158,7 @@ export default function SaleProduct() {
           )}
         </Swiper>
         <div className='w-[194px]'>
-          <GradientButtonLink url='/' btnText='XEM TẤT CẢ' />
+          <GradientButtonLink url={`${hrefPath.catePage}/khuyen-mai-soc-37`} btnText='XEM TẤT CẢ' />
         </div>
       </div>
     </div>
