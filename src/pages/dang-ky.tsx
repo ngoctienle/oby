@@ -138,7 +138,7 @@ export default function Signup() {
             <p className='text-center @768:fs-14 fs-12 text-oby-9A9898 mt-4.5'>
               Bằng việc Tiếp tục, bạn đã chấp nhận{' '}
               <OBYButton variant='link' size='link' asChild>
-                <OBYLink href={hrefPath.home} title='Điều khoản sử dụng'>
+                <OBYLink href='/dieu-khoan-va-dieu-kien' title='Điều khoản sử dụng'>
                   điều khoản sử dụng
                 </OBYLink>
               </OBYButton>
