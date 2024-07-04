@@ -2,8 +2,6 @@ import Product from '../Product'
 import GradientButtonLink from '../UI/GradientButtonLink'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
-import { EffectFade, Lazy } from 'swiper'
-import { Swiper, SwiperSlide } from 'swiper/react'
 
 import { useMediaQuery } from '@/hooks'
 
@@ -17,7 +15,7 @@ export default function SaleProduct() {
 
   const [currentTime, setCurrentTime] = useState(new Date())
 
-  const targetTime = new Date('2024-06-30')
+  const targetTime = new Date('2024-07-08')
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -53,7 +51,7 @@ export default function SaleProduct() {
 
   return (
     <div className='bg-[#F6F6F6]'>
-      <div className='container py-7 flex flex-col items-center'>
+      <div className='container py-7 flex flex-col'>
         <div className='flex flex-col items-center'>
           <h2 className='fs-14 text-oby-primary mb-1'>DANH MỤC</h2>
           <p className='fs-26 font-bold mb-2'>KHUYẾN MÃI SỐC</p>
@@ -72,15 +70,21 @@ export default function SaleProduct() {
             </div>
           </div>
         </div>
-        {/* <div className='grid @992:grid-cols-5 @768:grid-cols-3 grid-cols-2 @992:gap-10 gap-5 @992:my-[30px] my-4'>
+        <div className='grid grid-flow-col grid-rows-1 @992:gap-[30px] gap-4 overflow-x-auto scrollbar-none @992:my-[30px] my-4'>
           {saleProduct && !isLoading ? (
-            saleProduct.data.items.slice(0, 5).map((item) => <Product key={item.id} data={item} />)
+            saleProduct.data.items.slice(0, 5).map((item) => {
+              return (
+                <div key={item.id} className=''>
+                  <Product data={item} />
+                </div>
+              )
+            })
           ) : (
             <>
-              {Array(isMedium ? 4 : 2)
+              {Array(isMedium ? 5 : 2)
                 .fill(0)
                 .map((_, index) => (
-                  <div className='col-span-1' key={index}>
+                  <div className='row-span-1' key={index}>
                     <div className='flex items-center justify-center h-48 mb-4 bg-oby-primary/10 rounded'>
                       <svg
                         className='w-12 h-12 text-oby-primary/20'
@@ -99,8 +103,8 @@ export default function SaleProduct() {
                 ))}
             </>
           )}
-        </div> */}
-        <Swiper
+        </div>
+        {/* <Swiper
           lazy={true}
           slidesPerView={2}
           spaceBetween={16}
@@ -156,8 +160,8 @@ export default function SaleProduct() {
                 ))}
             </div>
           )}
-        </Swiper>
-        <div className='w-[194px]'>
+        </Swiper> */}
+        <div className='w-[194px] self-center'>
           <GradientButtonLink url={`${hrefPath.catePage}/khuyen-mai-soc-37`} btnText='XEM TẤT CẢ' />
         </div>
       </div>
