@@ -44,7 +44,6 @@ export default function Signup() {
   })
 
   const handleSubmitRegister = handleSubmit((data) => {
-    console.log(data)
     const { email, password, firstname, lastname } = data
     const body: RegisterBodyRequest = {
       customer: {
@@ -81,7 +80,7 @@ export default function Signup() {
     template: 'Đăng Ký',
     description:
       'AGRIAMAZING là một cửa hàng trực tuyến chuyên cung cấp các sản phẩm tổng hợp nhằm phục vụ cho người cao tuổi cùng với dịch vụ hỗ trợ khách hàng đặc biệt, đem đến cho khách hàng một cuộc sống chất lượng nhất.',
-    keywords: [`OBY, AGRIAMAZING, ongbayeu.com`],
+    keywords: [`AMZ, AGRIAMAZING, agriamazing.com`],
     og_image_alt: 'AGRIAMAZING',
     slug: '/dang-ky'
   })
@@ -139,7 +138,7 @@ export default function Signup() {
             <p className='text-center @768:fs-14 fs-12 text-oby-9A9898 mt-4.5'>
               Bằng việc Tiếp tục, bạn đã chấp nhận{' '}
               <OBYButton variant='link' size='link' asChild>
-                <OBYLink href={hrefPath.home} title='Điều khoản sử dụng'>
+                <OBYLink href='/dieu-khoan-va-dieu-kien' title='Điều khoản sử dụng'>
                   điều khoản sử dụng
                 </OBYLink>
               </OBYButton>
