@@ -84,7 +84,7 @@ export default function ProductSuggest() {
       <div className='container pt-4 py-8 flex flex-col @992:items-center relative'>
         <h2 className='text-oby-primary fs-14 font-normal mb-2'>DANH MỤC</h2>
         <p className='text-[#222324] fs-26 font-bold mb-2'>GỢI Ý HÔM NAY</p>
-        <div className='@992:w-[800px] w-full flex flex-row gap-3 overflow-x-scroll scrollbar-none'>
+        <div className='@992:w-[800px] w-full flex flex-row gap-3 overflow-x-scroll @992:scrollbar-thin scrollbar-none'>
           {productSgCate &&
             productSgCate.map((item, index) => {
               return <CateTag key={index} data={item.data?.data} onClickTag={onClickTag} />
