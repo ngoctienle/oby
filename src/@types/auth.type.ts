@@ -99,7 +99,7 @@ export interface ExtensionAttributes2 {}
 
 export interface CustomAttribute {
   attribute_code: string
-  value: string
+  value: string | string[]
 }
 
 export interface ExtensionAttributes3 {
@@ -121,7 +121,7 @@ export interface ExtensionAttributes4 {}
 
 export interface CustomAttribute2 {
   attribute_code: string
-  value: string
+  value: string | string[]
 }
 
 export interface BodyUpdate {

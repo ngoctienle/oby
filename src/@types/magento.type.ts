@@ -3,7 +3,7 @@ import { ItemInCart } from './cart.type'
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface CustomAttribute {
   attribute_code: string
-  value: string
+  value: string[] | string
 }
 
 export interface SearchCriteria {

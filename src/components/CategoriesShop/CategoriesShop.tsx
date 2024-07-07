@@ -100,32 +100,34 @@ export const CategoriesShop = () => {
               modules={[Lazy, EffectFade]}
               className='categories @992:my-[30px] my-4'
             >
-              {initializeCategory.map((item) => {
-                return (
-                  <SwiperSlide key={item.id}>
-                    <OBYLink
-                      href={`${hrefPath.catePage}/${createSlug(item.name)}-${item.id}`}
-                      className={`group h-full w-[132px] rounded-xl bg-[#FAFAFA] hover:${customClasses.COMMON_GRADIENT} flex flex-col items-center p-4`}
-                    >
-                      <div className='w-[52px] h-[52px] relative rounded-2 overflow-hidden'>
-                        <OBYImage
-                          src={generateCategoryImageFromMagento(item.custom_attributes)}
-                          display='responsive'
-                          alt={item.name}
-                          title={item.name}
-                          className='object-cover'
-                        />
-                      </div>
-                      <div className='h-[2px] w-15 bg-[#D9D9D94D] my-3'></div>
-                      <p
-                        className={`text-center ${customClasses.COMMON_GRADIENT} inline-block text-transparent bg-clip-text fs-16 font-normal group-hover:text-white`}
+              {initializeCategory
+                ?.filter((item) => item.is_active)
+                .map((item) => {
+                  return (
+                    <SwiperSlide key={item.id}>
+                      <OBYLink
+                        href={`${hrefPath.catePage}/${createSlug(item.name)}-${item.id}`}
+                        className={`group h-full w-[132px] rounded-xl bg-[#FAFAFA] hover:${customClasses.COMMON_GRADIENT} flex flex-col items-center p-4 gap-3`}
                       >
-                        {item.name}
-                      </p>
-                    </OBYLink>
-                  </SwiperSlide>
-                )
-              })}
+                        <div className='w-[60px] h-[60px] relative overflow-hidden  flex-shrink-0'>
+                          <OBYImage
+                            src={generateCategoryImageFromMagento(item.custom_attributes)}
+                            display='responsive'
+                            alt={item.name}
+                            title={item.name}
+                            className='object-cover'
+                          />
+                        </div>
+                        {/* <div className='h-[2px] w-15 bg-[#D9D9D94D] my-3'></div> */}
+                        <p
+                          className={`text-center ${customClasses.COMMON_GRADIENT} inline-block text-transparent bg-clip-text fs-16 font-normal group-hover:text-white line-clamp-2 pt-3 border-t-2 border-[#D9D9D94D]`}
+                        >
+                          {item.name}
+                        </p>
+                      </OBYLink>
+                    </SwiperSlide>
+                  )
+                })}
             </Swiper>
           </div>
         </div>
