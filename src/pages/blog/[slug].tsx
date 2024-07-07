@@ -42,7 +42,7 @@ export default function BlogDetail({ blogData, cateName }: BlogDetailProps) {
   return (
     <>
       <OBYSeo {...meta} />
-      <section className='@992:pt-4 pt-3'>
+      <section className='@992:pt-4 pt-3 pb-6 bg-white'>
         <Breadcrumb cateName={'Blog'} subCateName={cateName} productName={blogData.name} />
         <div className='container'>
           <h1 className='font-bold @992:fs-24 fs-20'>{blogData.name}</h1>

@@ -15,7 +15,7 @@ import { generateBlogImage, generateCateNameById } from '@/helpers/blog'
 
 import blogAPI from '@/apis/magento/blog.api'
 
-import { cacheTime } from '@/constants/config.constant'
+import { cacheTime, customClasses } from '@/constants/config.constant'
 import { hrefPath } from '@/constants/href.constant'
 
 import Breadcrumb from '@/components/Breadcrumb'
@@ -63,12 +63,12 @@ export default function BlogPage({ categories }: BlogPageProps) {
   return (
     <>
       <OBYSeo {...meta} />
-      <section className='@992:pt-4 pt-3'>
+      <section className='@992:pt-4 pt-3 pb-6 bg-white'>
         <Breadcrumb cateName={'Blog'} />
         <div className='container'>
           <div className='grid @992:grid-cols-12 grid-cols-1  gap-10 min-h-[300px]'>
             <div className='@992:col-span-3 col-span-1'>
-              <h2 className='text-oby-green fs-18 font-bold'>Danh mục Blog</h2>
+              <h2 className='text-black fs-18 font-bold'>TIN TỨC THEO DANH MỤC</h2>
               <RadioGroup
                 value={selectedCate}
                 onChange={setSelectedCate}
@@ -82,25 +82,27 @@ export default function BlogPage({ categories }: BlogPageProps) {
                           <RadioGroup.Option
                             key={category.name}
                             value={category.id}
-                            className={({ checked }) =>
-                              `${checked ? 'bg-oby-primary' : 'bg-white'}
-                                relative flex cursor-pointer rounded-4 border border-oby-primary px-4 py-2.5 focus:outline-none`
-                            }
+                            className={`${customClasses.COMMON_GRADIENT}
+                                relative flex cursor-pointer rounded-full focus:outline-none`}
                           >
                             {({ checked }) => (
-                              <div className='flex items-center justify-between w-full'>
+                              <div
+                                className={`${
+                                  checked ? 'bg-transparent' : 'bg-white'
+                                } flex items-center justify-between w-full m-[1.5px] rounded-full px-4 py-2.5`}
+                              >
                                 <RadioGroup.Label
                                   as='p'
                                   className={`font-semibold fs-16 whitespace-nowrap  ${
-                                    checked ? 'text-white' : 'text-oby-primary'
+                                    checked
+                                      ? 'text-white'
+                                      : `${customClasses.COMMON_GRADIENT} inline-block text-transparent bg-clip-text`
                                   }`}
                                 >
                                   {category.name}
                                 </RadioGroup.Label>
                                 <ChevronRightIcon
-                                  className={`@992:block hidden w-6 h-6  ${
-                                    checked ? 'text-white' : 'text-oby-primary'
-                                  }`}
+                                  className={`@992:block hidden w-6 h-6 ${checked ? 'text-white' : 'text-agr-orange'}`}
                                 />
                               </div>
                             )}

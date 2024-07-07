@@ -17,7 +17,7 @@ const ToTopButton: React.FunctionComponent<OBYButtonProps> = (props) => {
       onClick={toTop}
       variant={'outlinePrimary'}
       className={cn(
-        'text-oby-primary border border-oby-primary bg-white !rounded-full @992:w-12 @992:h-12 w-11 h-11 opacity-0 pointer-events-none transition-opacity fixed z-10 @992:bottom-[150px] bottom-[195px] @992:right-6 right-5',
+        'text-oby-primary border border-oby-primary bg-white !rounded-full @992:w-12 @992:h-12 w-11 h-11 opacity-0 pointer-events-none transition-opacity fixed z-10 @992:bottom-[225px] bottom-[270px] @992:right-6 right-5',
         y > 400 && 'opacity-1 pointer-events-auto',
         props.className
       )}
