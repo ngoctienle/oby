@@ -7,7 +7,8 @@ export const calculateTotalOriginPrice = (items: InitializeCartItem[]) => {
     const specialPriceAttr = item.custom_attributes.find((attr) => attr.attribute_code === 'cost')
 
     if (specialPriceAttr) {
-      const specialPrice = parseFloat(specialPriceAttr.value)
+      // if (Array.isArray(specialPriceAttr.value)) return
+      const specialPrice = Array.isArray(specialPriceAttr.value) ? 0 : parseFloat(specialPriceAttr.value)
       const qty = item.qty
 
       return total + specialPrice * qty
@@ -25,8 +26,9 @@ export const calculateTotalDiscountPrice = (items: InitializeCartItem[]) => {
     const costAttr = item.custom_attributes.find((attr) => attr.attribute_code === 'cost')
 
     if (specialPriceAttr && costAttr) {
-      const specialPrice = parseFloat(specialPriceAttr.value)
-      const cost = parseFloat(costAttr.value)
+      // if (Array.isArray(specialPriceAttr.value)) return
+      const specialPrice = Array.isArray(specialPriceAttr.value) ? 0 : parseFloat(specialPriceAttr.value)
+      const cost = Array.isArray(costAttr.value) ? 0 : parseFloat(costAttr.value)
 
       return accumulator + (cost - specialPrice) * item.qty
     }
