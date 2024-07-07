@@ -55,7 +55,7 @@ export default function BlogPage({ categories }: BlogPageProps) {
     title: 'AGRIAMAZING',
     template: 'Blogs',
     description: 'Blogs',
-    keywords: [`OBY, Blogs, Tin tức, AGRIAMAZING, ongbayeu.com`],
+    keywords: [`AMZ, Blogs, Tin tức, AGRIAMAZING, agriamazing.com`],
     og_image_alt: 'AGRIAMAZING',
     slug: hrefPath.blog
   })

@@ -105,7 +105,7 @@ export const CategoriesShop = () => {
                   <SwiperSlide key={item.id}>
                     <OBYLink
                       href={`${hrefPath.catePage}/${createSlug(item.name)}-${item.id}`}
-                      className='h-full w-[132px] rounded-xl bg-[#FAFAFA] flex flex-col items-center p-4'
+                      className={`group h-full w-[132px] rounded-xl bg-[#FAFAFA] hover:${customClasses.COMMON_GRADIENT} flex flex-col items-center p-4`}
                     >
                       <div className='w-[52px] h-[52px] relative rounded-2 overflow-hidden'>
                         <OBYImage
@@ -118,7 +118,7 @@ export const CategoriesShop = () => {
                       </div>
                       <div className='h-[2px] w-15 bg-[#D9D9D94D] my-3'></div>
                       <p
-                        className={`text-center ${customClasses.COMMON_GRADIENT} inline-block text-transparent bg-clip-text fs-16 font-normal`}
+                        className={`text-center ${customClasses.COMMON_GRADIENT} inline-block text-transparent bg-clip-text fs-16 font-normal group-hover:text-white`}
                       >
                         {item.name}
                       </p>

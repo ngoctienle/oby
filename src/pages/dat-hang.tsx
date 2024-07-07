@@ -582,7 +582,7 @@ export default function OrderPage({
     template: 'Đặt Hàng',
     description:
       'AGRIAMAZING là một cửa hàng trực tuyến chuyên cung cấp các sản phẩm tổng hợp nhằm phục vụ cho người cao tuổi cùng với dịch vụ hỗ trợ khách hàng đặc biệt, đem đến cho khách hàng một cuộc sống chất lượng nhất.',
-    keywords: [`OBY, AGRIAMAZING, ongbayeu.com`],
+    keywords: [`AMZ, AGRIAMAZING, agriamazing.com`],
     og_image_alt: 'AGRIAMAZING',
     slug: '/dat-hang'
   })
@@ -590,7 +590,7 @@ export default function OrderPage({
   return (
     <>
       <OBYSeo {...meta} />
-      <div className='@992:pt-7.5 pt-2 min-h-[50%] bg-white'>
+      <div className='@992:pt-7.5 pt-2 min-h-[50%] bg-white pb-6'>
         <div className='container'>
           {/* Processing */}
           <div className='flex items-center max-w-[426px] justify-between mx-auto relative'>

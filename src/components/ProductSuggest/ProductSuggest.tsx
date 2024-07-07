@@ -22,6 +22,7 @@ import categoryApi from '@/apis/magento/category.api'
 import productApi from '@/apis/magento/product.api'
 
 import { cacheTime } from '@/constants/config.constant'
+import { hrefPath } from '@/constants/href.constant'
 
 import Product from '@/components/Product'
 
@@ -83,7 +84,7 @@ export default function ProductSuggest() {
       <div className='container pt-4 py-8 flex flex-col @992:items-center relative'>
         <h2 className='text-oby-primary fs-14 font-normal mb-2'>DANH MỤC</h2>
         <p className='text-[#222324] fs-26 font-bold mb-2'>GỢI Ý HÔM NAY</p>
-        <div className='@992:w-[800px] w-full flex flex-row gap-3 overflow-x-scroll scrollbar-none'>
+        <div className='@992:w-[800px] w-full flex flex-row gap-3 overflow-x-scroll @992:scrollbar-thin scrollbar-none'>
           {productSgCate &&
             productSgCate.map((item, index) => {
               return <CateTag key={index} data={item.data?.data} onClickTag={onClickTag} />
@@ -136,12 +137,12 @@ export default function ProductSuggest() {
         </div>
         <div className='w-full grid @992:grid-cols-2 grid-cols-1 @992:gap-8 @992:my-[30px] my-4'>
           {productSgRes && !isLoading ? (
-            productSgRes.data.items.map((item) => {
+            productSgRes.data.items.slice(0, isMedium ? 8 : 14).map((item) => {
               return <Product data={item} key={item.id} isHorizontal />
             })
           ) : (
             <>
-              {Array(isMedium ? 4 : 2)
+              {Array(isMedium ? 8 : 14)
                 .fill(0)
                 .map((_, index) => (
                   <div className='col-span-1' key={index}>
@@ -165,7 +166,7 @@ export default function ProductSuggest() {
           )}
         </div>
         <div className='w-[194px] self-center'>
-          <GradientButtonLink url='/' btnText='XEM TẤT CẢ' />
+          <GradientButtonLink url={`${hrefPath.catePage}/goi-y-hom-nay-48`} btnText='XEM TẤT CẢ' />
         </div>
         {/* <Swiper
         lazy={true}

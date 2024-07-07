@@ -39,7 +39,6 @@ export const HealthProduct = () => {
       setAllProduct(res)
     }
   })
-  console.log(allProduct)
 
   const productHealthCate = useQueries({
     queries: [
@@ -75,7 +74,7 @@ export const HealthProduct = () => {
       <div className='container py-4 flex flex-col @992:items-center'>
         <h2 className='text-oby-primary fs-14 font-normal mb-2 @992:text-center'>DANH MỤC</h2>
         <p className='text-[#222324] fs-26 font-bold mb-2 @992:text-center'>SỨC KHỎE</p>
-        <div className='@992:w-[800px] w-full flex flex-row gap-3 overflow-x-auto scrollbar-none'>
+        <div className='@992:w-[800px] w-full flex flex-row gap-3 overflow-x-auto @992:scrollbar-thin scrollbar-none'>
           {productHealthCate.map((item, index) => {
             return <CateTag key={index} data={item.data?.data} onClickTag={onClickTag} />
           })}

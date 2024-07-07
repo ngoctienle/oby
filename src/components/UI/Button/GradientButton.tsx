@@ -41,7 +41,7 @@ export const GradientButton: FC<IGradientButtonProps> = ({
               <div
                 className={`flex flex-row items-center ${
                   showIcon ? 'justify-between' : 'justify-center'
-                } rounded-full bg-white h-full w-full p-1`}
+                } rounded-full h-full w-full p-1`}
               >
                 <p className='text-white @992:fs-16 fs-14'>{children}</p>
                 {showIcon && <ArrowRightCircleIcon className='w-8 h-8' color='white' />}

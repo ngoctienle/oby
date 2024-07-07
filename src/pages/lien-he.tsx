@@ -23,7 +23,7 @@ export default function ContactPage() {
     template: 'Liên Hệ',
     description:
       'AGRIAMAZING là một cửa hàng trực tuyến chuyên cung cấp các sản phẩm tổng hợp nhằm phục vụ cho người cao tuổi cùng với dịch vụ hỗ trợ khách hàng đặc biệt, đem đến cho khách hàng một cuộc sống chất lượng nhất.',
-    keywords: [`OBY, AGRIAMAZING, ongbayeu.com`],
+    keywords: [`AMZ, AGRIAMAZING, agriamazing.com`],
     og_image_alt: 'AGRIAMAZING',
     slug: '/lien-he'
   })
@@ -63,8 +63,8 @@ export default function ContactPage() {
               </li>
               <li className='flex items-center space-x-3'>
                 <OBYPhoneIcon className='w-6 h-6 text-oby-676869' />
-                <OBYLink href={`tel:0789.279.669`} title='AGRIAMAZING - Phone'>
-                  090 3122611
+                <OBYLink href={`tel:0906907199`} title='AGRIAMAZING - Phone'>
+                  0906 907 199
                 </OBYLink>
               </li>
               <li className='flex items-center space-x-3'>

@@ -3,6 +3,8 @@ import * as React from 'react'
 
 import { cn } from '@/libs/utils'
 
+import { customClasses } from '@/constants/config.constant'
+
 const Progress = React.forwardRef<
   React.ElementRef<typeof ProgressPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>
@@ -13,7 +15,7 @@ const Progress = React.forwardRef<
     {...props}
   >
     <ProgressPrimitive.Indicator
-      className='h-full w-full flex-1 bg-oby-primary rounded-2 transition-all'
+      className={`h-full w-full flex-1 ${customClasses.COMMON_GRADIENT} rounded-2 transition-all`}
       style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
     />
   </ProgressPrimitive.Root>

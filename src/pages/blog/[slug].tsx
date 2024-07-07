@@ -34,7 +34,7 @@ export default function BlogDetail({ blogData, cateName }: BlogDetailProps) {
   const meta = generateMetaSEO({
     title: blogData.name,
     description: blogData.short_description,
-    keywords: [blogData.name, cateName as string, 'ongbayeu.com'],
+    keywords: [blogData.name, cateName as string, 'agriamazing.com'],
     og_image: generateBlogImage(blogData.image as string),
     og_image_alt: blogData.name,
     slug: hrefPath.blog + '/' + blogData.url_key + '-' + blogData.id

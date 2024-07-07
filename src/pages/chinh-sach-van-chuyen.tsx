@@ -14,7 +14,7 @@ export default function DeliverPage() {
     template: 'Chính Sách Vận Chuyển',
     description:
       'AGRIAMAZING là một cửa hàng trực tuyến chuyên cung cấp các sản phẩm tổng hợp nhằm phục vụ cho người cao tuổi cùng với dịch vụ hỗ trợ khách hàng đặc biệt, đem đến cho khách hàng một cuộc sống chất lượng nhất.',
-    keywords: [`OBY, AGRIAMAZING, ongbayeu.com`],
+    keywords: [`AMZ, AGRIAMAZING, agriamazing.com`],
     og_image_alt: 'AGRIAMAZING',
     slug: '/chinh-sach-van-chuyen'
   })
@@ -83,7 +83,7 @@ export default function DeliverPage() {
               <ul className='list-disc pl-5 spacy-y-2'>
                 <li>
                   Sản phẩm sẽ được giao đến địa chỉ khách hàng yêu cầu trong đơn đặt hàng vào thời gian khách hàng yêu
-                  cầu với điều kiện thời gian giao hàng này phải phù hợp với chính sách giao hàng của ongbayeu.com và
+                  cầu với điều kiện thời gian giao hàng này phải phù hợp với chính sách giao hàng của agriamazing.com và
                   các điều kiện khách quan về thời tiết, địa lý, giao thông…
                 </li>
                 <li>
@@ -96,7 +96,7 @@ export default function DeliverPage() {
                 </li>
                 <li>
                   Trong trường hợp sản phẩm/dịch vụ được giao chậm trễ, khách hàng có thể hủy bỏ giao dịch đặt hàng.
-                  Trong trường hợp này, ongbayeu.com là bên chịu trách nhiệm cho sự chậm trễ đó.
+                  Trong trường hợp này, agriamazing.com là bên chịu trách nhiệm cho sự chậm trễ đó.
                 </li>
               </ul>
             </div>

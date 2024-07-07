@@ -14,7 +14,7 @@ export default function RefundPage() {
     template: 'Đổi trả và Hoàn tiền',
     description:
       'Agriamazing là một cửa hàng trực tuyến chuyên cung cấp các sản phẩm tổng hợp nhằm phục vụ cho người cao tuổi cùng với dịch vụ hỗ trợ khách hàng đặc biệt, đem đến cho khách hàng một cuộc sống chất lượng nhất.',
-    keywords: [`OBY, Agriamazing, ongbayeu.com`],
+    keywords: [`AMZ, Agriamazing, agriamazing.com`],
     og_image_alt: 'Agriamazing',
     slug: '/doi-tra-va-hoan-tien'
   })
@@ -88,7 +88,7 @@ export default function RefundPage() {
               <h3 className='font-semibold @992:fs-20 fs-16 mb-4 mt-6'>2. Quy trình đổi/trả sản phẩm</h3>
               <ul className='@992:fs-16 fs-14 space-y-1.5'>
                 <li>
-                  Bước 1: Khách hàng liên hệ cửa hàng hoặc SĐT: 0903122611 hoặc Mail: admin@amazingsbuy.com để yêu cầu
+                  Bước 1: Khách hàng liên hệ cửa hàng hoặc SĐT: 0906907199 hoặc Mail: admin@amazingsbuy.com để yêu cầu
                   việc đổi/trả sản phẩm, Agriamazing sẽ hướng dẫn bạn cách đổi/trả sản phẩm. Nếu quá trình đổi/trả sản
                   phẩm của khách hợp lệ.
                 </li>
@@ -103,7 +103,7 @@ export default function RefundPage() {
               <h3 className='font-semibold @992:fs-20 fs-16 mb-4 mt-6'>3. Các bước thực hiện đổi/trả sản phẩm</h3>
               <ul className='@992:fs-16 fs-14 space-y-2.5'>
                 <li>
-                  Bước 1: Đăng ký. Liên hệ với  Agriamazing qua 0903122611hoặc gửi mail admin@amazingsbuy.com và cung
+                  Bước 1: Đăng ký. Liên hệ với  Agriamazing qua 0906907199hoặc gửi mail admin@amazingsbuy.com và cung
                   cấp thông tin chi tiết về sản phẩm lỗi gồm:
                   <ul className='@992:fs-16 fs-14 space-y-1.5 pl-6 list-disc my-2.5 mx-6'>
                     <li>Mã số đơn hàng</li>
@@ -138,7 +138,7 @@ export default function RefundPage() {
                   sản phẩm bị hư hỏng.
                 </li>
                 <li>
-                  Liên hệ Agriamazing: 0903122611 (8h - 23h) khi có bất cứ khó khăn xảy ra trong quá trình chuyển sản
+                  Liên hệ Agriamazing: 0906907199 (8h - 23h) khi có bất cứ khó khăn xảy ra trong quá trình chuyển sản
                   phẩm. Gửi hàng về Agriamazing theo địa chỉ nhân viên chăm sóc khách hàng đã cung cấp.
                 </li>
               </ul>
@@ -165,7 +165,7 @@ export default function RefundPage() {
               </h4>
               <p className='@992:fs-16 fs-14'>
                 <ArrowRightIcon className='w-5 h-5 inline-block mr-1.5' />
-                Quý khách vui lòng thông báo đến Agriamazing qua số 0903122611, chúng tôi sẽ hủy đơn hàng cho quý khách.
+                Quý khách vui lòng thông báo đến Agriamazing qua số 0906907199, chúng tôi sẽ hủy đơn hàng cho quý khách.
                 Hoặc quý khách đăng nhập vào website Agriamazing.com để tự hủy đơn hàng nếu đặt hàng từ website.
               </p>
               <h4 className='font-semibold @992:fs-16 fs-14 text-oby-primary mb-2 mt-4'>
@@ -175,7 +175,7 @@ export default function RefundPage() {
                 <ArrowRightIcon className='w-5 h-5 flex-shrink-0' />
                 <ul className='list-disc pl-6 @992:fs-16 fs-14 space-y-1.5'>
                   <li>
-                    Nếu sản phẩm có lỗi kỹ thuật, quý khách cần thông báo cho Agriamazing được biết qua số 0903122611,
+                    Nếu sản phẩm có lỗi kỹ thuật, quý khách cần thông báo cho Agriamazing được biết qua số 0906907199,
                     email: admin@amazingsbuy.com hoặc chat với nhân viên bán hàng trên website https://agriamaizng.com
                     hoặc Fanpage Agriamazing trong vòng 15 ngày kể từ ngày xuất bán. Agriamazing cam kết hoàn lại tiền
                     mà không có đòi hỏi nào trong trường hợp này.

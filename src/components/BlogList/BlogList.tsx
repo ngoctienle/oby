@@ -6,6 +6,7 @@ import { useQueryBlogConfig } from '@/hooks'
 import blogAPI from '@/apis/magento/blog.api'
 
 import { cacheTime } from '@/constants/config.constant'
+import { hrefPath } from '@/constants/href.constant'
 
 import Blog from '@/components/Blog'
 
@@ -37,7 +38,7 @@ export default function BlogList() {
         </div>
 
         <div className='w-[194px]'>
-          <GradientButtonLink url='/' btnText='XEM TẤT CẢ' customClass='self-center' />
+          <GradientButtonLink url={`${hrefPath.blog}`} btnText='XEM TẤT CẢ' customClass='self-center' />
         </div>
       </div>
     </div>

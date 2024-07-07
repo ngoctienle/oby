@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 /* eslint-disable @next/next/no-img-element */
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
+// import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import DOMPurify from 'isomorphic-dompurify'
 import { GetServerSideProps } from 'next'
@@ -426,21 +428,24 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
       } else {
         if (filteredReviews?.length > 4) {
           return (
-            <div className='flex items-center justify-center mt-7.5 gap-1.5'>
-              <OBYButton
-                variant='link'
-                size='link'
-                onClick={toggleReview}
-                className='text-oby-primary @992:fs-18 fs-16'
-              >
-                {!showFullReview ? 'Xem thêm' : 'Rút gọn'}
-              </OBYButton>
-              {!showFullReview ? (
-                <ChevronDownIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary' />
-              ) : (
-                <ChevronUpIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary' />
-              )}
-            </div>
+            <GradientButton gradientType='border' onClick={toggleReview} className='w-[194px]'>
+              {!showFullDescription ? 'XEM THÊM' : 'RÚT GỌN'}
+            </GradientButton>
+            // <div className='flex items-center justify-center mt-7.5 gap-1.5'>
+            //   <OBYButton
+            //     variant='link'
+            //     size='link'
+            //     onClick={toggleReview}
+            //     className='text-oby-primary @992:fs-18 fs-16'
+            //   >
+            //     {!showFullReview ? 'Xem thêm' : 'Rút gọn'}
+            //   </OBYButton>
+            //   {!showFullReview ? (
+            //     <ChevronDownIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary' />
+            //   ) : (
+            //     <ChevronUpIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary' />
+            //   )}
+            // </div>
           )
         }
       }
@@ -449,7 +454,12 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
   const meta = generateMetaSEO({
     title: productData.name,
     description: slicedDescription,
-    keywords: [subCategoryRes?.data.name || '', parentCategoryRes?.data.name || '', productData.name, 'ongbayeu.com'],
+    keywords: [
+      subCategoryRes?.data.name || '',
+      parentCategoryRes?.data.name || '',
+      productData.name,
+      'agriamazing.com'
+    ],
     og_image: generateProductImageFromMagento(productData?.custom_attributes),
     og_image_alt: productData.name,
     slug: hrefPath.productDetail + '/' + slug,
@@ -595,7 +605,8 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
           </div>
           {getDescription(productData?.custom_attributes) && (
             <div className='@768:pt-15 pt-6 border-t border-t-oby-primary'>
-              <h2 className='@768:fs-26 fs-20 font-bold text-oby-green'>Chi tiết sản phẩm</h2>
+              <h2 className='text-oby-primary fs-14 font-normal mb-2 @992:text-center'>THÔNG TIN</h2>
+              <p className='text-[#222324] fs-26 font-bold mb-2 @992:text-center'>CHI TIẾT SẢN PHẨM</p>
               <div
                 className='@768:fs-18 fs-16 @768:mt-7.5 mt-4'
                 dangerouslySetInnerHTML={{
@@ -603,21 +614,24 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
                 }}
               ></div>
               {sanitizedDescription.length > 800 && (
-                <div className='flex items-center justify-center mt-7.5 gap-1.5'>
-                  <OBYButton
-                    variant='link'
-                    size='link'
-                    onClick={toggleDescription}
-                    className='text-oby-primary @992:fs-18 fs-16'
-                  >
-                    {!showFullDescription ? 'Xem thêm' : 'Rút gọn'}
-                  </OBYButton>
-                  {!showFullDescription ? (
-                    <ChevronDownIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary' />
-                  ) : (
-                    <ChevronUpIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary' />
-                  )}
-                </div>
+                <GradientButton gradientType='border' onClick={toggleDescription} className='@992:w-[310px] w-[194px]'>
+                  {!showFullDescription ? 'XEM THÊM' : 'RÚT GỌN'}
+                </GradientButton>
+                // <div className='flex items-center justify-center mt-7.5 gap-1.5'>
+                //   <OBYButton
+                //     variant='link'
+                //     size='link'
+                //     onClick={toggleDescription}
+                //     className='text-oby-primary @992:fs-18 fs-16'
+                //   >
+                //     {!showFullDescription ? 'Xem thêm' : 'Rút gọn'}
+                //   </OBYButton>
+                //   {!showFullDescription ? (
+                //     <ChevronDownIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary' />
+                //   ) : (
+                //     <ChevronUpIcon className='@992:w-6 @992:h-6 w-5 h-5 text-oby-primary' />
+                //   )}
+                // </div>
               )}
             </div>
           )}
@@ -642,7 +656,7 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
               </div>
             </div>
 
-            {showAddReview ? (
+            {/* {showAddReview ? (
               <div className='mt-8 flex flex-col items-center'>
                 <OBYButton
                   variant='default'
@@ -726,7 +740,7 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
                   Đánh giá ngay
                 </OBYButton>
               </div>
-            )}
+            )} */}
           </div>
           {!isLoading && renderReviews()}
           {renderButtonShowmoreReview()}

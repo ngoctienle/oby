@@ -7,21 +7,21 @@ import { OBYSeo } from '@/components/UI/OBYSeo'
 export default function StepVNPage() {
   const meta = generateMetaSEO({
     title: 'AGRIAMAZING',
-    template: 'Hướng Dẫn Thanh Toán',
+    template: 'Hướng dẫn thanh toán VNPAY',
     description:
       'AGRIAMAZING là một cửa hàng trực tuyến chuyên cung cấp các sản phẩm tổng hợp nhằm phục vụ cho người cao tuổi cùng với dịch vụ hỗ trợ khách hàng đặc biệt, đem đến cho khách hàng một cuộc sống chất lượng nhất.',
-    keywords: [`OBY, AGRIAMAZING, ongbayeu.com`],
+    keywords: [`AMZ, AGRIAMAZING, agriamazing.com`],
     og_image_alt: 'AGRIAMAZING',
     slug: '/huong-dan-thanh-toan'
   })
   return (
     <>
       <OBYSeo {...meta} />
-      <section className='@992:pt-4 pt-3'>
-        <Breadcrumb cateName='Hướng dẫn thanh toán' />
+      <section className='@992:pt-4 pt-3 pb-6 bg-white'>
+        <Breadcrumb cateName='Hướng dẫn thanh toán VNPAY' />
         <div className='container'>
           <div className='@992:pt-10 pt-5'>
-            <h2 className='font-bold text-oby-green @992:fs-26 fs-20 mb-5 text-center'>Hướng dẫn thanh toán</h2>
+            <h2 className='font-bold text-oby-primary @992:fs-26 fs-20 mb-5 text-center'>Hướng dẫn thanh toán VNPAY</h2>
             <div className='@992:fs-16 fs-14 space-y-3'>
               <p>
                 Cổng thanh toán VNPAY là giải pháp thanh toán do Công ty Cổ phần Giải pháp Thanh toán Việt Nam (VNPAY)

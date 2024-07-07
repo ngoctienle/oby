@@ -31,7 +31,7 @@ export default function Home() {
     title: 'AGRIAMAZING',
     template: 'Trang Chủ',
     description: 'AGRIAMAZING là một cửa hàng trực tuyến chuyên cung cấp các sản phẩm tổng hợp.',
-    keywords: [`OBY, AGRIAMAZING, ongbayeu.com`],
+    keywords: [`AMZ, AGRIAMAZING, agriamazing.com`],
     og_image_alt: 'AGRIAMAZING',
     slug: '/'
   })
