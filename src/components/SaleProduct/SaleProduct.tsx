@@ -1,6 +1,7 @@
 import Product from '../Product'
 import GradientButtonLink from '../UI/GradientButtonLink'
 import { useQuery } from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
 
 import { useMediaQuery } from '@/hooks'
 
@@ -12,26 +13,30 @@ import { hrefPath } from '@/constants/href.constant'
 export default function SaleProduct() {
   const isMedium = useMediaQuery('(min-width:992px)')
 
+  const [time, setTime] = useState({ hours: 0, minutes: 0, seconds: 0 })
+
   const { data: saleProduct, isLoading } = useQuery({
     queryKey: ['saleProduct'],
     queryFn: () => productApi.GetProductByCategoryID(37, '1', '5'),
     staleTime: cacheTime.halfHours
   })
 
-  const getRemainingTime = (): { hours: number; minutes: number; seconds: number } => {
-    const now = new Date()
-    const nextDay = new Date()
-    nextDay.setHours(24, 0, 0, 0) // Set target to midnight of the next day
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const now = new Date()
+      const nextDay = new Date()
+      nextDay.setHours(24, 0, 0, 0) // Set target to midnight of the next day
 
-    const totalMs = nextDay.getTime() - now.getTime()
-    const seconds = Math.floor((totalMs / 1000) % 60)
-    const minutes = Math.floor((totalMs / (1000 * 60)) % 60)
-    const hours = Math.floor(totalMs / (1000 * 60 * 60))
+      const totalMs = nextDay.getTime() - now.getTime()
+      const seconds = Math.floor((totalMs / 1000) % 60)
+      const minutes = Math.floor((totalMs / (1000 * 60)) % 60)
+      const hours = Math.floor(totalMs / (1000 * 60 * 60))
 
-    return { hours, minutes, seconds }
-  }
+      setTime({ hours, minutes, seconds })
+    }, 1000)
 
-  const { hours, minutes, seconds } = getRemainingTime()
+    return () => clearInterval(intervalId)
+  }, [])
 
   const renderSection = () => {
     if (isLoading) {
@@ -90,15 +95,15 @@ export default function SaleProduct() {
           <p className='fs-14 text-black mb-2'>KẾT THÚC TRONG</p>
           <div className='flex flex-row items-center gap-2 text-oby-primary'>
             <div className='bg-oby-primary rounded-2 text-white w-[38px] h-[34px] flex justify-center flex-col items-center'>
-              {hours.toString().padStart(2, '0')}
+              {time.hours.toString().padStart(2, '0')}
             </div>
             :
             <div className='bg-oby-primary rounded-2 text-white w-[38px] h-[34px] flex justify-center flex-col items-center'>
-              {minutes.toString().padStart(2, '0')}
+              {time.minutes.toString().padStart(2, '0')}
             </div>
             :
             <div className='bg-oby-primary rounded-2 text-white w-[38px] h-[34px] flex justify-center flex-col items-center'>
-              {seconds.toString().padStart(2, '0')}
+              {time.seconds.toString().padStart(2, '0')}
             </div>
           </div>
         </div>
