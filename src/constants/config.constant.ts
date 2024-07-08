@@ -4,7 +4,7 @@ export const cacheTime = {
 } as const
 
 export const customClasses = {
-  COMMON_GRADIENT: 'bg-gradient-to-r from-agr-orange via-agr-mid-orange to-agr-light-orange'
+  COMMON_GRADIENT: 'bg-gradient-to-r from-[#FFBE00_0%] via-[#E54807_10%,#E54807_90%]  to-[#FFBE00_100%]'
 }
 
 export const MAX_PRODUCT = 10000

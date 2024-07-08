@@ -1,4 +1,5 @@
 import '@/styles/globals.css'
+import { PhoneIcon } from '@heroicons/react/24/outline'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { Analytics } from '@vercel/analytics/react'
@@ -106,6 +107,12 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
         <main className={inter.className} onClick={registerFocus.outFocus}>
           <Component {...pageProps} />
         </main>
+        <a
+          href='tel:+0906907199'
+          className='fixed @992:bottom-36 bottom-[190px] flex items-center @992:w-[64px] w-[55px] @992:h-[64px] h-[55px] z-10 right-4 justify-center'
+        >
+          <PhoneIcon width='40' height='40' className='text-oby-primary' />
+        </a>
         <OBYLink
           href='https://zalo.me/1564381976227342876'
           title='Zalo'
@@ -120,6 +127,7 @@ function OBYApp({ Component, pageProps, router }: AppProps) {
         >
           <OBYImage src='/images/icons8-facebook-messenger.svg' display='responsive' alt='Messenger' />
         </OBYLink>
+
         <DynamicToTopButton />
         <DynamicFooter font={inter} />
         {!isMedium && (

@@ -77,8 +77,10 @@ export default function Pagination({ queryConfig, pageSize }: Props) {
             }}
             key={index}
             className={cn(' flex h-9.5 w-9.5 items-center justify-center rounded-1.5 transition-colors', {
-              'bg-oby-primary text-white': pageNumber === page,
-              'bg-oby-DFDFDF hover:bg-oby-primary/40 hover:text-white': pageNumber !== page
+              'bg-gradient-to-r from-[#FFBE00_0%] via-[#E54807_10%,#E54807_90%]  to-[#FFBE00_100%] text-white':
+                pageNumber === page,
+              'bg-oby-DFDFDF hover:bg-gradient-to-r from-[#FFBE00_0%] via-[#E54807_10%,#E54807_90%]  to-[#FFBE00_100%] hover:text-white':
+                pageNumber !== page
             })}
           >
             {pageNumber}
@@ -102,7 +104,7 @@ export default function Pagination({ queryConfig, pageSize }: Props) {
           }}
           className='flex items-center justify-center'
         >
-          <ChevronLeftIcon className='h-6 w-6 hover:text-oby-primary transition-colors' />
+          <ChevronLeftIcon className={`h-6 w-6 text-black hover:text-agr-orange transition-colors`} />
         </Link>
       )}
       {renderPagination()}
@@ -119,7 +121,7 @@ export default function Pagination({ queryConfig, pageSize }: Props) {
           }}
           className='flex items-center justify-center'
         >
-          <ChevronRightIcon className='h-6 w-6 hover:text-oby-primary transition-colors' />
+          <ChevronRightIcon className={`h-6 w-6 text-black hover:text-agr-orange transition-colors`} />
         </Link>
       )}
     </div>
