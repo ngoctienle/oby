@@ -110,7 +110,7 @@ export default function Product({ data, isHorizontal = false }: ProductProps) {
       <OBYLink
         href={`${hrefPath.productDetail}/${data.sku}`}
         title={data.name}
-        className='overflow-hidden relative w-full bg-white @768:pt-[56%] pt-[70%] rounded-t-2 h-[180px]'
+        className='overflow-hidden relative w-full bg-white @768:pt-[56%] pt-[70%] rounded-t-2 aspect-square'
       >
         <OBYImage
           src={generateProductImageFromMagento(data.custom_attributes)}

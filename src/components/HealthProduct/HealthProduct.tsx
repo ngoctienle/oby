@@ -140,7 +140,7 @@ export const HealthProduct = () => {
               alt='Agriamazing Banner'
               src={`/images/agr-banner-6.png`}
               fill
-              style={{ objectPosition: 'left', objectFit: 'contain' }}
+              style={{ objectPosition: 'center', objectFit: 'cover', borderRadius: 8 }}
               loader={({ src }) => src}
             />
             <div className='absolute bottom-6 left-10 w-[180px]'>
