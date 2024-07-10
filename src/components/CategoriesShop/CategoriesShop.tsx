@@ -1,6 +1,5 @@
 import { AGRGradientLeftArrowIcon, AGRGradientRightArrowIcon } from '../UI/AGRIcons'
 import { OBYImage, OBYLink } from '../UI/Element'
-import GradientButtonLink from '../UI/GradientButtonLink'
 import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import { useMemo, useRef } from 'react'
@@ -174,9 +173,9 @@ export const CategoriesShop = () => {
               style={{ objectPosition: 'center', objectFit: 'cover' }}
               loader={({ src }) => src}
             />
-            <div className='absolute bottom-6 right-4 w-[180px]'>
+            {/* <div className='absolute bottom-6 right-4 w-[180px]'>
               <GradientButtonLink btnText='XEM NGAY' url='/' isBorder={false} />
-            </div>
+            </div> */}
           </div>
           <div className='col-span-2 w-full  h-[290px] relative rounded-4 overflow-hidden mt-14'>
             <Image
@@ -187,9 +186,9 @@ export const CategoriesShop = () => {
               style={{ objectPosition: 'bottom', objectFit: 'cover' }}
               loader={({ src }) => src}
             />
-            <div className='absolute bottom-6 left-40 w-[180px]'>
+            {/* <div className='absolute bottom-6 left-40 w-[180px]'>
               <GradientButtonLink btnText='XEM NGAY' url='/' isBorder={false} />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
