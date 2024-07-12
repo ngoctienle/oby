@@ -57,7 +57,7 @@ export default function Footer({ font }: FooterProps) {
               </div>
               <div className='flex items-center gap-3 mt-3'>
                 <p className='fs-14'>
-                  <span className='font-bold'>Mã Số Thuế:</span>
+                  <span className='font-bold'>Mã Số Thuế: </span>
                   4001282315
                 </p>
               </div>
