@@ -143,9 +143,9 @@ export const HealthProduct = () => {
               style={{ objectPosition: 'center', objectFit: 'cover', borderRadius: 8 }}
               loader={({ src }) => src}
             />
-            <div className='absolute bottom-6 left-10 w-[180px]'>
+            {/* <div className='absolute bottom-6 left-10 w-[180px]'>
               <GradientButtonLink btnText='XEM NGAY' url='/' isBorder={false} />
-            </div>
+            </div> */}
           </div>
           <div className='@992:col-span-3 col-span-4'>
             <div className='grid @992:grid-cols-3 grid-flow-col grid-rows-2 @992:gap-6 gap-4 overflow-x-auto scrollbar-none'>
