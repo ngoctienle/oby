@@ -28,11 +28,14 @@ interface InitialProps {
 
 export default function HeaderV2CategoryContent({ initializeCategory }: InitialProps) {
   return (
-    <div className='absolute -left-[170px] top-0 min-w-[288px] max-h-[216px] flex flex-col overflow-auto scrollbar-none rounded-2 bg-white bsd focus:outline-none'>
+    <div className='absolute -left-[170px] top-0 min-w-[288px] max-h-[216px] flex flex-col overflow-auto scrollbar-none rounded-2 bg-white bsd focus:outline-none p-4'>
       {initializeCategory
         ?.filter((item) => item.is_active && item.product_count !== 0)
         .map((item) => (
-          <div className='flex flex-row justify-between items-center cursor-pointer p-4' key={item.id}>
+          <div
+            className='flex flex-row justify-between items-center cursor-pointer rounded-2  hover:bg-[#CEFF27]  p-4'
+            key={item.id}
+          >
             <div className='flex flex-row items-center  gap-2'>
               <div className='w-6 h-6 relative'>
                 <OBYImage

@@ -12,6 +12,7 @@ export interface IGradientButtonProps extends OBYButtonProps {
   isError?: boolean
   showIcon?: boolean
   gradientType: 'full' | 'border'
+  textStyle?: string
 }
 
 export const GradientButton: FC<IGradientButtonProps> = ({
@@ -20,6 +21,7 @@ export const GradientButton: FC<IGradientButtonProps> = ({
   isError,
   showIcon = true,
   gradientType,
+  textStyle = '',
   ...props
 }) => {
   const renderButton = () => {
@@ -69,11 +71,11 @@ export const GradientButton: FC<IGradientButtonProps> = ({
                 } rounded-full bg-white h-full w-full p-1`}
               >
                 <p
-                  className={`${customClasses.COMMON_GRADIENT} inline-block text-transparent bg-clip-text @992:fs-16 fs-14`}
+                  className={`${customClasses.COMMON_GRADIENT} ${textStyle} inline-block text-transparent bg-clip-text @992:fs-16 fs-14`}
                 >
                   {children}
                 </p>
-                {showIcon && <AGRGradientRightArrowIcon className='w-8 h-8' />}
+                {showIcon && <AGRGradientRightArrowIcon className='w-8 h-8  justify-self-end' />}
               </div>
             )}
           </button>

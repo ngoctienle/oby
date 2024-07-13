@@ -33,7 +33,7 @@ import cartApi from '@/apis/magento/cart.api'
 import categoryApi from '@/apis/magento/category.api'
 import productApi from '@/apis/magento/product.api'
 
-import { MAX_PRODUCT } from '@/constants/config.constant'
+import { MAX_PRODUCT, customClasses } from '@/constants/config.constant'
 import { SITE_URL } from '@/constants/domain.constant'
 import { hrefPath } from '@/constants/href.constant'
 
@@ -562,7 +562,11 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
                     <p className='@768:fs-26 fs-18 font-bold text-oby-primary'>
                       {getDiscount(productData?.custom_attributes)}
                     </p>
-                    <p className='@768:fs-18 fs-14 line-through text-oby-676869'>{formatCurrency(productData.price)}</p>
+                    <p
+                      className={`${customClasses.COMMON_GRADIENT} inline-block text-transparent bg-clip-text @768:fs-18 fs-14 line-through decoration-[#E54807]`}
+                    >
+                      {formatCurrency(productData.price)}
+                    </p>
                   </>
                 ) : (
                   <p className='@768:fs-26 fs-18 font-bold text-oby-primary'>{formatCurrency(productData.price)}</p>
@@ -604,7 +608,7 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
             </div>
           </div>
           {getDescription(productData?.custom_attributes) && (
-            <div className='@768:pt-15 pt-6 border-t border-t-oby-primary'>
+            <div className='@768:pt-15 pt-6 border-t border-t-oby-primary flex flex-col mb-15'>
               <h2 className='text-oby-primary fs-14 font-normal mb-2 @992:text-center'>THÔNG TIN</h2>
               <p className='text-[#222324] fs-26 font-bold mb-2 @992:text-center'>CHI TIẾT SẢN PHẨM</p>
               <div
@@ -614,7 +618,12 @@ export default function ProductDetail({ productData, slug }: IProductDetailProps
                 }}
               ></div>
               {sanitizedDescription.length > 800 && (
-                <GradientButton gradientType='border' onClick={toggleDescription} className='@992:w-[310px] w-[194px]'>
+                <GradientButton
+                  gradientType='border'
+                  textStyle='ml-6'
+                  onClick={toggleDescription}
+                  className='@992:w-[310px] w-[194px] @992:self-center mt-[20px]'
+                >
                   {!showFullDescription ? 'XEM THÊM' : 'RÚT GỌN'}
                 </GradientButton>
                 // <div className='flex items-center justify-center mt-7.5 gap-1.5'>
