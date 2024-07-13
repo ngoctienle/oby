@@ -163,8 +163,8 @@ export const CategoriesShop = () => {
           </div>
         </div> */}
 
-        <div className='@992:grid hidden grid-cols-3 gap-6'>
-          <div className='col-span-1 w-full h-[270px] relative rounded-4 overflow-hidden mt-[76px]'>
+        <div className='@992:grid hidden grid-cols-3 gap-6 mt-12'>
+          <div className='col-span-1 w-full h-[260px] relative rounded-4 overflow-hidden'>
             <Image
               priority
               alt='Agriamazing Banner'
@@ -177,13 +177,13 @@ export const CategoriesShop = () => {
               <GradientButtonLink btnText='XEM NGAY' url='/' isBorder={false} />
             </div> */}
           </div>
-          <div className='col-span-2 w-full  h-[290px] relative rounded-4 overflow-hidden mt-14'>
+          <div className='col-span-2 w-full  h-[260px] relative rounded-4 overflow-hidden'>
             <Image
               priority
               alt='Agriamazing Banner'
               src={`/images/agr-banner-5.png`}
               fill
-              style={{ objectPosition: 'bottom', objectFit: 'cover' }}
+              style={{ objectPosition: 'center', objectFit: 'cover' }}
               loader={({ src }) => src}
             />
             {/* <div className='absolute bottom-6 left-40 w-[180px]'>
