@@ -106,7 +106,7 @@ export const CategoriesShop = () => {
                     <SwiperSlide key={item.id}>
                       <OBYLink
                         href={`${hrefPath.catePage}/${createSlug(item.name)}-${item.id}`}
-                        className={`group h-full w-[132px] rounded-xl bg-[#FAFAFA] hover:${customClasses.COMMON_GRADIENT} flex flex-col items-center p-4 gap-3`}
+                        className={`group h-full w-[132px] rounded-xl bg-[#FAFAFA] hover:bg-[#CEFF27] flex flex-col items-center p-4 gap-3`}
                       >
                         <div className='w-[60px] h-[60px] relative overflow-hidden  flex-shrink-0'>
                           <OBYImage
@@ -119,7 +119,7 @@ export const CategoriesShop = () => {
                         </div>
                         {/* <div className='h-[2px] w-15 bg-[#D9D9D94D] my-3'></div> */}
                         <p
-                          className={`text-center ${customClasses.COMMON_GRADIENT} inline-block text-transparent bg-clip-text fs-16 font-normal group-hover:text-white line-clamp-2 pt-3 border-t-2 border-[#D9D9D94D]`}
+                          className={`text-center ${customClasses.COMMON_GRADIENT} inline-block text-transparent bg-clip-text fs-16 font-normal line-clamp-2 pt-3 border-t-2 border-[#D9D9D94D]`}
                         >
                           {item.name}
                         </p>
@@ -164,7 +164,10 @@ export const CategoriesShop = () => {
         </div> */}
 
         <div className='@992:grid hidden grid-cols-3 gap-6 mt-12'>
-          <div className='col-span-1 w-full h-[260px] relative rounded-4 overflow-hidden'>
+          <OBYLink
+            href={'/danh-muc/goi-y-hom-nay-48'}
+            className='col-span-1 w-full h-[260px] relative rounded-4 overflow-hidden'
+          >
             <Image
               priority
               alt='Agriamazing Banner'
@@ -176,8 +179,11 @@ export const CategoriesShop = () => {
             {/* <div className='absolute bottom-6 right-4 w-[180px]'>
               <GradientButtonLink btnText='XEM NGAY' url='/' isBorder={false} />
             </div> */}
-          </div>
-          <div className='col-span-2 w-full  h-[260px] relative rounded-4 overflow-hidden'>
+          </OBYLink>
+          <OBYLink
+            href={'/danh-muc/khuyen-mai-soc-37'}
+            className='col-span-2 w-full  h-[260px] relative rounded-4 overflow-hidden'
+          >
             <Image
               priority
               alt='Agriamazing Banner'
@@ -189,7 +195,7 @@ export const CategoriesShop = () => {
             {/* <div className='absolute bottom-6 left-40 w-[180px]'>
               <GradientButtonLink btnText='XEM NGAY' url='/' isBorder={false} />
             </div> */}
-          </div>
+          </OBYLink>
         </div>
       </div>
     </div>

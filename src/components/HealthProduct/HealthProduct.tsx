@@ -1,8 +1,7 @@
 import CateTag from '../CateTag'
 import Product from '../Product'
 import { AGRGradientLeftArrowIcon, AGRGradientRightArrowIcon } from '../UI/AGRIcons'
-import { OBYImage } from '../UI/Element'
-import GradientButtonLink from '../UI/GradientButtonLink'
+import { OBYImage, OBYLink } from '../UI/Element'
 import { useQueries, useQuery } from '@tanstack/react-query'
 import { AxiosResponse } from 'axios'
 import Image from 'next/image'
@@ -90,19 +89,16 @@ export const HealthProduct = () => {
     if (isLoading) {
       return (
         <div className='grid grid-cols-4 gap-6 @992:mt-15 mt-4 w-full @992:min-h-[580px]'>
-          <div className='col-span-1 @992:block hidden relative rounded-2'>
+          <OBYLink href={'/danh-muc/suc-khoe-46'} className='col-span-1 @992:block hidden relative rounded-2'>
             <Image
               priority
               alt='Agriamazing Banner'
               src={`/images/agr-banner-6.png`}
               fill
-              style={{ objectPosition: 'left', objectFit: 'contain' }}
+              style={{ objectPosition: 'center', objectFit: 'cover', borderRadius: 8 }}
               loader={({ src }) => src}
             />
-            <div className='absolute bottom-6 left-10 w-[180px]'>
-              <GradientButtonLink btnText='XEM NGAY' url='/' isBorder={false} />
-            </div>
-          </div>
+          </OBYLink>
           <div className='@992:col-span-3 col-span-4'>
             <div className='grid @992:grid-cols-3 grid-flow-col grid-rows-2 @992:gap-6 gap-4 overflow-x-auto scrollbar-none'>
               {Array(6)
@@ -134,7 +130,7 @@ export const HealthProduct = () => {
       if (healthProduct.data.items.length === 0) return <div className='mt-4' />
       return (
         <div className='grid grid-cols-4 gap-6 @992:mt-15 mt-4 w-full @992:min-h-[580px]'>
-          <div className='col-span-1 @992:block hidden relative rounded-2'>
+          <OBYLink href={'/danh-muc/suc-khoe-46'} className='col-span-1 @992:block hidden relative rounded-2'>
             <Image
               priority
               alt='Agriamazing Banner'
@@ -146,7 +142,7 @@ export const HealthProduct = () => {
             {/* <div className='absolute bottom-6 left-10 w-[180px]'>
               <GradientButtonLink btnText='XEM NGAY' url='/' isBorder={false} />
             </div> */}
-          </div>
+          </OBYLink>
           <div className='@992:col-span-3 col-span-4'>
             <div className='grid @992:grid-cols-3 grid-flow-col grid-rows-2 @992:gap-6 gap-4 overflow-x-auto scrollbar-none'>
               {healthProduct.data.items.slice(0, 6).map((item) => (

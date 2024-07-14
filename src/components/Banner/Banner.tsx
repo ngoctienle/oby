@@ -1,3 +1,4 @@
+import { OBYLink } from '../UI/Element'
 import Image from 'next/image'
 import { Autoplay, EffectFade, Lazy, Navigation, Pagination } from 'swiper'
 import 'swiper/css'
@@ -93,40 +94,43 @@ export default function Banner() {
     <div className='bg-[#F6F6F6]'>
       <div className='container'>
         <div className='flex flex-row gap-3 mt-3'>
-          <div className='w-[800px] h-[242] relative'>
+          <OBYLink href={`/ve-chung-toi`} className='w-[800px] h-[242] relative'>
             <Image
               priority
               alt='Agriamazing Banner'
               src={`/images/agr-banner-1.png`}
               fill
-              style={{ objectPosition: 'center', objectFit: 'cover', borderRadius: '8px' }}
+              style={{ objectPosition: 'center', objectFit: 'cover' }}
               loader={({ src }) => src}
               unoptimized
+              className='rounded-2'
             />
-          </div>
+          </OBYLink>
           <div className='flex flex-col gap-3 relative'>
-            <Image
-              priority
-              alt='Agriamazing Banner'
-              src={`/images/agr-banner-2.png`}
-              height={114}
-              width={383}
-              className='abosolute'
-              style={{ objectPosition: 'center', objectFit: 'cover', borderRadius: '8px' }}
-              loader={({ src }) => src}
-              unoptimized
-            />
-            <Image
-              priority
-              alt='Agriamazing Banner'
-              src={`/images/agr-banner-3.png`}
-              height={114}
-              width={383}
-              className='abosolute'
-              style={{ objectPosition: 'center', objectFit: 'cover', borderRadius: '8px' }}
-              loader={({ src }) => src}
-              unoptimized
-            />
+            <OBYLink href={'danh-muc/khuyen-mai-1-60'} className='w-[383px] h-[114px] relative'>
+              <Image
+                priority
+                alt='Agriamazing Banner'
+                src={`/images/agr-banner-2.png`}
+                fill
+                className=' rounded-2'
+                style={{ objectPosition: 'center', objectFit: 'cover' }}
+                loader={({ src }) => src}
+                unoptimized
+              />
+            </OBYLink>
+            <OBYLink href={'danh-muc/khuyen-mai-2-61'} className='w-[383px] h-[114px] relative'>
+              <Image
+                priority
+                alt='Agriamazing Banner'
+                src={`/images/agr-banner-3.png`}
+                fill
+                className=' rounded-2'
+                style={{ objectPosition: 'center', objectFit: 'cover' }}
+                loader={({ src }) => src}
+                unoptimized
+              />
+            </OBYLink>
           </div>
         </div>
       </div>
@@ -154,7 +158,12 @@ export default function Banner() {
           .fill(0)
           .map((_, index) => (
             <SwiperSlide key={index} className='relative'>
-              <div className='relative w-full aspect-[1920/600] min-h-[112px] rounded-2 overflow-hidden'>
+              <OBYLink
+                href={`${
+                  index === 0 ? '/ve-chung-toi`' : index === 1 ? 'danh-muc/khuyen-mai-1-60' : 'danh-muc/khuyen-mai-2-61'
+                }`}
+                className='relative w-full aspect-[1920/600] min-h-[112px] rounded-2 overflow-hidden'
+              >
                 <Image
                   priority
                   fill
@@ -165,7 +174,7 @@ export default function Banner() {
                   loader={({ src }) => src}
                   unoptimized
                 />
-              </div>
+              </OBYLink>
             </SwiperSlide>
           ))}
       </Swiper>
