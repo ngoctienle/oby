@@ -164,7 +164,10 @@ export const CategoriesShop = () => {
         </div> */}
 
         <div className='@992:grid hidden grid-cols-3 gap-6 mt-12'>
-          <div className='col-span-1 w-full h-[260px] relative rounded-4 overflow-hidden'>
+          <OBYLink
+            href={'/danh-muc/goi-y-hom-nay-48'}
+            className='col-span-1 w-full h-[260px] relative rounded-4 overflow-hidden'
+          >
             <Image
               priority
               alt='Agriamazing Banner'
@@ -176,8 +179,11 @@ export const CategoriesShop = () => {
             {/* <div className='absolute bottom-6 right-4 w-[180px]'>
               <GradientButtonLink btnText='XEM NGAY' url='/' isBorder={false} />
             </div> */}
-          </div>
-          <div className='col-span-2 w-full  h-[260px] relative rounded-4 overflow-hidden'>
+          </OBYLink>
+          <OBYLink
+            href={'/danh-muc/khuyen-mai-soc-37'}
+            className='col-span-2 w-full  h-[260px] relative rounded-4 overflow-hidden'
+          >
             <Image
               priority
               alt='Agriamazing Banner'
@@ -189,7 +195,7 @@ export const CategoriesShop = () => {
             {/* <div className='absolute bottom-6 left-40 w-[180px]'>
               <GradientButtonLink btnText='XEM NGAY' url='/' isBorder={false} />
             </div> */}
-          </div>
+          </OBYLink>
         </div>
       </div>
     </div>

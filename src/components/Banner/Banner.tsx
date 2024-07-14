@@ -107,28 +107,30 @@ export default function Banner() {
             />
           </OBYLink>
           <div className='flex flex-col gap-3 relative'>
-            <Image
-              priority
-              alt='Agriamazing Banner'
-              src={`/images/agr-banner-2.png`}
-              height={114}
-              width={383}
-              className='abosolute rounded-2'
-              style={{ objectPosition: 'center', objectFit: 'cover' }}
-              loader={({ src }) => src}
-              unoptimized
-            />
-            <Image
-              priority
-              alt='Agriamazing Banner'
-              src={`/images/agr-banner-3.png`}
-              height={114}
-              width={383}
-              className='abosolute rounded-2'
-              style={{ objectPosition: 'center', objectFit: 'cover' }}
-              loader={({ src }) => src}
-              unoptimized
-            />
+            <OBYLink href={'danh-muc/khuyen-mai-1-60'} className='w-[383px] h-[114px] relative'>
+              <Image
+                priority
+                alt='Agriamazing Banner'
+                src={`/images/agr-banner-2.png`}
+                fill
+                className=' rounded-2'
+                style={{ objectPosition: 'center', objectFit: 'cover' }}
+                loader={({ src }) => src}
+                unoptimized
+              />
+            </OBYLink>
+            <OBYLink href={'danh-muc/khuyen-mai-2-61'} className='w-[383px] h-[114px] relative'>
+              <Image
+                priority
+                alt='Agriamazing Banner'
+                src={`/images/agr-banner-3.png`}
+                fill
+                className=' rounded-2'
+                style={{ objectPosition: 'center', objectFit: 'cover' }}
+                loader={({ src }) => src}
+                unoptimized
+              />
+            </OBYLink>
           </div>
         </div>
       </div>
@@ -156,7 +158,12 @@ export default function Banner() {
           .fill(0)
           .map((_, index) => (
             <SwiperSlide key={index} className='relative'>
-              <div className='relative w-full aspect-[1920/600] min-h-[112px] rounded-2 overflow-hidden'>
+              <OBYLink
+                href={`${
+                  index === 0 ? '/ve-chung-toi`' : index === 1 ? 'danh-muc/khuyen-mai-1-60' : 'danh-muc/khuyen-mai-2-61'
+                }`}
+                className='relative w-full aspect-[1920/600] min-h-[112px] rounded-2 overflow-hidden'
+              >
                 <Image
                   priority
                   fill
@@ -167,7 +174,7 @@ export default function Banner() {
                   loader={({ src }) => src}
                   unoptimized
                 />
-              </div>
+              </OBYLink>
             </SwiperSlide>
           ))}
       </Swiper>
