@@ -50,7 +50,7 @@ export default function CatePage({ cateName, cateId }: CatePageProps) {
 
   return (
     <>
-      <section className='@992:pt-4 pt-3'>
+      <section className='@992:pt-4 pt-3 pb-6 bg-white'>
         <DynamicBreadcrumb cateName={'Danh mục'} subCateName={cateName} />
         <div className='container'>
           <h2 className='@992:fs-26 fs-20 text-oby-green font-bold text-center'>{cateName}</h2>

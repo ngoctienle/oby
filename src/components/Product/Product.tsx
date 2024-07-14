@@ -11,6 +11,7 @@ import { generateProductImageFromMagento, getDiscount, isHaveDiscount } from '@/
 
 import cartApi from '@/apis/magento/cart.api'
 
+import { customClasses } from '@/constants/config.constant'
 import { hrefPath } from '@/constants/href.constant'
 
 import { AddCartButton } from '@/components/UI/Button'
@@ -91,7 +92,11 @@ export default function Product({ data, isHorizontal = false }: ProductProps) {
           {isHaveDiscount(data.custom_attributes) ? (
             <>
               <p className='font-bold fs-18 text-oby-primary'>{getDiscount(data.custom_attributes)}</p>
-              <p className='fs-12 text-oby-676869 line-through'>{formatCurrency(data.price)}</p>
+              <p
+                className={`${customClasses.COMMON_GRADIENT} inline-block text-transparent bg-clip-text fs-12 line-through decoration-[#E54807]`}
+              >
+                {formatCurrency(data.price)}
+              </p>
             </>
           ) : (
             <p className='font-bold fs-18 text-oby-primary'>{formatCurrency(data.price)}</p>
@@ -149,7 +154,11 @@ export default function Product({ data, isHorizontal = false }: ProductProps) {
           <>
             <div className='flex flex-col items-start gap-0.75'>
               <p className='font-bold fs-18 text-oby-primary'>{getDiscount(data.custom_attributes)}</p>
-              <p className='fs-12 text-oby-676869 line-through'>{formatCurrency(data.price)}</p>
+              <p
+                className={`${customClasses.COMMON_GRADIENT} inline-block text-transparent bg-clip-text fs-12 line-through decoration-[#E54807]`}
+              >
+                {formatCurrency(data.price)}
+              </p>
             </div>
             <AddCartButton
               onClick={handleAddToCart}

@@ -1,3 +1,4 @@
+import { OBYLink } from '../UI/Element'
 import Image from 'next/image'
 import { Autoplay, EffectFade, Lazy, Navigation, Pagination } from 'swiper'
 import 'swiper/css'
@@ -93,17 +94,18 @@ export default function Banner() {
     <div className='bg-[#F6F6F6]'>
       <div className='container'>
         <div className='flex flex-row gap-3 mt-3'>
-          <div className='w-[800px] h-[242] relative'>
+          <OBYLink href={`/ve-chung-toi`} className='w-[800px] h-[242] relative'>
             <Image
               priority
               alt='Agriamazing Banner'
               src={`/images/agr-banner-1.png`}
               fill
-              style={{ objectPosition: 'center', objectFit: 'cover', borderRadius: '8px' }}
+              style={{ objectPosition: 'center', objectFit: 'cover' }}
               loader={({ src }) => src}
               unoptimized
+              className='rounded-2'
             />
-          </div>
+          </OBYLink>
           <div className='flex flex-col gap-3 relative'>
             <Image
               priority
@@ -111,8 +113,8 @@ export default function Banner() {
               src={`/images/agr-banner-2.png`}
               height={114}
               width={383}
-              className='abosolute'
-              style={{ objectPosition: 'center', objectFit: 'cover', borderRadius: '8px' }}
+              className='abosolute rounded-2'
+              style={{ objectPosition: 'center', objectFit: 'cover' }}
               loader={({ src }) => src}
               unoptimized
             />
@@ -122,8 +124,8 @@ export default function Banner() {
               src={`/images/agr-banner-3.png`}
               height={114}
               width={383}
-              className='abosolute'
-              style={{ objectPosition: 'center', objectFit: 'cover', borderRadius: '8px' }}
+              className='abosolute rounded-2'
+              style={{ objectPosition: 'center', objectFit: 'cover' }}
               loader={({ src }) => src}
               unoptimized
             />

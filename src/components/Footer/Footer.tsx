@@ -88,10 +88,10 @@ export default function Footer({ font }: FooterProps) {
                   <OBYLink href='/thong-tin-thanh-toan'>Thông tin thanh toán</OBYLink>
                 </li>
                 <li className='@992:mb-3.5 order-4'>Chính sách bảo hành</li>
-                <li className='order-6 @992:mb-3.5'>
+                <li className='order-6 @992:mb-3.5 w-[130px]'>
                   <OBYLink href='/doi-tra-va-hoan-tien'>Đổi trả và hoàn tiền</OBYLink>
                 </li>
-                <li className='order-7'>
+                <li className='order-6'>
                   <OBYLink href='/huong-dan-thanh-toan'>Hướng dẫn thanh toán VNPAY</OBYLink>
                 </li>
               </ul>
