@@ -55,6 +55,12 @@ export default function Footer({ font }: FooterProps) {
                   {appInformationConfig.APP_ADDRESS}
                 </OBYLink>
               </div>
+              <div className='flex items-center gap-3 mt-3'>
+                <p className='fs-14'>
+                  <span className='font-bold'>Mã Số Thuế: </span>
+                  4001282315
+                </p>
+              </div>
             </div>
             <div className='flex flex-col'>
               <h3 className='uppercase fs-18 mb-4 font-semibold'>Về chúng tôi</h3>

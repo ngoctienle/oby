@@ -15,7 +15,7 @@ export const seoConfig = {
 } as const
 
 export const appInformationConfig = {
-  APP_EMAIL: process.env.NEXT_PUBLIC_APP_CONTACT_EMAIL || 'admin@amazingsbuy.com',
+  APP_EMAIL: process.env.NEXT_PUBLIC_APP_CONTACT_EMAIL || 'mkt@agriamazing.comamazingsbuy.com',
   APP_PHONE: process.env.NEXT_PUBLIC_APP_CONTACT_PHONE || ' 0906 907 199',
   APP_ADDRESS:
     process.env.NEXT_PUBLIC_APP_CONTACT_ADDRESS ||
