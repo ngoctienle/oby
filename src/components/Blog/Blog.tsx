@@ -27,7 +27,7 @@ export default function Blog({ blog }: BlogProps) {
           display='responsive'
           src={generateBlogImage(blog.image as string)}
           alt={blog.name}
-          className='object-cover'
+          className='object-cover rounded-2'
         />
       </div>
 
@@ -50,7 +50,7 @@ export default function Blog({ blog }: BlogProps) {
           display='responsive'
           src={generateBlogImage(blog.image as string)}
           alt={blog.name}
-          className='object-cover'
+          className='object-cover rounded-2'
         />
       </div>
       <div className='flex flex-col gap-1'>
