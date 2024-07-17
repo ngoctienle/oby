@@ -36,7 +36,7 @@ export default function HeaderV2CategoryContent({ initializeCategory }: InitialP
             className='flex flex-row justify-between items-center cursor-pointer rounded-2  hover:bg-[#CEFF27]  p-4'
             key={item.id}
           >
-            <div className='flex flex-row items-center  gap-2'>
+            <div className='flex flex-row items-center gap-2'>
               <div className='w-6 h-6 relative'>
                 <OBYImage
                   src={generateCategoryImageFromMagento(item.custom_attributes)}
@@ -48,7 +48,7 @@ export default function HeaderV2CategoryContent({ initializeCategory }: InitialP
               </div>
               <OBYLink
                 href={`${hrefPath.catePage}/${createSlug(item.name)}-${item.id}`}
-                className='text-[#454545] whitespace-nowrap fs-16 font-bold'
+                className='text-[#454545] whitespace-nowrap fs-16 font-bold mr-2'
               >
                 {item.name}
               </OBYLink>
