@@ -69,8 +69,8 @@ export default function ContactPage() {
               </li>
               <li className='flex items-center space-x-3'>
                 <OBYEmailIcon className='w-6 h-6 text-oby-676869' />
-                <OBYLink href={`mailto:mkt@agriamazing.comamazingsbuy.com`} title='AGRIAMAZING - Email'>
-                  mkt@agriamazing.comamazingsbuy.com
+                <OBYLink href={`mailto:mkt@agriamazing.com`} title='AGRIAMAZING - Email'>
+                  mkt@agriamazing.com
                 </OBYLink>
               </li>
             </ul>

@@ -88,9 +88,9 @@ export default function RefundPage() {
               <h3 className='font-semibold @992:fs-20 fs-16 mb-4 mt-6'>2. Quy trình đổi/trả sản phẩm</h3>
               <ul className='@992:fs-16 fs-14 space-y-1.5'>
                 <li>
-                  Bước 1: Khách hàng liên hệ cửa hàng hoặc SĐT: 0906907199 hoặc Mail: mkt@agriamazing.comamazingsbuy.com
-                  để yêu cầu việc đổi/trả sản phẩm, Agriamazing sẽ hướng dẫn bạn cách đổi/trả sản phẩm. Nếu quá trình
-                  đổi/trả sản phẩm của khách hợp lệ.
+                  Bước 1: Khách hàng liên hệ cửa hàng hoặc SĐT: 0906907199 hoặc Mail: mkt@agriamazing.com để yêu cầu
+                  việc đổi/trả sản phẩm, Agriamazing sẽ hướng dẫn bạn cách đổi/trả sản phẩm. Nếu quá trình đổi/trả sản
+                  phẩm của khách hợp lệ.
                 </li>
                 <li>
                   Bước 2: Khách hàng gửi sản phẩm hàng hóa cho Agriamazing tiếp nhận theo chỉ dẫn phía trên có thể tại
@@ -103,8 +103,8 @@ export default function RefundPage() {
               <h3 className='font-semibold @992:fs-20 fs-16 mb-4 mt-6'>3. Các bước thực hiện đổi/trả sản phẩm</h3>
               <ul className='@992:fs-16 fs-14 space-y-2.5'>
                 <li>
-                  Bước 1: Đăng ký. Liên hệ với  Agriamazing qua 0906907199hoặc gửi mail
-                  mkt@agriamazing.comamazingsbuy.com và cung cấp thông tin chi tiết về sản phẩm lỗi gồm:
+                  Bước 1: Đăng ký. Liên hệ với  Agriamazing qua 0906907199 hoặc gửi mail mkt@agriamazing.com và cung cấp
+                  thông tin chi tiết về sản phẩm lỗi gồm:
                   <ul className='@992:fs-16 fs-14 space-y-1.5 pl-6 list-disc my-2.5 mx-6'>
                     <li>Mã số đơn hàng</li>
                     <li>Tên sản phẩm</li>
@@ -176,9 +176,9 @@ export default function RefundPage() {
                 <ul className='list-disc pl-6 @992:fs-16 fs-14 space-y-1.5'>
                   <li>
                     Nếu sản phẩm có lỗi kỹ thuật, quý khách cần thông báo cho Agriamazing được biết qua số 0906907199,
-                    email: mkt@agriamazing.comamazingsbuy.com hoặc chat với nhân viên bán hàng trên website
-                    https://agriamaizng.com hoặc Fanpage Agriamazing trong vòng 15 ngày kể từ ngày xuất bán. Agriamazing
-                    cam kết hoàn lại tiền mà không có đòi hỏi nào trong trường hợp này.
+                    email: mkt@agriamazing.com hoặc chat với nhân viên bán hàng trên website https://agriamaizng.com
+                    hoặc Fanpage Agriamazing trong vòng 15 ngày kể từ ngày xuất bán. Agriamazing cam kết hoàn lại tiền
+                    mà không có đòi hỏi nào trong trường hợp này.
                   </li>
                   <li>
                     Hàng hóa phải được trả lại y nguyên như ban đầu khi chúng được nhận. Xin vui lòng liên hệ với phòng

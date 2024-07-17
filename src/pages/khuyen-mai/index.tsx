@@ -32,7 +32,7 @@ const DiscountPage: React.FC = ({}) => {
   return (
     <div className='@992:pt-10 pt-5'>
       <div className='container'>
-        <div className='bg-[#F1F1F1] rounded-4'>
+        <div className='bg-white rounded-4'>
           <Tab.Group>
             <Tab.List className='flex space-x-1'>
               {Object.entries(categories).map(([category, items]) => {
